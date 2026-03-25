@@ -1,0 +1,317 @@
+date,order_number,product_name,category,customer_type,quantity,unit_price,total_amount,payment_method
+2020-01-04,N2,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,81.49,81.49,Credit card
+2020-01-08,C1,Gearbox Assembly,Drivetrain,Wholesale,11,789.12,8680.32,Transfer
+2020-01-08,W1,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,79.91,159.82,Credit card
+2020-01-11,C2,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,8,49.64,397.12,Transfer
+2020-01-14,N1,Gearbox Assembly,Drivetrain,Wholesale,12,761.94,9143.28,Transfer
+2020-01-18,N3,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,14,86.47,1210.58,Transfer
+2020-02-06,N5,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,75.46,75.46,Credit card
+2020-02-06,C3,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,94.48,283.44,Credit card
+2020-02-13,W2,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,65,23.10,1501.50,Transfer
+2020-02-16,C4,Industrial O-Ring Kit,Seals & Gaskets,Retail,6,21.35,128.10,Cash
+2020-02-21,N6,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,56.45,56.45,Credit card
+2020-02-25,N4,Gearbox Assembly,Drivetrain,Wholesale,4,921.06,3684.24,Transfer
+2020-03-17,W3,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,33.06,132.24,Credit card
+2020-04-04,N7,Catalytic Converter,Exhaust system,Retail,3,327.62,982.86,Credit card
+2020-04-15,C5,Gearbox Assembly,Drivetrain,Wholesale,11,1092.88,12021.68,Transfer
+2020-04-20,W4,Catalytic Converter,Exhaust system,Retail,1,375.24,375.24,Credit card
+2020-04-28,C6,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,52.64,105.28,Cash
+2020-05-02,N8,Gearbox Assembly,Drivetrain,Wholesale,14,968.70,13561.80,Transfer
+2020-05-05,N9,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,88.62,443.10,Cash
+2020-05-11,C9,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,25,19.70,492.50,Transfer
+2020-05-14,C7,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,80.65,161.30,Cash
+2020-05-14,C10,Timing Chain Tensioner,Engine,Retail,3,65.91,197.73,Credit card
+2020-05-16,W5,Gearbox Assembly,Drivetrain,Wholesale,15,888.38,13325.70,Transfer
+2020-05-16,W6,Timing Chain Tensioner,Engine,Wholesale,9,74.58,671.22,Transfer
+2020-05-16,N11,Timing Chain Tensioner,Engine,Retail,2,81.26,162.52,Credit card
+2020-05-21,C8,Industrial O-Ring Kit,Seals & Gaskets,Retail,5,23.39,116.95,Cash
+2020-05-21,N10,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,67,19.70,1319.90,Transfer
+2020-06-08,N12,Catalytic Converter,Exhaust system,Wholesale,3,319.00,957.00,Transfer
+2020-06-13,C11,Timing Chain Tensioner,Engine,Retail,2,101.80,203.60,Credit card
+2020-06-15,N13,Gearbox Assembly,Drivetrain,Retail,1,1186.05,1186.05,Cash
+2020-06-16,N14,Timing Chain Tensioner,Engine,Wholesale,8,60.13,481.04,Transfer
+2020-07-02,W7,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,21,52.87,1110.27,Transfer
+2020-07-03,N15,Timing Chain Tensioner,Engine,Retail,1,116.50,116.50,Credit card
+2020-07-10,C12,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,6,82.40,494.40,Transfer
+2020-08-05,N17,Industrial O-Ring Kit,Seals & Gaskets,Retail,3,18.22,54.66,Credit card
+2020-08-14,N16,Gearbox Assembly,Drivetrain,Retail,2,841.92,1683.84,Credit card
+2020-08-20,N18,Industrial O-Ring Kit,Seals & Gaskets,Retail,5,30.14,150.70,Cash
+2020-08-23,C13,Timing Chain Tensioner,Engine,Retail,3,60.47,181.41,Cash
+2020-08-29,N19,Timing Chain Tensioner,Engine,Wholesale,9,110.02,990.18,Transfer
+2020-09-02,C15,Turbocharger Assembly,Engine,Wholesale,2,909.57,1819.14,Transfer
+2020-09-04,N20,Catalytic Converter,Exhaust system,Retail,1,383.94,383.94,Credit card
+2020-09-05,C14,Catalytic Converter,Exhaust system,Retail,1,376.25,376.25,Credit card
+2020-09-11,N21,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,72.58,290.32,Credit card
+2020-09-28,W8,Catalytic Converter,Exhaust system,Retail,1,292.92,292.92,Credit card
+2020-09-29,N22,Timing Chain Tensioner,Engine,Retail,2,94.95,189.90,Credit card
+2020-10-22,W9,Catalytic Converter,Exhaust system,Wholesale,5,416.34,2081.70,Transfer
+2020-10-26,N23,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,36.78,257.46,Cash
+2020-10-27,N26,Timing Chain Tensioner,Engine,Retail,1,83.91,83.91,Credit card
+2020-10-28,N24,Timing Chain Tensioner,Engine,Retail,3,66.49,199.47,Credit card
+2020-10-28,N25,Timing Chain Tensioner,Engine,Wholesale,9,80.98,728.82,Transfer
+2020-10-31,C16,Turbocharger Assembly,Engine,Retail,2,925.69,1851.38,Credit card
+2020-11-01,C17,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,63.21,126.42,Cash
+2020-11-03,C18,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,80.99,80.99,Cash
+2020-11-06,N27,Catalytic Converter,Exhaust system,Retail,3,340.84,1022.52,Cash
+2020-11-07,C19,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,75.78,151.56,Cash
+2020-11-08,N31,Turbocharger Assembly,Engine,Retail,2,794.51,1589.02,Credit card
+2020-11-10,N28,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,72.72,218.16,Credit card
+2020-11-11,N29,Industrial O-Ring Kit,Seals & Gaskets,Retail,9,37.05,333.45,Credit card
+2020-11-24,W10,Catalytic Converter,Exhaust system,Retail,1,333.93,333.93,Credit card
+2020-11-25,C21,Turbocharger Assembly,Engine,Wholesale,3,837.34,2512.02,Transfer
+2020-11-26,N30,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,20.24,141.68,Credit card
+2020-11-27,C20,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,99,32.56,3223.44,Transfer
+2020-12-04,C22,Catalytic Converter,Exhaust system,Retail,3,352.51,1057.53,Credit card
+2020-12-08,W11,Catalytic Converter,Exhaust system,Wholesale,8,387.81,3102.48,Transfer
+2020-12-30,C23,Gearbox Assembly,Drivetrain,Retail,2,1177.52,2355.04,Credit card
+2021-01-27,C24,Turbocharger Assembly,Engine,Retail,1,699.43,699.43,Credit card
+2021-02-01,C27,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,76.23,304.92,Credit card
+2021-02-08,C25,Catalytic Converter,Exhaust system,Retail,1,319.18,319.18,Credit card
+2021-02-13,N32,Catalytic Converter,Exhaust system,Retail,2,345.90,691.80,Credit card
+2021-02-13,C26,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,67.86,339.30,Credit card
+2021-02-16,C28,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,17,86.08,1463.36,Transfer
+2021-02-24,N33,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,62.17,124.34,Credit card
+2021-03-05,N34,Timing Chain Tensioner,Engine,Retail,2,77.06,154.12,Credit card
+2021-03-11,N35,Timing Chain Tensioner,Engine,Retail,2,79.64,159.28,Cash
+2021-03-24,C29,Turbocharger Assembly,Engine,Retail,1,914.24,914.24,Cash
+2021-04-20,C30,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,97,43.19,4189.43,Transfer
+2021-04-25,W12,Timing Chain Tensioner,Engine,Retail,3,70.88,212.64,Credit card
+2021-04-27,C31,Timing Chain Tensioner,Engine,Wholesale,6,100.22,601.32,Transfer
+2021-05-07,C32,Catalytic Converter,Exhaust system,Wholesale,2,400.26,800.52,Transfer
+2021-05-10,N36,Catalytic Converter,Exhaust system,Retail,3,412.94,1238.82,Credit card
+2021-05-12,N37,Catalytic Converter,Exhaust system,Retail,3,347.44,1042.32,Credit card
+2021-05-21,N38,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,37.75,151.00,Credit card
+2021-05-31,W13,Industrial O-Ring Kit,Seals & Gaskets,Retail,9,30.91,278.19,Credit card
+2021-06-03,C36,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,12,84.30,1011.60,Transfer
+2021-06-11,C38,Timing Chain Tensioner,Engine,Wholesale,4,75.78,303.12,Transfer
+2021-06-12,C37,Timing Chain Tensioner,Engine,Retail,3,98.60,295.80,Credit card
+2021-06-12,N40,Timing Chain Tensioner,Engine,Retail,1,109.47,109.47,Credit card
+2021-06-21,N39,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,59.44,178.32,Credit card
+2021-06-27,C33,Catalytic Converter,Exhaust system,Retail,2,381.37,762.74,Credit card
+2021-06-28,C34,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,65.74,197.22,Credit card
+2021-06-29,C35,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,97.95,489.75,Cash
+2021-07-02,N42,Catalytic Converter,Exhaust system,Retail,2,312.02,624.04,Credit card
+2021-07-12,C39,Catalytic Converter,Exhaust system,Wholesale,4,303.55,1214.20,Transfer
+2021-07-14,N43,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,67.86,339.30,Credit card
+2021-07-14,C41,Timing Chain Tensioner,Engine,Retail,3,69.91,209.73,Credit card
+2021-07-16,W14,Gearbox Assembly,Drivetrain,Retail,2,1243.89,2487.78,Credit card
+2021-07-16,C40,Gearbox Assembly,Drivetrain,Wholesale,12,1095.25,13143.00,Transfer
+2021-07-18,C43,Timing Chain Tensioner,Engine,Wholesale,9,82.12,739.08,Transfer
+2021-07-21,N45,Turbocharger Assembly,Engine,Retail,1,813.89,813.89,Cash
+2021-07-23,N44,Turbocharger Assembly,Engine,Retail,2,917.04,1834.08,Credit card
+2021-07-25,N41,Catalytic Converter,Exhaust system,Retail,1,340.76,340.76,Credit card
+2021-07-25,C42,Timing Chain Tensioner,Engine,Wholesale,4,78.86,315.44,Transfer
+2021-07-26,W15,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,77.28,77.28,Credit card
+2021-08-02,C46,Timing Chain Tensioner,Engine,Retail,1,69.41,69.41,Credit card
+2021-08-23,C45,Timing Chain Tensioner,Engine,Retail,2,68.72,137.44,Credit card
+2021-08-26,C44,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,61,30.25,1845.25,Transfer
+2021-09-25,C47,Turbocharger Assembly,Engine,Retail,2,659.95,1319.90,Credit card
+2021-10-16,C48,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,65.18,130.36,Credit card
+2021-10-25,W16,Timing Chain Tensioner,Engine,Retail,3,118.89,356.67,Credit card
+2021-10-27,N46,Timing Chain Tensioner,Engine,Retail,2,84.16,168.32,Credit card
+2021-11-05,C51,Industrial O-Ring Kit,Seals & Gaskets,Retail,8,27.73,221.84,Credit card
+2021-11-10,C52,Turbocharger Assembly,Engine,Retail,2,949.87,1899.74,Cash
+2021-11-12,C49,Catalytic Converter,Exhaust system,Retail,1,327.01,327.01,Credit card
+2021-11-15,N48,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,74.67,224.01,Credit card
+2021-11-16,C50,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,90,38.07,3426.30,Transfer
+2021-11-18,W17,Catalytic Converter,Exhaust system,Wholesale,5,314.82,1574.10,Transfer
+2021-11-21,N47,Catalytic Converter,Exhaust system,Retail,3,298.83,896.49,Credit card
+2021-12-11,N49,Turbocharger Assembly,Engine,Retail,2,944.39,1888.78,Credit card
+2021-12-12,C53,Catalytic Converter,Exhaust system,Retail,2,425.85,851.70,Credit card
+2021-12-23,W18,Catalytic Converter,Exhaust system,Retail,2,303.28,606.56,Credit card
+2021-12-26,C54,Timing Chain Tensioner,Engine,Retail,1,71.63,71.63,Cash
+2021-12-28,C56,Turbocharger Assembly,Engine,Retail,2,952.89,1905.78,Cash
+2021-12-30,C55,Timing Chain Tensioner,Engine,Retail,3,125.29,375.87,Credit card
+2021-12-31,W19,Timing Chain Tensioner,Engine,Retail,2,69.94,139.88,Cash
+2022-01-08,W20,Catalytic Converter,Exhaust system,Retail,3,328.94,986.82,Cash
+2022-01-23,N50,Timing Chain Tensioner,Engine,Retail,1,87.22,87.22,Credit card
+2022-02-10,C57,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,12,72.01,864.12,Transfer
+2022-02-12,W22,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,76.25,228.75,Credit card
+2022-02-12,N53,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,66.01,264.04,Cash
+2022-02-13,W21,Catalytic Converter,Exhaust system,Retail,1,351.26,351.26,Credit card
+2022-02-14,N51,Catalytic Converter,Exhaust system,Retail,1,410.63,410.63,Credit card
+2022-02-19,W23,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,92.46,462.30,Credit card
+2022-02-21,N52,Catalytic Converter,Exhaust system,Retail,2,456.53,913.06,Credit card
+2022-03-05,C59,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,101.92,509.60,Cash
+2022-03-08,C58,Catalytic Converter,Exhaust system,Retail,3,435.49,1306.47,Credit card
+2022-03-15,W26,Industrial O-Ring Kit,Seals & Gaskets,Retail,8,46.33,370.64,Credit card
+2022-03-22,W24,Catalytic Converter,Exhaust system,Retail,3,320.92,962.76,Credit card
+2022-03-24,N54,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,18,60.45,1088.10,Transfer
+2022-03-27,W25,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,14,92.54,1295.56,Transfer
+2022-04-15,N55,Gearbox Assembly,Drivetrain,Wholesale,9,1258.98,11330.82,Transfer
+2022-04-16,C60,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,53,37.70,1998.10,Transfer
+2022-05-07,W28,Turbocharger Assembly,Engine,Wholesale,2,1059.23,2118.46,Transfer
+2022-05-12,W27,Industrial O-Ring Kit,Seals & Gaskets,Retail,8,36.08,288.64,Credit card
+2022-05-12,C61,Turbocharger Assembly,Engine,Retail,2,742.24,1484.48,Cash
+2022-05-24,N57,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,87,36.84,3205.08,Transfer
+2022-05-31,N56,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,12,100.44,1205.28,Transfer
+2022-06-05,C62,Timing Chain Tensioner,Engine,Retail,1,112.02,112.02,Credit card
+2022-06-07,N59,Timing Chain Tensioner,Engine,Wholesale,5,122.27,611.35,Transfer
+2022-06-08,W29,Timing Chain Tensioner,Engine,Retail,1,86.14,86.14,Credit card
+2022-06-12,N60,Turbocharger Assembly,Engine,Retail,1,737.51,737.51,Credit card
+2022-06-21,N58,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,26.80,187.60,Cash
+2022-07-03,C69,Turbocharger Assembly,Engine,Wholesale,3,868.34,2605.02,Transfer
+2022-07-04,C64,Catalytic Converter,Exhaust system,Retail,3,437.97,1313.91,Credit card
+2022-07-04,N61,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,68.68,68.68,Cash
+2022-07-05,C66,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,22,90.60,1993.20,Transfer
+2022-07-08,C68,Timing Chain Tensioner,Engine,Retail,3,73.85,221.55,Cash
+2022-07-13,C67,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,74.76,373.80,Credit card
+2022-07-14,W31,Timing Chain Tensioner,Engine,Retail,3,129.69,389.07,Credit card
+2022-07-17,C63,Catalytic Converter,Exhaust system,Wholesale,4,395.48,1581.92,Transfer
+2022-07-21,C65,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,74.54,298.16,Credit card
+2022-07-21,W30,Timing Chain Tensioner,Engine,Retail,2,97.89,195.78,Credit card
+2022-08-14,C70,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,105.00,105.00,Credit card
+2022-08-17,N62,Timing Chain Tensioner,Engine,Wholesale,3,91.05,273.15,Transfer
+2022-08-18,C71,Timing Chain Tensioner,Engine,Retail,2,124.44,248.88,Credit card
+2022-08-25,C72,Timing Chain Tensioner,Engine,Retail,1,108.51,108.51,Credit card
+2022-09-03,C75,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,19,73.86,1403.34,Transfer
+2022-09-07,C76,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,88.70,266.10,Credit card
+2022-09-13,N65,Turbocharger Assembly,Engine,Retail,1,963.20,963.20,Credit card
+2022-09-14,N63,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,94.24,282.72,Credit card
+2022-09-19,C74,Gearbox Assembly,Drivetrain,Retail,1,889.41,889.41,Credit card
+2022-09-19,N64,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,53.38,266.90,Cash
+2022-09-23,C73,Gearbox Assembly,Drivetrain,Retail,1,1282.98,1282.98,Cash
+2022-10-01,N66,Gearbox Assembly,Drivetrain,Retail,1,1096.03,1096.03,Credit card
+2022-10-02,N67,Timing Chain Tensioner,Engine,Retail,2,106.27,212.54,Credit card
+2022-10-11,C77,Timing Chain Tensioner,Engine,Wholesale,7,73.38,513.66,Transfer
+2022-10-19,N68,Timing Chain Tensioner,Engine,Retail,2,68.85,137.70,Credit card
+2022-11-06,C79,Gearbox Assembly,Drivetrain,Retail,1,1324.16,1324.16,Credit card
+2022-11-13,N69,Catalytic Converter,Exhaust system,Retail,2,349.59,699.18,Credit card
+2022-11-25,N70,Catalytic Converter,Exhaust system,Wholesale,6,345.23,2071.38,Transfer
+2022-11-25,C78,Catalytic Converter,Exhaust system,Retail,1,351.90,351.90,Credit card
+2022-12-11,C80,Timing Chain Tensioner,Engine,Wholesale,6,121.14,726.84,Transfer
+2022-12-12,W32,Timing Chain Tensioner,Engine,Retail,1,108.92,108.92,Credit card
+2022-12-19,N71,Timing Chain Tensioner,Engine,Wholesale,9,69.98,629.82,Transfer
+2023-01-05,C86,Turbocharger Assembly,Engine,Wholesale,6,1022.29,6133.74,Transfer
+2023-01-06,C85,Turbocharger Assembly,Engine,Retail,1,762.98,762.98,Credit card
+2023-01-10,W34,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,24,105.60,2534.40,Transfer
+2023-01-11,W33,Catalytic Converter,Exhaust system,Retail,2,350.74,701.48,Credit card
+2023-01-11,W35,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,14,111.22,1557.08,Transfer
+2023-01-13,N73,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,59.16,295.80,Credit card
+2023-01-15,C82,Gearbox Assembly,Drivetrain,Retail,2,1100.89,2201.78,Credit card
+2023-01-23,C84,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,72.03,72.03,Credit card
+2023-01-25,C83,Gearbox Assembly,Drivetrain,Wholesale,13,1072.61,13943.93,Transfer
+2023-01-29,N72,Catalytic Converter,Exhaust system,Retail,3,362.25,1086.75,Cash
+2023-01-31,C81,Catalytic Converter,Exhaust system,Retail,3,442.17,1326.51,Cash
+2023-02-02,C91,Turbocharger Assembly,Engine,Retail,1,993.96,993.96,Cash
+2023-02-10,C90,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,44.79,179.16,Credit card
+2023-02-17,C92,Turbocharger Assembly,Engine,Retail,2,869.11,1738.22,Credit card
+2023-02-22,C88,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,67.53,270.12,Cash
+2023-02-25,N74,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,103.10,206.20,Credit card
+2023-02-25,C87,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,78.06,78.06,Cash
+2023-02-27,C89,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,81,34.63,2805.03,Transfer
+2023-03-02,C96,Turbocharger Assembly,Engine,Wholesale,2,707.86,1415.72,Transfer
+2023-03-05,C94,Industrial O-Ring Kit,Seals & Gaskets,Retail,3,21.98,65.94,Credit card
+2023-03-07,C95,Industrial O-Ring Kit,Seals & Gaskets,Retail,10,33.54,335.40,Credit card
+2023-03-12,C93,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,5,72.57,362.85,Transfer
+2023-03-21,N76,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,85,41.33,3513.05,Transfer
+2023-03-27,N75,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,77.20,77.20,Credit card
+2023-04-06,W36,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,110.37,110.37,Credit card
+2023-04-23,C97,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,12,87.58,1050.96,Transfer
+2023-05-02,N77,Catalytic Converter,Exhaust system,Retail,1,393.02,393.02,Cash
+2023-05-02,N79,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,84.29,252.87,Cash
+2023-05-03,C98,Catalytic Converter,Exhaust system,Retail,3,456.07,1368.21,Credit card
+2023-05-10,W38,Turbocharger Assembly,Engine,Wholesale,4,785.21,3140.84,Transfer
+2023-05-12,N78,Gearbox Assembly,Drivetrain,Retail,2,1418.92,2837.84,Cash
+2023-05-26,W37,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,6,71.07,426.42,Transfer
+2023-06-10,N82,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,74.53,298.12,Credit card
+2023-06-12,N85,Timing Chain Tensioner,Engine,Retail,2,99.90,199.80,Credit card
+2023-06-13,N84,Timing Chain Tensioner,Engine,Retail,2,139.26,278.52,Credit card
+2023-06-20,W39,Industrial O-Ring Kit,Seals & Gaskets,Retail,2,23.58,47.16,Credit card
+2023-06-21,C100,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,48.67,194.68,Credit card
+2023-06-22,N83,Timing Chain Tensioner,Engine,Retail,3,97.64,292.92,Credit card
+2023-06-26,C99,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,79.24,79.24,Cash
+2023-06-27,N81,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,15,92.95,1394.25,Transfer
+2023-06-29,N80,Hydraulic Pump Seal Kit,Hydraulics,Retail,4,75.47,301.88,Credit card
+2023-07-01,C101,Catalytic Converter,Exhaust system,Retail,3,353.12,1059.36,Credit card
+2023-07-10,N86,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,45.82,183.28,Cash
+2023-07-15,W40,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,65,40.53,2634.45,Transfer
+2023-07-23,W41,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,45,41.78,1880.10,Transfer
+2023-08-11,C104,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,25.11,175.77,Credit card
+2023-08-15,C102,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,57.51,57.51,Credit card
+2023-08-17,N89,Turbocharger Assembly,Engine,Wholesale,3,819.90,2459.70,Transfer
+2023-08-24,C103,Industrial O-Ring Kit,Seals & Gaskets,Retail,3,25.02,75.06,Credit card
+2023-08-26,N87,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,22,87.67,1928.74,Transfer
+2023-08-27,N88,Industrial O-Ring Kit,Seals & Gaskets,Retail,4,33.80,135.20,Credit card
+2023-09-04,N92,Turbocharger Assembly,Engine,Wholesale,3,722.16,2166.48,Transfer
+2023-09-06,N90,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,45.52,318.64,Credit card
+2023-09-10,C106,Timing Chain Tensioner,Engine,Retail,2,103.87,207.74,Cash
+2023-09-14,W42,Timing Chain Tensioner,Engine,Retail,3,92.16,276.48,Credit card
+2023-09-18,C105,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,36,35.80,1288.80,Transfer
+2023-09-19,N91,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,98,29.00,2842.00,Transfer
+2023-09-23,C107,Timing Chain Tensioner,Engine,Wholesale,5,95.77,478.85,Transfer
+2023-09-24,C108,Turbocharger Assembly,Engine,Retail,2,900.39,1800.78,Credit card
+2023-10-16,C111,Timing Chain Tensioner,Engine,Retail,2,109.81,219.62,Cash
+2023-10-17,C110,Timing Chain Tensioner,Engine,Retail,1,75.07,75.07,Credit card
+2023-10-28,W43,Catalytic Converter,Exhaust system,Retail,1,469.12,469.12,Credit card
+2023-10-30,C109,Catalytic Converter,Exhaust system,Retail,2,499.55,999.10,Credit card
+2023-11-05,C113,Gearbox Assembly,Drivetrain,Retail,2,1192.22,2384.44,Credit card
+2023-11-07,C112,Catalytic Converter,Exhaust system,Retail,2,460.94,921.88,Credit card
+2023-11-07,N94,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,61.76,61.76,Credit card
+2023-11-11,N95,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,61.92,309.60,Credit card
+2023-11-20,N96,Timing Chain Tensioner,Engine,Retail,3,109.50,328.50,Credit card
+2023-11-23,N97,Timing Chain Tensioner,Engine,Retail,2,119.61,239.22,Credit card
+2023-11-24,N93,Catalytic Converter,Exhaust system,Retail,1,428.57,428.57,Credit card
+2023-12-02,C115,Timing Chain Tensioner,Engine,Retail,3,126.81,380.43,Credit card
+2023-12-09,C114,Timing Chain Tensioner,Engine,Retail,3,87.72,263.16,Credit card
+2024-01-07,N98,Gearbox Assembly,Drivetrain,Wholesale,14,1062.29,14872.06,Transfer
+2024-01-07,N99,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,105.45,316.35,Credit card
+2024-01-11,C117,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,85.79,171.58,Credit card
+2024-01-18,C118,Hydraulic Pump Seal Kit,Hydraulics,Retail,3,95.29,285.87,Credit card
+2024-01-28,C116,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,69.87,349.35,Credit card
+2024-02-01,N101,Industrial O-Ring Kit,Seals & Gaskets,Retail,9,37.18,334.62,Cash
+2024-02-11,C123,Timing Chain Tensioner,Engine,Retail,3,119.19,357.57,Credit card
+2024-02-13,C120,Catalytic Converter,Exhaust system,Retail,2,360.79,721.58,Cash
+2024-02-18,C122,Gearbox Assembly,Drivetrain,Retail,1,1084.19,1084.19,Credit card
+2024-02-18,N102,Timing Chain Tensioner,Engine,Retail,1,107.36,107.36,Cash
+2024-02-22,N100,Gearbox Assembly,Drivetrain,Retail,1,1181.21,1181.21,Credit card
+2024-02-23,C121,Catalytic Converter,Exhaust system,Wholesale,7,438.00,3066.00,Transfer
+2024-02-26,C119,Catalytic Converter,Exhaust system,Retail,3,420.44,1261.32,Credit card
+2024-03-01,W45,Gearbox Assembly,Drivetrain,Wholesale,8,1108.10,8864.80,Transfer
+2024-03-26,W44,Gearbox Assembly,Drivetrain,Retail,2,1444.40,2888.80,Cash
+2024-04-01,N106,Turbocharger Assembly,Engine,Wholesale,2,929.03,1858.06,Transfer
+2024-04-08,N105,Turbocharger Assembly,Engine,Wholesale,6,1059.01,6354.06,Transfer
+2024-04-11,N103,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,10,57.68,576.80,Transfer
+2024-04-17,N104,Industrial O-Ring Kit,Seals & Gaskets,Wholesale,42,37.18,1561.56,Transfer
+2024-04-19,C124,Industrial O-Ring Kit,Seals & Gaskets,Retail,8,47.76,382.08,Credit card
+2024-05-15,C126,Catalytic Converter,Exhaust system,Retail,3,514.63,1543.89,Credit card
+2024-05-17,C125,Catalytic Converter,Exhaust system,Retail,3,374.11,1122.33,Cash
+2024-05-30,N107,Catalytic Converter,Exhaust system,Retail,1,437.85,437.85,Credit card
+2024-06-03,W46,Hydraulic Pump Seal Kit,Hydraulics,Retail,5,69.55,347.75,Credit card
+2024-06-18,C127,Hydraulic Pump Seal Kit,Hydraulics,Wholesale,8,99.72,797.76,Transfer
+2024-06-18,C129,Timing Chain Tensioner,Engine,Retail,2,94.99,189.98,Cash
+2024-06-19,C130,Turbocharger Assembly,Engine,Wholesale,6,1195.93,7175.58,Transfer
+2024-06-23,C128,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,85.40,85.40,Credit card
+2024-07-02,N108,Gearbox Assembly,Drivetrain,Wholesale,13,1502.10,19527.30,Transfer
+2024-07-05,C133,Timing Chain Tensioner,Engine,Retail,1,78.16,78.16,Cash
+2024-07-10,C132,Industrial O-Ring Kit,Seals & Gaskets,Retail,8,47.65,381.20,Credit card
+2024-07-15,N109,Turbocharger Assembly,Engine,Retail,1,897.16,897.16,Credit card
+2024-07-18,W48,Industrial O-Ring Kit,Seals & Gaskets,Retail,2,45.62,91.24,Credit card
+2024-07-21,W47,Gearbox Assembly,Drivetrain,Retail,2,1440.36,2880.72,Credit card
+2024-07-22,W49,Timing Chain Tensioner,Engine,Retail,1,93.94,93.94,Credit card
+2024-07-31,C131,Industrial O-Ring Kit,Seals & Gaskets,Retail,7,26.31,184.17,Credit card
+2024-08-25,C134,Catalytic Converter,Exhaust system,Retail,2,394.73,789.46,Credit card
+2024-09-02,C135,Timing Chain Tensioner,Engine,Retail,3,99.85,299.55,Cash
+2024-09-14,N111,Timing Chain Tensioner,Engine,Retail,3,111.57,334.71,Credit card
+2024-09-22,N110,Catalytic Converter,Exhaust system,Retail,3,520.94,1562.82,Credit card
+2024-10-05,C136,Catalytic Converter,Exhaust system,Retail,2,451.82,903.64,Cash
+2024-10-05,N112,Catalytic Converter,Exhaust system,Retail,1,516.30,516.30,Credit card
+2024-10-17,C139,Turbocharger Assembly,Engine,Retail,2,1078.57,2157.14,Credit card
+2024-10-24,N113,Timing Chain Tensioner,Engine,Retail,2,98.68,197.36,Credit card
+2024-10-25,C137,Timing Chain Tensioner,Engine,Retail,1,105.75,105.75,Credit card
+2024-10-25,C138,Turbocharger Assembly,Engine,Wholesale,4,826.14,3304.56,Transfer
+2024-10-28,W50,Catalytic Converter,Exhaust system,Retail,1,400.79,400.79,Credit card
+2024-10-30,W51,Timing Chain Tensioner,Engine,Wholesale,3,132.27,396.81,Transfer
+2024-11-02,N115,Timing Chain Tensioner,Engine,Retail,3,79.39,238.17,Cash
+2024-11-06,N114,Timing Chain Tensioner,Engine,Wholesale,10,150.71,1507.10,Transfer
+2024-11-10,C140,Gearbox Assembly,Drivetrain,Wholesale,6,1230.05,7380.30,Transfer
+2024-11-12,W52,Catalytic Converter,Exhaust system,Retail,3,379.14,1137.42,Credit card
+2024-11-21,C141,Gearbox Assembly,Drivetrain,Retail,2,1495.38,2990.76,Credit card
+2024-11-27,N116,Turbocharger Assembly,Engine,Retail,1,949.39,949.39,Credit card
+2024-12-10,C144,Catalytic Converter,Exhaust system,Wholesale,8,519.39,4155.12,Transfer
+2024-12-13,C146,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,62.01,124.02,Credit card
+2024-12-17,C145,Gearbox Assembly,Drivetrain,Wholesale,8,1098.31,8786.48,Transfer
+2024-12-18,C143,Catalytic Converter,Exhaust system,Retail,2,448.01,896.02,Credit card
+2024-12-21,C142,Catalytic Converter,Exhaust system,Retail,2,356.14,712.28,Credit card
+2024-12-27,W54,Hydraulic Pump Seal Kit,Hydraulics,Retail,1,62.69,62.69,Credit card
+2024-12-31,W53,Hydraulic Pump Seal Kit,Hydraulics,Retail,2,75.72,151.44,Credit card

@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model activity_logs {
+  log_id      Int       @id @default(autoincrement())
+  company_id  Int
+  user_id     Int?
+  action_type String?   @db.VarChar(50)
+  description String?   @db.Text
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+  companies   companies @relation(fields: [company_id], references: [company_id])
+  users       users?    @relation(fields: [user_id], references: [user_id])
+
+  @@index([company_id], map: "activity_logs_company_id_fkey")
+  @@index([user_id], map: "activity_logs_user_id_fkey")
+}
+
+model companies {
+  company_id             Int                      @id @default(autoincrement())
+  company_name           String                   @db.VarChar(100)
+  business_address       String?                  @db.Text
+  email                  String?                  @db.VarChar(255)
+  password_hash          String?                  @db.VarChar(255)
+  created_at             DateTime?                @default(now()) @db.Timestamp(0)
+  activity_logs          activity_logs[]
+  inventory              inventory[]
+  predictions            predictions[]
+  purchase_orders        purchase_orders[]
+  recommendation_actions recommendation_actions[]
+  sales_reports          sales_reports[]
+  suppliers              suppliers[]
+  users                  users[]
+}
+
+model inventory {
+  product_id    Int               @id @default(autoincrement())
+  company_id    Int
+  sku           String            @db.VarChar(50)
+  product_name  String            @db.VarChar(100)
+  category      String?           @db.VarChar(50)
+  current_stock Int?              @default(10)
+  min_stock     Int?              @default(10)
+  unit_cost     Decimal?          @db.Decimal(10, 2)
+  supplier      String?           @db.VarChar(100)
+  status        inventory_status? @default(In_Stock)
+  location      String?           @db.VarChar(100)
+  companies     companies         @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+model predictions {
+  prediction_id           Int                                  @id @default(autoincrement())
+  company_id              Int
+  product_id              Int?
+  forecast_date           DateTime?                            @db.Date
+  predicted_quantity      Decimal?                             @db.Decimal(10, 2)
+  confidence_interval     Decimal?                             @db.Decimal(5, 2)
+  recommendation_priority predictions_recommendation_priority?
+  companies               companies                            @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "predictions_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+model purchase_orders {
+  po_id         Int                     @id @default(autoincrement())
+  company_id    Int
+  supplier_id   Int
+  order_date    DateTime                @db.Date
+  delivery_date DateTime?               @db.Date
+  total_amount  Decimal                 @db.Decimal(15, 2)
+  status        purchase_orders_status? @default(Pending)
+  companies     companies               @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_orders_ibfk_1")
+  suppliers     suppliers               @relation(fields: [supplier_id], references: [supplier_id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_orders_ibfk_2")
+
+  @@index([company_id], map: "company_id")
+  @@index([supplier_id], map: "supplier_id")
+}
+
+model recommendation_actions {
+  action_id     Int       @id @default(autoincrement())
+  company_id    Int
+  prediction_id Int?
+  action_taken  String?   @db.VarChar(100)
+  status        String?   @default("Successful") @db.VarChar(20)
+  executed_at   DateTime? @default(now()) @db.Timestamp(0)
+  companies     companies @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "recommendation_actions_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+model sales_reports {
+  report_id      Int       @id @default(autoincrement())
+  company_id     Int
+  date           DateTime  @db.Date
+  order_number   String    @db.VarChar(50)
+  product_name   String?   @db.VarChar(100)
+  category       String?   @db.VarChar(50)
+  customer_type  String?   @db.VarChar(20)
+  quantity       Int
+  unit_price     Decimal   @db.Decimal(10, 2)
+  total_amount   Decimal   @db.Decimal(10, 2)
+  payment_method String?   @db.VarChar(20)
+  status         String    @default("Completed")
+  companies      companies @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "sales_reports_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+model suppliers {
+  supplier_id     Int               @id @default(autoincrement())
+  company_id      Int
+  supplier_name   String            @db.VarChar(100)
+  category        String?           @db.VarChar(50)
+  location        String?           @db.VarChar(100)
+  contact_email   String?           @db.VarChar(100)
+  contact_number  String?           @db.VarChar(100)
+  rating          Decimal?          @default(0.00) @db.Decimal(3, 2)
+  total_spend     Decimal?          @default(0.00) @db.Decimal(15, 2)
+  total_orders    Int?              @default(0)
+  status          suppliers_status? @default(Active)
+  delivery_time   String?           @db.VarChar(50)
+  purchase_orders purchase_orders[]
+  companies       companies         @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "suppliers_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+model users {
+  user_id       Int             @id @default(autoincrement())
+  company_id    Int
+  full_name     String          @db.VarChar(100)
+  email         String          @unique(map: "email") @db.VarChar(100)
+  password_hash String          @db.VarChar(255)
+  role          users_role      @default(Business)
+  created_at    DateTime?       @default(now()) @db.Timestamp(0)
+  activity_logs activity_logs[]
+  companies     companies       @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
+
+  @@index([company_id], map: "company_id")
+}
+
+enum users_role {
+  Admin
+  Business
+}
+
+enum predictions_recommendation_priority {
+  Low
+  Medium
+  High
+}
+
+enum purchase_orders_status {
+  Pending
+  Shipped
+  Delivered
+  Cancelled
+}
+
+enum suppliers_status {
+  Active
+  Warning
+  Inactive
+}
+
+enum inventory_status {
+  In_Stock  @map("In Stock")
+  Low_Stock @map("Low Stock")
+  Critical
+}
