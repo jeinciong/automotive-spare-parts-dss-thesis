@@ -20,6 +20,7 @@ import {
 import { SidebarTrigger } from "./ui/sidebar";
 import { GlobalFilters } from "../App";
 import { useState } from "react";
+import { formatCurrencyCompact } from "../lib/currency";
 
 interface SalesHeaderProps {
   onLogout: () => void;
@@ -333,10 +334,10 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                   />
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">
-                      ${localPriceRange.min}
+                      {formatCurrencyCompact(localPriceRange.min, 0)}
                     </span>
                     <span className="text-muted-foreground">
-                      ${localPriceRange.max}
+                      {formatCurrencyCompact(localPriceRange.max, 0)}
                     </span>
                   </div>
                 </div>
@@ -411,7 +412,7 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                   <Badge variant="secondary" className="text-xs">Success</Badge>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Monthly target achieved - $250K reached
+                  Monthly target achieved - ₱250K reached
                 </p>
                 <span className="text-xs text-muted-foreground mt-1">2 hours ago</span>
               </DropdownMenuItem>

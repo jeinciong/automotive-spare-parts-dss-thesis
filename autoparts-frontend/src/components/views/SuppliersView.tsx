@@ -14,6 +14,7 @@ import { motion } from "motion/react";
 import { spring } from "motion";
 import { toast } from "sonner";
 import { useSuppliers, Supplier } from "../../contexts/SuppliersContext";
+import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
 
 interface SuppliersViewProps {
   user: { role?: string } | null;
@@ -262,9 +263,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl mb-1">
-                  {totalSpend >= 1000 
-                    ? `$${(totalSpend / 1000).toFixed(1)}K` 
-                    : `$${totalSpend.toLocaleString()}`}
+                  {formatCurrencyCompact(totalSpend)}
                 </div>
                 <p className="text-sm text-muted-foreground">
                   This year
@@ -331,7 +330,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                       </TableCell>
                       <TableCell>{supplier.deliveryTime}</TableCell>
                       <TableCell>{supplier.totalOrders.toLocaleString()}</TableCell>
-                      <TableCell>${supplier.totalSpent.toLocaleString()}</TableCell>
+                      <TableCell>{formatCurrency(supplier.totalSpent, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                       <TableCell>{getStatusBadge(supplier.status)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
@@ -391,7 +390,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                           <TableCell className="font-medium">PO-{po.po_id}</TableCell>
                           <TableCell>{po.suppliers?.supplier_name}</TableCell>
                           <TableCell>Inventory Reorder</TableCell>
-                          <TableCell>${Number(po.total_amount).toLocaleString()}</TableCell>
+                          <TableCell>{formatCurrency(Number(po.total_amount), { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                           <TableCell>{new Date(po.order_date).toLocaleDateString()}</TableCell>
                           <TableCell>{po.delivery_date ? new Date(po.delivery_date).toLocaleDateString() : "TBD"}</TableCell>
                           <TableCell>{getOrderStatusBadge(po.status)}</TableCell>
@@ -733,7 +732,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="editSupplierSpent">Total Spent ($)</Label>
+                <Label htmlFor="editSupplierSpent">Total Spent ({PESO_SYMBOL})</Label>
                 <Input
                   id="editSupplierSpent"
                   type="number"
@@ -944,13 +943,13 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                           {supplier.totalOrders} orders
                         </TableCell>
                         <TableCell className="font-bold text-slate-900">
-                          ${(Number(supplier.totalSpent) || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                          {formatCurrency(Number(supplier.totalSpent) || 0)}
                         </TableCell>
                         <TableCell className="text-slate-600">
                           <span className="bg-slate-100 px-2 py-1 rounded text-xs font-mono">
-                            ${supplier.totalOrders > 0 
-                              ? (Number(supplier.totalSpent) / supplier.totalOrders).toLocaleString(undefined, { minimumFractionDigits: 2 }) 
-                              : "0.00"}
+                            {supplier.totalOrders > 0 
+                              ? formatCurrency(Number(supplier.totalSpent) / supplier.totalOrders)
+                              : formatCurrency(0)}
                           </span>
                         </TableCell>
                         <TableCell>
@@ -974,7 +973,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
             <DialogFooter className="border-t pt-4 mt-2">
               <div className="mr-auto flex flex-col">
                 <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Company Procurement</span>
-                <span className="text-lg font-bold text-[#FF6B00]">${totalSpend.toLocaleString()}</span>
+                <span className="text-lg font-bold text-[#FF6B00]">{formatCurrency(totalSpend, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
               </div>
               <Button variant="outline" className="h-10 px-8" onClick={() => setModalOpen(null)}>
                 Close

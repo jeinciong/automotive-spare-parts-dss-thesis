@@ -1,8 +1,19 @@
 import {
   createContext, useContext, useState,
-  useCallback, ReactNode,
+  useCallback, ReactNode, useEffect, useRef,
 } from "react";
 import { toast } from "sonner";
+import { useSalesReports } from "./SalesReportsContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../components/ui/alert-dialog";
 
 export interface ForecastPoint {
   period:    string;
@@ -14,17 +25,22 @@ export interface HistoryPoint { period: string; actual: number; }
 export interface ForecastModelInfo {
   algorithm:        "ARIMA_XGB" | "TSB_XGB";
   arima_order?:     number[];
+  arima_aic?:       number;
   tsb_alpha?:       number;
   tsb_beta?:        number;
+  tsb_mse?:         number;
   n_train:          number;
   horizon:          number;
   mape:             number | null;
   accuracy:         number | null;
+  xgb_enabled?:     boolean;
   // Auto-retrain fields (set by Python model)
   retrained:        boolean;
   retrain_improved: boolean;
   initial_mape:     number | null;
   low_accuracy:     boolean;
+  saved_model_path?: string;
+  from_cache?:      boolean;
 }
 export interface ProductForecast {
   product_name: string;
@@ -39,32 +55,35 @@ export interface ProductForecast {
   error:        string | null;
 }
 export interface ForecastAccuracy { accuracy: number|null; mape: number|null; pairs: number; }
-
-export interface SeasonalDecompPoint { period:string; actual:number; trend:number; seasonal:number; residual:number; }
-export interface SeasonalIndexPoint  { month:string; index:number; avg_qty:number; }
-export interface YearComparison      { year:number; total:number; }
-export interface SeasonalResult {
-  product_name:     string | null;
-  decomposition:    SeasonalDecompPoint[];
-  seasonal_index:   SeasonalIndexPoint[];
-  forecast:         ForecastPoint[];
-  peak_month:       string;
-  trough_month:     string;
-  yoy_growth:       number;
-  years_comparison: YearComparison[];
-  n_train:          number;
-  loading:          boolean;
-  error:            string | null;
+export interface BusinessRevenueForecast {
+  series_name: string;
+  algorithm: "ARIMA_XGB" | "TSB_XGB";
+  demand_type: string;
+  adi: number;
+  cv2: number;
+  forecasts: ForecastPoint[];
+  history: HistoryPoint[];
+  model_info: ForecastModelInfo;
+  loading: boolean;
+  error: string | null;
 }
 
 interface ForecastContextType {
   productForecasts:   Record<string, ProductForecast>;
+  businessRevenueForecast: BusinessRevenueForecast | null;
   overallAccuracy:    ForecastAccuracy | null;
   accuracyLoading:    boolean;
-  seasonalResults:    Record<string, SeasonalResult>;
-  runForecast:         (productName: string, horizon?: number) => Promise<void>;
+  runForecast:         (
+    productName: string,
+    horizon?: number,
+    forceRetrain?: boolean,
+    options?: { notify?: boolean }
+  ) => Promise<void>;
+  runBusinessRevenueForecast: (
+    horizon?: number,
+    forceRetrain?: boolean
+  ) => Promise<void>;
   fetchAccuracy:       () => Promise<void>;
-  runSeasonalAnalysis: (productName?: string) => Promise<void>;
 }
 
 const ForecastContext = createContext<ForecastContextType | undefined>(undefined);
@@ -72,13 +91,50 @@ const API = "http://localhost:5000";
 
 export function ForecastProvider({ children }: { children: ReactNode }) {
   const [productForecasts, setProductForecasts] = useState<Record<string, ProductForecast>>({});
+  const [businessRevenueForecast, setBusinessRevenueForecast] = useState<BusinessRevenueForecast | null>(null);
   const [overallAccuracy,  setOverallAccuracy]  = useState<ForecastAccuracy | null>(null);
   const [accuracyLoading,  setAccuracyLoading]  = useState(false);
-  const [seasonalResults,  setSeasonalResults]  = useState<Record<string, SeasonalResult>>({});
+  const [rerunConfirmOpen, setRerunConfirmOpen] = useState(false);
+  const [rerunProductName, setRerunProductName] = useState("");
+  const { salesReports } = useSalesReports();
+  const preloadedProductsRef = useRef<Set<string>>(new Set());
+  const preloadedRevenueCompanyRef = useRef<number | null>(null);
+  const activeCompanyIdRef = useRef<number | null>(null);
+  const rerunConfirmResolverRef = useRef<((confirmed: boolean) => void) | null>(null);
 
-  const runForecast = useCallback(async (productName: string, horizon = 6) => {
+  const requestRerunConfirmation = useCallback((productName: string) => {
+    setRerunProductName(productName);
+    setRerunConfirmOpen(true);
+
+    return new Promise<boolean>((resolve) => {
+      rerunConfirmResolverRef.current = resolve;
+    });
+  }, []);
+
+  const resolveRerunConfirmation = useCallback((confirmed: boolean) => {
+    rerunConfirmResolverRef.current?.(confirmed);
+    rerunConfirmResolverRef.current = null;
+    setRerunConfirmOpen(false);
+    setRerunProductName("");
+  }, []);
+
+  const runForecast = useCallback(async (
+    productName: string,
+    horizon = 6,
+    forceRetrain = false,
+    options?: { notify?: boolean }
+  ) => {
     const companyId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
     if (!companyId) return;
+    const notify = options?.notify ?? true;
+
+    if (forceRetrain) {
+      const confirmed = await requestRerunConfirmation(productName);
+      if (!confirmed) {
+        return;
+      }
+    }
+
     setProductForecasts(prev => ({
       ...prev,
       [productName]: {
@@ -95,7 +151,12 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     try {
       const res  = await fetch(`${API}/api/forecast`, {
         method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ company_id:companyId, product_name:productName, horizon }),
+        body: JSON.stringify({
+          company_id:companyId,
+          product_name:productName,
+          horizon,
+          force_retrain: forceRetrain,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Forecast failed");
@@ -103,7 +164,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       const info: ForecastModelInfo = data.model_info;
 
       // ── Retrain notifications ────────────────────────────────
-      if (info.retrained) {
+      if (notify && info.retrained && !info.from_cache) {
         if (info.retrain_improved) {
           toast.success(
             `Auto-retrain improved ${productName}`,
@@ -129,7 +190,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       }
 
       // ── Low-accuracy warning (after retrain, still poor) ─────
-      if (info.low_accuracy) {
+      if (notify && info.low_accuracy && !info.from_cache) {
         toast.warning(
           `Low forecast accuracy for ${productName}`,
           {
@@ -140,7 +201,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
             duration: 10000,
             action: {
               label: "Re-run",
-              onClick: () => runForecast(productName, horizon),
+              onClick: () => runForecast(productName, horizon, true),
             },
           }
         );
@@ -175,7 +236,125 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         ...prev, [productName]: { ...prev[productName], loading:false, error:String(err) }
       }));
     }
+  }, [requestRerunConfirmation]);
+
+  const runBusinessRevenueForecast = useCallback(async (
+    horizon = 6,
+    forceRetrain = false,
+  ) => {
+    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id;
+    if (!companyId) return;
+
+    setBusinessRevenueForecast(prev => ({
+      series_name: prev?.series_name ?? "Business Sales Revenue",
+      algorithm: prev?.algorithm ?? "ARIMA_XGB",
+      demand_type: prev?.demand_type ?? "",
+      adi: prev?.adi ?? 0,
+      cv2: prev?.cv2 ?? 0,
+      forecasts: prev?.forecasts ?? [],
+      history: prev?.history ?? [],
+      model_info: prev?.model_info ?? {} as ForecastModelInfo,
+      loading: true,
+      error: null,
+    }));
+
+    try {
+      const res = await fetch(`${API}/api/forecast/revenue`, {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({
+          company_id: companyId,
+          horizon,
+          force_retrain: forceRetrain,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Revenue forecast failed");
+
+      setBusinessRevenueForecast({
+        series_name: data.series_name ?? "Business Sales Revenue",
+        algorithm: data.algorithm,
+        demand_type: data.demand_type,
+        adi: data.adi,
+        cv2: data.cv2,
+        forecasts: data.forecasts ?? [],
+        history: data.history ?? [],
+        model_info: data.model_info,
+        loading: false,
+        error: null,
+      });
+    } catch (err) {
+      setBusinessRevenueForecast(prev => ({
+        series_name: prev?.series_name ?? "Business Sales Revenue",
+        algorithm: prev?.algorithm ?? "ARIMA_XGB",
+        demand_type: prev?.demand_type ?? "",
+        adi: prev?.adi ?? 0,
+        cv2: prev?.cv2 ?? 0,
+        forecasts: prev?.forecasts ?? [],
+        history: prev?.history ?? [],
+        model_info: prev?.model_info ?? {} as ForecastModelInfo,
+        loading: false,
+        error: String(err),
+      }));
+    }
   }, []);
+
+  useEffect(() => {
+    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id ?? null;
+
+    if (activeCompanyIdRef.current !== companyId) {
+      activeCompanyIdRef.current = companyId;
+      preloadedProductsRef.current = new Set();
+      preloadedRevenueCompanyRef.current = null;
+      setProductForecasts({});
+      setBusinessRevenueForecast(null);
+      setOverallAccuracy(null);
+    }
+
+    if (!companyId || salesReports.length === 0) {
+      return;
+    }
+
+    const uniqueProducts = Array.from(new Set(
+      salesReports
+        .map(report => report.productName)
+        .filter(Boolean)
+    ));
+
+    const productsToLoad = uniqueProducts.filter(productName => {
+      if (preloadedProductsRef.current.has(productName)) {
+        return false;
+      }
+
+      const existingForecast = productForecasts[productName];
+      return !existingForecast?.loading && !existingForecast?.forecasts?.length;
+    });
+
+    if (productsToLoad.length === 0) {
+      return;
+    }
+
+    productsToLoad.forEach(productName => preloadedProductsRef.current.add(productName));
+    void Promise.all(
+      productsToLoad.map(productName =>
+        runForecast(productName, 6, false, { notify: false })
+      )
+    );
+  }, [productForecasts, runForecast, salesReports]);
+
+  useEffect(() => {
+    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id ?? null;
+    if (!companyId) {
+      return;
+    }
+
+    if (preloadedRevenueCompanyRef.current === companyId) {
+      return;
+    }
+
+    preloadedRevenueCompanyRef.current = companyId;
+    void runBusinessRevenueForecast(6, false);
+  }, [runBusinessRevenueForecast, salesReports]);
 
   const fetchAccuracy = useCallback(async () => {
     const companyId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
@@ -187,47 +366,41 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     } catch { /* silent */ } finally { setAccuracyLoading(false); }
   }, []);
 
-  const runSeasonalAnalysis = useCallback(async (productName?: string) => {
-    const companyId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
-    if (!companyId) return;
-    const key = productName ?? "__all__";
-    const blank: SeasonalResult = {
-      product_name:productName??null, decomposition:[], seasonal_index:[],
-      forecast:[], peak_month:"", trough_month:"", yoy_growth:0,
-      years_comparison:[], n_train:0, loading:true, error:null,
-    };
-    setSeasonalResults(prev => ({ ...prev, [key]: { ...(prev[key]??blank), loading:true, error:null } }));
-    try {
-      const body: any = { company_id: companyId };
-      if (productName) body.product_name = productName;
-      const res  = await fetch(`${API}/api/seasonal`, {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Seasonal analysis failed");
-      setSeasonalResults(prev => ({
-        ...prev,
-        [key]: {
-          product_name:data.product_name, decomposition:data.decomposition,
-          seasonal_index:data.seasonal_index, forecast:data.forecast,
-          peak_month:data.peak_month, trough_month:data.trough_month,
-          yoy_growth:data.yoy_growth, years_comparison:data.years_comparison,
-          n_train:data.n_train, loading:false, error:null,
-        }
-      }));
-    } catch(err) {
-      setSeasonalResults(prev => ({ ...prev, [key]: { ...(prev[key]??blank), loading:false, error:String(err) } }));
-    }
-  }, []);
-
   return (
-    <ForecastContext.Provider value={{
-      productForecasts, overallAccuracy, accuracyLoading,
-      seasonalResults, runForecast, fetchAccuracy, runSeasonalAnalysis,
-    }}>
-      {children}
-    </ForecastContext.Provider>
+    <>
+      <ForecastContext.Provider value={{
+        productForecasts, businessRevenueForecast, overallAccuracy, accuracyLoading,
+        runForecast, runBusinessRevenueForecast, fetchAccuracy,
+      }}>
+        {children}
+      </ForecastContext.Provider>
+
+      <AlertDialog
+        open={rerunConfirmOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            resolveRerunConfirmation(false);
+          }
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm forecast re-run</AlertDialogTitle>
+            <AlertDialogDescription>
+              {`Do you want to re-run the sales forecast for ${rerunProductName}?`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => resolveRerunConfirmation(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => resolveRerunConfirmation(true)}>
+              Re-run forecast
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 
@@ -247,9 +420,4 @@ export const MODEL_DESCRIPTIONS: Record<string, string> = {
     "infrequently or in unpredictable bursts. TSB tracks demand probability and " +
     "size separately; XGBoost refines the residuals. Best for spare parts with " +
     "long gaps between sales.",
-  SEASONAL:
-    "STL (Seasonal-Trend decomposition using LOESS) separates sales into trend, " +
-    "seasonal, and residual components. The seasonal index shows which months " +
-    "historically over- or under-perform, and the forecast projects the next 12 " +
-    "months by combining the trend slope with the extracted seasonal pattern.",
 };

@@ -6,6 +6,7 @@ import { Card, CardContent } from "./ui/card";
 import { AlertTriangle, Package, ExternalLink } from "lucide-react";
 import { useInventory } from "../contexts/InventoryContext";
 import { motion } from "motion/react";
+import { formatCurrency } from "../lib/currency";
 
 interface LowStockModalProps {
   isOpen: boolean;
@@ -111,7 +112,7 @@ export function LowStockModal({ isOpen, onClose, onViewInventory }: LowStockModa
                         <div className="text-sm">
                           <span className="text-muted-foreground">Est. Cost: </span>
                           <span className="font-medium">
-                            ${((item.minimumStock - item.currentStock) * item.unitCost).toFixed(2)}
+                            {formatCurrency((item.minimumStock - item.currentStock) * item.unitCost)}
                           </span>
                         </div>
                       </div>
@@ -132,9 +133,9 @@ export function LowStockModal({ isOpen, onClose, onViewInventory }: LowStockModa
           <div className="text-sm text-muted-foreground">
             Total estimated reorder cost: 
             <span className="font-medium ml-1">
-              ${lowStockItems.reduce((total, item) => 
+              {formatCurrency(lowStockItems.reduce((total, item) => 
                 total + ((item.minimumStock - item.currentStock) * item.unitCost), 0
-              ).toFixed(2)}
+              ))}
             </span>
           </div>
           

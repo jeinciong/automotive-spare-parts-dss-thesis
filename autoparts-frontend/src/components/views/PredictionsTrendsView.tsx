@@ -8,9 +8,8 @@ import {
   LineChart, BarChart3, Activity, AlertTriangle, Brain, Info,
 } from "lucide-react";
 import {
-  LineChart as RechartsLine, Line, AreaChart, Area,
-  BarChart, Bar, ComposedChart, RadarChart, Radar, PolarGrid,
-  PolarAngleAxis, XAxis, YAxis, CartesianGrid, Tooltip,
+  Line, AreaChart, Area,
+  BarChart, Bar, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, ReferenceLine,
 } from "recharts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -18,6 +17,7 @@ import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger }
 import { motion } from "motion/react";
 import { useForecast, MODEL_DESCRIPTIONS } from "../../contexts/ForecastContext";
 import { useSalesReports } from "../../contexts/SalesReportsContext";
+import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
 
 // ── Shared tooltip style ──────────────────────────────────────
 const TT_STYLE = {
@@ -28,6 +28,13 @@ const TT_STYLE = {
     fontSize: "12px",
   },
 };
+
+const currencyAxisFormatter = (value: number) => {
+  return formatCurrencyCompact(value);
+};
+
+const currencyValueFormatter = (value: number) =>
+  formatCurrency(value);
 
 // ── Per-product forecast chart ────────────────────────────────
 function ProductForecastChart({ productName }: { productName: string }) {
@@ -55,8 +62,9 @@ function ProductForecastChart({ productName }: { productName: string }) {
       period,
       actual:    actMap[period]    ?? null,
       predicted: fcMap[period]?.predicted ?? null,
-      ciBottom:  fcMap[period]?.lower     ?? null,
-      ciHeight:  (fcMap[period]?.upper != null && fcMap[period]?.lower != null)
+      ciLower:   fcMap[period]?.lower ?? null,
+      ciUpper:   fcMap[period]?.upper ?? null,
+      ciBand:    (fcMap[period]?.upper != null && fcMap[period]?.lower != null)
                   ? fcMap[period].upper! - fcMap[period].lower!
                   : null,
     }));
@@ -157,15 +165,54 @@ function ProductForecastChart({ productName }: { productName: string }) {
           <XAxis dataKey="period" tick={{ fontSize:10, fill:"hsl(var(--muted-foreground))" }}
             interval="preserveStartEnd"/>
           <YAxis tick={{ fontSize:10, fill:"hsl(var(--muted-foreground))" }} width={42}/>
-          <Tooltip {...TT_STYLE}
-            formatter={(val: any, name: string) => {
-              if (name.startsWith("_") || val === null) return null;
-              return [typeof val === "number" ? val.toFixed(1) : val, name];
-            }}/>
+          <Tooltip
+            {...TT_STYLE}
+            content={({ active, payload, label }) => {
+              if (!active || !payload?.length) return null;
+
+              const point = payload[0]?.payload as {
+                actual?: number | null;
+                predicted?: number | null;
+                ciLower?: number | null;
+                ciUpper?: number | null;
+              };
+
+              const rows = [
+                point?.actual != null ? { label: "Historical sales", value: point.actual, color: "#FF6B00" } : null,
+                point?.predicted != null ? { label: "Predicted sales", value: point.predicted, color: "#8b5cf6" } : null,
+                point?.ciLower != null ? { label: "Lower prediction limit", value: point.ciLower, color: "#7c3aed" } : null,
+                point?.ciUpper != null ? { label: "Upper prediction limit", value: point.ciUpper, color: "#a78bfa" } : null,
+              ].filter(Boolean) as Array<{ label: string; value: number; color: string }>;
+
+              if (rows.length === 0) return null;
+
+              return (
+                <div style={TT_STYLE.contentStyle}>
+                  <div className="px-3 py-2">
+                    <p className="mb-2 text-xs font-semibold">{label}</p>
+                    <div className="space-y-1.5">
+                      {rows.map((row) => (
+                        <div key={row.label} className="flex items-center justify-between gap-4 text-xs">
+                          <span className="flex items-center gap-2 text-muted-foreground">
+                            <span
+                              className="h-2 w-2 rounded-full"
+                              style={{ backgroundColor: row.color }}
+                            />
+                            {row.label}
+                          </span>
+                          <span className="font-medium text-foreground">{row.value.toFixed(1)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }}
+          />
           {/* CI band */}
-          <Area type="monotone" dataKey="ciBottom" stroke="none" fill="none"
+          <Area type="linear" dataKey="ciLower" stroke="none" fill="none"
             legendType="none" name="_ciFloor" stackId="ci" connectNulls/>
-          <Area type="monotone" dataKey="ciHeight" stroke="none"
+          <Area type="linear" dataKey="ciBand" stroke="none"
             fill="#8b5cf6" fillOpacity={0.12} legendType="none"
             name="_ciBand" stackId="ci" connectNulls/>
           {lastActual && (
@@ -190,335 +237,191 @@ function ProductForecastChart({ productName }: { productName: string }) {
   );
 }
 
-// ── Seasonal tab content ──────────────────────────────────────
-function SeasonalTab() {
-  const { salesReports }  = useSalesReports();
-  const { seasonalResults, runSeasonalAnalysis } = useForecast();
-  const [scopeKey, setScopeKey] = useState("__all__");
+function BusinessRevenueForecastChart() {
+  const { businessRevenueForecast, runBusinessRevenueForecast } = useForecast();
+  const fc = businessRevenueForecast;
 
-  // Build list of unique products from salesReports
-  const productList = useMemo(() => {
-    const names = Array.from(new Set(salesReports.map(r => r.productName))).sort();
-    return names;
-  }, [salesReports]);
-
-  const sr = seasonalResults[scopeKey];
-
-  // Auto-run on mount and when scope changes
   useEffect(() => {
-    if (!sr || (!sr.loading && !sr.seasonal_index.length && !sr.error)) {
-      runSeasonalAnalysis(scopeKey === "__all__" ? undefined : scopeKey);
+    if (!fc || (!fc.loading && !fc.forecasts.length && !fc.error)) {
+      runBusinessRevenueForecast(6);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scopeKey]);
+  }, []);
 
-  const handleRun = () =>
-    runSeasonalAnalysis(scopeKey === "__all__" ? undefined : scopeKey);
+  const chartData = useMemo(() => {
+    if (!fc) return [];
+    const actMap: Record<string, number> = {};
+    fc.history.forEach(h => { actMap[h.period] = h.actual; });
+    const fcMap: Record<string, typeof fc.forecasts[0]> = {};
+    fc.forecasts.forEach(f => { fcMap[f.period] = f; });
+    const all = Array.from(new Set([
+      ...fc.history.map(h => h.period),
+      ...fc.forecasts.map(f => f.period),
+    ])).sort();
+    return all.map(period => ({
+      period,
+      actual: actMap[period] ?? null,
+      predicted: fcMap[period]?.predicted ?? null,
+      ciLower: fcMap[period]?.lower ?? null,
+      ciUpper: fcMap[period]?.upper ?? null,
+      ciBand: (fcMap[period]?.upper != null && fcMap[period]?.lower != null)
+        ? fcMap[period].upper! - fcMap[period].lower!
+        : null,
+    }));
+  }, [fc]);
 
-  // Build multi-year comparison chart
-  const multiYearChart = useMemo(() => {
-    if (!salesReports.length) return [];
-    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const scopeReports = scopeKey === "__all__"
-      ? salesReports
-      : salesReports.filter(r => r.productName === scopeKey);
-    const years = Array.from(new Set(scopeReports.map(r =>
-      new Date(r.reportDate).getFullYear()))).sort();
-    return MONTHS.map((month, mi) => {
-      const row: Record<string, any> = { month };
-      years.forEach(yr => {
-        const total = scopeReports
-          .filter(r => {
-            const d = new Date(r.reportDate);
-            return d.getMonth() === mi && d.getFullYear() === yr;
-          })
-          .reduce((s, r) => s + r.totalAmount, 0);
-        row[`y${yr}`] = total > 0 ? Math.round(total) : null;
-      });
-      // Forecast from STL model
-      if (sr?.forecast.length) {
-        const fc = sr.forecast.find(f => {
-          const m = new Date(f.period + "-01").getMonth();
-          return m === mi;
-        });
-        if (fc) row.predicted = Math.round(fc.predicted);
-      }
-      return row;
-    });
-  }, [salesReports, scopeKey, sr]);
+  const lastActual = fc?.history.at(-1)?.period ?? "";
 
-  const chartYears = useMemo(() => {
-    const scopeReports = scopeKey === "__all__"
-      ? salesReports
-      : salesReports.filter(r => r.productName === scopeKey);
-    return Array.from(new Set(scopeReports.map(r =>
-      new Date(r.reportDate).getFullYear()))).sort();
-  }, [salesReports, scopeKey]);
+  if (fc?.loading) return (
+    <div className="flex items-center justify-center h-48 gap-2 text-sm text-muted-foreground">
+      <div className="w-4 h-4 border-2 border-[#FF6B00] border-t-transparent rounded-full animate-spin"/>
+      Running business revenue model...
+    </div>
+  );
 
-  const YEAR_COLORS = ["#94a3b8","#3b82f6","#10b981","#f59e0b","#ec4899"];
+  if (fc?.error) return (
+    <div className="flex items-center justify-center h-48 gap-2 text-sm text-red-500">
+      <AlertTriangle className="w-4 h-4"/>
+      {fc.error.includes("Need") ? "Not enough monthly revenue history to forecast total revenue (need 12+ months)." : fc.error}
+    </div>
+  );
 
-  const loading = sr?.loading;
-  const error   = sr?.error;
+  if (!fc || chartData.length === 0) return (
+    <div className="flex items-center justify-center h-48 text-sm text-muted-foreground">
+      No revenue forecast data yet.
+    </div>
+  );
 
   return (
-    <div className="space-y-4">
-      {/* Scope selector */}
-      <div className="flex items-center gap-3 flex-wrap">
-        <span className="text-sm font-medium">Scope:</span>
-        <Select value={scopeKey} onValueChange={setScopeKey}>
-          <SelectTrigger className="w-56 h-8 text-sm">
-            <SelectValue placeholder="All products (company-wide)"/>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="__all__">All products (company-wide)</SelectItem>
-            {productList.map(p => (
-              <SelectItem key={p} value={p}>{p}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
+    <>
+      <div className="flex items-center gap-3 mb-3 flex-wrap">
         <TooltipProvider>
           <UITooltip>
             <TooltipTrigger asChild>
-              <Button variant="outline" size="sm" onClick={handleRun} disabled={loading}
-                className="h-8 text-xs flex items-center gap-1.5">
-                <Brain className="w-3 h-3"/>
-                {loading ? "Running STL model…" : "Run Seasonal Analysis"}
-              </Button>
+              <div className="flex items-center gap-1 cursor-help">
+                <Badge variant="outline" className={`text-xs px-2 py-0.5 ${
+                  fc.algorithm === "ARIMA_XGB"
+                    ? "bg-purple-50 text-purple-700 border-purple-200"
+                    : "bg-blue-50 text-blue-700 border-blue-200"
+                }`}>
+                  {fc.algorithm === "ARIMA_XGB" ? "ARIMA + XGBoost" : "TSB + XGBoost"}
+                </Badge>
+                <Info className="w-3 h-3 text-muted-foreground"/>
+              </div>
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-xs text-xs">
-              <p className="font-semibold mb-1">STL Seasonal Decomposition</p>
-              <p>{MODEL_DESCRIPTIONS.SEASONAL}</p>
+            <TooltipContent side="top" className="max-w-xs text-xs leading-relaxed">
+              <p className="font-semibold mb-1">
+                {fc.algorithm === "ARIMA_XGB" ? "ARIMA + XGBoost" : "TSB + XGBoost"}
+              </p>
+              <p>{MODEL_DESCRIPTIONS[fc.algorithm]}</p>
+              <p className="mt-1.5 text-muted-foreground">
+                Demand: <strong>{fc.demand_type}</strong>
+                {" · "}ADI {fc.adi?.toFixed(2)}, CV² {fc.cv2?.toFixed(2)}
+              </p>
             </TooltipContent>
           </UITooltip>
         </TooltipProvider>
-
-        {sr && !loading && !error && (
-          <span className="text-xs text-muted-foreground">
-            Trained on {sr.n_train} months of data
+        {fc.model_info?.accuracy != null && (
+          <span className={`text-xs font-semibold ${
+            fc.model_info.accuracy >= 90 ? "text-green-600"
+            : fc.model_info.accuracy >= 75 ? "text-orange-500"
+            : "text-red-600"
+          }`}>
+            {fc.model_info.accuracy.toFixed(1)}% accuracy
           </span>
         )}
+        {fc.model_info?.mape != null && (
+          <span className="text-xs text-muted-foreground">
+            MAPE {fc.model_info.mape.toFixed(1)}%
+          </span>
+        )}
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-7 text-xs"
+          disabled={fc.loading}
+          onClick={() => runBusinessRevenueForecast(6, true)}
+        >
+          Re-run
+        </Button>
       </div>
 
-      {error && (
-        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-          <AlertTriangle className="w-4 h-4 flex-shrink-0"/>
-          {error.includes("24") ? "Need at least 24 months of data for seasonal analysis." : error}
-        </div>
-      )}
+      <ResponsiveContainer width="100%" height={220}>
+        <ComposedChart data={chartData} margin={{ top:6, right:16, bottom:0, left:0 }}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false}
+            style={{ stroke: "hsl(var(--border))" }}/>
+          <XAxis dataKey="period" tick={{ fontSize:10, fill:"hsl(var(--muted-foreground))" }}
+            interval="preserveStartEnd"/>
+          <YAxis
+            tick={{ fontSize:10, fill:"hsl(var(--muted-foreground))" }}
+            width={64}
+            tickFormatter={currencyAxisFormatter}
+          />
+          <Tooltip
+            {...TT_STYLE}
+            content={({ active, payload, label }) => {
+              if (!active || !payload?.length) return null;
 
-      {/* Multi-year seasonal pattern chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Multi-Year Seasonal Pattern Analysis</CardTitle>
-          <CardDescription>
-            Historical monthly {scopeKey === "__all__" ? "revenue" : "unit"} trends
-            {sr && !loading ? ` · Peak: ${sr.peak_month} · Trough: ${sr.trough_month}` : ""}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {loading ? (
-            <div className="flex items-center justify-center h-64 gap-2 text-sm text-muted-foreground">
-              <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"/>
-              Decomposing seasonal patterns…
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height={360}>
-              <RechartsLine data={multiYearChart}>
-                <CartesianGrid strokeDasharray="3 3" {...TT_STYLE}/>
-                <XAxis dataKey="month" className="text-xs"/>
-                <YAxis className="text-xs"
-                  tickFormatter={v => v >= 1000 ? `${(v/1000).toFixed(0)}K` : v}/>
-                <Tooltip {...TT_STYLE}
-                  formatter={(v: number, name: string) => {
-                    if (!v) return [null, null];
-                    const label = name === "predicted" ? "STL Forecast" : name;
-                    return [v >= 1000 ? `${(v/1000).toFixed(1)}K` : v, label];
-                  }}/>
-                <Legend/>
-                {chartYears.map((yr, i) => (
-                  <Line key={yr} type="monotone" dataKey={`y${yr}`}
-                    stroke={YEAR_COLORS[i % YEAR_COLORS.length]}
-                    strokeWidth={2} dot={false} name={String(yr)} connectNulls={false}/>
-                ))}
-                {sr && !loading && !error && sr.forecast.length > 0 && (
-                  <Line type="monotone" dataKey="predicted"
-                    stroke="#8b5cf6" strokeWidth={3} strokeDasharray="5 5"
-                    dot={{ fill:"#8b5cf6", r:4 }} name="STL Forecast" connectNulls/>
-                )}
-              </RechartsLine>
-            </ResponsiveContainer>
-          )}
-        </CardContent>
-      </Card>
+              const point = payload[0]?.payload as {
+                actual?: number | null;
+                predicted?: number | null;
+                ciLower?: number | null;
+                ciUpper?: number | null;
+              };
 
-      {/* Seasonal index radar + stats */}
-      {sr && !loading && !error && sr.seasonal_index.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              const rows = [
+                point?.actual != null ? { label: "Historical revenue", value: point.actual, color: "#FF6B00" } : null,
+                point?.predicted != null ? { label: "Predicted revenue", value: point.predicted, color: "#10b981" } : null,
+                point?.ciLower != null ? { label: "Lower prediction limit", value: point.ciLower, color: "#059669" } : null,
+                point?.ciUpper != null ? { label: "Upper prediction limit", value: point.ciUpper, color: "#6ee7b7" } : null,
+              ].filter(Boolean) as Array<{ label: string; value: number; color: string }>;
 
-          {/* Radar chart of seasonal indices */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-purple-600"/>
-                Seasonal Demand Index
-              </CardTitle>
-              <CardDescription>
-                Index &gt; 1.0 = above-average demand that month
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={280}>
-                <RadarChart data={sr.seasonal_index}>
-                  <PolarGrid/>
-                  <PolarAngleAxis dataKey="month" tick={{ fontSize:11 }}/>
-                  <Radar name="Seasonal Index" dataKey="index"
-                    stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25}/>
-                  <Tooltip formatter={(v: number) => [v.toFixed(3), "Index"]}/>
-                  <ReferenceLine y={1} stroke="#e2e8f0"/>
-                </RadarChart>
-              </ResponsiveContainer>
+              if (rows.length === 0) return null;
 
-              {/* Index bar list */}
-              <div className="space-y-1.5 mt-3">
-                {[...sr.seasonal_index]
-                  .sort((a, b) => b.index - a.index)
-                  .map(row => (
-                    <div key={row.month} className="flex items-center gap-2 text-xs">
-                      <span className="w-8 font-medium">{row.month}</span>
-                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${row.index >= 1 ? "bg-gradient-to-r from-green-400 to-emerald-500" : "bg-gradient-to-r from-orange-400 to-red-400"}`}
-                          style={{ width: `${Math.min(100, Math.abs((row.index - 1) * 400) + 40)}%` }}
-                        />
-                      </div>
-                      <span className={`w-12 text-right font-semibold ${row.index >= 1 ? "text-green-600" : "text-red-500"}`}>
-                        {row.index.toFixed(3)}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Insights + YoY growth */}
-          <div className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Seasonal Insights</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div className="flex items-start gap-2">
-                  <TrendingUp className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0"/>
-                  <div>
-                    <p className="font-medium">Peak Month: {sr.peak_month}</p>
-                    <p className="text-muted-foreground">
-                      Highest seasonal demand — ensure stock levels are high.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <TrendingDown className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0"/>
-                  <div>
-                    <p className="font-medium">Trough Month: {sr.trough_month}</p>
-                    <p className="text-muted-foreground">
-                      Lowest seasonal demand — good time for promotions.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Target className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0"/>
-                  <div>
-                    <p className="font-medium">
-                      YoY Growth Trend:{" "}
-                      <span className={sr.yoy_growth >= 0 ? "text-green-600" : "text-red-500"}>
-                        {sr.yoy_growth >= 0 ? "+" : ""}{sr.yoy_growth.toFixed(1)}%
-                      </span>
-                    </p>
-                    <p className="text-muted-foreground">
-                      Estimated annual growth from trend slope.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Year-on-Year Comparison</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {sr.years_comparison.length > 1 ? (
-                  <div className="space-y-2">
-                    {sr.years_comparison.map((yr, i) => {
-                      const prev = sr.years_comparison[i - 1];
-                      const pct  = prev
-                        ? ((yr.total - prev.total) / prev.total * 100)
-                        : null;
-                      return (
-                        <div key={yr.year} className="flex items-center justify-between text-sm">
-                          <span className="font-medium">{yr.year}</span>
-                          <div className="flex items-center gap-2">
-                            <span>{yr.total.toLocaleString(undefined,{maximumFractionDigits:0})}</span>
-                            {pct !== null && (
-                              <Badge variant="outline"
-                                className={`text-xs ${pct >= 0 ? "text-green-600 border-green-200" : "text-red-500 border-red-200"}`}>
-                                {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
-                              </Badge>
-                            )}
-                          </div>
+              return (
+                <div style={TT_STYLE.contentStyle}>
+                  <div className="px-3 py-2">
+                    <p className="mb-2 text-xs font-semibold">{label}</p>
+                    <div className="space-y-1.5">
+                      {rows.map((row) => (
+                        <div key={row.label} className="flex items-center justify-between gap-4 text-xs">
+                          <span className="flex items-center gap-2 text-muted-foreground">
+                            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: row.color }} />
+                            {row.label}
+                          </span>
+                          <span className="font-medium text-foreground">{currencyValueFormatter(row.value)}</span>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Need 2+ years of data for comparison.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      )}
-
-      {/* STL decomposition chart */}
-      {sr && !loading && !error && sr.decomposition.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Activity className="w-4 h-4 text-purple-600"/>
-              STL Decomposition
-            </CardTitle>
-            <CardDescription>
-              Trend + seasonal + residual components extracted by the model
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={280}>
-              <ComposedChart data={sr.decomposition} margin={{ top:5, right:16, bottom:0, left:0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false}
-                  style={{ stroke:"hsl(var(--border))" }}/>
-                <XAxis dataKey="period" tick={{ fontSize:9, fill:"hsl(var(--muted-foreground))" }}
-                  interval="preserveStartEnd"/>
-                <YAxis tick={{ fontSize:10, fill:"hsl(var(--muted-foreground))" }} width={42}/>
-                <Tooltip {...TT_STYLE} formatter={(v: number, name: string) =>
-                  [v.toFixed(1), name]}/>
-                <Legend/>
-                <Line type="monotone" dataKey="actual"   name="Actual"
-                  stroke="#FF6B00" strokeWidth={1.5} dot={false}/>
-                <Line type="monotone" dataKey="trend"    name="Trend"
-                  stroke="#3b82f6" strokeWidth={2.5} dot={false}/>
-                <Line type="monotone" dataKey="seasonal" name="Seasonal"
-                  stroke="#8b5cf6" strokeWidth={1.5} dot={false} strokeDasharray="4 2"/>
-                <Line type="monotone" dataKey="residual" name="Residual"
-                  stroke="#94a3b8" strokeWidth={1} dot={false} strokeDasharray="2 2"/>
-              </ComposedChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+                </div>
+              );
+            }}
+          />
+          <Area type="linear" dataKey="ciLower" stroke="none" fill="none"
+            legendType="none" name="_ciFloor" stackId="ci" connectNulls/>
+          <Area type="linear" dataKey="ciBand" stroke="none"
+            fill="#10b981" fillOpacity={0.12} legendType="none"
+            name="_ciBand" stackId="ci" connectNulls/>
+          {lastActual && (
+            <ReferenceLine x={lastActual} stroke="hsl(var(--border))"
+              strokeDasharray="4 3"
+              label={{ value:"→ Forecast", fill:"hsl(var(--muted-foreground))", fontSize:9, position:"insideTopRight" }}/>
+          )}
+          <Line type="monotone" dataKey="actual" name="Actual"
+            stroke="#FF6B00" strokeWidth={2.5} connectNulls={false}
+            dot={(props: any) => {
+              const { cx, cy, payload } = props;
+              return <circle key={`r${props.index}`} cx={cx} cy={cy}
+                r={payload.predicted ? 4 : 2.5} fill="#FF6B00"
+                stroke="white" strokeWidth={payload.predicted ? 1.5 : 0}/>;
+            }}/>
+          <Line type="monotone" dataKey="predicted" name="Forecast"
+            stroke="#10b981" strokeWidth={2} strokeDasharray="5 3"
+            dot={{ r:3, fill:"#10b981", strokeWidth:0 }} connectNulls={false}/>
+        </ComposedChart>
+      </ResponsiveContainer>
+    </>
   );
 }
 
@@ -577,6 +480,35 @@ export function PredictionsTrendsView() {
       .map(([week, v]) => ({ week, sales:v.sales, orders:v.orders,
         avgOrder: v.orders > 0 ? Math.round(v.sales/v.orders) : 0 }));
   }, [salesReports]);
+
+  const revenueMonthCount = useMemo(() => {
+    if (salesReports.length === 0) return 0;
+
+    const monthMap: Record<string, number> = {};
+    salesReports.forEach((report) => {
+      const saleDate = new Date(report.reportDate);
+      const key = `${saleDate.getFullYear()}-${String(saleDate.getMonth() + 1).padStart(2, '0')}`;
+      monthMap[key] = (monthMap[key] ?? 0) + report.totalAmount;
+    });
+
+    const sortedMonths = Object.keys(monthMap).sort();
+    if (sortedMonths.length === 0) return 0;
+
+    const [startYear, startMonth] = sortedMonths[0].split("-").map(Number);
+    const [endYear, endMonth] = sortedMonths[sortedMonths.length - 1].split("-").map(Number);
+    const start = new Date(startYear, startMonth - 1, 1);
+    const end = new Date(endYear, endMonth - 1, 1);
+
+    let count = 0;
+    const cursor = new Date(start);
+    while (cursor <= end) {
+      count += 1;
+      cursor.setMonth(cursor.getMonth() + 1);
+    }
+    return count;
+  }, [salesReports]);
+
+  const showRevenueForecast = revenueMonthCount >= 12;
 
   const fastestGrowing   = [...categoryTrends].sort((a,b)=>b.growth-a.growth)[0];
   const fastestDeclining = [...categoryTrends].sort((a,b)=>a.growth-b.growth)[0];
@@ -670,7 +602,7 @@ export function PredictionsTrendsView() {
 
       {/* Tabs */}
       <Tabs defaultValue="forecast" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="forecast"  className="flex items-center gap-2">
             <Activity  className="h-4 w-4"/> Sales Forecast
           </TabsTrigger>
@@ -680,13 +612,24 @@ export function PredictionsTrendsView() {
           <TabsTrigger value="weekly"   className="flex items-center gap-2">
             <LineChart className="h-4 w-4"/> Weekly Analysis
           </TabsTrigger>
-          <TabsTrigger value="seasonal" className="flex items-center gap-2">
-            <Calendar  className="h-4 w-4"/> Seasonal Patterns
-          </TabsTrigger>
         </TabsList>
 
         {/* ── Sales Forecast Tab ── */}
         <TabsContent value="forecast" className="space-y-4">
+
+          {showRevenueForecast && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Business Sales Revenue Forecast</CardTitle>
+                <CardDescription>
+                  Monthly business sales revenue stored as its own trained artifact while still auto-selecting the ARIMA+XGB or TSB+XGB pipeline
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <BusinessRevenueForecastChart />
+              </CardContent>
+            </Card>
+          )}
 
           {/* Product selector */}
           <Card>
@@ -711,7 +654,7 @@ export function PredictionsTrendsView() {
                   </Select>
                   <Button variant="outline" size="sm" className="h-8 text-xs"
                     disabled={!selectedProduct || productForecasts[selectedProduct]?.loading}
-                    onClick={() => selectedProduct && runForecast(selectedProduct, 6)}>
+                    onClick={() => selectedProduct && runForecast(selectedProduct, 6, true)}>
                     Re-run
                   </Button>
                 </div>
@@ -890,7 +833,7 @@ export function PredictionsTrendsView() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted"/>
                     <XAxis dataKey="category" className="text-xs"/>
                     <YAxis className="text-xs"/>
-                    <Tooltip {...TT_STYLE} formatter={(v: number) => `$${(v/1000).toFixed(1)}K`}/>
+                    <Tooltip {...TT_STYLE} formatter={(v: number) => formatCurrencyCompact(v)}/>
                     <Legend/>
                     <Bar dataKey="q1" fill="#3b82f6" name="Q1"/>
                     <Bar dataKey="q2" fill="#8b5cf6" name="Q2"/>
@@ -946,10 +889,10 @@ export function PredictionsTrendsView() {
                     <YAxis className="text-xs"/>
                     <Tooltip {...TT_STYLE}
                       formatter={(v: number, name: string) =>
-                        name === "Sales ($)" ? [`$${(v/1000).toFixed(1)}K`, name] : [v, name]}/>
+                        name === `Sales (${PESO_SYMBOL})` ? [formatCurrencyCompact(v), name] : [v, name]}/>
                     <Legend/>
                     <Area type="monotone" dataKey="sales"  stroke="#8b5cf6"
-                      fill="#8b5cf6" fillOpacity={0.3} name="Sales ($)"/>
+                      fill="#8b5cf6" fillOpacity={0.3} name={`Sales (${PESO_SYMBOL})`}/>
                     <Area type="monotone" dataKey="orders" stroke="#3b82f6"
                       fill="#3b82f6" fillOpacity={0.3} name="Orders"/>
                   </AreaChart>
@@ -966,7 +909,7 @@ export function PredictionsTrendsView() {
                 sub:"Based on actual sales data", color:"text-green-600" },
               { title:"Avg Order Value",
                 value: weeklyTrends.length
-                  ? `$${Math.round(weeklyTrends.reduce((s,w)=>s+w.avgOrder,0)/weeklyTrends.length).toLocaleString()}`
+                  ? formatCurrency(Math.round(weeklyTrends.reduce((s,w)=>s+w.avgOrder,0)/weeklyTrends.length), { minimumFractionDigits: 0, maximumFractionDigits: 0 })
                   : "—",
                 sub:"Across last 6 weeks", color:"text-muted-foreground" },
               { title:"Total Orders (6w)",
@@ -984,10 +927,6 @@ export function PredictionsTrendsView() {
           </div>
         </TabsContent>
 
-        {/* ── Seasonal Patterns Tab ── */}
-        <TabsContent value="seasonal" className="space-y-4">
-          <SeasonalTab/>
-        </TabsContent>
       </Tabs>
     </motion.div>
   );

@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { formatCurrency } from "../lib/currency";
 
 const salesData = [
   {
@@ -288,8 +289,8 @@ export function SalesTable() {
                         <Badge variant="outline">{item.category}</Badge>
                       </TableCell>
                       <TableCell className="text-right">{item.unitsSold.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">${item.unitPrice}</TableCell>
-                      <TableCell className="text-right">${item.revenue.toLocaleString()}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(item.unitPrice)}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(item.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                       <TableCell className="text-right text-green-600">{item.margin}</TableCell>
                       <TableCell>
                         <Badge 

@@ -5,6 +5,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { useSalesReports } from "../contexts/SalesReportsContext";
+import { formatCurrency, formatCurrencyCompact } from "../lib/currency";
 
 export function SalesCharts({ globalFilters }: { globalFilters?: any }) {
   const { salesReports } = useSalesReports();
@@ -66,7 +67,7 @@ export function SalesCharts({ globalFilters }: { globalFilters?: any }) {
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip formatter={(val: number) => [`$${val.toLocaleString()}`, 'Sales']} />
+              <Tooltip formatter={(val: number) => [formatCurrency(val, { minimumFractionDigits: 0, maximumFractionDigits: 0 }), 'Sales']} />
               <Line type="monotone" dataKey="sales" stroke="#00C49F" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -110,7 +111,7 @@ export function SalesCharts({ globalFilters }: { globalFilters?: any }) {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip formatter={(val: number) => `$${val.toLocaleString()}`} />
+              <Tooltip formatter={(val: number) => formatCurrency(val, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
               <Legend 
                 verticalAlign="bottom" 
                 align="center" 
@@ -138,8 +139,8 @@ export function SalesCharts({ globalFilters }: { globalFilters?: any }) {
                 height={30} 
                 tick={{ fontSize: 11, fill: '#666' }}
               />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value / 1000}k`} />
-              <Tooltip formatter={(val: number) => [`$${val.toLocaleString()}`, 'Revenue']} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatCurrencyCompact(value)} />
+              <Tooltip formatter={(val: number) => [formatCurrency(val, { minimumFractionDigits: 0, maximumFractionDigits: 0 }), 'Revenue']} />
               <Bar dataKey="revenue" fill="#FF8A50" radius={[4, 4, 0, 0]} barSize={60} />
             </BarChart>
           </ResponsiveContainer>

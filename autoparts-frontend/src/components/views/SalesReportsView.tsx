@@ -27,6 +27,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import { useInventory } from "../../contexts/InventoryContext";
+import { formatCurrency, PESO_SYMBOL } from "../../lib/currency";
 
 interface SalesReportsViewProps {
   globalFilters?: GlobalFilters;
@@ -651,7 +652,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl mb-1">${totalRevenue.toLocaleString()}</div>
+              <div className="text-3xl mb-1">{formatCurrency(totalRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
               <div className="flex items-center text-sm text-green-600">
                 <ArrowUpRight className="w-4 h-4 mr-1" />
                 <span>+22.5% vs last year</span>
@@ -701,7 +702,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl mb-1">${avgOrderValue.toFixed(2)}</div>
+              <div className="text-3xl mb-1">{formatCurrency(avgOrderValue)}</div>
               <div className="flex items-center text-sm text-green-600">
                 <ArrowUpRight className="w-4 h-4 mr-1" />
                 <span>+5.3% vs last year</span>
@@ -908,8 +909,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                           </TableCell>
                           <TableCell>{report.customerName}</TableCell>
                           <TableCell>{report.quantity}</TableCell>
-                          <TableCell>${report.unitPrice.toFixed(2)}</TableCell>
-                          <TableCell className="font-semibold">${report.totalAmount.toFixed(2)}</TableCell>
+                          <TableCell>{formatCurrency(report.unitPrice)}</TableCell>
+                          <TableCell className="font-semibold">{formatCurrency(report.totalAmount)}</TableCell>
                           <TableCell>{report.paymentMethod}</TableCell>
                           <TableCell>
                             <Badge 
@@ -1038,7 +1039,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                         borderRadius: '8px', 
                         boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' 
                       }}
-                      formatter={(value: any) => [`$${value.toLocaleString()}`, 'Sales']} 
+                      formatter={(value: any) => [formatCurrency(value, { minimumFractionDigits: 0, maximumFractionDigits: 0 }), 'Sales']} 
                     />
                     <Area 
                       type="monotone" 
@@ -1101,7 +1102,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                       borderRadius: '8px', 
                       boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' 
                     }}
-                    formatter={(value: any) => [`$${value.toLocaleString()}`, 'Revenue']} 
+                    formatter={(value: any) => [formatCurrency(value, { minimumFractionDigits: 0, maximumFractionDigits: 0 }), 'Revenue']} 
                   />
                   <Bar dataKey="revenue" fill="#FF6B00" radius={[0, 8, 8, 0]} />
                 </BarChart>
@@ -1282,7 +1283,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="unitPrice">Unit Price ($) *</Label>
+              <Label htmlFor="unitPrice">Unit Price ({PESO_SYMBOL}) *</Label>
               <Input
                 id="unitPrice"
                 type="number"
@@ -1344,7 +1345,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             <div className="space-y-2">
               <Label>Total Amount</Label>
               <Input
-                value={`$${(formData.quantity * formData.unitPrice).toFixed(2)}`}
+                value={formatCurrency(formData.quantity * formData.unitPrice)}
                 disabled
                 className="bg-gray-100"
               />
@@ -1472,7 +1473,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
           <div className="space-y-4">
             <Card className="border-0 bg-gradient-to-br from-[#FF6B00]/10 to-[#FF8A50]/10">
               <CardContent className="pt-6">
-                <div className="text-4xl font-bold mb-2 text-[#FF6B00]">${totalRevenue.toLocaleString()}</div>
+                <div className="text-4xl font-bold mb-2 text-[#FF6B00]">{formatCurrency(totalRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
                 <p className="text-sm text-muted-foreground">Total revenue from {totalOrders} sales transactions</p>
                 <div className="mt-4 flex items-center text-sm text-green-600">
                   <ArrowUpRight className="w-4 h-4 mr-1" />
@@ -1487,7 +1488,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <CardTitle className="text-sm">Average Transaction</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${avgOrderValue.toFixed(2)}</div>
+                  <div className="text-2xl font-bold">{formatCurrency(avgOrderValue)}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -1519,7 +1520,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                       <div key={method} className="space-y-1">
                         <div className="flex items-center justify-between text-sm">
                           <span>{method}</span>
-                          <span className="font-medium">${methodRevenue.toLocaleString()} ({percentage.toFixed(1)}%)</span>
+                          <span className="font-medium">{formatCurrency(methodRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ({percentage.toFixed(1)}%)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
@@ -1586,7 +1587,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                         <p className="text-xs text-muted-foreground">{report.customerName}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-sm">${report.totalAmount.toFixed(2)}</p>
+                        <p className="font-medium text-sm">{formatCurrency(report.totalAmount)}</p>
                         <Badge variant={report.status === "Completed" ? "default" : "secondary"} className="text-xs">
                           {report.status}
                         </Badge>
@@ -1613,7 +1614,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
           <div className="space-y-4">
             <Card className="border-0 bg-gradient-to-br from-gray-100 to-gray-200">
               <CardContent className="pt-6">
-                <div className="text-4xl font-bold mb-2">${avgOrderValue.toFixed(2)}</div>
+                <div className="text-4xl font-bold mb-2">{formatCurrency(avgOrderValue)}</div>
                 <p className="text-sm text-muted-foreground">Average value per order</p>
                 <div className="mt-4 flex items-center text-sm text-green-600">
                   <ArrowUpRight className="w-4 h-4 mr-1" />
@@ -1629,7 +1630,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    ${salesReports.length > 0 ? Math.max(...salesReports.map(r => r.totalAmount)).toFixed(2) : "0.00"}
+                    {salesReports.length > 0 ? formatCurrency(Math.max(...salesReports.map(r => r.totalAmount))) : formatCurrency(0)}
                   </div>
                 </CardContent>
               </Card>
@@ -1639,7 +1640,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    ${salesReports.length > 0 ? Math.min(...salesReports.map(r => r.totalAmount)).toFixed(2) : "0.00"}
+                    {salesReports.length > 0 ? formatCurrency(Math.min(...salesReports.map(r => r.totalAmount))) : formatCurrency(0)}
                   </div>
                 </CardContent>
               </Card>
@@ -1667,7 +1668,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                           <p className="text-xs text-muted-foreground">{orderCount} orders</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium text-sm">${avgSpent.toFixed(2)}</p>
+                          <p className="font-medium text-sm">{formatCurrency(avgSpent)}</p>
                           <p className="text-xs text-muted-foreground">avg order</p>
                         </div>
                       </div>
@@ -1834,7 +1835,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                     </CardHeader>
                     <CardContent>
                       <div className="text-3xl font-bold text-[#FF6B00]">
-                        ${getProductStats(selectedProduct.productName).totalRevenue.toLocaleString()}
+                        {formatCurrency(getProductStats(selectedProduct.productName).totalRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
                         From all sales transactions
@@ -1937,9 +1938,9 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm font-semibold">${report.totalAmount.toFixed(2)}</p>
+                            <p className="text-sm font-semibold">{formatCurrency(report.totalAmount)}</p>
                             <p className="text-xs text-muted-foreground">
-                              {report.quantity} × ${report.unitPrice.toFixed(2)}
+                              {report.quantity} × {formatCurrency(report.unitPrice)}
                             </p>
                           </div>
                         </div>
@@ -2017,7 +2018,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                                   <div>
                                     <p className="text-xs text-muted-foreground">Total Revenue</p>
                                     <p className="text-lg font-bold text-[#FF6B00]">
-                                      ${stat.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                      {formatCurrency(stat.revenue)}
                                     </p>
                                   </div>
                                   <div>

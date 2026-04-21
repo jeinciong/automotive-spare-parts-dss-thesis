@@ -16,6 +16,7 @@ import {
   Archive,
   Trash2
 } from "lucide-react";
+import { PESO_SYMBOL } from "../../lib/currency";
 
 interface Notification {
   id: string;
@@ -41,7 +42,7 @@ const allNotifications: Notification[] = [
     id: "2",
     type: "success",
     title: "Sales Milestone",
-    message: "Monthly target achieved - $250K reached with 5 days remaining.",
+    message: `Monthly target achieved - ${PESO_SYMBOL}250K reached with 5 days remaining.`,
     time: "2 hours ago",
     read: false,
     priority: "low"

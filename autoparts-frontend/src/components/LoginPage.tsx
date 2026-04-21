@@ -135,7 +135,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                       className="space-y-4"
                     >
                       <div className="space-y-2">
-                        <Label htmlFor="companyName">Company Name</Label>
+                        <Label htmlFor="companyName">Business Name</Label>
                         <Input
                           id="companyName"
                           placeholder="AutoParts Inc."

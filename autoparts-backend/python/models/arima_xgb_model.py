@@ -6,23 +6,18 @@ How it works:
   2. XGBoost corrects non-linear residuals
   3. Final = ARIMA forecast + XGB residual correction
 
-Auto-retrain:
-  If initial MAPE >= POOR_MAPE_THRESHOLD the model automatically
-  retries with an expanded ARIMA order search space and stronger
-  XGBoost regularisation. The best of both runs is returned.
-  The response includes:
-    retrained   : bool   — True if the retrain pass was triggered
-    retrain_improved : bool — True if retrain beat initial run
-
-Modify:
-  ARIMA_ORDERS_INITIAL  - first-pass candidate (p,d,q) tuples
-  ARIMA_ORDERS_EXTENDED - retrain-pass additional orders
-  POOR_MAPE_THRESHOLD   - MAPE % above which retrain is triggered (default 25)
-  XGB_PARAMS_INITIAL    - first-pass XGBoost params
-  XGB_PARAMS_RETRAIN    - retrain-pass XGBoost params (more regularisation)
-  ALPHA                 - confidence interval level (0.05 = 95%)
+This module supports both:
+  - on-demand fitting + forecasting via fit_and_forecast()
+  - separate training + artifact saving via train_and_save_model()
 """
-import sys, json, warnings
+import json
+import pickle
+import re
+import sys
+import warnings
+from datetime import datetime, timezone
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -53,8 +48,28 @@ MIN_OBS  = 12
 # ───────────────────────────────────────────────────────────────
 
 
+def _extract(window):
+    feats = [window[-lag] if len(window) >= lag else 0.0 for lag in LAG_FEATURES]
+    for w in ROLLING_WINDOWS:
+        sl = window[-w:] if len(window) >= w else window
+        feats.append(float(np.mean(sl)))
+        feats.append(float(np.std(sl)) if len(sl) > 1 else 0.0)
+    return feats
+
+
+def _slugify_name(value):
+    slug = re.sub(r"[^a-z0-9]+", "_", str(value).strip().lower()).strip("_")
+    return slug or "arima_xgb_model"
+
+
+def _default_model_path(product_name=None):
+    base_dir = Path(__file__).resolve().parent.parent / "trained_models" / "arima_xgb"
+    file_name = f"{_slugify_name(product_name)}.pkl" if product_name else "arima_xgb_model.pkl"
+    return base_dir / file_name
+
+
 def _fit_arima_xgb(series, arima_orders, xgb_params, horizon):
-    """Core fit routine. Returns (forecasts, model_meta, mape) or raises."""
+    """Core fit routine. Returns (artifact, forecasts, model_meta, mape) or raises."""
     from statsmodels.tsa.arima.model import ARIMA
     import xgboost as xgb
     from sklearn.preprocessing import StandardScaler
@@ -87,11 +102,15 @@ def _fit_arima_xgb(series, arima_orders, xgb_params, horizon):
     feat_cols = [c for c in df.columns if c != "v"]
 
     xgb_corrections = np.zeros(horizon)
+    scaler = None
+    model = None
+    xgb_enabled = False
     if len(df) >= 3:
         scaler = StandardScaler()
         X_sc   = scaler.fit_transform(df[feat_cols])
         model  = xgb.XGBRegressor(**xgb_params)
         model.fit(X_sc, df["v"])
+        xgb_enabled = True
         window = list(residuals)
         for i in range(horizon):
             feat = _extract(window)
@@ -99,9 +118,12 @@ def _fit_arima_xgb(series, arima_orders, xgb_params, horizon):
             pred = float(model.predict(f_sc)[0])
             xgb_corrections[i] = pred
             window.append(pred)
+    else:
+        window = list(residuals)
 
     final   = arima_fc + xgb_corrections
-    ci_hw   = norm.ppf(1 - ALPHA / 2) * float(np.std(residuals))
+    residual_std = float(np.std(residuals))
+    ci_hw   = norm.ppf(1 - ALPHA / 2) * residual_std
     last    = series.index[-1]
     periods = [str(last + i) for i in range(1, horizon + 1)]
 
@@ -120,21 +142,150 @@ def _fit_arima_xgb(series, arima_orders, xgb_params, horizon):
     meta = {
         "algorithm":   "ARIMA_XGB",
         "arima_order": list(best_order),
+        "arima_aic":   round(float(best_aic), 4),
         "n_train":     len(series),
         "horizon":     horizon,
         "mape":        round(mape, 2) if mape is not None else None,
         "accuracy":    round(100 - mape, 2) if mape is not None else None,
+        "xgb_enabled": bool(xgb_enabled),
     }
-    return forecasts, meta, mape
+    artifact = {
+        "algorithm": "ARIMA_XGB",
+        "trained_at": datetime.now(timezone.utc).isoformat(),
+        "series_dates": [str(idx) for idx in series.index],
+        "series_values": [float(v) for v in series.values],
+        "last_period": str(last),
+        "arima_order": list(best_order),
+        "arima_aic": float(best_aic),
+        "residual_std": residual_std,
+        "residual_window": list(window),
+        "lag_features": list(LAG_FEATURES),
+        "rolling_windows": list(ROLLING_WINDOWS),
+        "xgb_enabled": xgb_enabled,
+        "feature_columns": feat_cols,
+        "arima_result": best_result,
+        "xgb_model": model,
+        "xgb_scaler": scaler,
+        "xgb_params": dict(xgb_params),
+        "meta": dict(meta),
+    }
+    return artifact, forecasts, meta, mape
 
 
-def _extract(window):
-    feats = [window[-lag] if len(window) >= lag else 0.0 for lag in LAG_FEATURES]
-    for w in ROLLING_WINDOWS:
-        sl = window[-w:] if len(window) >= w else window
-        feats.append(float(np.mean(sl)))
-        feats.append(float(np.std(sl)) if len(sl) > 1 else 0.0)
-    return feats
+def forecast_from_artifact(artifact, horizon=None):
+    horizon = int(horizon or artifact.get("meta", {}).get("horizon", 6))
+    arima_result = artifact["arima_result"]
+    arima_fc = arima_result.get_forecast(steps=horizon).predicted_mean.values
+
+    xgb_corrections = np.zeros(horizon)
+    window = list(artifact.get("residual_window", []))
+    model = artifact.get("xgb_model")
+    scaler = artifact.get("xgb_scaler")
+    if artifact.get("xgb_enabled") and model is not None and scaler is not None:
+        for i in range(horizon):
+            feat = _extract(window)
+            pred = float(model.predict(scaler.transform([feat]))[0])
+            xgb_corrections[i] = pred
+            window.append(pred)
+
+    final = arima_fc + xgb_corrections
+    ci_hw = norm.ppf(1 - ALPHA / 2) * float(artifact.get("residual_std", 0.0))
+    last = pd.Period(artifact["last_period"], freq="M")
+    periods = [str(last + i) for i in range(1, horizon + 1)]
+    return [
+        {
+            "period": p,
+            "predicted": round(max(0.0, float(v)), 2),
+            "lower": round(max(0.0, float(v) - ci_hw), 2),
+            "upper": round(float(v) + ci_hw, 2),
+        }
+        for p, v in zip(periods, final)
+    ]
+
+
+def train_model(dates, quantities, horizon=6, arima_orders=None, xgb_params=None):
+    series = pd.Series(
+        [float(q) for q in quantities],
+        index=pd.PeriodIndex(dates, freq="M"),
+    )
+    if len(series) < MIN_OBS:
+        raise ValueError(f"Need >= {MIN_OBS} observations, got {len(series)}")
+
+    artifact, forecasts, meta, mape = _fit_arima_xgb(
+        series,
+        arima_orders or ARIMA_ORDERS_INITIAL,
+        xgb_params or XGB_PARAMS_INITIAL,
+        int(horizon),
+    )
+    return artifact, forecasts, meta, mape
+
+
+def save_trained_model(artifact, output_path):
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("wb") as handle:
+        pickle.dump(artifact, handle)
+    return str(output)
+
+
+def load_trained_model(model_path):
+    with Path(model_path).open("rb") as handle:
+        return pickle.load(handle)
+
+
+def train_and_save_model(dates, quantities, horizon=6, product_name=None, output_path=None):
+    try:
+        from statsmodels.tsa.arima.model import ARIMA  # noqa
+        import xgboost  # noqa
+        from sklearn.preprocessing import StandardScaler  # noqa
+    except ImportError as e:
+        return {"success": False, "error": f"Missing package: {e}"}
+
+    try:
+        series = pd.Series(
+            [float(q) for q in quantities],
+            index=pd.PeriodIndex(dates, freq="M"),
+        )
+        if len(series) < MIN_OBS:
+            return {"success": False, "error": f"Need >= {MIN_OBS} observations, got {len(series)}"}
+
+        artifact, forecasts, meta, mape = _fit_arima_xgb(
+            series, ARIMA_ORDERS_INITIAL, XGB_PARAMS_INITIAL, int(horizon)
+        )
+
+        retrained = False
+        retrain_improved = False
+        initial_mape = mape
+        if mape is not None and mape >= POOR_MAPE_THRESHOLD:
+            retrained = True
+            all_orders = ARIMA_ORDERS_INITIAL + ARIMA_ORDERS_EXTENDED
+            try:
+                artifact2, fc2, meta2, mape2 = _fit_arima_xgb(
+                    series, all_orders, XGB_PARAMS_RETRAIN, int(horizon)
+                )
+                if mape2 is not None and mape2 < (mape or np.inf):
+                    artifact, forecasts, meta, mape = artifact2, fc2, meta2, mape2
+                    retrain_improved = True
+            except Exception:
+                pass
+
+        meta["retrained"] = bool(retrained)
+        meta["retrain_improved"] = bool(retrain_improved)
+        meta["initial_mape"] = round(initial_mape, 2) if initial_mape is not None else None
+        meta["low_accuracy"] = bool(mape is not None and mape >= POOR_MAPE_THRESHOLD)
+        artifact["meta"] = dict(meta)
+
+        model_path = Path(output_path) if output_path else _default_model_path(product_name)
+        saved_path = save_trained_model(artifact, model_path)
+        meta["saved_model_path"] = saved_path
+        return {
+            "success": True,
+            "forecasts": forecasts,
+            "model_info": meta,
+            "saved_model_path": saved_path,
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 
 def fit_and_forecast(dates, quantities, horizon=6):
@@ -154,7 +305,7 @@ def fit_and_forecast(dates, quantities, horizon=6):
 
     try:
         # ── First pass ──────────────────────────────────────────
-        forecasts, meta, mape = _fit_arima_xgb(
+        artifact, forecasts, meta, mape = _fit_arima_xgb(
             series, ARIMA_ORDERS_INITIAL, XGB_PARAMS_INITIAL, horizon
         )
 
@@ -167,20 +318,20 @@ def fit_and_forecast(dates, quantities, horizon=6):
             retrained = True
             all_orders = ARIMA_ORDERS_INITIAL + ARIMA_ORDERS_EXTENDED
             try:
-                fc2, meta2, mape2 = _fit_arima_xgb(
+                artifact2, fc2, meta2, mape2 = _fit_arima_xgb(
                     series, all_orders, XGB_PARAMS_RETRAIN, horizon
                 )
                 # Keep whichever pass has lower MAPE
                 if mape2 is not None and mape2 < (mape or np.inf):
-                    forecasts, meta, mape = fc2, meta2, mape2
+                    artifact, forecasts, meta, mape = artifact2, fc2, meta2, mape2
                     retrain_improved = True
             except Exception:
                 pass  # retrain failed — keep first-pass result
 
-        meta["retrained"]           = retrained
-        meta["retrain_improved"]    = retrain_improved
+        meta["retrained"]           = bool(retrained)
+        meta["retrain_improved"]    = bool(retrain_improved)
         meta["initial_mape"]        = round(initial_mape, 2) if initial_mape is not None else None
-        meta["low_accuracy"]        = (mape is not None and mape >= POOR_MAPE_THRESHOLD)
+        meta["low_accuracy"]        = bool(mape is not None and mape >= POOR_MAPE_THRESHOLD)
 
         return {"success": True, "forecasts": forecasts, "model_info": meta}
 

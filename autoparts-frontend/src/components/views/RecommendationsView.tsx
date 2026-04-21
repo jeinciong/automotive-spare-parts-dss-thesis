@@ -8,6 +8,7 @@ import { GlobalFilters } from "../../App";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import { useInventory } from "../../contexts/InventoryContext";
+import { formatCurrency, formatCurrencyCompact } from "../../lib/currency";
 
 // Predictions and trends data (simulating from PredictionsTrendsView)
 const categoryTrends = [
@@ -38,7 +39,7 @@ const aiInsights = [
   },
   {
     insight: "Price Sensitivity Analysis",
-    description: "Engine oil sales drop 23% when priced above $8.50 but remain stable below this threshold",
+    description: `Engine oil sales drop 23% when priced above ${formatCurrency(8.5)} but remain stable below this threshold`,
     opportunity: "Optimize pricing for maximum volume and profit"
   }
 ];
@@ -64,8 +65,8 @@ export function RecommendationsView({ globalFilters }: RecommendationsViewProps)
         type: "inventory",
         priority: item.status === "Critical" ? "High" : "Medium",
         title: `Urgent: Restock ${item.name}`,
-        description: `Current stock (${item.currentStock} units) is ${item.status === "Critical" ? "critically" : ""} below minimum threshold of ${item.minimumStock}. Based on seasonal trends, demand is expected to increase by ${forecastData.growthRate}% next month.`,
-        impact: `$${(item.unitCost * (item.minimumStock - item.currentStock) * 1.5).toLocaleString()} potential revenue at risk`,
+        description: `Current stock (${item.currentStock} units) is ${item.status === "Critical" ? "critically" : ""} below minimum threshold of ${item.minimumStock}. Based on forecast trends, demand is expected to increase by ${forecastData.growthRate}% next month.`,
+        impact: `${formatCurrency(item.unitCost * (item.minimumStock - item.currentStock) * 1.5, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} potential revenue at risk`,
         action: "Order Now",
         icon: AlertTriangle,
         category: "Inventory Optimization",
@@ -82,7 +83,7 @@ export function RecommendationsView({ globalFilters }: RecommendationsViewProps)
         priority: "High",
         title: `Expand ${fastestGrowingCategory.category} Inventory`,
         description: `${fastestGrowingCategory.category} showing strong growth trend at +${fastestGrowingCategory.growth}% YoY. Market demand indicates this category will continue expanding through Q2 2025.`,
-        impact: `$${(forecastData.nextMonth * 0.15).toLocaleString()} additional revenue opportunity`,
+        impact: `${formatCurrency(forecastData.nextMonth * 0.15, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} additional revenue opportunity`,
         action: "Review Catalog",
         icon: TrendingUp,
         category: "Product Expansion"
@@ -145,7 +146,7 @@ export function RecommendationsView({ globalFilters }: RecommendationsViewProps)
       priority: "High",
       title: "Create Product Bundles",
       description: "AI analysis shows strong correlation between brake system purchases. Customers buying brake pads have 73% likelihood of buying brake fluid within 30 days.",
-      impact: "$8,900 projected increase",
+      impact: `${formatCurrency(8900, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} projected increase`,
       action: "Launch Campaign",
       icon: Users,
       category: "Customer Acquisition"
@@ -159,7 +160,7 @@ export function RecommendationsView({ globalFilters }: RecommendationsViewProps)
         priority: "High",
         title: "Prepare for Seasonal Peak",
         description: `High-confidence forecast (${forecastData.confidence}%) predicts ${forecastData.growthRate}% sales increase next month. Recommend increasing inventory levels by 18% across top categories.`,
-        impact: `$${(forecastData.nextMonth * 0.18).toLocaleString()} revenue opportunity`,
+        impact: `${formatCurrency(forecastData.nextMonth * 0.18, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} revenue opportunity`,
         action: "Plan Inventory",
         icon: Lightbulb,
         category: "Inventory Planning"
@@ -456,7 +457,7 @@ export function RecommendationsView({ globalFilters }: RecommendationsViewProps)
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <span>Revenue Increase</span>
-                <span className="font-medium text-green-600">+${(forecastData.nextMonth * 0.15 / 1000).toFixed(1)}K</span>
+                <span className="font-medium text-green-600">+{formatCurrencyCompact(forecastData.nextMonth * 0.15)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span>Operational Efficiency</span>

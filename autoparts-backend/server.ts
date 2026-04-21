@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { spawn } from 'child_process';
 import path from 'path';
+import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -316,7 +317,33 @@ app.post('/api/sales', async (req: any, res: any) => {
             });
         }
 
-        return res.status(200).json({ count: totalInserted });
+        const modelTrainingResults: Array<{
+            product_name: string;
+            status: 'trained' | 'cached' | 'skipped';
+            algorithm?: ForecastAlgorithm;
+            saved_model_path?: string;
+            reason?: string;
+        }> = [];
+
+        for (const productName of Object.keys(soldMap)) {
+            try {
+                const forecastResult = await getOrTrainForecastArtifact(companyId, productName, 6, false);
+                modelTrainingResults.push({
+                    product_name: productName,
+                    status: forecastResult.loadedFromCache ? 'cached' : 'trained',
+                    algorithm: forecastResult.algorithm,
+                    saved_model_path: forecastResult.savedModelPath,
+                });
+            } catch (err: any) {
+                modelTrainingResults.push({
+                    product_name: productName,
+                    status: 'skipped',
+                    reason: err.message,
+                });
+            }
+        }
+
+        return res.status(200).json({ count: totalInserted, model_training: modelTrainingResults });
 
     } catch (err: any) {
         console.error('Import Error:', err);
@@ -657,107 +684,722 @@ app.get('/api/export-all', async (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
-const PYTHON_BIN    = process.env.PYTHON_BIN ?? 'python3';
+const PYTHON_BIN    = process.env.PYTHON_BIN ?? (process.platform === 'win32' ? 'python' : 'python3');
 const PYTHON_DIR    = path.join(__dirname, 'python');
 const PYTHON_TIMEOUT_MS = 90_000;
+const TRAINED_MODELS_DIR = path.join(PYTHON_DIR, 'trained_models');
+const FORECAST_MIN_OBS = 12;
+const BUSINESS_REVENUE_FORECAST_NAME = 'monthly_total_revenue';
+const REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS = 120;
+const PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS = 120;
+
+const MODEL_SCRIPT_PATHS = {
+  ARIMA_XGB: {
+    train: path.join(PYTHON_DIR, 'models/arima_xgb_train_model.py'),
+    predict: path.join(PYTHON_DIR, 'models/arima_xgb_predict_model.py'),
+    dir: path.join(TRAINED_MODELS_DIR, 'arima_xgb'),
+  },
+  TSB_XGB: {
+    train: path.join(PYTHON_DIR, 'models/tsb_xgb_train_model.py'),
+    predict: path.join(PYTHON_DIR, 'models/tsb_xgb_predict_model.py'),
+    dir: path.join(TRAINED_MODELS_DIR, 'tsb_xgb'),
+  },
+} as const;
+
+const REVENUE_MODEL_SCRIPT_PATHS = {
+  train: path.join(PYTHON_DIR, 'models/revenue_forecast_train_model.py'),
+  predict: path.join(PYTHON_DIR, 'models/revenue_forecast_predict_model.py'),
+} as const;
+const LEGACY_REVENUE_MODELS_DIR = path.join(TRAINED_MODELS_DIR, 'sales_revenue');
+
+type ForecastAlgorithm = keyof typeof MODEL_SCRIPT_PATHS;
+
+type PreparedForecastContext = {
+  dates: string[];
+  quantities: number[];
+  sortedKeys: string[];
+  classResult: any;
+  algorithm: ForecastAlgorithm;
+  scriptConfig: (typeof MODEL_SCRIPT_PATHS)[ForecastAlgorithm];
+  modelDir: string;
+  modelPath: string;
+};
+
+function slugifyProductName(productName: string): string {
+  return productName.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'forecast_model';
+}
+
+function getBusinessModelDir(baseDir: string, businessId: number) {
+  return path.join(baseDir, `business_${businessId}`);
+}
+
+function getLegacyCompanyModelDir(baseDir: string, businessId: number) {
+  return path.join(baseDir, `company_${businessId}`);
+}
+
+async function resolveBusinessModelDir(baseDir: string, businessId: number) {
+  const businessDir = getBusinessModelDir(baseDir, businessId);
+  const legacyCompanyDir = getLegacyCompanyModelDir(baseDir, businessId);
+
+  if (!(await fileExists(businessDir)) && await fileExists(legacyCompanyDir)) {
+    await ensureDir(path.dirname(businessDir));
+    try {
+      await fs.rename(legacyCompanyDir, businessDir);
+    } catch (error) {
+      if (!(await fileExists(businessDir))) {
+        throw error;
+      }
+    }
+  }
+
+  await ensureDir(businessDir);
+  return businessDir;
+}
+
+async function buildBusinessModelPath(
+  scriptConfig: (typeof MODEL_SCRIPT_PATHS)[ForecastAlgorithm],
+  businessId: number,
+  productName: string,
+) {
+  const modelDir = await resolveBusinessModelDir(scriptConfig.dir, businessId);
+  return {
+    modelDir,
+    modelPath: path.join(modelDir, `${slugifyProductName(productName)}.pkl`),
+  };
+}
+
+async function resolveBusinessRevenueArtifactPath(
+  algorithm: ForecastAlgorithm,
+  businessId: number,
+) {
+  const modelDir = MODEL_SCRIPT_PATHS[algorithm].dir;
+  await ensureDir(modelDir);
+  const modelPath = path.join(modelDir, `${BUSINESS_REVENUE_FORECAST_NAME}.pkl`);
+
+  if (await fileExists(modelPath)) {
+    return { modelDir, modelPath };
+  }
+
+  const candidateDirs = [
+    MODEL_SCRIPT_PATHS[algorithm].dir,
+    getBusinessModelDir(MODEL_SCRIPT_PATHS[algorithm].dir, businessId),
+    getLegacyCompanyModelDir(MODEL_SCRIPT_PATHS[algorithm].dir, businessId),
+    getBusinessModelDir(LEGACY_REVENUE_MODELS_DIR, businessId),
+    getLegacyCompanyModelDir(LEGACY_REVENUE_MODELS_DIR, businessId),
+  ];
+  const legacyArtifactNames = ['monthly_total_revenue', 'monthly_total_sales_revenue'];
+
+  for (const candidateDir of candidateDirs) {
+    for (const legacyArtifactName of legacyArtifactNames) {
+      const legacyPath = path.join(candidateDir, `${legacyArtifactName}.pkl`);
+      if (await fileExists(legacyPath)) {
+        if (normalizePathForCompare(legacyPath) !== normalizePathForCompare(modelPath)) {
+          await fs.copyFile(legacyPath, modelPath);
+        }
+        return { modelDir, modelPath };
+      }
+    }
+  }
+
+  return { modelDir, modelPath };
+}
+
+async function resolveSharedRevenueArtifactPath() {
+  const algorithms: ForecastAlgorithm[] = ['ARIMA_XGB', 'TSB_XGB'];
+  const artifactNames = ['monthly_total_revenue', 'monthly_total_sales_revenue'];
+
+  for (const algorithm of algorithms) {
+    const modelDir = MODEL_SCRIPT_PATHS[algorithm].dir;
+    for (const artifactName of artifactNames) {
+      const modelPath = path.join(modelDir, `${artifactName}.pkl`);
+      if (await fileExists(modelPath)) {
+        return { algorithm, modelDir, modelPath };
+      }
+    }
+  }
+
+  return null;
+}
+
+function buildRerunModelPath(modelDir: string, productName: string) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  return path.join(
+    modelDir,
+    'reruns',
+    `${slugifyProductName(productName)}__rerun_${timestamp}.pkl`,
+  );
+}
+
+function buildSharedProductModelPath(
+  scriptConfig: (typeof MODEL_SCRIPT_PATHS)[ForecastAlgorithm],
+  productName: string,
+) {
+  return path.join(scriptConfig.dir, `${slugifyProductName(productName)}.pkl`);
+}
+
+function keepFutureForecasts<T extends { period?: string | null }>(
+  forecasts: T[],
+  lastHistoryPeriod: string,
+) {
+  return forecasts.filter((forecast) => {
+    const period = forecast.period;
+    return typeof period === 'string' && period > lastHistoryPeriod;
+  });
+}
+
+function buildMonthlySeries(rawSales: Array<{ date: Date; quantity: number | bigint | null }>) {
+  const monthMap: Record<string, number> = {};
+
+  rawSales.forEach((sale) => {
+    const saleDate = new Date(sale.date);
+    const key = `${saleDate.getFullYear()}-${String(saleDate.getMonth() + 1).padStart(2, '0')}`;
+    monthMap[key] = (monthMap[key] ?? 0) + Number(sale.quantity ?? 0);
+  });
+
+  if (rawSales.length === 0) {
+    return { dates: [] as string[], quantities: [] as number[] };
+  }
+
+  const firstDate = new Date(rawSales[0].date);
+  const lastDate = new Date(rawSales[rawSales.length - 1].date);
+  const cursor = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+  const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+
+  const dates: string[] = [];
+  const quantities: number[] = [];
+
+  while (cursor <= end) {
+    const period = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`;
+    dates.push(period);
+    quantities.push(monthMap[period] ?? 0);
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
+  return { dates, quantities };
+}
+
+function buildMonthlyRevenueSeries(rawSales: Array<{ date: Date; total_amount: Prisma.Decimal | number | null }>) {
+  const monthMap: Record<string, number> = {};
+
+  rawSales.forEach((sale) => {
+    const saleDate = new Date(sale.date);
+    const key = `${saleDate.getFullYear()}-${String(saleDate.getMonth() + 1).padStart(2, '0')}`;
+    monthMap[key] = (monthMap[key] ?? 0) + Number(sale.total_amount ?? 0);
+  });
+
+  if (rawSales.length === 0) {
+    return { dates: [] as string[], revenues: [] as number[] };
+  }
+
+  const firstDate = new Date(rawSales[0].date);
+  const lastDate = new Date(rawSales[rawSales.length - 1].date);
+  const cursor = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+  const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+
+  const dates: string[] = [];
+  const revenues: number[] = [];
+
+  while (cursor <= end) {
+    const period = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`;
+    dates.push(period);
+    revenues.push(monthMap[period] ?? 0);
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
+  return { dates, revenues };
+}
+
+async function ensureDir(dirPath: string) {
+  await fs.mkdir(dirPath, { recursive: true });
+}
+
+async function fileExists(filePath: string) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function normalizePathForCompare(filePath: string) {
+  return path.resolve(filePath).toLowerCase();
+}
+
+function isPathInsideDir(filePath: string, dirPath: string) {
+  const resolvedFile = normalizePathForCompare(filePath);
+  const resolvedDir = normalizePathForCompare(dirPath);
+  return resolvedFile === resolvedDir || resolvedFile.startsWith(`${resolvedDir}${path.sep}`);
+}
+
+function assertModelSelectionConsistency(
+  expectedAlgorithm: ForecastAlgorithm,
+  expectedDir: string,
+  savedModelPath: string,
+  reportedAlgorithm?: string | null,
+) {
+  if (!savedModelPath) {
+    throw new Error(`No saved model path was returned for ${expectedAlgorithm}`);
+  }
+
+  if (!isPathInsideDir(savedModelPath, expectedDir)) {
+    throw new Error(
+      `Saved model path mismatch: expected ${expectedAlgorithm} artifact under ${expectedDir}, got ${savedModelPath}`
+    );
+  }
+
+  if (reportedAlgorithm && reportedAlgorithm !== expectedAlgorithm) {
+    throw new Error(
+      `Model algorithm mismatch: expected ${expectedAlgorithm}, got ${reportedAlgorithm}`
+    );
+  }
+}
+
+async function prepareForecastContext(companyId: number, productName: string): Promise<PreparedForecastContext> {
+  const rawSales = await prisma.sales_reports.findMany({
+    where: { company_id: companyId, product_name: productName },
+    orderBy: { date: 'asc' },
+    select: { date: true, quantity: true }
+  });
+
+  if (rawSales.length === 0) {
+    throw new Error('No sales history found for this product');
+  }
+
+  const { dates, quantities } = buildMonthlySeries(rawSales);
+  if (dates.length < FORECAST_MIN_OBS) {
+    throw new Error(`Need >= ${FORECAST_MIN_OBS} monthly observations, got ${dates.length}`);
+  }
+
+  const classResult = await runPython(
+    path.join(PYTHON_DIR, 'utils/demand_classifier.py'),
+    { quantities }
+  );
+  if (!classResult.success) {
+    throw new Error(`Classification failed: ${classResult.error}`);
+  }
+
+  const algorithm = classResult.algorithm as ForecastAlgorithm;
+  const scriptConfig = MODEL_SCRIPT_PATHS[algorithm];
+  const { modelDir, modelPath } = await buildBusinessModelPath(scriptConfig, companyId, productName);
+
+  return {
+    dates,
+    quantities,
+    sortedKeys: dates,
+    classResult,
+    algorithm,
+    scriptConfig,
+    modelDir,
+    modelPath,
+  };
+}
+
+async function getOrTrainForecastArtifact(
+  companyId: number,
+  productName: string,
+  horizon = 6,
+  forceRetrain = false,
+) {
+  const prepared = await prepareForecastContext(companyId, productName);
+  const { dates, quantities, sortedKeys, classResult, algorithm, scriptConfig, modelDir, modelPath } = prepared;
+
+  let modelResult: any = null;
+  let savedModelPath = modelPath;
+  let loadedFromCache = false;
+  const hasCanonicalArtifact = await fileExists(modelPath);
+
+  if (!forceRetrain && hasCanonicalArtifact) {
+    const predictionHorizon = sortedKeys.length > 0
+      ? Number(horizon) + PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS
+      : Number(horizon);
+
+    const cachedResult = await runPython(scriptConfig.predict, {
+      model_path: modelPath,
+      horizon: predictionHorizon,
+    });
+
+    if (cachedResult.success) {
+      assertModelSelectionConsistency(
+        algorithm,
+        modelDir,
+        String(cachedResult.model_info?.saved_model_path ?? modelPath),
+        cachedResult.model_info?.algorithm ?? null,
+      );
+      modelResult = cachedResult;
+      loadedFromCache = true;
+    } else {
+      console.warn(
+        `[Forecast Cache Miss] company=${companyId} | ${productName} | ${algorithm} | ${cachedResult.error}`
+      );
+    }
+  }
+
+  if (!forceRetrain && !modelResult && !hasCanonicalArtifact) {
+    const sharedModelPath = buildSharedProductModelPath(scriptConfig, productName);
+    if (await fileExists(sharedModelPath)) {
+      const predictionHorizon = sortedKeys.length > 0
+        ? Number(horizon) + PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS
+        : Number(horizon);
+
+      const sharedResult = await runPython(scriptConfig.predict, {
+        model_path: sharedModelPath,
+        horizon: predictionHorizon,
+      });
+
+      if (sharedResult.success) {
+        assertModelSelectionConsistency(
+          algorithm,
+          scriptConfig.dir,
+          String(sharedResult.model_info?.saved_model_path ?? sharedModelPath),
+          sharedResult.model_info?.algorithm ?? null,
+        );
+        modelResult = sharedResult;
+        savedModelPath = sharedModelPath;
+        loadedFromCache = true;
+      } else {
+        console.warn(
+          `[Forecast Shared Preload Miss] business=${companyId} | ${productName} | ${algorithm} | ${sharedResult.error}`
+        );
+      }
+    }
+  }
+
+  if (!modelResult) {
+    const outputModelPath =
+      forceRetrain && hasCanonicalArtifact
+        ? buildRerunModelPath(modelDir, productName)
+        : modelPath;
+
+    await ensureDir(path.dirname(outputModelPath));
+
+    const trainResult = await runPython(scriptConfig.train, {
+      dates,
+      quantities,
+      horizon,
+      product_name: productName,
+      output_path: outputModelPath,
+    });
+    if (!trainResult.success) {
+      throw new Error(`Training failed: ${trainResult.error}`);
+    }
+
+    assertModelSelectionConsistency(
+      algorithm,
+      modelDir,
+      String(trainResult.saved_model_path ?? ""),
+      trainResult.model_info?.algorithm ?? trainResult.algorithm ?? null,
+    );
+
+    savedModelPath = String(trainResult.saved_model_path);
+
+    const predictedResult = await runPython(scriptConfig.predict, {
+      model_path: savedModelPath,
+      horizon,
+    });
+    if (!predictedResult.success) {
+      throw new Error(`Saved model forecast failed: ${predictedResult.error}`);
+    }
+
+    assertModelSelectionConsistency(
+      algorithm,
+      modelDir,
+      String(predictedResult.model_info?.saved_model_path ?? savedModelPath),
+      predictedResult.model_info?.algorithm ?? null,
+    );
+
+    modelResult = predictedResult;
+  } else {
+    savedModelPath = String(modelResult.model_info?.saved_model_path ?? modelPath);
+  }
+
+  const mergedModelInfo = {
+    ...(modelResult.model_info ?? {}),
+    saved_model_path: savedModelPath,
+    from_cache: loadedFromCache,
+  };
+  const filteredForecasts = keepFutureForecasts(
+    Array.isArray(modelResult.forecasts) ? modelResult.forecasts : [],
+    sortedKeys[sortedKeys.length - 1],
+  ).slice(0, Number(horizon));
+
+  return {
+    ...prepared,
+    savedModelPath,
+    loadedFromCache,
+    mergedModelInfo,
+    filteredForecasts,
+  };
+}
+
+async function getOrTrainBusinessRevenueForecastArtifact(
+  companyId: number,
+  horizon = 6,
+  forceRetrain = false,
+) {
+  const rawSales = await prisma.sales_reports.findMany({
+    where: { company_id: companyId },
+    orderBy: { date: 'asc' },
+    select: { date: true, total_amount: true },
+  });
+
+  const { dates, revenues } = rawSales.length > 0
+    ? buildMonthlyRevenueSeries(rawSales)
+    : { dates: [] as string[], revenues: [] as number[] };
+
+  if (dates.length < FORECAST_MIN_OBS) {
+    const sharedArtifact = await resolveSharedRevenueArtifactPath();
+    if (!sharedArtifact) {
+      if (rawSales.length === 0) {
+        throw new Error('No sales history found for business sales revenue and no shared preload model is available');
+      }
+      throw new Error(`Need >= ${FORECAST_MIN_OBS} monthly observations, got ${dates.length}, and no shared preload model is available`);
+    }
+
+    const cachedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
+      model_path: sharedArtifact.modelPath,
+      horizon,
+    });
+    if (!cachedResult.success) {
+      throw new Error(`Shared revenue preload failed: ${cachedResult.error}`);
+    }
+
+    const savedModelPath = String(cachedResult.model_info?.saved_model_path ?? sharedArtifact.modelPath);
+    const mergedModelInfo = {
+      ...(cachedResult.model_info ?? {}),
+      saved_model_path: savedModelPath,
+      from_cache: true,
+      preloaded_shared: true,
+    };
+
+    return {
+      dates,
+      revenues,
+      classResult: cachedResult.model_info ?? null,
+      algorithm: sharedArtifact.algorithm,
+      modelDir: sharedArtifact.modelDir,
+      modelPath: sharedArtifact.modelPath,
+      savedModelPath,
+      loadedFromCache: true,
+      mergedModelInfo,
+      filteredForecasts: Array.isArray(cachedResult.forecasts) ? cachedResult.forecasts : [],
+    };
+  }
+
+  const classResult = await runPython(
+    path.join(PYTHON_DIR, 'utils/demand_classifier.py'),
+    { quantities: revenues }
+  );
+  if (!classResult.success) {
+    throw new Error(`Classification failed: ${classResult.error}`);
+  }
+
+  const algorithm = classResult.algorithm as ForecastAlgorithm;
+  const { modelDir, modelPath } = await resolveBusinessRevenueArtifactPath(algorithm, companyId);
+
+  let modelResult: any = null;
+  let savedModelPath = modelPath;
+  let loadedFromCache = false;
+  const hasCanonicalArtifact = await fileExists(modelPath);
+
+  if (!forceRetrain && hasCanonicalArtifact) {
+    const predictionHorizon = dates.length > 0
+      ? Number(horizon) + REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS
+      : Number(horizon);
+
+    const cachedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
+      model_path: modelPath,
+      horizon: predictionHorizon,
+    });
+
+    if (cachedResult.success) {
+      const cachedPath = String(cachedResult.model_info?.saved_model_path ?? modelPath);
+      if (!isPathInsideDir(cachedPath, modelDir)) {
+        throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${cachedPath}`);
+      }
+      modelResult = cachedResult;
+      loadedFromCache = true;
+    } else {
+      console.warn(
+        `[Revenue Forecast Cache Miss] business=${companyId} | ${cachedResult.error}`
+      );
+    }
+  }
+
+  if (!modelResult) {
+    const outputModelPath =
+      forceRetrain && hasCanonicalArtifact
+        ? buildRerunModelPath(getBusinessModelDir(modelDir, companyId), BUSINESS_REVENUE_FORECAST_NAME)
+        : modelPath;
+
+    await ensureDir(path.dirname(outputModelPath));
+
+    const trainResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.train, {
+      dates,
+      revenues,
+      horizon,
+      series_name: BUSINESS_REVENUE_FORECAST_NAME,
+      display_name: 'Business Sales Revenue',
+      output_path: outputModelPath,
+    });
+    if (!trainResult.success) {
+      throw new Error(`Training failed: ${trainResult.error}`);
+    }
+
+    savedModelPath = String(trainResult.saved_model_path);
+    if (!isPathInsideDir(savedModelPath, modelDir)) {
+      throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${savedModelPath}`);
+    }
+
+    const predictedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
+      model_path: savedModelPath,
+      horizon,
+    });
+    if (!predictedResult.success) {
+      throw new Error(`Saved model forecast failed: ${predictedResult.error}`);
+    }
+
+    const predictedPath = String(predictedResult.model_info?.saved_model_path ?? savedModelPath);
+    if (!isPathInsideDir(predictedPath, modelDir)) {
+      throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${predictedPath}`);
+    }
+
+    modelResult = predictedResult;
+  } else {
+    savedModelPath = String(modelResult.model_info?.saved_model_path ?? modelPath);
+  }
+
+  const mergedModelInfo = {
+    ...(modelResult.model_info ?? {}),
+    saved_model_path: savedModelPath,
+    from_cache: loadedFromCache,
+  };
+  const filteredForecasts = keepFutureForecasts(
+    Array.isArray(modelResult.forecasts) ? modelResult.forecasts : [],
+    dates[dates.length - 1],
+  ).slice(0, Number(horizon));
+
+  return {
+    dates,
+    revenues,
+    classResult,
+    algorithm,
+    modelDir,
+    modelPath,
+    savedModelPath,
+    loadedFromCache,
+    mergedModelInfo,
+    filteredForecasts,
+  };
+}
 
 // Helper: run a Python script, pass JSON via stdin, get JSON from stdout
 function runPython(scriptPath: string, payload: object): Promise<any> {
   return new Promise((resolve) => {
     const proc = spawn(PYTHON_BIN, [scriptPath]);
+    let settled = false;
     let stdout = '', stderr = '';
+    const finish = (result: any) => {
+      if (!settled) {
+        settled = true;
+        resolve(result);
+      }
+    };
     proc.stdout.on('data', (d: Buffer) => { stdout += d.toString(); });
     proc.stderr.on('data', (d: Buffer) => { stderr += d.toString(); });
+    proc.on('error', (err) => {
+      finish({ success: false, error: `Failed to start Python: ${err.message}` });
+    });
     proc.stdin.write(JSON.stringify(payload));
     proc.stdin.end();
 
     const timer = setTimeout(() => {
       proc.kill('SIGTERM');
-      resolve({ success: false, error: 'Python script timed out' });
+      finish({ success: false, error: 'Python script timed out' });
     }, PYTHON_TIMEOUT_MS);
 
     proc.on('close', (code) => {
       clearTimeout(timer);
       if (!stdout.trim()) {
-        resolve({ success: false, error: stderr || `Exit code ${code}` });
+        finish({ success: false, error: stderr || `Exit code ${code}` });
         return;
       }
       try {
-        resolve(JSON.parse(stdout.trim()));
+        finish(JSON.parse(stdout.trim()));
       } catch {
-        resolve({ success: false, error: `Bad output: ${stdout.slice(0, 200)}` });
+        finish({ success: false, error: `Bad output: ${stdout.slice(0, 200)}` });
       }
     });
   });
 }
 
-// POST /api/forecast
+// POST /api/forecast/train
 // Body: { company_id, product_name, horizon? }
-// 1. Pulls monthly sales totals for product from sales_reports
-// 2. Classifies demand (ADI/CV²) → picks ARIMA_XGB or TSB_XGB
-// 3. Runs model, saves results to predictions table
-// 4. Returns forecasts + model info
-app.post('/api/forecast', async (req: any, res: any) => {
+// Trains the appropriate forecasting model and saves a .pkl artifact.
+app.post('/api/forecast/train', async (req: any, res: any) => {
   const { company_id, product_name, horizon = 6 } = req.body;
   if (!company_id || !product_name) {
     return res.status(400).json({ error: 'company_id and product_name required' });
   }
 
   try {
-    // 1. Pull ALL historical sales for this product, aggregated by month
-    const rawSales = await prisma.sales_reports.findMany({
-      where: { company_id: Number(company_id), product_name: String(product_name) },
-      orderBy: { date: 'asc' },
-      select: { date: true, quantity: true }
-    });
-
-    if (rawSales.length === 0) {
-      return res.status(404).json({ error: 'No sales history found for this product' });
-    }
-
-    // Aggregate to monthly totals: { "2024-01": 120, ... }
-    const monthMap: Record<string, number> = {};
-    rawSales.forEach(r => {
-      const d = new Date(r.date);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      monthMap[key] = (monthMap[key] ?? 0) + Number(r.quantity);
-    });
-    const sortedKeys = Object.keys(monthMap).sort();
-    const dates      = sortedKeys;
-    const quantities = sortedKeys.map(k => monthMap[k]);
-
-    // 2. Classify demand type
-    const classResult = await runPython(
-      path.join(PYTHON_DIR, 'utils/demand_classifier.py'),
-      { quantities }
+    const forecastResult = await getOrTrainForecastArtifact(
+      Number(company_id),
+      String(product_name),
+      Number(horizon),
+      true,
     );
-    if (!classResult.success) {
-      return res.status(500).json({ error: `Classification failed: ${classResult.error}` });
-    }
-    const algorithm: string = classResult.algorithm; // "ARIMA_XGB" or "TSB_XGB"
 
-    // 3. Run the appropriate model
-    const scriptPath = algorithm === 'ARIMA_XGB'
-      ? path.join(PYTHON_DIR, 'models/arima_xgb_model.py')
-      : path.join(PYTHON_DIR, 'models/tsb_xgb_model.py');
+    return res.json({
+      product_name,
+      algorithm: forecastResult.algorithm,
+      demand_type: forecastResult.classResult.demandType,
+      adi: forecastResult.classResult.adi,
+      cv2: forecastResult.classResult.cv2,
+      saved_model_path: forecastResult.savedModelPath,
+      forecasts: forecastResult.filteredForecasts,
+      model_info: forecastResult.mergedModelInfo,
+      history: forecastResult.sortedKeys.map((k, i) => ({ period: k, actual: forecastResult.quantities[i] })),
+    });
+  } catch (err: any) {
+    console.error('[Forecast Train Error]', err);
+    return res.status(err.message?.startsWith('No sales history') ? 404 : 400).json({ error: err.message });
+  }
+});
 
-    const modelResult = await runPython(scriptPath, { dates, quantities, horizon });
-    if (!modelResult.success) {
-      return res.status(500).json({ error: `Model failed: ${modelResult.error}` });
-    }
+// POST /api/forecast
+// Body: { company_id, product_name, horizon?, force_retrain? }
+// 1. Pulls monthly sales totals for product from sales_reports
+// 2. Classifies demand (ADI/CV²) → picks ARIMA_XGB or TSB_XGB
+// 3. Reuses the matching saved .pkl artifact when available
+// 4. Retrains only when forced, missing, or invalid
+// 5. Saves results to predictions table and returns forecasts + model info
+app.post('/api/forecast', async (req: any, res: any) => {
+  const { company_id, product_name, horizon = 6, force_retrain = false } = req.body;
+  if (!company_id || !product_name) {
+    return res.status(400).json({ error: 'company_id and product_name required' });
+  }
+
+  try {
+    const forecastResult = await getOrTrainForecastArtifact(
+      Number(company_id),
+      String(product_name),
+      Number(horizon),
+      Boolean(force_retrain),
+    );
 
     // Log retrain events to server console for observability
-    if (modelResult.model_info?.retrained) {
-      const improved = modelResult.model_info.retrain_improved;
+    if (!forecastResult.loadedFromCache && forecastResult.mergedModelInfo.retrained) {
+      const improved = forecastResult.mergedModelInfo.retrain_improved;
       console.log(
-        `[Forecast Retrain] ${product_name} | ${algorithm}` +
-        ` | initial MAPE: ${modelResult.model_info.initial_mape}%` +
-        ` | final MAPE: ${modelResult.model_info.mape}%` +
+        `[Forecast Retrain] company=${company_id} | ${product_name} | ${forecastResult.algorithm}` +
+        ` | initial MAPE: ${forecastResult.mergedModelInfo.initial_mape}%` +
+        ` | final MAPE: ${forecastResult.mergedModelInfo.mape}%` +
         ` | improved: ${improved}`
       );
     }
 
-    // 4. Upsert forecast rows into predictions table
+    // 5. Upsert forecast rows into predictions table
     // Find or derive product_id from inventory
     const inventoryItem = await prisma.inventory.findFirst({
       where: { company_id: Number(company_id), product_name: String(product_name) },
@@ -771,10 +1413,10 @@ app.post('/api/forecast', async (req: any, res: any) => {
       });
     }
 
-    for (const fc of modelResult.forecasts) {
+    for (const fc of forecastResult.filteredForecasts) {
       const priority =
-        (modelResult.model_info.mape ?? 0) <= 10 ? 'Low'
-        : (modelResult.model_info.mape ?? 0) <= 20 ? 'Medium'
+        (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
+        : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
         : 'High';
 
       await prisma.predictions.create({
@@ -783,7 +1425,7 @@ app.post('/api/forecast', async (req: any, res: any) => {
           product_id:          inventoryItem?.product_id ?? null,
           forecast_date:       new Date(fc.period + '-01'),
           predicted_quantity:  fc.predicted,
-          confidence_interval: fc.upper !== null && fc.lower !== null
+          confidence_interval: fc.predicted > 0 && fc.upper !== null && fc.lower !== null
             ? Number(((fc.upper - fc.predicted) / fc.predicted * 100).toFixed(2))
             : null,
           recommendation_priority: priority as any,
@@ -791,21 +1433,21 @@ app.post('/api/forecast', async (req: any, res: any) => {
       });
     }
 
-    // 5. Respond with everything the frontend needs
+    // 6. Respond with everything the frontend needs
     return res.json({
       product_name,
-      algorithm,
-      demand_type:  classResult.demandType,
-      adi:          classResult.adi,
-      cv2:          classResult.cv2,
-      forecasts:    modelResult.forecasts,
-      model_info:   modelResult.model_info, // includes retrained, retrain_improved, low_accuracy, initial_mape
-      history: sortedKeys.map((k, i) => ({ period: k, actual: quantities[i] }))
+      algorithm:    forecastResult.algorithm,
+      demand_type:  forecastResult.classResult.demandType,
+      adi:          forecastResult.classResult.adi,
+      cv2:          forecastResult.classResult.cv2,
+      forecasts:    forecastResult.filteredForecasts,
+      model_info:   forecastResult.mergedModelInfo,
+      history: forecastResult.sortedKeys.map((k, i) => ({ period: k, actual: forecastResult.quantities[i] }))
     });
 
   } catch (err: any) {
     console.error('[Forecast Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(err.message?.startsWith('No sales history') ? 404 : 400).json({ error: err.message });
   }
 });
 
@@ -839,15 +1481,8 @@ app.get('/api/forecast', async (req: any, res: any) => {
       orderBy: { date: 'asc' },
       select: { date: true, quantity: true }
     });
-    const monthMap: Record<string, number> = {};
-    rawSales.forEach(r => {
-      const d = new Date(r.date);
-      const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      monthMap[k] = (monthMap[k] ?? 0) + Number(r.quantity);
-    });
-    const history = Object.entries(monthMap)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([period, actual]) => ({ period, actual }));
+    const { dates, quantities } = buildMonthlySeries(rawSales);
+    const history = dates.map((period, index) => ({ period, actual: quantities[index] }));
 
     return res.json({ forecasts: preds, history });
   } catch (err: any) {
@@ -915,6 +1550,35 @@ app.get('/api/forecast/accuracy', async (req: any, res: any) => {
   }
 });
 
+app.post('/api/forecast/revenue', async (req: any, res: any) => {
+  const { company_id, horizon = 6, force_retrain = false } = req.body;
+  if (!company_id) {
+    return res.status(400).json({ error: 'company_id required' });
+  }
+
+  try {
+    const forecastResult = await getOrTrainBusinessRevenueForecastArtifact(
+      Number(company_id),
+      Number(horizon),
+      Boolean(force_retrain),
+    );
+
+    return res.json({
+      series_name: 'Business Sales Revenue',
+      algorithm: forecastResult.mergedModelInfo.algorithm,
+      demand_type: forecastResult.mergedModelInfo.demand_type,
+      adi: forecastResult.mergedModelInfo.adi,
+      cv2: forecastResult.mergedModelInfo.cv2,
+      forecasts: forecastResult.filteredForecasts,
+      model_info: forecastResult.mergedModelInfo,
+      history: forecastResult.dates.map((period, index) => ({ period, actual: forecastResult.revenues[index] })),
+    });
+  } catch (err: any) {
+    console.error('[Revenue Forecast Error]', err);
+    return res.status(err.message?.startsWith('No sales history') ? 404 : 400).json({ error: err.message });
+  }
+});
+
 // ── Start server — must be LAST, after all routes are registered ──
 app.listen(process.env.PORT, async () => {
     console.log(`Server running on port ${process.env.PORT}`);
@@ -924,51 +1588,4 @@ app.listen(process.env.PORT, async () => {
     } catch (error) {
         console.error("Database connection failed:", error);
     }
-});
-
-// ── POST /api/seasonal ────────────────────────────────────────
-// Body: { company_id, product_name? }
-// Runs STL seasonal decomposition on monthly sales.
-// If product_name is omitted, aggregates ALL products for the company.
-app.post('/api/seasonal', async (req: any, res: any) => {
-  const { company_id, product_name } = req.body;
-  if (!company_id) return res.status(400).json({ error: 'company_id required' });
-
-  try {
-    const where: any = { company_id: Number(company_id) };
-    if (product_name) where.product_name = String(product_name);
-
-    const rawSales = await prisma.sales_reports.findMany({
-      where,
-      orderBy: { date: 'asc' },
-      select: { date: true, quantity: true }
-    });
-
-    if (rawSales.length === 0) {
-      return res.status(404).json({ error: 'No sales history found' });
-    }
-
-    // Aggregate to monthly totals
-    const monthMap: Record<string, number> = {};
-    rawSales.forEach(r => {
-      const d   = new Date(r.date);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      monthMap[key] = (monthMap[key] ?? 0) + Number(r.quantity);
-    });
-    const sortedKeys = Object.keys(monthMap).sort();
-    const dates      = sortedKeys;
-    const quantities = sortedKeys.map(k => monthMap[k]);
-
-    const scriptPath = path.join(PYTHON_DIR, 'models/seasonal_model.py');
-    const result     = await runPython(scriptPath, { dates, quantities });
-
-    if (!result.success) {
-      return res.status(500).json({ error: result.error });
-    }
-
-    return res.json({ ...result, product_name: product_name ?? null });
-  } catch (err: any) {
-    console.error('[Seasonal Error]', err);
-    return res.status(500).json({ error: err.message });
-  }
 });

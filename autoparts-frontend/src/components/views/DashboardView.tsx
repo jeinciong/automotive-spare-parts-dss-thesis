@@ -11,6 +11,7 @@ import { motion } from "motion/react";
 import { useInventory } from "../../contexts/InventoryContext";
 import { useForecast } from "../../contexts/ForecastContext";
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfQuarter, endOfQuarter, startOfYear, endOfYear, subDays, subWeeks, subMonths, subQuarters, subYears, format, isWithinInterval, parseISO } from "date-fns";
+import { formatCurrency } from "../../lib/currency";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -123,10 +124,10 @@ const allUnitsData = [
 ];
 
 const recentActivity = [
-  { action: "New order", detail: "Order #1847 - $1,245", time: "2 min ago", type: "order" },
+  { action: "New order", detail: `Order #1847 - ${formatCurrency(1245, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`, time: "2 min ago", type: "order" },
   { action: "Low stock alert", detail: "Brake Pads - 25 units left", time: "15 min ago", type: "alert" },
   { action: "Customer registered", detail: "AutoZone Services", time: "1 hour ago", type: "customer" },
-  { action: "Payment received", detail: "$8,750 from ABC Motors", time: "2 hours ago", type: "payment" },
+  { action: "Payment received", detail: `${formatCurrency(8750, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} from ABC Motors`, time: "2 hours ago", type: "payment" },
 ];
 
 interface DashboardViewProps {
@@ -407,7 +408,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
               </motion.div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl mb-1">$248,500</div>
+              <div className="text-3xl mb-1">{formatCurrency(248500, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
               <div className="flex items-center text-sm text-green-600">
                 <ArrowUpRight className="w-4 h-4 mr-1" />
                 <span>+12.5% from last month</span>
@@ -553,7 +554,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                     }}
                     formatter={(value) => {
                       if (selectedMetric === 'revenue') {
-                        return [`$${value.toLocaleString()}`, 'Sales'];
+                        return [formatCurrency(value, { minimumFractionDigits: 0, maximumFractionDigits: 0 }), 'Sales'];
                       } else if (selectedMetric === 'orders') {
                         return [value.toLocaleString(), 'Orders'];
                       } else {
@@ -695,7 +696,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                     
                     <div className="flex items-center space-x-6">
                       <div className="text-right">
-                        <p className="font-medium">${product.revenue.toLocaleString()}</p>
+                        <p className="font-medium">{formatCurrency(product.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                         <p className="text-sm text-muted-foreground">Revenue</p>
                       </div>
                       
@@ -891,9 +892,9 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                 {allRevenueData.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.month}</TableCell>
-                    <TableCell>${row.amount.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.amount, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>{row.transactions}</TableCell>
-                    <TableCell>${row.avgOrder}</TableCell>
+                    <TableCell>{formatCurrency(row.avgOrder, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -930,7 +931,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.orderId}</TableCell>
                     <TableCell>{row.customer}</TableCell>
-                    <TableCell>${row.amount.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.amount, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>
                       <Badge variant={row.status === "Completed" ? "secondary" : "default"}>
@@ -973,7 +974,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.name}</TableCell>
                     <TableCell>{row.orders}</TableCell>
-                    <TableCell>${row.revenue.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>{row.lastOrder}</TableCell>
                     <TableCell>
                       <Badge variant="secondary">{row.status}</Badge>
@@ -1013,7 +1014,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.product}</TableCell>
                     <TableCell>{row.units}</TableCell>
-                    <TableCell>${row.revenue.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>
                       <Badge variant={row.growth.startsWith('+') ? "secondary" : "destructive"}>
                         {row.growth}
@@ -1060,7 +1061,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                     <TableCell className="font-medium">{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>
                     <TableCell>{product.sales} units</TableCell>
-                    <TableCell>${product.revenue.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(product.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>
                       <Badge variant={product.trend.startsWith('+') ? "secondary" : "destructive"}>
                         {product.trend}

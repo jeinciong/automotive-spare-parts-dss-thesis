@@ -13,6 +13,7 @@ import { motion } from "motion/react";
 import { toast } from "sonner";
 import { useInventory, InventoryItem } from "../../contexts/InventoryContext";
 import { useSuppliers } from "../../contexts/SuppliersContext";
+import { formatCurrency, PESO_SYMBOL } from "../../lib/currency";
 
 interface InventoryViewProps {
   globalFilters?: GlobalFilters;
@@ -475,7 +476,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl mb-1">${totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
+              <div className="text-3xl mb-1">{formatCurrency(totalValue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
               <p className="text-sm text-muted-foreground">
                 Total stock value
               </p>
@@ -580,7 +581,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                       </span>
                     </TableCell>
                     <TableCell>{item.minimumStock} units</TableCell>
-                    <TableCell>${item.unitCost}</TableCell>
+                    <TableCell>{formatCurrency(item.unitCost)}</TableCell>
                     <TableCell>{item.supplier}</TableCell>
                     <TableCell>{getStatusBadge(item.status)}</TableCell>
                     <TableCell className="text-right">
@@ -650,9 +651,9 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                     <TableCell className="font-mono text-xs">{item.sku}</TableCell>
                     <TableCell className="truncate">{item.category}</TableCell>
                     <TableCell>{item.currentStock} units</TableCell>
-                    <TableCell>${Number(item.unitCost).toFixed(2)}</TableCell>
+                    <TableCell>{formatCurrency(Number(item.unitCost))}</TableCell>
                     <TableCell className="font-semibold text-slate-700">
-                      ${item.totalValue.toFixed(2)}
+                      {formatCurrency(item.totalValue)}
                     </TableCell>
                     <TableCell>{getStatusBadge(item.status)}</TableCell>
                     
@@ -878,8 +879,8 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                       <Badge variant="outline" className="font-normal">{item.category}</Badge>
                     </TableCell>
                     <TableCell className="font-medium">{item.currentStock} units</TableCell>
-                    <TableCell className="text-slate-600">${Number(item.unitCost).toFixed(2)}</TableCell>
-                    <TableCell className="font-bold text-slate-900">${item.totalValue.toFixed(2)}</TableCell>
+                    <TableCell className="text-slate-600">{formatCurrency(Number(item.unitCost))}</TableCell>
+                    <TableCell className="font-bold text-slate-900">{formatCurrency(item.totalValue)}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <div className="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden">
@@ -915,7 +916,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
           
           <DialogFooter className="border-t pt-4">
             <div className="mr-auto text-sm text-muted-foreground">
-              Grand Total Inventory Value: <span className="font-bold text-slate-900">${totalValue.toLocaleString()}</span>
+              Grand Total Inventory Value: <span className="font-bold text-slate-900">{formatCurrency(totalValue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
             </div>
             <Button variant="outline" onClick={() => setModalOpen(null)}>Close</Button>
           </DialogFooter>
@@ -941,7 +942,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                   <strong>Supplier:</strong> {reorderData.item.supplier}
                 </p>
                 <p className="text-sm text-orange-800">
-                  <strong>Unit Cost:</strong> ${reorderData.item.unitCost}
+                  <strong>Unit Cost:</strong> {formatCurrency(reorderData.item.unitCost)}
                 </p>
               </div>
 
@@ -958,7 +959,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               <div className="pt-2 border-t flex justify-between items-center">
                 <span className="text-sm font-medium">Estimated Total:</span>
                 <span className="text-xl font-bold text-[#FF6B00]">
-                  ${(reorderData.quantity * reorderData.item.unitCost).toLocaleString()}
+                  {formatCurrency(reorderData.quantity * reorderData.item.unitCost, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </span>
               </div>
             </div>
@@ -1078,7 +1079,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                 />
               </div> */}
               <div className="space-y-2">
-                <Label htmlFor="unitCost">Unit Cost ($)</Label>
+                <Label htmlFor="unitCost">Unit Cost ({PESO_SYMBOL})</Label>
                 <Input
                   id="unitCost"
                   type="number"
@@ -1207,7 +1208,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-unitCost">Unit Cost ($)</Label>
+                <Label htmlFor="edit-unitCost">Unit Cost ({PESO_SYMBOL})</Label>
                 <Input
                   id="edit-unitCost"
                   type="number"

@@ -7,6 +7,7 @@ import { Badge } from "./ui/badge";
 import { motion } from "framer-motion";
 import { useSalesReports } from "../contexts/SalesReportsContext";
 import { GlobalFilters } from "../App";
+import { formatCurrency } from "../lib/currency";
 
 interface KPICardsProps {
   globalFilters?: GlobalFilters;
@@ -60,8 +61,8 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
   const topProductData = useMemo(() => [
     { metric: "Total Units Sold", value: `${topProduct.units} units` },
-    { metric: "Revenue Generated", value: `$${topProduct.revenue.toLocaleString()}` },
-    { metric: "Average Price", value: topProduct.units > 0 ? `$${Math.round(topProduct.revenue / topProduct.units)}` : "$0" },
+    { metric: "Revenue Generated", value: formatCurrency(topProduct.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) },
+    { metric: "Average Price", value: topProduct.units > 0 ? formatCurrency(Math.round(topProduct.revenue / topProduct.units), { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : formatCurrency(0, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) },
     { metric: "Status", value: "Best Seller" },
     { metric: "Category", value: topProduct.category || "N/A" },
   ], [topProduct]);
@@ -77,7 +78,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
     return [
       {
         title: "Total Revenue",
-        value: `$${totalRev.toLocaleString()}`,
+        value: formatCurrency(totalRev, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
         change: "+Real-time",
         isPositive: true,
         icon: DollarSign,
@@ -173,9 +174,9 @@ export function KPICards({ globalFilters }: KPICardsProps) {
                 {revenueData.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.month}</TableCell>
-                    <TableCell>${row.revenue.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     <TableCell>{row.transactions}</TableCell>
-                    <TableCell>${row.avgOrder}</TableCell>
+                    <TableCell>{formatCurrency(row.avgOrder, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -212,7 +213,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
                     <TableCell className="font-medium">{row.product}</TableCell>
                     <TableCell>{row.category}</TableCell>
                     <TableCell>{row.units} units</TableCell>
-                    <TableCell>${row.revenue.toLocaleString()}</TableCell>
+                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
