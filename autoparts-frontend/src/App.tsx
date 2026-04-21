@@ -40,7 +40,8 @@ function AppContent() {
   const [activeView, setActiveView] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
     
-    // If user is staff, set default view to 'sales-reports'
+    // If USER is staff, set default view to 'sales-reports'
+    //if user is business, set default view to 'sales-reports'
     return (savedUser.role === 'staff' || savedUser.role === 'Business') 
       ? "sales-reports" 
       : "dashboard";
