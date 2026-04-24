@@ -310,7 +310,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                       </div>
                       <div className="flex items-center space-x-8">
                         <div className="text-right"><p className="font-bold text-sm">{formatCurrency(p.revenue)}</p><p className="text-[10px] text-muted-foreground">Revenue</p></div>
-                        <div className="w-24"><p className="text-[10px] text-muted-foreground mb-1">Stock Level</p><Progress value={(p.stock / 100) * 100} className="h-1.5" /></div>
+                        {/* <div className="w-24"><p className="text-[10px] text-muted-foreground mb-1">Stock Level</p><Progress value={(p.stock / 100) * 100} className="h-1.5" /></div> */}
                       </div>
                     </div>
                   ))}
