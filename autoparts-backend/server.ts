@@ -15,6 +15,13 @@ app.use(cors());
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
+interface ForecastItem {
+  period: string;
+  predicted: number;
+  upper: number | null;
+  lower: number | null;
+}
+
 // --- AUTH ROUTES ---
 
 // Registration: Using Prisma to handle the company creation
@@ -1413,7 +1420,7 @@ app.post('/api/forecast', async (req: any, res: any) => {
       });
     }
 
-    for (const fc of forecastResult.filteredForecasts) {
+    for (const fc of forecastResult.filteredForecasts as ForecastItem[]) {
       const priority =
         (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
         : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'

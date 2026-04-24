@@ -772,15 +772,17 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                         setCurrentPage(1);
                       }}
                     >
-                      <SelectTrigger className="h-8 w-20 text-sm">
+                      <SelectTrigger 
+                        className="h-8 w-20 text-xs border-orange-500 bg-transparent text-orange-600 hover:bg-orange-50 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
+                      >
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="10">10</SelectItem>
-                        <SelectItem value="25">25</SelectItem>
-                        <SelectItem value="50">50</SelectItem>
-                        <SelectItem value="100">100</SelectItem>
-                        <SelectItem value="-1">All</SelectItem>
+                      <SelectContent className="border-orange-200 shadow-md">
+                        <SelectItem value="10" className="text-xs focus:bg-orange-50 focus:text-orange-600 cursor-pointer">10</SelectItem>
+                        <SelectItem value="25" className="text-xs focus:bg-orange-50 focus:text-orange-600 cursor-pointer">25</SelectItem>
+                        <SelectItem value="50" className="text-xs focus:bg-orange-50 focus:text-orange-600 cursor-pointer">50</SelectItem>
+                        <SelectItem value="100" className="text-xs focus:bg-orange-50 focus:text-orange-600 cursor-pointer">100</SelectItem>
+                        <SelectItem value="-1" className="text-xs focus:bg-orange-50 focus:text-orange-600 font-bold cursor-pointer">All</SelectItem>
                       </SelectContent>
                     </Select>
                     <span>rows</span>

@@ -336,7 +336,7 @@ function BusinessRevenueForecastChart() {
           </span>
         )}
         <Button
-          variant="outline"
+          variant="default"
           size="sm"
           className="h-7 text-xs"
           disabled={fc.loading}
@@ -643,7 +643,9 @@ export function PredictionsTrendsView() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Select value={selectedProduct} onValueChange={setSelectedProduct}>
-                    <SelectTrigger className="w-56 h-8 text-sm">
+                    <SelectTrigger 
+                      className="w-56 h-8 text-sm border-orange-200 bg-orange-50/30 text-orange-950 focus:ring-orange-500 focus:border-orange-500 hover:border-orange-400 transition-colors"
+                    >
                       <SelectValue placeholder="Select a product"/>
                     </SelectTrigger>
                     <SelectContent>
@@ -652,7 +654,7 @@ export function PredictionsTrendsView() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <Button variant="outline" size="sm" className="h-8 text-xs"
+                  <Button variant="default" size="sm" className="h-8 text-xs"
                     disabled={!selectedProduct || productForecasts[selectedProduct]?.loading}
                     onClick={() => selectedProduct && runForecast(selectedProduct, 6, true)}>
                     Re-run
@@ -734,7 +736,9 @@ export function PredictionsTrendsView() {
                                 </span>
                               )}
                               {fc.model_info?.low_accuracy && (
-                                <AlertTriangle className="w-3 h-3 text-red-500" title="Low accuracy — re-run forecast"/>
+                                <span title="Low accuracy — re-run forecast">
+                                  <AlertTriangle className="w-3 h-3 text-red-500" />
+                                </span>
                               )}
                             </>
                           )}
