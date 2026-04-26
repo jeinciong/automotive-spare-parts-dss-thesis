@@ -22,6 +22,81 @@ interface ForecastItem {
   lower: number | null;
 }
 
+type RecommendationActionRow = {
+  action_id: number;
+  company_id: number;
+  prediction_id: number | null;
+  action_taken: string | null;
+  status: string | null;
+  executed_at: Date | string | null;
+  recommendation_key?: string | null;
+  product_name?: string | null;
+  priority?: string | null;
+  title?: string | null;
+  description?: string | null;
+  recommended_action?: string | null;
+  impact?: string | null;
+  generated_at?: Date | string | null;
+  updated_at?: Date | string | null;
+  completed_at?: Date | string | null;
+  action_history?: string | null;
+};
+
+let recommendationActionStorageReady = false;
+
+async function ensureRecommendationActionStorage() {
+  if (recommendationActionStorageReady) return;
+
+  const rows = await prisma.$queryRawUnsafe<Array<{ COLUMN_NAME: string }>>(
+    `SELECT COLUMN_NAME
+       FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = 'recommendation_actions'`
+  );
+  const existingColumns = new Set(rows.map((row) => row.COLUMN_NAME));
+  const columnsToAdd: Array<[string, string]> = [
+    ['recommendation_key', 'VARCHAR(191) NULL'],
+    ['product_name', 'VARCHAR(100) NULL'],
+    ['priority', 'VARCHAR(20) NULL'],
+    ['title', 'VARCHAR(255) NULL'],
+    ['description', 'TEXT NULL'],
+    ['recommended_action', 'VARCHAR(100) NULL'],
+    ['impact', 'VARCHAR(255) NULL'],
+    ['generated_at', 'TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP'],
+    ['updated_at', 'TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'],
+    ['completed_at', 'TIMESTAMP NULL DEFAULT NULL'],
+    ['action_history', 'TEXT NULL'],
+  ];
+
+  for (const [columnName, columnDefinition] of columnsToAdd) {
+    if (!existingColumns.has(columnName)) {
+      await prisma.$executeRawUnsafe(
+        `ALTER TABLE recommendation_actions ADD COLUMN ${columnName} ${columnDefinition}`
+      );
+    }
+  }
+
+  recommendationActionStorageReady = true;
+}
+
+function buildRecommendationHistoryEvent(type: string, details: Record<string, unknown>) {
+  return {
+    type,
+    timestamp: new Date().toISOString(),
+    ...details,
+  };
+}
+
+function parseRecommendationHistory(history: string | null | undefined) {
+  if (!history) return [];
+  try {
+    const parsed = JSON.parse(history);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 // --- AUTH ROUTES ---
 
 // Registration: Using Prisma to handle the company creation
@@ -683,6 +758,193 @@ app.get('/api/export-all', async (req, res) => {
     } catch (err: any) {
         res.status(500).json({ error: "Export failed: " + err.message });
     }
+});
+
+// ── Recommendation History Routes ─────────────────────────────
+app.get('/api/recommendations', async (req: any, res: any) => {
+  const company_id = Number(req.query.company_id);
+  if (!company_id) {
+    return res.status(400).json({ error: 'company_id required' });
+  }
+
+  try {
+    await ensureRecommendationActionStorage();
+    const rows = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
+      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+              recommendation_key, product_name, priority, title, description,
+              recommended_action, impact, generated_at, updated_at, completed_at, action_history
+         FROM recommendation_actions
+        WHERE company_id = ?
+        ORDER BY FIELD(status, 'Pending', 'Done', 'Cancelled'), updated_at DESC, executed_at DESC`,
+      company_id
+    );
+
+    return res.json(rows.map((row) => ({
+      ...row,
+      action_history: parseRecommendationHistory(row.action_history),
+    })));
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/recommendations/bulk', async (req: any, res: any) => {
+  const { company_id, recommendations = [] } = req.body;
+  if (!company_id) {
+    return res.status(400).json({ error: 'company_id required' });
+  }
+  if (!Array.isArray(recommendations)) {
+    return res.status(400).json({ error: 'recommendations must be an array' });
+  }
+
+  try {
+    await ensureRecommendationActionStorage();
+
+    for (const rec of recommendations) {
+      if (!rec.id || !rec.title || !rec.action) continue;
+
+      const existing = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
+        `SELECT action_id, status, action_history
+           FROM recommendation_actions
+          WHERE company_id = ?
+            AND recommendation_key = ?
+          ORDER BY action_id DESC
+          LIMIT 1`,
+        Number(company_id),
+        String(rec.id)
+      );
+
+      if (existing.length > 0) {
+        if ((existing[0].status ?? '').toLowerCase() === 'done') {
+          continue;
+        }
+
+        await prisma.$executeRawUnsafe(
+          `UPDATE recommendation_actions
+              SET product_name = ?,
+                  priority = ?,
+                  title = ?,
+                  description = ?,
+                  recommended_action = ?,
+                  impact = ?,
+                  status = 'Pending',
+                  updated_at = NOW()
+            WHERE action_id = ?`,
+          String(rec.relatedProduct ?? ''),
+          String(rec.priority ?? 'Low'),
+          String(rec.title),
+          String(rec.description ?? ''),
+          String(rec.action),
+          String(rec.impact ?? ''),
+          existing[0].action_id
+        );
+      } else {
+        const generatedHistory = JSON.stringify([
+          buildRecommendationHistoryEvent('generated', {
+            title: String(rec.title),
+            action: String(rec.action),
+            priority: String(rec.priority ?? 'Low'),
+          }),
+        ]);
+
+        await prisma.$executeRawUnsafe(
+          `INSERT INTO recommendation_actions
+             (company_id, recommendation_key, product_name, priority, title, description,
+              recommended_action, impact, status, generated_at, updated_at, action_history)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending', NOW(), NOW(), ?)`,
+          Number(company_id),
+          String(rec.id),
+          String(rec.relatedProduct ?? ''),
+          String(rec.priority ?? 'Low'),
+          String(rec.title),
+          String(rec.description ?? ''),
+          String(rec.action),
+          String(rec.impact ?? ''),
+          generatedHistory
+        );
+      }
+
+    }
+
+    const rows = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
+      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+              recommendation_key, product_name, priority, title, description,
+              recommended_action, impact, generated_at, updated_at, completed_at, action_history
+         FROM recommendation_actions
+        WHERE company_id = ?
+        ORDER BY FIELD(status, 'Pending', 'Done', 'Cancelled'), updated_at DESC, executed_at DESC`,
+      Number(company_id)
+    );
+
+    return res.json(rows.map((row) => ({
+      ...row,
+      action_history: parseRecommendationHistory(row.action_history),
+    })));
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/recommendations/:id/complete', async (req: any, res: any) => {
+  const actionId = Number(req.params.id);
+  const { company_id, action_taken } = req.body;
+  if (!actionId || !company_id) {
+    return res.status(400).json({ error: 'action id and company_id required' });
+  }
+
+  try {
+    await ensureRecommendationActionStorage();
+    const rows = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
+      `SELECT action_id, title, recommended_action, action_history
+         FROM recommendation_actions
+        WHERE action_id = ?
+          AND company_id = ?
+        LIMIT 1`,
+      actionId,
+      Number(company_id)
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Recommendation action not found' });
+    }
+
+    const history = parseRecommendationHistory(rows[0].action_history);
+    history.push(buildRecommendationHistoryEvent('completed', {
+      action_taken: String(action_taken ?? rows[0].recommended_action ?? 'Completed'),
+    }));
+
+    await prisma.$executeRawUnsafe(
+      `UPDATE recommendation_actions
+          SET status = 'Done',
+              action_taken = ?,
+              executed_at = NOW(),
+              completed_at = NOW(),
+              updated_at = NOW(),
+              action_history = ?
+        WHERE action_id = ?
+          AND company_id = ?`,
+      String(action_taken ?? rows[0].recommended_action ?? 'Completed'),
+      JSON.stringify(history),
+      actionId,
+      Number(company_id)
+    );
+
+    const updated = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
+      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+              recommendation_key, product_name, priority, title, description,
+              recommended_action, impact, generated_at, updated_at, completed_at, action_history
+         FROM recommendation_actions
+        WHERE action_id = ?`,
+      actionId
+    );
+
+    return res.json({
+      ...updated[0],
+      action_history: parseRecommendationHistory(updated[0]?.action_history),
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 // ═══════════════════════════════════════════════════════════════
 // FORECAST ROUTES  — Python model integration

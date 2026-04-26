@@ -84,13 +84,24 @@ model purchase_orders {
 }
 
 model recommendation_actions {
-  action_id     Int       @id @default(autoincrement())
-  company_id    Int
-  prediction_id Int?
-  action_taken  String?   @db.VarChar(100)
-  status        String?   @default("Successful") @db.VarChar(20)
-  executed_at   DateTime? @default(now()) @db.Timestamp(0)
-  companies     companies @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "recommendation_actions_ibfk_1")
+  action_id          Int       @id @default(autoincrement())
+  company_id         Int
+  prediction_id      Int?
+  action_taken       String?   @db.VarChar(100)
+  status             String?   @default("Pending") @db.VarChar(20)
+  executed_at        DateTime? @default(now()) @db.Timestamp(0)
+  recommendation_key String?   @db.VarChar(191)
+  product_name       String?   @db.VarChar(100)
+  priority           String?   @db.VarChar(20)
+  title              String?   @db.VarChar(255)
+  description        String?   @db.Text
+  recommended_action String?   @db.VarChar(100)
+  impact             String?   @db.VarChar(255)
+  generated_at       DateTime? @default(now()) @db.Timestamp(0)
+  updated_at         DateTime? @default(now()) @db.Timestamp(0)
+  completed_at       DateTime? @db.Timestamp(0)
+  action_history     String?   @db.Text
+  companies          companies @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction, map: "recommendation_actions_ibfk_1")
 
   @@index([company_id], map: "company_id")
 }
