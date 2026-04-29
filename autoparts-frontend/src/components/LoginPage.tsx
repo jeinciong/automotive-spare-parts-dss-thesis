@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { apiUrl } from "../lib/api";
 
 interface LoginPageProps {
   onLogin: (userData: { role: string; company_id: number; email: string }) => void;
@@ -32,7 +33,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     setIsLoading(true);
 
     // Endpoint switching based on mode
-    const url = isSignUp ? 'http://localhost:5000/api/register' : 'http://localhost:5000/api/login';
+    const url = isSignUp ? apiUrl("/api/register") : apiUrl("/api/login");
     
     // Body matches your specific Companies DB requirements
     const body = isSignUp 

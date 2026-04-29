@@ -15,6 +15,7 @@ import { spring } from "motion";
 import { toast } from "sonner";
 import { useSuppliers, Supplier } from "../../contexts/SuppliersContext";
 import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 
 interface SuppliersViewProps {
   user: { role?: string } | null;
@@ -35,7 +36,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
   
   const fetchPO = async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const response = await fetch(`http://localhost:5000/api/purchase-orders?company_id=${savedUser.company_id}`);
+    const response = await fetch(apiUrl(`/api/purchase-orders?company_id=${savedUser.company_id}`));
     const data = await response.json();
     setPurchaseOrders(data);
   };

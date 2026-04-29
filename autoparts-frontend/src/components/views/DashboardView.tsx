@@ -12,6 +12,7 @@ import { useInventory } from "../../contexts/InventoryContext";
 import { useForecast } from "../../contexts/ForecastContext";
 import { format, isWithinInterval, subMonths, startOfMonth, endOfMonth } from "date-fns";
 import { formatCurrency } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 import { 
   ShoppingCart,
   Users,
@@ -61,7 +62,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/sales?company_id=${companyId}`);
+        const response = await fetch(apiUrl(`/api/sales?company_id=${companyId}`));
         const data = await response.json();
         setSalesData(Array.isArray(data) ? data : []);
       } catch (err) {
