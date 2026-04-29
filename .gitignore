@@ -10,6 +10,8 @@ build/
 .env
 .env.local
 venv/
+autoparts-backend/certs/*.pem
+!autoparts-backend/certs/.gitkeep
 
 # OS files
 .DS_Store

@@ -4,8 +4,9 @@
   "type": "module",
   "main": "server.ts",
   "scripts": {
-    "postinstall": "prisma generate",
-    "build": "prisma generate",
+    "postinstall": "node scripts/generate-prisma.mjs",
+    "build": "node scripts/generate-prisma.mjs",
+    "prestart": "node scripts/prepare-tidb-ca.mjs",
     "start": "tsx server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec \"tsx\" server.ts"

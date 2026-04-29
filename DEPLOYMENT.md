@@ -27,6 +27,10 @@ Deploy `autoparts-backend` as a Render web service. The repo includes `render.ya
 - Start command: `npm start`
 - Required environment variables:
   - `DATABASE_URL`
+  - `TIDB_CA_CERT` if the database is TiDB Cloud with `sslcert=./certs/tidb-ca.pem`
+  - `TIDB_CA_CERT_PATH=certs/tidb-ca.pem`
   - `PYTHON_BIN=python3`
 
 The backend runs as a long-lived Express service with `tsx server.ts`, uses Prisma for MySQL, and installs the Python packages needed by the forecasting scripts.
+
+For TiDB Cloud database setup, see `TIDB_CLOUD_SETUP.md`.
