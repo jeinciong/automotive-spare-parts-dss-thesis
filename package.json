@@ -1,0 +1,9 @@
+{
+  "name": "automotive-spare-parts-dss-thesis",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix autoparts-frontend run build",
+    "install:frontend": "npm --prefix autoparts-frontend install"
+  }
+}

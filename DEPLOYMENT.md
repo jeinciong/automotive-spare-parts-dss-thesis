@@ -5,8 +5,13 @@
 Deploy `autoparts-frontend` as a Vercel project.
 
 - Framework preset: Vite
-- Build command: `npm run build`
-- Output directory: `build`
+- If the Vercel project root is the repository root:
+  - Install command: `npm --prefix autoparts-frontend install`
+  - Build command: `npm --prefix autoparts-frontend run build`
+  - Output directory: `autoparts-frontend/build`
+- If the Vercel project root is `autoparts-frontend`:
+  - Build command: `npm run build`
+  - Output directory: `build`
 - Environment variable:
   - `VITE_API_URL`: the deployed Render backend origin, for example `https://autoparts-backend.onrender.com`
 
