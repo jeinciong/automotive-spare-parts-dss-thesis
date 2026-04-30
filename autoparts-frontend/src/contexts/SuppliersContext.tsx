@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { toast } from "sonner";
+import { apiUrl } from "../lib/api";
 
 export interface Supplier {
   reliability: any;
@@ -50,7 +51,7 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
     if (!companyId) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/suppliers?company_id=${companyId}`);
+      const response = await fetch(apiUrl(`/api/suppliers?company_id=${companyId}`));
       const data = await response.json();
       
       const mappedData = data.map((s: any) => {
@@ -103,7 +104,7 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/suppliers', {
+      const response = await fetch(apiUrl("/api/suppliers"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -137,7 +138,7 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
     };
 
       try {
-          const response = await fetch(`http://localhost:5000/api/suppliers/${id}`, {
+          const response = await fetch(apiUrl(`/api/suppliers/${id}`), {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
@@ -152,7 +153,7 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
   };
   
   const deleteSupplier = async (id: string) => {
-    const response = await fetch(`http://localhost:5000/api/suppliers/${id}`, {
+    const response = await fetch(apiUrl(`/api/suppliers/${id}`), {
       method: 'DELETE',
     });
     if (response.ok) setSuppliers(prev => prev.filter(s => s.id !== id));

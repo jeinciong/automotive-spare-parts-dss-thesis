@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: autoparts-backend
+    runtime: node
+    rootDir: autoparts-backend
+    plan: free
+    buildCommand: npm install --include=dev && npm run build && python3 -m pip install -r python/requirements.txt
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PYTHON_BIN
+        value: python3
+      - key: DATABASE_URL
+        sync: false
+      - key: TIDB_CA_CERT
+        sync: false
+      - key: TIDB_CA_CERT_PATH
+        value: certs/tidb-ca.pem

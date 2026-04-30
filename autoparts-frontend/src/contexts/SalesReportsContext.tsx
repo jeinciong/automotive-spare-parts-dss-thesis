@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { toast } from "sonner";
 import { useInventory } from "./InventoryContext";
+import { apiUrl } from "../lib/api";
 
 export interface SalesReport {
   id: string;
@@ -42,7 +43,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/sales?company_id=${companyId}`);
+      const response = await fetch(apiUrl(`/api/sales?company_id=${companyId}`));
       if (!response.ok) throw new Error("Failed to fetch");
       
       const data = await response.json();
@@ -91,7 +92,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         status: report.status || "Completed"
       };
 
-      const response = await fetch('http://localhost:5000/api/sales', {
+      const response = await fetch(apiUrl("/api/sales"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reports: [dbReport] }),
@@ -159,7 +160,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
           toast.loading(`Importing… ${chunkNum}/${totalChunks} batches`, { id: "import-progress" });
         }
 
-        const response = await fetch('http://localhost:5000/api/sales', {
+        const response = await fetch(apiUrl("/api/sales"), {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ reports: chunk }),
@@ -191,7 +192,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}"); // Get company_id
     
     try {
-      const response = await fetch(`http://localhost:5000/api/sales/${dbId}`, {
+      const response = await fetch(apiUrl(`/api/sales/${dbId}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -227,7 +228,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   const deleteSalesReport = async (id: string) => {
     const dbId = id.replace("SR-", "");
       try {
-          const response = await fetch(`http://localhost:5000/api/sales/${dbId}`, { 
+          const response = await fetch(apiUrl(`/api/sales/${dbId}`), {
               method: 'DELETE' 
           });
 

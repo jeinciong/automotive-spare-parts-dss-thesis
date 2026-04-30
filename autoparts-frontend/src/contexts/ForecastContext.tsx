@@ -14,6 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../components/ui/alert-dialog";
+import { apiUrl } from "../lib/api";
 
 export interface ForecastPoint {
   period:    string;
@@ -87,7 +88,6 @@ interface ForecastContextType {
 }
 
 const ForecastContext = createContext<ForecastContextType | undefined>(undefined);
-const API = "http://localhost:5000";
 
 export function ForecastProvider({ children }: { children: ReactNode }) {
   const [productForecasts, setProductForecasts] = useState<Record<string, ProductForecast>>({});
@@ -149,7 +149,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       }
     }));
     try {
-      const res  = await fetch(`${API}/api/forecast`, {
+      const res  = await fetch(apiUrl("/api/forecast"), {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
           company_id:companyId,
@@ -222,7 +222,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       setTimeout(() => {
         const compId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
         if (!compId) return;
-        fetch(`${API}/api/forecast/accuracy?company_id=${compId}`)
+        fetch(apiUrl(`/api/forecast/accuracy?company_id=${compId}`))
           .then(r => r.json())
           .then(acc => {
             // Dispatch custom event so DashboardView can pick it up
@@ -259,7 +259,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     }));
 
     try {
-      const res = await fetch(`${API}/api/forecast/revenue`, {
+      const res = await fetch(apiUrl("/api/forecast/revenue"), {
         method: "POST",
         headers: { "Content-Type":"application/json" },
         body: JSON.stringify({
@@ -361,7 +361,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     if (!companyId) return;
     setAccuracyLoading(true);
     try {
-      const res = await fetch(`${API}/api/forecast/accuracy?company_id=${companyId}`);
+      const res = await fetch(apiUrl(`/api/forecast/accuracy?company_id=${companyId}`));
       setOverallAccuracy(await res.json());
     } catch { /* silent */ } finally { setAccuracyLoading(false); }
   }, []);

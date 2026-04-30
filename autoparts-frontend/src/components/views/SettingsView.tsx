@@ -19,6 +19,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "../ui/table";
+import { apiUrl } from "../../lib/api";
 
 interface TeamMember {
   id: string;
@@ -55,7 +56,7 @@ export function SettingsView() {
   const [passwords, setPasswords] = useState({ old: "", new: "", confirm: "" });
 
   const handleUpdateBusiness = async () => {
-    const response = await fetch(`http://localhost:5000/api/business/${savedUser.company_id}`, {
+    const response = await fetch(apiUrl(`/api/business/${savedUser.company_id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -74,7 +75,7 @@ export function SettingsView() {
   const handleChangePassword = async () => {
       if (passwords.new !== passwords.confirm) return toast.error("Passwords do not match");
       
-      const response = await fetch(`http://localhost:5000/api/change-password/${savedUser.company_id || savedUser.user_id}`, {
+      const response = await fetch(apiUrl(`/api/change-password/${savedUser.company_id || savedUser.user_id}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -94,7 +95,7 @@ export function SettingsView() {
 
   const handleDeleteAccount = async () => {
       if (window.confirm("WARNING: This will permanently delete your business and all data. Proceed?")) {
-          const response = await fetch(`http://localhost:5000/api/business/${savedUser.company_id}`, { method: 'DELETE' });
+          const response = await fetch(apiUrl(`/api/business/${savedUser.company_id}`), { method: 'DELETE' });
           if (response.ok) {
               localStorage.clear();
               window.location.href = "/login";
@@ -102,6 +103,38 @@ export function SettingsView() {
       }
   };
 
+  // Data Export Function
+  const exportData = async () => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/export-all?company_id=${savedUser.company_id}`);
+        
+        if (!response.ok) throw new Error("Server export failed");
+
+        const fullData = await response.json();
+        
+        // Convert to string with 2-space indentation for readability
+        const jsonString = JSON.stringify(fullData, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        
+        // Trigger download
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Business_Backup_${new Date().toLocaleDateString().replace(/\//g, '-')}.json`;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        
+        toast.success("Full business database exported!");
+    } catch (error) {
+        console.error("Export Error:", error);
+        toast.error("Failed to export database");
+    }
+  };
+
+  // Appearance
   const toggleTheme = (mode: string) => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
@@ -112,7 +145,7 @@ export function SettingsView() {
 
   const deleteStaff = async (userId: string) => {
     if (!window.confirm("Delete this staff account?")) return;
-    const response = await fetch(`http://localhost:5000/api/team/${userId}`, { method: 'DELETE' });
+    const response = await fetch(apiUrl(`/api/team/${userId}`), { method: 'DELETE' });
       if (response.ok) {
           setTeamMembers(prev => prev.filter(m => m.id !== userId));
           toast.success("Staff member removed");
@@ -131,7 +164,7 @@ export function SettingsView() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/team/${editingMember.id}`, {
+      const response = await fetch(apiUrl(`/api/team/${editingMember.id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -166,7 +199,7 @@ export function SettingsView() {
     const fetchTeam = async () => {
       if (!savedUser.company_id) return;
       try {
-        const response = await fetch(`http://localhost:5000/api/team?company_id=${savedUser.company_id}`);
+        const response = await fetch(apiUrl(`/api/team?company_id=${savedUser.company_id}`));
         if (response.ok) {
           const data = await response.json();
           const mappedTeam = data.map((m: any) => ({
@@ -193,7 +226,7 @@ export function SettingsView() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/team', {
+      const response = await fetch(apiUrl("/api/team"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

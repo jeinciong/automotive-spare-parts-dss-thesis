@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { apiUrl } from "../lib/api";
 
 interface LoginPageProps {
   onLogin: (userData: { role: string; company_id: number; email: string }) => void;

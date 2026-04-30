@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useInventory, InventoryItem } from "../../contexts/InventoryContext";
 import { useSuppliers } from "../../contexts/SuppliersContext";
 import { formatCurrency, PESO_SYMBOL } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 
 interface InventoryViewProps {
   globalFilters?: GlobalFilters;
@@ -181,7 +182,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
         });
 
         // NEW: Create a Purchase Order Record in the database
-        await fetch('http://localhost:5000/api/purchase-orders', {
+        await fetch(apiUrl("/api/purchase-orders"), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

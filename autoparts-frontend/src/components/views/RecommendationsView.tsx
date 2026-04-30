@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useInventory } from "../../contexts/InventoryContext";
 import { useForecast } from "../../contexts/ForecastContext";
 import { formatCurrencyCompact } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 
 interface RecommendationsViewProps {
   globalFilters?: GlobalFilters;
@@ -69,7 +70,6 @@ interface QuickWin {
 }
 
 const priorityRank: Record<Priority, number> = { High: 3, Medium: 2, Low: 1 };
-const API = "http://localhost:5000";
 
 const formatUnits = (value: number) => `${Math.ceil(Math.max(0, value)).toLocaleString()} units`;
 
@@ -249,7 +249,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
   useEffect(() => {
     if (!companyId) return;
 
-    fetch(`${API}/api/recommendations?company_id=${companyId}`)
+    fetch(apiUrl(`/api/recommendations?company_id=${companyId}`))
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) setSavedActions(data);
@@ -261,7 +261,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
     if (!companyId || recommendations.length === 0) return;
 
     const controller = new AbortController();
-    fetch(`${API}/api/recommendations/bulk`, {
+    fetch(apiUrl("/api/recommendations/bulk"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: controller.signal,
@@ -300,7 +300,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       }
 
       try {
-        const response = await fetch(`${API}/api/recommendations/${actionModal.savedActionId}/complete`, {
+        const response = await fetch(apiUrl(`/api/recommendations/${actionModal.savedActionId}/complete`), {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

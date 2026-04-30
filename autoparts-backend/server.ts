@@ -5,7 +5,6 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs/promises';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 const app = express();
@@ -950,11 +949,8 @@ app.put('/api/recommendations/:id/complete', async (req: any, res: any) => {
 // FORECAST ROUTES  — Python model integration
 // ═══════════════════════════════════════════════════════════════
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
-
 const PYTHON_BIN    = process.env.PYTHON_BIN ?? (process.platform === 'win32' ? 'python' : 'python3');
-const PYTHON_DIR    = path.join(__dirname, 'python');
+const PYTHON_DIR    = path.join(process.cwd(), 'python');
 const PYTHON_TIMEOUT_MS = 90_000;
 const TRAINED_MODELS_DIR = path.join(PYTHON_DIR, 'trained_models');
 const FORECAST_MIN_OBS = 12;
@@ -1848,13 +1844,16 @@ app.post('/api/forecast/revenue', async (req: any, res: any) => {
   }
 });
 
-// ── Start server — must be LAST, after all routes are registered ──
-app.listen(process.env.PORT, async () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-    try {
-        await prisma.$connect();
-        console.log("Successfully connected to MySQL Database via Prisma.");
-    } catch (error) {
-        console.error("Database connection failed:", error);
-    }
+export default app;
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, async () => {
+  console.log(`Server running on port ${port}`);
+  try {
+    await prisma.$connect();
+    console.log("Successfully connected to MySQL Database via Prisma.");
+  } catch (error) {
+    console.error("Database connection failed:", error);
+  }
 });

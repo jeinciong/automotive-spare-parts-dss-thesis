@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode } from "react";
 import React, { useState, useEffect } from 'react';
+import { apiUrl } from "../lib/api";
 
 export interface InventoryItem {
   id: string;
@@ -48,7 +49,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/inventory?company_id=${companyId}`);
+      const response = await fetch(apiUrl(`/api/inventory?company_id=${companyId}`));
       const data = await response.json();
       
       const mappedData = data.map((item: any) => ({
@@ -98,7 +99,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         location: product.location
       };
 
-      const response = await fetch('http://localhost:5000/api/inventory', {
+      const response = await fetch(apiUrl("/api/inventory"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -146,7 +147,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
     try {
       // Send the clean number to the API
-      const response = await fetch(`http://localhost:5000/api/inventory/${numericId}`, {
+      const response = await fetch(apiUrl(`/api/inventory/${numericId}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend),
@@ -185,7 +186,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     const numericId = id.replace('INV', '').replace(/^0+/, ''); 
 
     try {
-      const response = await fetch(`http://localhost:5000/api/inventory/${numericId}`, {
+      const response = await fetch(apiUrl(`/api/inventory/${numericId}`), {
         method: 'DELETE',
       });
 

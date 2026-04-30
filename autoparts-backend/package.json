@@ -2,23 +2,32 @@
   "name": "autoparts-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
+    "postinstall": "node scripts/generate-prisma.mjs",
+    "build": "node scripts/generate-prisma.mjs",
+    "prestart": "node scripts/prepare-tidb-ca.mjs",
+    "start": "tsx server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec \"tsx\" server.ts"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "mysql2": "^3.18.2"
+    "mysql2": "^3.18.2",
+    "prisma": "^6.19.0",
+    "tsx": "^4.19.2"
   },
   "devDependencies": {
-    "@prisma/client": "^6.19.0",
     "@prisma/config": "^7.4.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -26,7 +35,6 @@
     "nodemon": "^3.1.14",
     "prisma": "^6.19.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.2",
     "typescript": "^5.9.3"
   }
 }
