@@ -17,15 +17,25 @@ export function KPICards({ globalFilters }: KPICardsProps) {
   const { salesReports } = useSalesReports();
   const [modalOpen, setModalOpen] = useState<string | null>(null);
 
-  // Calculate Revenue Data by Month for the Revenue Modal
+  // Helper for Peso formatting
+  const formatPeso = (amount: number) => 
+    new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+  // Calculate Revenue Data by Month
   const revenueData = useMemo(() => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const currentYear = new Date().getFullYear();
-
+    
+    // FIX: Instead of strictly filtering by 2026, we map through months 
+    // and find sales matching that month across any year in your dataset
     return months.map((month, index) => {
       const monthlySales = salesReports.filter(r => {
         const d = new Date(r.reportDate);
-        return d.getMonth() === index && d.getFullYear() === currentYear;
+        return d.getMonth() === index; 
       });
 
       const totalMonthlyRevenue = monthlySales.reduce((sum, r) => sum + r.totalAmount, 0);
@@ -37,10 +47,9 @@ export function KPICards({ globalFilters }: KPICardsProps) {
         transactions: transactionCount,
         avgOrder: transactionCount > 0 ? Math.round(totalMonthlyRevenue / transactionCount) : 0
       };
-    }).filter(m => m.transactions > 0); // Only show months with data
+    }).filter(m => m.transactions > 0); 
   }, [salesReports]);
 
-  // Calculate Units Sold by Product for the Units Modal
   const unitsData = useMemo(() => {
     const productMap = new Map();
     salesReports.forEach(r => {
@@ -54,20 +63,18 @@ export function KPICards({ globalFilters }: KPICardsProps) {
     return Array.from(productMap.values()).sort((a, b) => b.units - a.units).slice(0, 10);
   }, [salesReports]);
 
-  // Find the Top Product for the Top Product Modal
   const topProduct = useMemo(() => {
     return unitsData[0] || { product: "None", units: 0, revenue: 0 };
   }, [unitsData]);
 
   const topProductData = useMemo(() => [
     { metric: "Total Units Sold", value: `${topProduct.units} units` },
-    { metric: "Revenue Generated", value: formatCurrency(topProduct.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) },
-    { metric: "Average Price", value: topProduct.units > 0 ? formatCurrency(Math.round(topProduct.revenue / topProduct.units), { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : formatCurrency(0, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) },
+    { metric: "Revenue Generated", value: formatPeso(topProduct.revenue) },
+    { metric: "Average Price", value: topProduct.units > 0 ? formatPeso(topProduct.revenue / topProduct.units) : formatPeso(0) },
     { metric: "Status", value: "Best Seller" },
     { metric: "Category", value: topProduct.category || "N/A" },
   ], [topProduct]);
 
-  // Calculate KPI Card summaries
   const kpiData = useMemo(() => {
     const totalRev = salesReports.reduce((sum, r) => sum + r.totalAmount, 0);
     const totalUnits = salesReports.reduce((sum, r) => sum + r.quantity, 0);
@@ -78,10 +85,10 @@ export function KPICards({ globalFilters }: KPICardsProps) {
     return [
       {
         title: "Total Revenue",
-        value: formatCurrency(totalRev, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+        value: formatPeso(totalRev),
         change: "+Real-time",
         isPositive: true,
-        icon: DollarSign,
+        icon: () => <span className="font-bold text-white">₱</span>,
         id: "revenue"
       },
       {
@@ -115,31 +122,18 @@ export function KPICards({ globalFilters }: KPICardsProps) {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpiData.map((kpi) => (
-          <motion.div
-            key={kpi.title}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Card 
-              className="hover:shadow-xl transition-all cursor-pointer border-0 shadow-lg"
-              onClick={() => setModalOpen(kpi.id)}
-            >
+          <motion.div key={kpi.title} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Card className="hover:shadow-xl transition-all cursor-pointer border-0 shadow-lg" onClick={() => setModalOpen(kpi.id)}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm">
-                  {kpi.title}
-                </CardTitle>
+                <CardTitle className="text-sm">{kpi.title}</CardTitle>
                 <div className="p-2 bg-gradient-to-br from-[#FF6B00] to-[#FF8A50] rounded-lg">
-                  <kpi.icon className="h-4 w-4 text-white" />
+                    <kpi.icon className="h-4 w-4 text-white" />
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl mb-1">{kpi.value}</div>
                 <p className={`text-sm ${kpi.isPositive ? 'text-green-600' : 'text-red-600'} flex items-center mt-1`}>
-                  {kpi.isPositive ? (
-                    <TrendingUp className="w-3 h-3 mr-1" />
-                  ) : (
-                    <TrendingDown className="w-3 h-3 mr-1" />
-                  )}
+                  {kpi.isPositive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
                   {kpi.change}
                 </p>
               </CardContent>
@@ -148,17 +142,14 @@ export function KPICards({ globalFilters }: KPICardsProps) {
         ))}
       </div>
 
-      {/* Revenue Modal */}
       <Dialog open={modalOpen === "revenue"} onOpenChange={() => setModalOpen(null)}>
         <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center">
-              <DollarSign className="w-5 h-5 mr-2" />
+              <span className="mr-2 text-xl font-bold">₱</span>
               Total Revenue Breakdown
             </DialogTitle>
-            <DialogDescription>
-              Monthly revenue performance analysis
-            </DialogDescription>
+            <DialogDescription>Monthly revenue performance analysis</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <Table>
@@ -174,9 +165,9 @@ export function KPICards({ globalFilters }: KPICardsProps) {
                 {revenueData.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium">{row.month}</TableCell>
-                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
+                    <TableCell>{formatPeso(row.revenue)}</TableCell>
                     <TableCell>{row.transactions}</TableCell>
-                    <TableCell>{formatCurrency(row.avgOrder, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
+                    <TableCell>{formatPeso(row.avgOrder)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -193,9 +184,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
               <Package className="w-5 h-5 mr-2" />
               Units Sold Breakdown
             </DialogTitle>
-            <DialogDescription>
-              Top products by units sold
-            </DialogDescription>
+            <DialogDescription>Top products by units sold</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <Table>
@@ -213,7 +202,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
                     <TableCell className="font-medium">{row.product}</TableCell>
                     <TableCell>{row.category}</TableCell>
                     <TableCell>{row.units} units</TableCell>
-                    <TableCell>{formatCurrency(row.revenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
+                    <TableCell>{formatPeso(row.revenue)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -230,9 +219,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
               <TrendingUp className="w-5 h-5 mr-2" />
               Top Product Performance
             </DialogTitle>
-            <DialogDescription>
-              Detailed performance metrics for {topProduct.product}
-            </DialogDescription>
+            <DialogDescription>Detailed performance metrics for {topProduct.product}</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <Table>
@@ -257,7 +244,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Completion Rate (Return Rate) Modal */}
+      {/* Completion Rate Modal */}
       <Dialog open={modalOpen === "returns"} onOpenChange={() => setModalOpen(null)}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
@@ -265,9 +252,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
               <TrendingDown className="w-5 h-5 mr-2" />
               Sales Status Analysis
             </DialogTitle>
-            <DialogDescription>
-              Breakdown of product status across all reports
-            </DialogDescription>
+            <DialogDescription>Breakdown of product status across all reports</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <Table>

@@ -1,25 +1,13 @@
-import { CalendarDays, Filter, LogOut, User, Bell, Search, BarChart3, X, ChevronDown, Calendar as CalendarIcon, CheckCircle2 } from "lucide-react";
+import { CalendarDays, Filter, LogOut, Bell, BarChart3, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
-import { Slider } from "./ui/slider";
-import { Calendar } from "./ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { motion, AnimatePresence } from "motion/react";
-import { format } from "date-fns";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-  DropdownMenuLabel
-} from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "./ui/dropdown-menu";
 import { SidebarTrigger } from "./ui/sidebar";
-import { GlobalFilters } from "../App";
+import { motion } from "motion/react";
 import { useState } from "react";
-import { formatCurrencyCompact } from "../lib/currency";
+import { GlobalFilters } from "../App";
 
 interface SalesHeaderProps {
   onLogout: () => void;
@@ -30,7 +18,6 @@ interface SalesHeaderProps {
 }
 
 const categories = ["Engine Parts", "Brake System", "Filters", "Suspension", "Electrical", "Lighting"];
-const statuses = ["In Stock", "Low Stock", "Critical", "Out of Stock"];
 const dateRanges = [
   { value: "today", label: "Today" },
   { value: "thisweek", label: "This Week" },
@@ -48,7 +35,6 @@ const analyticsViews = [
 ];
 
 export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearFilters, activeView }: SalesHeaderProps) {
-  // Notification State
   const [notifications, setNotifications] = useState([
     { id: 1, title: "Low Stock Alert", desc: "Oil Filter Premium - Only 8 units remaining", type: "urgent", time: "15m ago" },
     { id: 2, title: "Sales Milestone", desc: "Monthly target achieved - ₱250K reached", type: "success", time: "2h ago" },
@@ -56,12 +42,11 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
   ]);
 
   const [localCategories, setLocalCategories] = useState<string[]>(globalFilters.categories);
-  const [localStatus, setLocalStatus] = useState<string[]>(globalFilters.status);
-  const [localPriceRange, setLocalPriceRange] = useState(globalFilters.priceRange);
+  const [localStatus] = useState<string[]>(globalFilters.status);
   const [localDateRange, setLocalDateRange] = useState(globalFilters.dateRange);
   const [localAnalyticsView, setLocalAnalyticsView] = useState(globalFilters.analyticsView);
-  const [customDateFrom, setCustomDateFrom] = useState<Date | undefined>(globalFilters.customDateRange?.from);
-  const [customDateTo, setCustomDateTo] = useState<Date | undefined>(globalFilters.customDateRange?.to);
+  const [customDateFrom] = useState<Date | undefined>(globalFilters.customDateRange?.from);
+  const [customDateTo] = useState<Date | undefined>(globalFilters.customDateRange?.to);
 
   const handleRemoveNotif = (id: number) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
@@ -71,7 +56,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
     const updates: any = {
       categories: localCategories,
       status: localStatus,
-      priceRange: localPriceRange,
       dateRange: localDateRange,
       analyticsView: localAnalyticsView
     };
@@ -83,20 +67,22 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
 
   const activeFiltersCount = globalFilters.categories.length + globalFilters.status.length;
 
-  // --- LOGIC FOR FEATURE-BASED FILTERS ---
   const isDashboard = activeView === "dashboard";
   const isSalesReport = activeView === "sales-reports";
   const isAnalytics = activeView === "analytics";
   const isPredictions = activeView === "predictions-trends";
 
   return (
-    <motion.div className="flex items-center justify-between p-4 border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+    <motion.div 
+      className="flex items-center justify-between p-4 h-[73px] w-full"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
       <div className="flex items-center space-x-4">
         <SidebarTrigger className="lg:hidden" />
       </div>
 
       <div className="flex items-center gap-3">
-        {/* FILTERS: Only visible if NOT dashboard */}
         {!isDashboard && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -115,15 +101,20 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
               <DropdownMenuLabel>Filter by {activeView?.replace('-', ' ')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="p-4 space-y-6 max-h-[500px] overflow-y-auto">
-                
-                {/* DATE RANGE: Visible in Sales Report, Analytics, and Predictions */}
                 {(isSalesReport || isAnalytics || isPredictions) && (
                   <div className="space-y-3">
                     <Label className="font-semibold flex items-center"><CalendarDays className="w-4 h-4 mr-2" /> Date Range</Label>
                     <div className="space-y-2">
                       {dateRanges.map((range) => (
                         <div key={range.value} className="flex items-center space-x-2">
-                          <input type="radio" id={range.value} name="dateRange" checked={localDateRange === range.value} onChange={() => setLocalDateRange(range.value)} className="w-4 h-4 accent-[#FF6B00]" />
+                          <input 
+                            type="radio" 
+                            id={range.value} 
+                            name="dateRange" 
+                            checked={localDateRange === range.value} 
+                            onChange={() => setLocalDateRange(range.value)} 
+                            className="w-4 h-4 accent-[#FF6B00]" 
+                          />
                           <Label htmlFor={range.value} className="text-sm cursor-pointer">{range.label}</Label>
                         </div>
                       ))}
@@ -131,7 +122,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                   </div>
                 )}
 
-                {/* PRODUCT CATEGORIES: Visible in Sales Report and Analytics */}
                 {(isSalesReport || isAnalytics) && (
                   <div className="space-y-3">
                     <DropdownMenuSeparator />
@@ -139,7 +129,11 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                     <div className="grid grid-cols-1 gap-2">
                       {categories.map((cat) => (
                         <div key={cat} className="flex items-center space-x-2">
-                          <Checkbox id={cat} checked={localCategories.includes(cat)} onCheckedChange={() => setLocalCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat])} />
+                          <Checkbox 
+                            id={cat} 
+                            checked={localCategories.includes(cat)} 
+                            onCheckedChange={() => setLocalCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat])} 
+                          />
                           <Label htmlFor={cat} className="text-sm cursor-pointer">{cat}</Label>
                         </div>
                       ))}
@@ -147,7 +141,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                   </div>
                 )}
 
-                {/* ANALYTICS VIEW: Visible only in Analytics */}
                 {isAnalytics && (
                   <div className="space-y-3">
                     <DropdownMenuSeparator />
@@ -155,7 +148,14 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                     <div className="space-y-2">
                       {analyticsViews.map((view) => (
                         <div key={view.value} className="flex items-center space-x-2">
-                          <input type="radio" id={view.value} name="type" checked={localAnalyticsView === view.value} onChange={() => setLocalAnalyticsView(view.value as any)} className="w-4 h-4 accent-[#FF6B00]" />
+                          <input 
+                            type="radio" 
+                            id={view.value} 
+                            name="type" 
+                            checked={localAnalyticsView === view.value} 
+                            onChange={() => setLocalAnalyticsView(view.value as any)} 
+                            className="w-4 h-4 accent-[#FF6B00]" 
+                          />
                           <Label htmlFor={view.value} className="text-sm cursor-pointer">{view.label}</Label>
                         </div>
                       ))}
@@ -173,7 +173,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
           </DropdownMenu>
         )}
 
-        {/* NOTIFICATIONS: Functioning state */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="relative">
@@ -214,7 +213,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* ADMIN USER: Simplified */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="flex items-center space-x-2 border-orange-200">

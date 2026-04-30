@@ -327,7 +327,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
                   <Pie data={categoryPerformance} innerRadius={50} outerRadius={70} dataKey="revenue" paddingAngle={5}>{categoryPerformance.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
-                  <Tooltip />
+                  <Tooltip />   
                 </PieChart>
               </ResponsiveContainer>
               <div className="mt-4 space-y-2">

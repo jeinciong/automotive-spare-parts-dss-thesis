@@ -9,14 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { 
-  User, Bell, Database, Shield, Palette, Download, Upload, Mail, Smartphone, DollarSign, Clock, Save,
+  User, Bell, Shield, Palette, Save,
   AlertCircle, Users, UserPlus, Building2,
   Trash2,
   Pencil
 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "../ui/dialog";
-import { motion, AnimatePresence } from "motion/react";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "../ui/table";
@@ -38,10 +37,7 @@ export function SettingsView() {
   
   // Notification States
   const [emailNotifications, setEmailNotifications] = useState(true);
-  const [pushNotifications, setPushNotifications] = useState(true);
   const [lowStockAlerts, setLowStockAlerts] = useState(true);
-  const [salesAlerts, setSalesAlerts] = useState(false);
-  const [autoBackup, setAutoBackup] = useState(true);
   
   // New Member Form State
   const [newMemberEmail, setNewMemberEmail] = useState("");
@@ -51,13 +47,12 @@ export function SettingsView() {
   const [businessInfo, setBusinessInfo] = useState({
     name: savedUser.user_name || "",
     email: savedUser.email || "",
-    address: "123 Thesis St. Tanza, Cavite" // Fallback
+    address: "123 Thesis St. Tanza, Cavite" 
   });
 
   const [isEditMemberOpen, setIsEditMemberOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [passwords, setPasswords] = useState({ old: "", new: "", confirm: "" });
-
 
   const handleUpdateBusiness = async () => {
     const response = await fetch(`http://localhost:5000/api/business/${savedUser.company_id}`, {
@@ -70,7 +65,6 @@ export function SettingsView() {
         })
     });
       if (response.ok) {
-          // Update local storage so the UI stays synced
           const updatedUser = { ...savedUser, user_name: businessInfo.name, email: businessInfo.email };
           localStorage.setItem("user", JSON.stringify(updatedUser));
           toast.success("Business profile updated!");
@@ -108,38 +102,6 @@ export function SettingsView() {
       }
   };
 
-  // Data Export Function
-  const exportData = async () => {
-    try {
-        const response = await fetch(`http://localhost:5000/api/export-all?company_id=${savedUser.company_id}`);
-        
-        if (!response.ok) throw new Error("Server export failed");
-
-        const fullData = await response.json();
-        
-        // Convert to string with 2-space indentation for readability
-        const jsonString = JSON.stringify(fullData, null, 2);
-        const blob = new Blob([jsonString], { type: "application/json" });
-        
-        // Trigger download
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `Business_Backup_${new Date().toLocaleDateString().replace(/\//g, '-')}.json`;
-        
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-        
-        toast.success("Full business database exported!");
-    } catch (error) {
-        console.error("Export Error:", error);
-        toast.error("Failed to export database");
-    }
-  };
-
-  // Appearance
   const toggleTheme = (mode: string) => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
@@ -180,7 +142,6 @@ export function SettingsView() {
       });
 
       if (response.ok) {
-        // Update local state so UI refreshes without reload
         setTeamMembers(prev => prev.map(member => 
           member.id === editingMember.id ? editingMember : member
         ));
@@ -201,7 +162,6 @@ export function SettingsView() {
       : "bg-gradient-to-r from-blue-500 to-indigo-500 text-white";
   };
 
-  // Fetch Team on Mount
   useEffect(() => {
     const fetchTeam = async () => {
       if (!savedUser.company_id) return;
@@ -272,11 +232,10 @@ export function SettingsView() {
       </header>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-6 mb-8">
+        <TabsList className="grid w-full grid-cols-5 mb-8">
           <TabsTrigger value="general"><User className="w-4 h-4 mr-2" />General</TabsTrigger>
           <TabsTrigger value="team"><Users className="w-4 h-4 mr-2" />Team</TabsTrigger>
           <TabsTrigger value="notifications"><Bell className="w-4 h-4 mr-2" />Notifications</TabsTrigger>
-          <TabsTrigger value="data"><Database className="w-4 h-4 mr-2" />Data</TabsTrigger>
           <TabsTrigger value="appearance"><Palette className="w-4 h-4 mr-2" />Appearance</TabsTrigger>
           <TabsTrigger value="security"><Shield className="w-4 h-4 mr-2" />Security</TabsTrigger>
         </TabsList>
@@ -384,29 +343,6 @@ export function SettingsView() {
               <div className="flex justify-between items-center">
                 <Label>Email Digest</Label>
                 <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Data Tab */}
-        <TabsContent value="data" className="space-y-6">
-          <Card className="border-0 shadow-lg">
-            <CardHeader><CardTitle>Backup & Export</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              {/* UPDATE THIS BUTTON */}
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                onClick={exportData}
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Export Database (JSON)
-              </Button>
-              
-              <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
-                <Label>Auto-Backup to Cloud</Label>
-                <Switch checked={autoBackup} onCheckedChange={setAutoBackup} />
               </div>
             </CardContent>
           </Card>

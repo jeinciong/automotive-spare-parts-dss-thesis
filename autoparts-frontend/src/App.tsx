@@ -179,16 +179,23 @@ function AppContent() {
     return <LoginPage onLogin={handleLogin} />;
   }
 
-  return (
-    <>
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full">
-          <AppSidebar 
-            activeView={activeView} 
-            onViewChange={setActiveView} 
-            user={user} 
-          />
-          <SidebarInset className="flex-1">
+return (
+  <>
+    <SidebarProvider>
+      {/* 1. The outer wrapper must be exactly the screen height */}
+      <div className="flex h-screen w-full bg-background overflow-hidden">
+        
+        <AppSidebar 
+          activeView={activeView} 
+          onViewChange={setActiveView} 
+          user={user} 
+        />
+        
+        {/* 2. SidebarInset must be flex-col and h-screen */}
+        <SidebarInset className="flex flex-col flex-1 min-w-0 h-screen overflow-hidden bg-slate-50">
+          
+          {/* 3. The Header: 'sticky' works here because the parent isn't scrolling */}
+          <header className="sticky top-0 z-20 w-full bg-white border-b flex-shrink-0">
             <SalesHeader
               onLogout={handleLogout}
               globalFilters={globalFilters}
@@ -196,21 +203,28 @@ function AppContent() {
               onClearFilters={() => {}}
               activeView={activeView}
             />
-            <main className="flex-1 p-6 bg-background">
+          </header>
+          
+          {/* 4. THE FIX: The main tag needs h-full or flex-1 AND overflow-y-auto */}
+          <main className="flex-1 w-full overflow-y-auto p-4 md:p-6 scroll-smooth">
+            {/* This inner div ensures content stretches enough to trigger scroll */}
+            <div className="mx-auto w-full min-h-full">
               {renderView()}
-            </main>
-          </SidebarInset>
+            </div>
+          </main>
 
-          <LowStockModal
-            isOpen={showLowStockModal}
-            onClose={() => setShowLowStockModal(false)}
-            onViewInventory={() => setActiveView("inventory")}
-          />
-        </div>
-      </SidebarProvider>
-      <Toaster position="top-right" richColors />
-    </>
-  );
+        </SidebarInset>
+
+        <LowStockModal
+          isOpen={showLowStockModal}
+          onClose={() => setShowLowStockModal(false)}
+          onViewInventory={() => setActiveView("inventory")}
+        />
+      </div>
+    </SidebarProvider>
+    <Toaster position="top-right" richColors />
+  </>
+);
 }
 
 export default function App() {

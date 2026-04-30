@@ -78,7 +78,7 @@ export function AppSidebar({ activeView, onViewChange, user }: AppSidebarProps) 
   ].filter(group => group.items.length > 0);
 
   return (
-    <Sidebar>
+    <Sidebar className="z-30 border-r h-full"> 
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center space-x-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#607D8B] flex items-center justify-center">
