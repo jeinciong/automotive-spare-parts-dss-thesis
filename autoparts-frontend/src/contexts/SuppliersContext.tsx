@@ -47,11 +47,11 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
 
   const fetchSuppliers = async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const companyId = savedUser.company_id;
-    if (!companyId) return;
+    const businessId = savedUser.business_id;
+    if (!businessId) return;
 
     try {
-      const response = await fetch(apiUrl(`/api/suppliers?company_id=${companyId}`));
+      const response = await fetch(apiUrl(`/api/suppliers?business_id=${businessId}`));
       const data = await response.json();
       
       const mappedData = data.map((s: any) => {
@@ -89,10 +89,10 @@ export function SuppliersProvider({ children }: { children: ReactNode }) {
 
   const addSupplier = async (supplier: any) => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const companyId = savedUser.company_id;
+    const businessId = savedUser.business_id;
 
     const payload = {
-      company_id: companyId,
+      business_id: businessId,
       supplier_name: supplier.name,
       category: supplier.category,
       location: supplier.location,

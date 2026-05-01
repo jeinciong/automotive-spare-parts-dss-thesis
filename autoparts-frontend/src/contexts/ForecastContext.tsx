@@ -98,8 +98,8 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
   const [rerunProductName, setRerunProductName] = useState("");
   const { salesReports } = useSalesReports();
   const preloadedProductsRef = useRef<Set<string>>(new Set());
-  const preloadedRevenueCompanyRef = useRef<number | null>(null);
-  const activeCompanyIdRef = useRef<number | null>(null);
+  const preloadedRevenueBusinessRef = useRef<number | null>(null);
+  const activeBusinessIdRef = useRef<number | null>(null);
   const rerunConfirmResolverRef = useRef<((confirmed: boolean) => void) | null>(null);
 
   const requestRerunConfirmation = useCallback((productName: string) => {
@@ -124,8 +124,8 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     forceRetrain = false,
     options?: { notify?: boolean }
   ) => {
-    const companyId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
-    if (!companyId) return;
+    const businessId = JSON.parse(localStorage.getItem("user")||"{}").business_id;
+    if (!businessId) return;
     const notify = options?.notify ?? true;
 
     if (forceRetrain) {
@@ -152,7 +152,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       const res  = await fetch(apiUrl("/api/forecast"), {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
-          company_id:companyId,
+          business_id:businessId,
           product_name:productName,
           horizon,
           force_retrain: forceRetrain,
@@ -220,9 +220,9 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       // ── Refresh dashboard accuracy after every forecast ──────
       // Small delay so the DB write in the backend finishes first
       setTimeout(() => {
-        const compId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
+        const compId = JSON.parse(localStorage.getItem("user")||"{}").business_id;
         if (!compId) return;
-        fetch(apiUrl(`/api/forecast/accuracy?company_id=${compId}`))
+        fetch(apiUrl(`/api/forecast/accuracy?business_id=${compId}`))
           .then(r => r.json())
           .then(acc => {
             // Dispatch custom event so DashboardView can pick it up
@@ -242,8 +242,8 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     horizon = 6,
     forceRetrain = false,
   ) => {
-    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id;
-    if (!companyId) return;
+    const businessId = JSON.parse(localStorage.getItem("user") || "{}").business_id;
+    if (!businessId) return;
 
     setBusinessRevenueForecast(prev => ({
       series_name: prev?.series_name ?? "Business Sales Revenue",
@@ -263,7 +263,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         method: "POST",
         headers: { "Content-Type":"application/json" },
         body: JSON.stringify({
-          company_id: companyId,
+          business_id: businessId,
           horizon,
           force_retrain: forceRetrain,
         }),
@@ -300,18 +300,18 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id ?? null;
+    const businessId = JSON.parse(localStorage.getItem("user") || "{}").business_id ?? null;
 
-    if (activeCompanyIdRef.current !== companyId) {
-      activeCompanyIdRef.current = companyId;
+    if (activeBusinessIdRef.current !== businessId) {
+      activeBusinessIdRef.current = businessId;
       preloadedProductsRef.current = new Set();
-      preloadedRevenueCompanyRef.current = null;
+      preloadedRevenueBusinessRef.current = null;
       setProductForecasts({});
       setBusinessRevenueForecast(null);
       setOverallAccuracy(null);
     }
 
-    if (!companyId || salesReports.length === 0) {
+    if (!businessId || salesReports.length === 0) {
       return;
     }
 
@@ -343,25 +343,25 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
   }, [productForecasts, runForecast, salesReports]);
 
   useEffect(() => {
-    const companyId = JSON.parse(localStorage.getItem("user") || "{}").company_id ?? null;
-    if (!companyId) {
+    const businessId = JSON.parse(localStorage.getItem("user") || "{}").business_id ?? null;
+    if (!businessId) {
       return;
     }
 
-    if (preloadedRevenueCompanyRef.current === companyId) {
+    if (preloadedRevenueBusinessRef.current === businessId) {
       return;
     }
 
-    preloadedRevenueCompanyRef.current = companyId;
+    preloadedRevenueBusinessRef.current = businessId;
     void runBusinessRevenueForecast(6, false);
   }, [runBusinessRevenueForecast, salesReports]);
 
   const fetchAccuracy = useCallback(async () => {
-    const companyId = JSON.parse(localStorage.getItem("user")||"{}").company_id;
-    if (!companyId) return;
+    const businessId = JSON.parse(localStorage.getItem("user")||"{}").business_id;
+    if (!businessId) return;
     setAccuracyLoading(true);
     try {
-      const res = await fetch(apiUrl(`/api/forecast/accuracy?company_id=${companyId}`));
+      const res = await fetch(apiUrl(`/api/forecast/accuracy?business_id=${businessId}`));
       setOverallAccuracy(await res.json());
     } catch { /* silent */ } finally { setAccuracyLoading(false); }
   }, []);

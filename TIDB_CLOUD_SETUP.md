@@ -14,7 +14,7 @@ Do not commit real database passwords or private connection strings.
 6. If TiDB Cloud asks for an IP access list, allow your deployment host:
    - For local setup, allow your current IP.
    - For Render, use Render's outbound IPs if your plan provides static outbound IPs.
-   - For simple testing only, TiDB Cloud may offer an `Allow Access from Anywhere` option.
+   - Render free/dynamic outbound IPs may not be stable. For thesis/demo testing, TiDB Cloud may offer an `Allow Access from Anywhere` option.
 
 ## 2. Create A Database Name
 
@@ -184,8 +184,25 @@ For a new demo setup, you can skip this and register a company from the app UI.
 ## Troubleshooting
 
 - `Missing required environment variable: DATABASE_URL`: set `DATABASE_URL` in Render or in `autoparts-backend/.env`.
+- Prisma `P1001` or `Can't reach database server`: the backend cannot reach TiDB. Check TiDB Cloud IP access list first, then the host, port `4000`, TLS settings, and whether the cluster is paused.
 - `Access denied`: check username, password, URL encoding, and TiDB Cloud password generation.
 - `Can't connect to MySQL server`: check the TiDB host, port `4000`, and IP access list.
 - TLS or certificate errors: confirm `sslaccept=strict` and that `./certs/tidb-ca.pem` exists relative to `autoparts-backend`.
 - On Render, TLS errors usually mean `TIDB_CA_CERT` is empty, malformed, or has missing newline characters.
 - Prisma migration errors: run `npx prisma migrate status` from `autoparts-backend`.
+
+## If The Error Appears In Vercel
+
+Vercel should host only the frontend. A database error shown in the Vercel app means one of these is true:
+
+1. `VITE_API_URL` is missing, so the frontend is calling Vercel instead of Render.
+2. `VITE_API_URL` points to the wrong backend URL.
+3. The Render backend is running but cannot reach TiDB Cloud.
+
+In Vercel, set only:
+
+```env
+VITE_API_URL=https://your-render-backend.onrender.com
+```
+
+Do not set `DATABASE_URL` in the Vercel frontend project. Set `DATABASE_URL`, `TIDB_CA_CERT`, and `TIDB_CA_CERT_PATH` in Render.

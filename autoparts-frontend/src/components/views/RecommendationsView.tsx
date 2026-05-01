@@ -107,8 +107,8 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
   const [savedActions, setSavedActions] = useState<SavedRecommendationAction[]>([]);
   const [actionModal, setActionModal] = useState<{open: boolean; recommendation: Recommendation; savedActionId?: number} | null>(null);
 
-  const companyId = useMemo(() => {
-    return JSON.parse(localStorage.getItem("user") || "{}").company_id;
+  const businessId = useMemo(() => {
+    return JSON.parse(localStorage.getItem("user") || "{}").business_id;
   }, []);
 
   const recommendations = useMemo(() => {
@@ -247,18 +247,18 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
   }, [pendingRecommendations]);
 
   useEffect(() => {
-    if (!companyId) return;
+    if (!businessId) return;
 
-    fetch(apiUrl(`/api/recommendations?company_id=${companyId}`))
+    fetch(apiUrl(`/api/recommendations?business_id=${businessId}`))
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) setSavedActions(data);
       })
       .catch(() => {});
-  }, [companyId]);
+  }, [businessId]);
 
   useEffect(() => {
-    if (!companyId || recommendations.length === 0) return;
+    if (!businessId || recommendations.length === 0) return;
 
     const controller = new AbortController();
     fetch(apiUrl("/api/recommendations/bulk"), {
@@ -266,7 +266,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       headers: { "Content-Type": "application/json" },
       signal: controller.signal,
       body: JSON.stringify({
-        company_id: companyId,
+        business_id: businessId,
         recommendations: recommendations.map((recommendation) => ({
           id: recommendation.id,
           relatedProduct: recommendation.relatedProduct,
@@ -285,7 +285,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       .catch(() => {});
 
     return () => controller.abort();
-  }, [companyId, recommendations]);
+  }, [businessId, recommendations]);
 
   const handleAction = (recommendation: Recommendation) => {
     const savedAction = savedActionsByKey.get(recommendation.id);
@@ -304,7 +304,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            company_id: companyId,
+            business_id: businessId,
             action_taken: actionModal.recommendation.action,
           }),
         });

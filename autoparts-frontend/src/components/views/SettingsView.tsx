@@ -56,11 +56,11 @@ export function SettingsView() {
   const [passwords, setPasswords] = useState({ old: "", new: "", confirm: "" });
 
   const handleUpdateBusiness = async () => {
-    const response = await fetch(apiUrl(`/api/business/${savedUser.company_id}`), {
+    const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            company_name: businessInfo.name,
+            business_name: businessInfo.name,
             email: businessInfo.email,
             business_address: businessInfo.address
         })
@@ -75,7 +75,7 @@ export function SettingsView() {
   const handleChangePassword = async () => {
       if (passwords.new !== passwords.confirm) return toast.error("Passwords do not match");
       
-      const response = await fetch(apiUrl(`/api/change-password/${savedUser.company_id || savedUser.user_id}`), {
+      const response = await fetch(apiUrl(`/api/change-password/${savedUser.business_id || savedUser.user_id}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -95,7 +95,7 @@ export function SettingsView() {
 
   const handleDeleteAccount = async () => {
       if (window.confirm("WARNING: This will permanently delete your business and all data. Proceed?")) {
-          const response = await fetch(apiUrl(`/api/business/${savedUser.company_id}`), { method: 'DELETE' });
+          const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), { method: 'DELETE' });
           if (response.ok) {
               localStorage.clear();
               window.location.href = "/login";
@@ -106,7 +106,7 @@ export function SettingsView() {
   // Data Export Function
   const exportData = async () => {
     try {
-        const response = await fetch(`http://localhost:5000/api/export-all?company_id=${savedUser.company_id}`);
+        const response = await fetch(`http://localhost:5000/api/export-all?business_id=${savedUser.business_id}`);
         
         if (!response.ok) throw new Error("Server export failed");
 
@@ -197,9 +197,9 @@ export function SettingsView() {
 
   useEffect(() => {
     const fetchTeam = async () => {
-      if (!savedUser.company_id) return;
+      if (!savedUser.business_id) return;
       try {
-        const response = await fetch(apiUrl(`/api/team?company_id=${savedUser.company_id}`));
+        const response = await fetch(apiUrl(`/api/team?business_id=${savedUser.business_id}`));
         if (response.ok) {
           const data = await response.json();
           const mappedTeam = data.map((m: any) => ({
@@ -217,7 +217,7 @@ export function SettingsView() {
       }
     };
     fetchTeam();
-  }, [savedUser.company_id]);
+  }, [savedUser.business_id]);
 
 
   const handleAddTeamMember = async () => {
@@ -233,7 +233,7 @@ export function SettingsView() {
           fullName: newMemberFullName,
           email: newMemberEmail,
           password: newMemberPassword,
-          company_id: savedUser.company_id
+          business_id: savedUser.business_id
         }),
       });
 

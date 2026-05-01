@@ -41,15 +41,15 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   const fetchInventory = async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const companyId = savedUser.company_id;
+    const businessId = savedUser.business_id;
 
-    if (!companyId) {
+    if (!businessId) {
       setInventory([]); 
       return;
     }
 
     try {
-      const response = await fetch(apiUrl(`/api/inventory?company_id=${companyId}`));
+      const response = await fetch(apiUrl(`/api/inventory?business_id=${businessId}`));
       const data = await response.json();
       
       const mappedData = data.map((item: any) => ({
@@ -82,9 +82,9 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const addProduct = async (product: Omit<InventoryItem, "id" | "status">) => {
     try {
       const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      const companyId = savedUser.company_id;
+      const businessId = savedUser.business_id;
 
-      if (!companyId) return;
+      if (!businessId) return;
 
       const payload = { 
         product_name: product.name,    
@@ -92,7 +92,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         current_stock: Number(product.currentStock), 
         unit_cost: Number(product.unitCost),         
         status: getStatus(product.currentStock, product.minimumStock),
-        company_id: companyId,
+        business_id: businessId,
         min_stock: Number(product.minimumStock),
         sku: product.sku,
         supplier: product.supplier,
@@ -138,7 +138,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       user_id: savedUser.user_id || 0,
       user_name: savedUser.user_name || "Owner",
       role: savedUser.role,
-      company_id: savedUser.company_id,
+      business_id: savedUser.business_id,
       min_stock: Number(updatedItem.minimumStock),
       sku: updatedItem.sku,
       supplier: updatedItem.supplier,

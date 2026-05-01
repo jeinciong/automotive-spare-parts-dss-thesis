@@ -35,15 +35,15 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
 
   const fetchSales = useCallback(async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const companyId = savedUser.company_id;
+    const businessId = savedUser.business_id;
 
-    if (!companyId) {
+    if (!businessId) {
       setSalesReports([]);
       return;
     }
 
     try {
-      const response = await fetch(apiUrl(`/api/sales?company_id=${companyId}`));
+      const response = await fetch(apiUrl(`/api/sales?business_id=${businessId}`));
       if (!response.ok) throw new Error("Failed to fetch");
       
       const data = await response.json();
@@ -88,14 +88,14 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         customer_type: report.customerName,
         payment_method: report.paymentMethod,
         order_number: report.orderNumber,
-        company_id: savedUser.company_id,
+        business_id: savedUser.business_id,
         status: report.status || "Completed"
       };
 
       const response = await fetch(apiUrl("/api/sales"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reports: [dbReport] }),
+        body: JSON.stringify({ business_id: savedUser.business_id, reports: [dbReport] }),
       });
 
       if (response.ok) {
@@ -111,7 +111,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   // IMPORT CSV 
   const importFromCSV = async (csvData: string) => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!savedUser.company_id) return;
+    if (!savedUser.business_id) return;
 
     const lines = csvData.trim().split('\n');
 
@@ -136,7 +136,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         payment_method: row.payment_method || row.payment       || "Cash",
         order_number:   row.order_number   || `IMP-${Date.now()}`,
         status:         row.status         || "Completed",
-        company_id:     savedUser.company_id,
+        business_id:     savedUser.business_id,
       };
     }).filter(Boolean) as any[];
 
@@ -163,7 +163,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         const response = await fetch(apiUrl("/api/sales"), {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ reports: chunk }),
+          body:    JSON.stringify({ business_id: savedUser.business_id, reports: chunk }),
         });
 
         if (!response.ok) {
@@ -189,7 +189,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   const updateSalesReport = async (id: string, report: any) => {
     // Extract the numeric ID from "SR-001"
     const dbId = id.replace("SR-", "");
-    const savedUser = JSON.parse(localStorage.getItem("user") || "{}"); // Get company_id
+    const savedUser = JSON.parse(localStorage.getItem("user") || "{}"); // Get business_id
     
     try {
       const response = await fetch(apiUrl(`/api/sales/${dbId}`), {
@@ -206,7 +206,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
           customerName: report.customerName,
           paymentMethod: report.paymentMethod,
           status: report.status,
-          company_id: savedUser.company_id
+          business_id: savedUser.business_id
         }),
       });
 
@@ -227,8 +227,9 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
 
   const deleteSalesReport = async (id: string) => {
     const dbId = id.replace("SR-", "");
+    const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
       try {
-          const response = await fetch(apiUrl(`/api/sales/${dbId}`), {
+          const response = await fetch(apiUrl(`/api/sales/${dbId}?business_id=${savedUser.business_id}`), {
               method: 'DELETE' 
           });
 

@@ -34,7 +34,7 @@ export interface GlobalFilters {
 function AppContent() {
   // Authentication and User States
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<{ role: string; company_id: number; email: string; user_name?: string } | null>(null);
+  const [user, setUser] = useState<{ role: string; business_id: number; email: string; user_name?: string } | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true); 
 
   const [activeView, setActiveView] = useState(() => {
@@ -103,8 +103,8 @@ function AppContent() {
 
   // Monitor user changes for debugging/tracking
   useEffect(() => {
-    if (isAuthenticated && user?.company_id) {
-        console.log("Active session for company:", user.company_id);
+    if (isAuthenticated && user?.business_id) {
+        console.log("Active session for business:", user.business_id);
     }
   }, [user, isAuthenticated]);
 
