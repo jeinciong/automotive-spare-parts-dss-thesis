@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { LoginPage } from "./components/LoginPage";
 import { SalesHeader } from "./components/SalesHeader";
 import { AppSidebar } from "./components/AppSidebar";
@@ -234,6 +235,7 @@ export default function App() {
         <SalesReportsProvider>
           <ForecastProvider>
             <AppContent />
+            <Analytics />
           </ForecastProvider>
         </SalesReportsProvider>
       </SuppliersProvider>
