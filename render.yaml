@@ -6,7 +6,6 @@ services:
     plan: free
     buildCommand: npm install --include=dev && npm run build && python3 -m pip install -r python/requirements.txt
     startCommand: npm start
-    healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
         value: 20
