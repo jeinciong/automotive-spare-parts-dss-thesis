@@ -146,6 +146,30 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// --- HEALTH CHECK ROUTE ---
+// Used by Render health checks and monitoring
+app.get('/health', async (req, res) => {
+  try {
+    // Verify database connection with a simple query
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({
+      status: 'healthy',
+      database: 'connected',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime()
+    });
+  } catch (err: any) {
+    console.error('[Health Check] Database query failed:', err?.message);
+    res.status(503).json({
+      status: 'unhealthy',
+      database: 'disconnected',
+      error: err?.message || 'Database connection failed',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime()
+    });
+  }
+});
+
 // --- INVENTORY ROUTES ---
 
 // Fetch Inventory
@@ -1872,11 +1896,16 @@ export default app;
 const port = process.env.PORT || 5000;
 
 app.listen(port, async () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`[Server] Listening on port ${port}`);
   try {
     await prisma.$connect();
-    console.log("Successfully connected to MySQL Database via Prisma.");
-  } catch (error) {
-    console.error("Database connection failed:", error);
+    console.log("✓ [Server] Successfully connected to TiDB Cloud Database via Prisma.");
+    console.log(`[Server] Ready to accept requests at http://localhost:${port}`);
+  } catch (error: any) {
+    console.error("✗ [Server] FATAL: Database connection failed at startup");
+    console.error("✗ [Server] Error:", error?.message || String(error));
+    console.error("✗ [Server] Stack:", error?.stack);
+    console.error("✗ [Server] Exiting process so Render can detect failure and restart...");
+    process.exit(1);
   }
 });

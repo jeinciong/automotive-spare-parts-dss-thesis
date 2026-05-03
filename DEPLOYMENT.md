@@ -55,6 +55,6 @@ VITE_API_URL=https://your-render-backend.onrender.com
 https://your-render-backend.onrender.com/api/inventory?company_id=1
 ```
 
-If this endpoint shows a database error, fix Render/TiDB settings. If it works, fix the Vercel `VITE_API_URL`.
+If this endpoint shows a database error, fix Render/Aiven settings. If it works, fix the Vercel `VITE_API_URL`.
 
 4. Do not put `DATABASE_URL` in the Vercel frontend project. `DATABASE_URL` belongs only in Render.
