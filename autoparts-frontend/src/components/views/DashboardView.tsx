@@ -205,7 +205,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
             <h1 className="text-white mb-2 text-3xl">Dashboard Overview</h1>
             <p className="text-[#B0BEC5] text-lg">Automotive parts business analytics and performance insights.</p>
           </div>
-          <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0" onClick={() => window.dispatchEvent(new CustomEvent('updateFilters', { detail: { dateRange: 'thisWeek' }}))}><Calendar className="w-4 h-4 mr-2" /> This Week</Button>
+          {/* <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0" onClick={() => window.dispatchEvent(new CustomEvent('updateFilters', { detail: { dateRange: 'thisWeek' }}))}><Calendar className="w-4 h-4 mr-2" /> This Week</Button> */}
         </div>
       </motion.div>
 
