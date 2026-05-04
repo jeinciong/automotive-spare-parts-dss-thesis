@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { apiUrl } from "../lib/api";
 
 interface LoginPageProps {
-  onLogin: (userData: { role: string; company_id: number; email: string }) => void;
+  onLogin: (userData: { role: string; business_id: number; email: string }) => void;
 }
 
 export function LoginPage({ onLogin }: LoginPageProps) {
@@ -16,7 +16,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       : "http://localhost:5000/api/login";
 
     const body = isSignUp
-      ? { email, password, companyName, businessAddress }
+      ? { email, password, businessName, businessAddress }
       : { email, password };
 
     try {
@@ -158,11 +158,11 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                         className="space-y-3 sm:space-y-4"
                       >
                         <div className="space-y-2">
-                          <Label htmlFor="companyName">Business Name</Label>
+                          <Label htmlFor="businessName">Business Name</Label>
                           <Input
-                            id="companyName"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
+                            id="businessName"
+                            value={businessName}
+                            onChange={(e) => setBusinessName(e.target.value)}
                             required
                             className="h-11 sm:h-auto"
                           />

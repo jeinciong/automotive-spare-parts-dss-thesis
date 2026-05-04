@@ -186,7 +186,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                company_id: savedUser.company_id,
+                business_id: savedUser.business_id,
                 supplier_id: supplier.id,
                 total_amount: totalCostOfThisOrder,
                 order_date: new Date().toISOString().split('T')[0] // Formats as YYYY-MM-DD

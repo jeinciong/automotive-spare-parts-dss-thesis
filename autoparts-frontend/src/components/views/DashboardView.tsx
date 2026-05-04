@@ -57,23 +57,23 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
   const itemsPerPage = 10;
 
   const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-  const companyId = savedUser.company_id;
+  const businessId = savedUser.business_id;
 
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(apiUrl(`/api/sales?company_id=${companyId}`));
+        const response = await fetch(apiUrl(`/api/sales?business_id=${businessId}`));
         const data = await response.json();
         setSalesData(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch sales:", err);
       }
     };
-    if (companyId) {
+    if (businessId) {
       fetchSales();
       fetchAccuracy();
     }
-  }, [companyId, fetchAccuracy]);
+  }, [businessId, fetchAccuracy]);
 
   const productListFromSales = useMemo(() => {
     return Array.from(new Set(salesData.map(s => s.product_name))).filter(Boolean);

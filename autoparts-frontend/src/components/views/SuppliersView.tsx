@@ -36,7 +36,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
   
   const fetchPO = async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const response = await fetch(apiUrl(`/api/purchase-orders?company_id=${savedUser.company_id}`));
+    const response = await fetch(apiUrl(`/api/purchase-orders?business_id=${savedUser.business_id}`));
     const data = await response.json();
     setPurchaseOrders(data);
   };
@@ -973,7 +973,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
 
             <DialogFooter className="border-t pt-4 mt-2">
               <div className="mr-auto flex flex-col">
-                <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Company Procurement</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total business Procurement</span>
                 <span className="text-lg font-bold text-[#FF6B00]">{formatCurrency(totalSpend, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
               </div>
               <Button variant="outline" className="h-10 px-8" onClick={() => setModalOpen(null)}>

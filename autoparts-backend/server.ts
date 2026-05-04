@@ -23,7 +23,7 @@ interface ForecastItem {
 
 type RecommendationActionRow = {
   action_id: number;
-  company_id: number;
+  business_id: number;
   prediction_id: number | null;
   action_taken: string | null;
   status: string | null;
@@ -98,19 +98,19 @@ function parseRecommendationHistory(history: string | null | undefined) {
 
 // --- AUTH ROUTES ---
 
-// Registration: Using Prisma to handle the company creation
+// Registration: Using Prisma to handle the business creation
 app.post('/api/register', async (req, res) => {
-    const { email, password, companyName, businessAddress } = req.body;
+    const { email, password, businessName, businessAddress } = req.body;
     try {
-        const company = await prisma.companies.create({
+        const business = await prisma.businesses.create({
             data: {
-                company_name: companyName,
+                business_name: businessName,
                 business_address: businessAddress || "Main Office",
                 email: email,
                 password_hash: password 
             }
         });
-        res.status(200).json({ role: 'admin', company_id: company.company_id, email });
+        res.status(200).json({ role: 'admin', business_id: business.business_id, email });
     } catch (err: any) {
         res.status(500).json({ message: "Registration failed: " + err.message });
     }
@@ -120,13 +120,13 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const owner = await prisma.companies.findFirst({
+        const owner = await prisma.businesses.findFirst({
             where: { email, password_hash: password }
         });
 
         if (owner) {
             return res.json({ 
-                role: 'admin', company_id: owner.company_id, email: owner.email, user_name: owner.company_name 
+                role: 'admin', business_id: owner.business_id, email: owner.email, user_name: owner.business_name 
             });
         }
 
@@ -136,7 +136,7 @@ app.post('/api/login', async (req, res) => {
 
         if (staff) {
             return res.json({ 
-                role: 'staff', company_id: staff.company_id, email: staff.email, user_id: staff.user_id, user_name: staff.full_name
+                role: 'staff', business_id: staff.business_id, email: staff.email, user_id: staff.user_id, user_name: staff.full_name
             });
         }
 
@@ -150,10 +150,10 @@ app.post('/api/login', async (req, res) => {
 
 // Fetch Inventory
 app.get('/api/inventory', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
     try {
         const inventory = await prisma.inventory.findMany({
-            where: { company_id: company_id }
+            where: { business_id: business_id }
         });
         res.send(inventory);
     } catch (err) {
@@ -167,7 +167,7 @@ app.put('/api/inventory/:id', async (req, res) => {
     
     const { 
         product_name, category, current_stock, unit_cost, 
-        status, user_id, user_name, role, company_id,
+        status, user_id, user_name, role, business_id,
         min_stock, sku, supplier, location 
     } = req.body;
 
@@ -189,7 +189,7 @@ app.put('/api/inventory/:id', async (req, res) => {
 
         await prisma.activity_logs.create({
             data: {
-                company_id: Number(company_id),
+                business_id: Number(business_id),
                 user_id: user_id && user_id !== 0 ? Number(user_id) : null,
                 action_type: "Update",
                 description: `${role} ${user_name} updated product: ${product_name}`
@@ -206,7 +206,7 @@ app.put('/api/inventory/:id', async (req, res) => {
 // --- ADD PRODUCT ---
 app.post('/api/inventory', async (req, res) => {
     try {
-        const { product_name, category, current_stock, min_stock, unit_cost, sku, supplier, location, status, company_id } = req.body;
+        const { product_name, category, current_stock, min_stock, unit_cost, sku, supplier, location, status, business_id } = req.body;
         
         const newProduct = await prisma.inventory.create({
             data: {
@@ -216,7 +216,7 @@ app.post('/api/inventory', async (req, res) => {
                 supplier,
                 location,
                 status,
-                company_id: Number(company_id),
+                business_id: Number(business_id),
                 current_stock: Number(current_stock),
                 min_stock: Number(min_stock),
                 unit_cost: Number(unit_cost),
@@ -247,14 +247,14 @@ app.delete('/api/inventory/:id', async (req, res) => {
 
 // Create Staff Member
 app.post('/api/team', async (req, res) => {
-    const { fullName, email, password, company_id } = req.body;
+    const { fullName, email, password, business_id } = req.body;
     try {
         const newUser = await prisma.users.create({
             data: {
                 full_name: fullName,
                 email: email,
                 password_hash: password,
-                company_id: Number(company_id),
+                business_id: Number(business_id),
                 role: 'Business' 
             }
         });
@@ -266,10 +266,10 @@ app.post('/api/team', async (req, res) => {
 
 // Fetch Team Members
 app.get('/api/team', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
     try {
         const team = await prisma.users.findMany({
-            where: { company_id }
+            where: { business_id }
         });
         res.status(200).json(team);
     } catch (err) {
@@ -311,12 +311,16 @@ app.delete('/api/team/:id', async (req, res) => {
     }
 });
 
-// GET: Fetch sales for a company
+// GET: Fetch sales for a business
 app.get('/api/sales', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
+    if (!business_id) {
+        return res.status(400).json({ error: 'business_id required' });
+    }
+
     try {
         const sales = await prisma.sales_reports.findMany({
-            where: { company_id: company_id },
+            where: { business_id: business_id },
             orderBy: { date: 'desc' } // Changed from report_date to date
         });
         res.json(sales);
@@ -339,6 +343,19 @@ app.post('/api/sales', async (req: any, res: any) => {
             return res.status(400).json({ error: 'reports array is required' });
         }
 
+        const businessId = Number(req.body.business_id ?? reports[0]?.business_id);
+        if (!Number.isInteger(businessId) || businessId <= 0) {
+            return res.status(400).json({ error: 'business_id required' });
+        }
+
+        const hasMismatchedBusiness = reports.some((r: any) => {
+            const rowBusinessId = Number(r.business_id ?? businessId);
+            return rowBusinessId !== businessId;
+        });
+        if (hasMismatchedBusiness) {
+            return res.status(400).json({ error: 'All sales reports must match the logged-in business_id' });
+        }
+
         let totalInserted = 0;
 
         // ── Step 1: insert sales in chunks (no inventory check yet) ─────────
@@ -349,7 +366,7 @@ app.post('/api/sales', async (req: any, res: any) => {
                 async (tx) => {
                     await tx.sales_reports.createMany({
                         data: chunk.map((r: any) => ({
-                            company_id:     Number(r.company_id),
+                            business_id:     businessId,
                             date:           new Date(r.date),
                             order_number:   String(r.order_number || `IMP-${Date.now()}-${i}`),
                             product_name:   r.product_name,
@@ -370,9 +387,8 @@ app.post('/api/sales', async (req: any, res: any) => {
         }
 
         // ── Step 2: update inventory in one aggregated pass ──────────────────
-        // Sum quantities sold per (product_name, company_id) across all reports
+        // Sum quantities sold per (product_name, business_id) across all reports
         const soldMap: Record<string, number> = {};
-        const companyId = Number(reports[0]?.company_id);
         for (const r of reports) {
             const key = String(r.product_name);
             soldMap[key] = (soldMap[key] ?? 0) + Number(r.quantity);
@@ -380,7 +396,7 @@ app.post('/api/sales', async (req: any, res: any) => {
 
         for (const [productName, qtySum] of Object.entries(soldMap)) {
             const invItem = await prisma.inventory.findFirst({
-                where: { product_name: productName, company_id: companyId },
+                where: { product_name: productName, business_id: businessId },
             });
             if (!invItem) continue;
 
@@ -408,7 +424,7 @@ app.post('/api/sales', async (req: any, res: any) => {
 
         for (const productName of Object.keys(soldMap)) {
             try {
-                const forecastResult = await getOrTrainForecastArtifact(companyId, productName, 6, false);
+                const forecastResult = await getOrTrainForecastArtifact(businessId, productName, 6, false);
                 modelTrainingResults.push({
                     product_name: productName,
                     status: forecastResult.loadedFromCache ? 'cached' : 'trained',
@@ -435,16 +451,21 @@ app.post('/api/sales', async (req: any, res: any) => {
 // UPDATE a sale
 app.put('/api/sales/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    const { productName, quantity, company_id, reportDate, orderNumber, category, unitPrice, totalAmount, customerName, paymentMethod, status } = req.body;
+    const { productName, quantity, business_id, reportDate, orderNumber, category, unitPrice, totalAmount, customerName, paymentMethod, status } = req.body;
+    const businessId = Number(business_id);
+
+    if (!Number.isInteger(businessId) || businessId <= 0) {
+        return res.status(400).json({ error: 'business_id required' });
+    }
 
     try {
         await prisma.$transaction(async (tx) => {
             // Get the current sale record before updating it
-            const oldSale = await tx.sales_reports.findUnique({ 
-                where: { report_id: id } 
+            const oldSale = await tx.sales_reports.findFirst({
+                where: { report_id: id, business_id: businessId }
             });
 
-            if (!oldSale) throw new Error("Sale record not found");
+            if (!oldSale) throw new Error("Sale record not found for this business");
 
             // Calculate the difference (New Qty - Old Qty)
             const diff = Number(quantity) - Number(oldSale.quantity);
@@ -470,7 +491,7 @@ app.put('/api/sales/:id', async (req, res) => {
             const inventoryItem = await tx.inventory.findFirst({
                 where: { 
                     product_name: productName,
-                    company_id: Number(company_id)
+                    business_id: businessId
                 }
             });
 
@@ -509,18 +530,20 @@ app.put('/api/sales/:id', async (req, res) => {
 // DELETE a sale
 app.delete('/api/sales/:id', async (req, res) => {
     const id = parseInt(req.params.id);
+    const businessId = Number(req.query.business_id ?? req.body?.business_id);
+
+    if (!Number.isInteger(businessId) || businessId <= 0) {
+        return res.status(400).json({ error: 'business_id required' });
+    }
     
     try {
         await prisma.$transaction(async (tx) => {
             // Find the sale record first so we know what to "refund"
-            const saleToDelete = await tx.sales_reports.findUnique({
-                where: { report_id: id }
+            const saleToDelete = await tx.sales_reports.findFirst({
+                where: { report_id: id, business_id: businessId }
             });
 
-            if (!saleToDelete) throw new Error("Sale not found");
-
-            const productName = saleToDelete.product_name as string; 
-            const companyId = saleToDelete.company_id as number;
+            if (!saleToDelete) throw new Error("Sale not found for this business");
 
             //  Delete the sale record
             await tx.sales_reports.delete({
@@ -531,7 +554,7 @@ app.delete('/api/sales/:id', async (req, res) => {
             const inventoryItem = await tx.inventory.findFirst({
                 where: { 
                     product_name: saleToDelete.product_name ?? "", 
-                    company_id: saleToDelete.company_id ?? 0 
+                    business_id: saleToDelete.business_id ?? 0 
                 }
             });
             
@@ -560,10 +583,10 @@ app.delete('/api/sales/:id', async (req, res) => {
 
 // GET Suppliers
 app.get('/api/suppliers', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
     try {
         const suppliers = await prisma.suppliers.findMany({
-            where: { company_id: company_id },
+            where: { business_id: business_id },
             orderBy: { supplier_name: 'asc' }
         });
         res.json(suppliers);
@@ -575,11 +598,11 @@ app.get('/api/suppliers', async (req, res) => {
 // POST Supplier
 app.post('/api/suppliers', async (req, res) => {
     try {
-        const { company_id, supplier_name, category, location, contact_email, contact_number, rating, status, delivery_time } = req.body;
+        const { business_id, supplier_name, category, location, contact_email, contact_number, rating, status, delivery_time } = req.body;
         
         const newSupplier = await prisma.suppliers.create({
             data: {
-                company_id: Number(company_id),
+                business_id: Number(business_id),
                 supplier_name,
                 category,
                 location,
@@ -651,11 +674,11 @@ app.delete('/api/suppliers/:id', async (req, res) => {
 });
 
 app.post('/api/purchase-orders', async (req, res) => {
-    const { company_id, supplier_id, total_amount, order_date } = req.body;
+    const { business_id, supplier_id, total_amount, order_date } = req.body;
     try {
         const newOrder = await prisma.purchase_orders.create({
             data: {
-                company_id: Number(company_id),
+                business_id: Number(business_id),
                 supplier_id: Number(supplier_id),
                 total_amount: Number(total_amount),
                 order_date: new Date(order_date),
@@ -670,10 +693,10 @@ app.post('/api/purchase-orders', async (req, res) => {
 });
 
 app.get('/api/purchase-orders', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
     try {
         const orders = await prisma.purchase_orders.findMany({
-            where: { company_id },
+            where: { business_id },
             include: { suppliers: true },
             orderBy: { order_date: 'desc' }
         });
@@ -687,11 +710,11 @@ app.get('/api/purchase-orders', async (req, res) => {
 // Update Business Info
 app.put('/api/business/:id', async (req, res) => {
     const { id } = req.params;
-    const { company_name, email, business_address } = req.body;
+    const { business_name, email, business_address } = req.body;
     try {
-        const updated = await prisma.companies.update({
-            where: { company_id: Number(id) },
-            data: { company_name, email, business_address }
+        const updated = await prisma.businesses.update({
+            where: { business_id: Number(id) },
+            data: { business_name, email, business_address }
         });
         res.json(updated);
     } catch (err) { res.status(500).send(err); }
@@ -702,15 +725,15 @@ app.put('/api/change-password/:id', async (req, res) => {
     const { id } = req.params;
     const { oldPassword, newPassword, isStaff } = req.body;
     try {
-        const table = isStaff ? prisma.users : prisma.companies;
+        const table = isStaff ? prisma.users : prisma.businesses;
         const user = await (table as any).findFirst({ 
-            where: { [isStaff ? 'user_id' : 'company_id']: Number(id), password_hash: oldPassword } 
+            where: { [isStaff ? 'user_id' : 'business_id']: Number(id), password_hash: oldPassword } 
         });
 
         if (!user) return res.status(401).json({ message: "Incorrect old password" });
 
         await (table as any).update({
-            where: { [isStaff ? 'user_id' : 'company_id']: Number(id) },
+            where: { [isStaff ? 'user_id' : 'business_id']: Number(id) },
             data: { password_hash: newPassword }
         });
         res.json({ message: "Password updated" });
@@ -723,31 +746,31 @@ app.delete('/api/business/:id', async (req, res) => {
         const id = Number(req.params.id);
         // Prisma transaction to clean up related data if not handled by CASCADE
         await prisma.$transaction([
-            prisma.inventory.deleteMany({ where: { company_id: id } }),
-            prisma.users.deleteMany({ where: { company_id: id } }),
-            prisma.companies.delete({ where: { company_id: id } }),
+            prisma.inventory.deleteMany({ where: { business_id: id } }),
+            prisma.users.deleteMany({ where: { business_id: id } }),
+            prisma.businesses.delete({ where: { business_id: id } }),
         ]);
         res.json({ message: "Account deleted" });
     } catch (err) { res.status(500).send(err); }
 });
 
 app.get('/api/export-all', async (req, res) => {
-    const company_id = parseInt(req.query.company_id as string);
+    const business_id = parseInt(req.query.business_id as string);
     
-    if (!company_id) return res.status(400).json({ error: "Company ID required" });
+    if (!business_id) return res.status(400).json({ error: "business ID required" });
 
     try {
         const [inventory, sales, suppliers, team] = await prisma.$transaction([
-            prisma.inventory.findMany({ where: { company_id } }),
-            prisma.sales_reports.findMany({ where: { company_id } }),
-            prisma.suppliers.findMany({ where: { company_id } }),
-            prisma.users.findMany({ where: { company_id } })
+            prisma.inventory.findMany({ where: { business_id } }),
+            prisma.sales_reports.findMany({ where: { business_id } }),
+            prisma.suppliers.findMany({ where: { business_id } }),
+            prisma.users.findMany({ where: { business_id } })
         ]);
 
         res.json({
             export_info: {
                 timestamp: new Date().toISOString(),
-                company_id: company_id
+                business_id: business_id
             },
             inventory,
             sales,
@@ -761,21 +784,21 @@ app.get('/api/export-all', async (req, res) => {
 
 // ── Recommendation History Routes ─────────────────────────────
 app.get('/api/recommendations', async (req: any, res: any) => {
-  const company_id = Number(req.query.company_id);
-  if (!company_id) {
-    return res.status(400).json({ error: 'company_id required' });
+  const business_id = Number(req.query.business_id);
+  if (!business_id) {
+    return res.status(400).json({ error: 'business_id required' });
   }
 
   try {
     await ensureRecommendationActionStorage();
     const rows = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
-      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+      `SELECT action_id, business_id, prediction_id, action_taken, status, executed_at,
               recommendation_key, product_name, priority, title, description,
               recommended_action, impact, generated_at, updated_at, completed_at, action_history
          FROM recommendation_actions
-        WHERE company_id = ?
+        WHERE business_id = ?
         ORDER BY FIELD(status, 'Pending', 'Done', 'Cancelled'), updated_at DESC, executed_at DESC`,
-      company_id
+      business_id
     );
 
     return res.json(rows.map((row) => ({
@@ -788,9 +811,9 @@ app.get('/api/recommendations', async (req: any, res: any) => {
 });
 
 app.post('/api/recommendations/bulk', async (req: any, res: any) => {
-  const { company_id, recommendations = [] } = req.body;
-  if (!company_id) {
-    return res.status(400).json({ error: 'company_id required' });
+  const { business_id, recommendations = [] } = req.body;
+  if (!business_id) {
+    return res.status(400).json({ error: 'business_id required' });
   }
   if (!Array.isArray(recommendations)) {
     return res.status(400).json({ error: 'recommendations must be an array' });
@@ -805,11 +828,11 @@ app.post('/api/recommendations/bulk', async (req: any, res: any) => {
       const existing = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
         `SELECT action_id, status, action_history
            FROM recommendation_actions
-          WHERE company_id = ?
+          WHERE business_id = ?
             AND recommendation_key = ?
           ORDER BY action_id DESC
           LIMIT 1`,
-        Number(company_id),
+        Number(business_id),
         String(rec.id)
       );
 
@@ -848,10 +871,10 @@ app.post('/api/recommendations/bulk', async (req: any, res: any) => {
 
         await prisma.$executeRawUnsafe(
           `INSERT INTO recommendation_actions
-             (company_id, recommendation_key, product_name, priority, title, description,
+             (business_id, recommendation_key, product_name, priority, title, description,
               recommended_action, impact, status, generated_at, updated_at, action_history)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending', NOW(), NOW(), ?)`,
-          Number(company_id),
+          Number(business_id),
           String(rec.id),
           String(rec.relatedProduct ?? ''),
           String(rec.priority ?? 'Low'),
@@ -866,13 +889,13 @@ app.post('/api/recommendations/bulk', async (req: any, res: any) => {
     }
 
     const rows = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
-      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+      `SELECT action_id, business_id, prediction_id, action_taken, status, executed_at,
               recommendation_key, product_name, priority, title, description,
               recommended_action, impact, generated_at, updated_at, completed_at, action_history
          FROM recommendation_actions
-        WHERE company_id = ?
+        WHERE business_id = ?
         ORDER BY FIELD(status, 'Pending', 'Done', 'Cancelled'), updated_at DESC, executed_at DESC`,
-      Number(company_id)
+      Number(business_id)
     );
 
     return res.json(rows.map((row) => ({
@@ -886,9 +909,9 @@ app.post('/api/recommendations/bulk', async (req: any, res: any) => {
 
 app.put('/api/recommendations/:id/complete', async (req: any, res: any) => {
   const actionId = Number(req.params.id);
-  const { company_id, action_taken } = req.body;
-  if (!actionId || !company_id) {
-    return res.status(400).json({ error: 'action id and company_id required' });
+  const { business_id, action_taken } = req.body;
+  if (!actionId || !business_id) {
+    return res.status(400).json({ error: 'action id and business_id required' });
   }
 
   try {
@@ -897,10 +920,10 @@ app.put('/api/recommendations/:id/complete', async (req: any, res: any) => {
       `SELECT action_id, title, recommended_action, action_history
          FROM recommendation_actions
         WHERE action_id = ?
-          AND company_id = ?
+          AND business_id = ?
         LIMIT 1`,
       actionId,
-      Number(company_id)
+      Number(business_id)
     );
 
     if (rows.length === 0) {
@@ -921,15 +944,15 @@ app.put('/api/recommendations/:id/complete', async (req: any, res: any) => {
               updated_at = NOW(),
               action_history = ?
         WHERE action_id = ?
-          AND company_id = ?`,
+          AND business_id = ?`,
       String(action_taken ?? rows[0].recommended_action ?? 'Completed'),
       JSON.stringify(history),
       actionId,
-      Number(company_id)
+      Number(business_id)
     );
 
     const updated = await prisma.$queryRawUnsafe<RecommendationActionRow[]>(
-      `SELECT action_id, company_id, prediction_id, action_taken, status, executed_at,
+      `SELECT action_id, business_id, prediction_id, action_taken, status, executed_at,
               recommendation_key, product_name, priority, title, description,
               recommended_action, impact, generated_at, updated_at, completed_at, action_history
          FROM recommendation_actions
@@ -1220,9 +1243,9 @@ function assertModelSelectionConsistency(
   }
 }
 
-async function prepareForecastContext(companyId: number, productName: string): Promise<PreparedForecastContext> {
+async function prepareForecastContext(businessId: number, productName: string): Promise<PreparedForecastContext> {
   const rawSales = await prisma.sales_reports.findMany({
-    where: { company_id: companyId, product_name: productName },
+    where: { business_id: businessId, product_name: productName },
     orderBy: { date: 'asc' },
     select: { date: true, quantity: true }
   });
@@ -1246,7 +1269,7 @@ async function prepareForecastContext(companyId: number, productName: string): P
 
   const algorithm = classResult.algorithm as ForecastAlgorithm;
   const scriptConfig = MODEL_SCRIPT_PATHS[algorithm];
-  const { modelDir, modelPath } = await buildBusinessModelPath(scriptConfig, companyId, productName);
+  const { modelDir, modelPath } = await buildBusinessModelPath(scriptConfig, businessId, productName);
 
   return {
     dates,
@@ -1261,12 +1284,12 @@ async function prepareForecastContext(companyId: number, productName: string): P
 }
 
 async function getOrTrainForecastArtifact(
-  companyId: number,
+  businessId: number,
   productName: string,
   horizon = 6,
   forceRetrain = false,
 ) {
-  const prepared = await prepareForecastContext(companyId, productName);
+  const prepared = await prepareForecastContext(businessId, productName);
   const { dates, quantities, sortedKeys, classResult, algorithm, scriptConfig, modelDir, modelPath } = prepared;
 
   let modelResult: any = null;
@@ -1295,7 +1318,7 @@ async function getOrTrainForecastArtifact(
       loadedFromCache = true;
     } else {
       console.warn(
-        `[Forecast Cache Miss] company=${companyId} | ${productName} | ${algorithm} | ${cachedResult.error}`
+        `[Forecast Cache Miss] business=${businessId} | ${productName} | ${algorithm} | ${cachedResult.error}`
       );
     }
   }
@@ -1324,7 +1347,7 @@ async function getOrTrainForecastArtifact(
         loadedFromCache = true;
       } else {
         console.warn(
-          `[Forecast Shared Preload Miss] business=${companyId} | ${productName} | ${algorithm} | ${sharedResult.error}`
+          `[Forecast Shared Preload Miss] business=${businessId} | ${productName} | ${algorithm} | ${sharedResult.error}`
         );
       }
     }
@@ -1398,12 +1421,12 @@ async function getOrTrainForecastArtifact(
 }
 
 async function getOrTrainBusinessRevenueForecastArtifact(
-  companyId: number,
+  businessId: number,
   horizon = 6,
   forceRetrain = false,
 ) {
   const rawSales = await prisma.sales_reports.findMany({
-    where: { company_id: companyId },
+    where: { business_id: businessId },
     orderBy: { date: 'asc' },
     select: { date: true, total_amount: true },
   });
@@ -1460,7 +1483,7 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   }
 
   const algorithm = classResult.algorithm as ForecastAlgorithm;
-  const { modelDir, modelPath } = await resolveBusinessRevenueArtifactPath(algorithm, companyId);
+  const { modelDir, modelPath } = await resolveBusinessRevenueArtifactPath(algorithm, businessId);
 
   let modelResult: any = null;
   let savedModelPath = modelPath;
@@ -1486,7 +1509,7 @@ async function getOrTrainBusinessRevenueForecastArtifact(
       loadedFromCache = true;
     } else {
       console.warn(
-        `[Revenue Forecast Cache Miss] business=${companyId} | ${cachedResult.error}`
+        `[Revenue Forecast Cache Miss] business=${businessId} | ${cachedResult.error}`
       );
     }
   }
@@ -1494,7 +1517,7 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   if (!modelResult) {
     const outputModelPath =
       forceRetrain && hasCanonicalArtifact
-        ? buildRerunModelPath(getBusinessModelDir(modelDir, companyId), BUSINESS_REVENUE_FORECAST_NAME)
+        ? buildRerunModelPath(getBusinessModelDir(modelDir, businessId), BUSINESS_REVENUE_FORECAST_NAME)
         : modelPath;
 
     await ensureDir(path.dirname(outputModelPath));
@@ -1599,17 +1622,17 @@ function runPython(scriptPath: string, payload: object): Promise<any> {
 }
 
 // POST /api/forecast/train
-// Body: { company_id, product_name, horizon? }
+// Body: { business_id, product_name, horizon? }
 // Trains the appropriate forecasting model and saves a .pkl artifact.
 app.post('/api/forecast/train', async (req: any, res: any) => {
-  const { company_id, product_name, horizon = 6 } = req.body;
-  if (!company_id || !product_name) {
-    return res.status(400).json({ error: 'company_id and product_name required' });
+  const { business_id, product_name, horizon = 6 } = req.body;
+  if (!business_id || !product_name) {
+    return res.status(400).json({ error: 'business_id and product_name required' });
   }
 
   try {
     const forecastResult = await getOrTrainForecastArtifact(
-      Number(company_id),
+      Number(business_id),
       String(product_name),
       Number(horizon),
       true,
@@ -1633,21 +1656,21 @@ app.post('/api/forecast/train', async (req: any, res: any) => {
 });
 
 // POST /api/forecast
-// Body: { company_id, product_name, horizon?, force_retrain? }
+// Body: { business_id, product_name, horizon?, force_retrain? }
 // 1. Pulls monthly sales totals for product from sales_reports
 // 2. Classifies demand (ADI/CV²) → picks ARIMA_XGB or TSB_XGB
 // 3. Reuses the matching saved .pkl artifact when available
 // 4. Retrains only when forced, missing, or invalid
 // 5. Saves results to predictions table and returns forecasts + model info
 app.post('/api/forecast', async (req: any, res: any) => {
-  const { company_id, product_name, horizon = 6, force_retrain = false } = req.body;
-  if (!company_id || !product_name) {
-    return res.status(400).json({ error: 'company_id and product_name required' });
+  const { business_id, product_name, horizon = 6, force_retrain = false } = req.body;
+  if (!business_id || !product_name) {
+    return res.status(400).json({ error: 'business_id and product_name required' });
   }
 
   try {
     const forecastResult = await getOrTrainForecastArtifact(
-      Number(company_id),
+      Number(business_id),
       String(product_name),
       Number(horizon),
       Boolean(force_retrain),
@@ -1657,7 +1680,7 @@ app.post('/api/forecast', async (req: any, res: any) => {
     if (!forecastResult.loadedFromCache && forecastResult.mergedModelInfo.retrained) {
       const improved = forecastResult.mergedModelInfo.retrain_improved;
       console.log(
-        `[Forecast Retrain] company=${company_id} | ${product_name} | ${forecastResult.algorithm}` +
+        `[Forecast Retrain] business=${business_id} | ${product_name} | ${forecastResult.algorithm}` +
         ` | initial MAPE: ${forecastResult.mergedModelInfo.initial_mape}%` +
         ` | final MAPE: ${forecastResult.mergedModelInfo.mape}%` +
         ` | improved: ${improved}`
@@ -1667,14 +1690,14 @@ app.post('/api/forecast', async (req: any, res: any) => {
     // 5. Upsert forecast rows into predictions table
     // Find or derive product_id from inventory
     const inventoryItem = await prisma.inventory.findFirst({
-      where: { company_id: Number(company_id), product_name: String(product_name) },
+      where: { business_id: Number(business_id), product_name: String(product_name) },
       select: { product_id: true }
     });
 
-    // Delete old predictions for this product+company before re-inserting
+    // Delete old predictions for this product+business before re-inserting
     if (inventoryItem) {
       await prisma.predictions.deleteMany({
-        where: { company_id: Number(company_id), product_id: inventoryItem.product_id }
+        where: { business_id: Number(business_id), product_id: inventoryItem.product_id }
       });
     }
 
@@ -1686,7 +1709,7 @@ app.post('/api/forecast', async (req: any, res: any) => {
 
       await prisma.predictions.create({
         data: {
-          company_id:          Number(company_id),
+          business_id:          Number(business_id),
           product_id:          inventoryItem?.product_id ?? null,
           forecast_date:       new Date(fc.period + '-01'),
           predicted_quantity:  fc.predicted,
@@ -1716,25 +1739,25 @@ app.post('/api/forecast', async (req: any, res: any) => {
   }
 });
 
-// GET /api/forecast?company_id=X&product_name=Y
+// GET /api/forecast?business_id=X&product_name=Y
 // Returns the most recently stored predictions for a product (no recompute)
 app.get('/api/forecast', async (req: any, res: any) => {
-  const company_id   = parseInt(req.query.company_id as string);
+  const business_id   = parseInt(req.query.business_id as string);
   const product_name = req.query.product_name as string;
 
-  if (!company_id || !product_name) {
-    return res.status(400).json({ error: 'company_id and product_name required' });
+  if (!business_id || !product_name) {
+    return res.status(400).json({ error: 'business_id and product_name required' });
   }
 
   try {
     const inventoryItem = await prisma.inventory.findFirst({
-      where: { company_id, product_name },
+      where: { business_id, product_name },
       select: { product_id: true }
     });
 
     const preds = await prisma.predictions.findMany({
       where: {
-        company_id,
+        business_id,
         ...(inventoryItem ? { product_id: inventoryItem.product_id } : {})
       },
       orderBy: { forecast_date: 'asc' }
@@ -1742,7 +1765,7 @@ app.get('/api/forecast', async (req: any, res: any) => {
 
     // Also pull history for the chart
     const rawSales = await prisma.sales_reports.findMany({
-      where: { company_id, product_name },
+      where: { business_id, product_name },
       orderBy: { date: 'asc' },
       select: { date: true, quantity: true }
     });
@@ -1755,16 +1778,16 @@ app.get('/api/forecast', async (req: any, res: any) => {
   }
 });
 
-// GET /api/forecast/accuracy?company_id=X
+// GET /api/forecast/accuracy?business_id=X
 // Computes overall MAPE across all products by comparing stored predictions
 // to actual sales_reports. Used by the Dashboard confidence indicator.
 app.get('/api/forecast/accuracy', async (req: any, res: any) => {
-  const company_id = parseInt(req.query.company_id as string);
-  if (!company_id) return res.status(400).json({ error: 'company_id required' });
+  const business_id = parseInt(req.query.business_id as string);
+  if (!business_id) return res.status(400).json({ error: 'business_id required' });
 
   try {
     const preds = await prisma.predictions.findMany({
-      where: { company_id },
+      where: { business_id },
       select: { forecast_date: true, predicted_quantity: true, product_id: true }
     });
 
@@ -1772,13 +1795,13 @@ app.get('/api/forecast/accuracy', async (req: any, res: any) => {
 
     // Pull actual sales, aggregated monthly
     const allSales = await prisma.sales_reports.findMany({
-      where: { company_id },
+      where: { business_id },
       select: { date: true, quantity: true, product_name: true }
     });
 
     // Build map: productId -> { period -> actual_qty }
     const inventoryItems = await prisma.inventory.findMany({
-      where: { company_id },
+      where: { business_id },
       select: { product_id: true, product_name: true }
     });
     const pidToName: Record<number, string> = {};
@@ -1816,14 +1839,14 @@ app.get('/api/forecast/accuracy', async (req: any, res: any) => {
 });
 
 app.post('/api/forecast/revenue', async (req: any, res: any) => {
-  const { company_id, horizon = 6, force_retrain = false } = req.body;
-  if (!company_id) {
-    return res.status(400).json({ error: 'company_id required' });
+  const { business_id, horizon = 6, force_retrain = false } = req.body;
+  if (!business_id) {
+    return res.status(400).json({ error: 'business_id required' });
   }
 
   try {
     const forecastResult = await getOrTrainBusinessRevenueForecastArtifact(
-      Number(company_id),
+      Number(business_id),
       Number(horizon),
       Boolean(force_retrain),
     );

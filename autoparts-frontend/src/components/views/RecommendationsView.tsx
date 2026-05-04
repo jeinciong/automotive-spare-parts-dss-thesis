@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
-import { TrendingUp, Zap, ArrowRight, CheckCircle, Package, AlertTriangle, TrendingDown, ShieldCheck, Clock } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import { TrendingUp, Zap, ArrowRight, CheckCircle, Package, AlertTriangle, TrendingDown, ShieldCheck, Clock, ChevronDown } from "lucide-react";
 import { GlobalFilters } from "../../App";
 import { motion } from "motion/react";
 import { toast } from "sonner";
@@ -106,9 +107,13 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
   const { productForecasts } = useForecast();
   const [savedActions, setSavedActions] = useState<SavedRecommendationAction[]>([]);
   const [actionModal, setActionModal] = useState<{open: boolean; recommendation: Recommendation; savedActionId?: number} | null>(null);
+  const [needsActionOpen, setNeedsActionOpen] = useState(true);
+  const [doneRecommendationsOpen, setDoneRecommendationsOpen] = useState(true);
+  const [showMoreNeedsAction, setShowMoreNeedsAction] = useState(false);
+  const [showMoreDoneRecommendations, setShowMoreDoneRecommendations] = useState(false);
 
-  const companyId = useMemo(() => {
-    return JSON.parse(localStorage.getItem("user") || "{}").company_id;
+  const businessId = useMemo(() => {
+    return JSON.parse(localStorage.getItem("user") || "{}").business_id;
   }, []);
 
   const recommendations = useMemo(() => {
@@ -247,18 +252,18 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
   }, [pendingRecommendations]);
 
   useEffect(() => {
-    if (!companyId) return;
+    if (!businessId) return;
 
-    fetch(apiUrl(`/api/recommendations?company_id=${companyId}`))
+    fetch(apiUrl(`/api/recommendations?business_id=${businessId}`))
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) setSavedActions(data);
       })
       .catch(() => {});
-  }, [companyId]);
+  }, [businessId]);
 
   useEffect(() => {
-    if (!companyId || recommendations.length === 0) return;
+    if (!businessId || recommendations.length === 0) return;
 
     const controller = new AbortController();
     fetch(apiUrl("/api/recommendations/bulk"), {
@@ -266,7 +271,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       headers: { "Content-Type": "application/json" },
       signal: controller.signal,
       body: JSON.stringify({
-        company_id: companyId,
+        business_id: businessId,
         recommendations: recommendations.map((recommendation) => ({
           id: recommendation.id,
           relatedProduct: recommendation.relatedProduct,
@@ -285,7 +290,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       .catch(() => {});
 
     return () => controller.abort();
-  }, [companyId, recommendations]);
+  }, [businessId, recommendations]);
 
   const handleAction = (recommendation: Recommendation) => {
     const savedAction = savedActionsByKey.get(recommendation.id);
@@ -304,7 +309,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            company_id: companyId,
+            business_id: businessId,
             action_taken: actionModal.recommendation.action,
           }),
         });
@@ -485,130 +490,174 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       </motion.div>
 
       <div className="space-y-4">
-        <motion.div className="flex items-center justify-between gap-3" variants={itemVariants}>
-          <h2 className="text-xl font-semibold">Needs Action</h2>
-          <Badge variant="outline" className="text-sm">
-            <Package className="w-3 h-3 mr-1" />
-            {totalRecommendations} pending actions from {forecastedProductCount} forecasted products
-          </Badge>
-        </motion.div>
-        <div className="space-y-4">
-          {pendingRecommendations.map((rec) => (
-            <motion.div
-              key={rec.id}
-              variants={itemVariants}
-              whileHover={{ scale: 1.01 }}
-            >
-              <Card className="transition-all hover:shadow-lg border-0 shadow-md">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="p-2 bg-gradient-to-br from-[#FF6B00]/10 to-[#FF8A50]/10 rounded-lg">
-                      <rec.icon className="w-5 h-5 text-[#FF6B00]" />
-                    </div>
-                    <div className="flex-1 space-y-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <h3 className="font-medium">{rec.title}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {rec.category} - {rec.relatedProduct}
-                          </p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          {getStatusBadge(savedActionsByKey.get(rec.id)?.status)}
-                          {getPriorityBadge(rec.priority)}
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-700">{rec.description}</p>
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="text-sm font-medium text-green-600">
-                          {rec.impact}
-                        </span>
-                        <Button
-                          size="sm"
-                          onClick={() => handleAction(rec)}
-                          className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] hover:from-[#FF8A50] hover:to-[#FF6B00]"
-                        >
-                          Mark Done
-                          <ArrowRight className="w-4 h-4 ml-1" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        <Collapsible open={needsActionOpen} onOpenChange={setNeedsActionOpen}>
+          <CollapsibleTrigger asChild>
+            <motion.div className="flex items-center justify-between gap-3 cursor-pointer group" variants={itemVariants}>
+              <div className="flex items-center gap-3">
+                <h2 className="text-xl font-semibold">Needs Action</h2>
+                <ChevronDown className="w-5 h-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+              </div>
+              <Badge variant="outline" className="text-sm">
+                <Package className="w-3 h-3 mr-1" />
+                {totalRecommendations} pending actions from {forecastedProductCount} forecasted products
+              </Badge>
             </motion.div>
-          ))}
-          {pendingRecommendations.length === 0 && (
-            <Card className="border-dashed">
-              <CardContent className="p-6 text-sm text-muted-foreground">
-                All current inventory recommendations are marked done.
-              </CardContent>
-            </Card>
-          )}
-        </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4 space-y-4">
+            <div className="space-y-4">
+              {pendingRecommendations
+                .slice(0, showMoreNeedsAction ? undefined : 3)
+                .map((rec) => (
+                <motion.div
+                  key={rec.id}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <Card className="transition-all hover:shadow-lg border-0 shadow-md">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="p-2 bg-gradient-to-br from-[#FF6B00]/10 to-[#FF8A50]/10 rounded-lg">
+                          <rec.icon className="w-5 h-5 text-[#FF6B00]" />
+                        </div>
+                        <div className="flex-1 space-y-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <h3 className="font-medium">{rec.title}</h3>
+                              <p className="text-sm text-muted-foreground">
+                                {rec.category} - {rec.relatedProduct}
+                              </p>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {getStatusBadge(savedActionsByKey.get(rec.id)?.status)}
+                              {getPriorityBadge(rec.priority)}
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-700">{rec.description}</p>
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-medium text-green-600">
+                              {rec.impact}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAction(rec)}
+                              className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] hover:from-[#FF8A50] hover:to-[#FF6B00]"
+                            >
+                              Mark Done
+                              <ArrowRight className="w-4 h-4 ml-1" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+              {pendingRecommendations.length === 0 && (
+                <Card className="border-dashed">
+                  <CardContent className="p-6 text-sm text-muted-foreground">
+                    All current inventory recommendations are marked done.
+                  </CardContent>
+                </Card>
+              )}
+              {pendingRecommendations.length > 3 && (
+                <div className="flex justify-center mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowMoreNeedsAction(!showMoreNeedsAction)}
+                    className="text-sm"
+                  >
+                    {showMoreNeedsAction ? "Show less" : `Show more (${pendingRecommendations.length - 3} more)`}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
       <div className="space-y-4">
-        <motion.div className="flex items-center justify-between gap-3" variants={itemVariants}>
-          <h2 className="text-xl font-semibold">Done Recommendations</h2>
-          <Badge variant="outline" className="text-sm">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            {completedActions.length} completed
-          </Badge>
-        </motion.div>
-        <div className="space-y-4">
-          {completedActions.map((action) => (
-            <motion.div
-              key={action.action_id}
-              variants={itemVariants}
-              whileHover={{ scale: 1.01 }}
-            >
-              <Card className="transition-all hover:shadow-lg border-0 shadow-md">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-green-700" />
-                    </div>
-                    <div className="flex-1 space-y-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <h3 className="font-medium">
-                            {action.title ?? "Completed recommendation"}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {action.product_name || "Not specified"} - completed {formatTimestamp(action.completed_at ?? action.executed_at)}
-                          </p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          {getStatusBadge(action.status)}
-                          <Badge variant="outline">{action.priority ?? "Low"} Priority</Badge>
-                        </div>
-                      </div>
-                      {action.description && (
-                        <p className="text-sm text-gray-700">{action.description}</p>
-                      )}
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="text-sm font-medium text-green-700">
-                          Action taken: {action.action_taken ?? action.recommended_action ?? "Marked as done"}
-                        </span>
-                        <span className="text-xs text-muted-foreground text-right">
-                          Saved {formatTimestamp(action.updated_at ?? action.completed_at)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        <Collapsible open={doneRecommendationsOpen} onOpenChange={setDoneRecommendationsOpen}>
+          <CollapsibleTrigger asChild>
+            <motion.div className="flex items-center justify-between gap-3 cursor-pointer group" variants={itemVariants}>
+              <div className="flex items-center gap-3">
+                <h2 className="text-xl font-semibold">Done Recommendations</h2>
+                <ChevronDown className="w-5 h-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+              </div>
+              <Badge variant="outline" className="text-sm">
+                <CheckCircle className="w-3 h-3 mr-1" />
+                {completedActions.length} completed
+              </Badge>
             </motion.div>
-          ))}
-          {completedActions.length === 0 && (
-            <Card className="border-dashed">
-              <CardContent className="p-6 text-sm text-muted-foreground">
-                Completed inventory recommendations will appear here after you mark an action as done.
-              </CardContent>
-            </Card>
-          )}
-        </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4 space-y-4">
+            <div className="space-y-4">
+              {completedActions
+                .slice(0, showMoreDoneRecommendations ? undefined : 3)
+                .map((action) => (
+                <motion.div
+                  key={action.action_id}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <Card className="transition-all hover:shadow-lg border-0 shadow-md">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="p-2 bg-green-100 rounded-lg">
+                          <CheckCircle className="w-5 h-5 text-green-700" />
+                        </div>
+                        <div className="flex-1 space-y-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <h3 className="font-medium">
+                                {action.title ?? "Completed recommendation"}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {action.product_name || "Not specified"} - completed {formatTimestamp(action.completed_at ?? action.executed_at)}
+                              </p>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {getStatusBadge(action.status)}
+                              <Badge variant="outline">{action.priority ?? "Low"} Priority</Badge>
+                            </div>
+                          </div>
+                          {action.description && (
+                            <p className="text-sm text-gray-700">{action.description}</p>
+                          )}
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-medium text-green-700">
+                              Action taken: {action.action_taken ?? action.recommended_action ?? "Marked as done"}
+                            </span>
+                            <span className="text-xs text-muted-foreground text-right">
+                              Saved {formatTimestamp(action.updated_at ?? action.completed_at)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+              {completedActions.length === 0 && (
+                <Card className="border-dashed">
+                  <CardContent className="p-6 text-sm text-muted-foreground">
+                    Completed inventory recommendations will appear here after you mark an action as done.
+                  </CardContent>
+                </Card>
+              )}
+              {completedActions.length > 3 && (
+                <div className="flex justify-center mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowMoreDoneRecommendations(!showMoreDoneRecommendations)}
+                    className="text-sm"
+                  >
+                    {showMoreDoneRecommendations ? "Show less" : `Show more (${completedActions.length - 3} more)`}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
