@@ -1,4 +1,4 @@
-import { CalendarDays, Filter, LogOut, Bell, BarChart3, ChevronDown } from "lucide-react";
+import { CalendarDays, Filter, LogOut, BarChart3, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Checkbox } from "./ui/checkbox";
@@ -35,22 +35,12 @@ const analyticsViews = [
 ];
 
 export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearFilters, activeView }: SalesHeaderProps) {
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: "Low Stock Alert", desc: "Oil Filter Premium - Only 8 units remaining", type: "urgent", time: "15m ago" },
-    { id: 2, title: "Sales Milestone", desc: "Monthly target achieved - ₱250K reached", type: "success", time: "2h ago" },
-    { id: 3, title: "New Report Available", desc: "Weekly performance report is ready", type: "info", time: "5h ago" }
-  ]);
-
   const [localCategories, setLocalCategories] = useState<string[]>(globalFilters.categories);
   const [localStatus] = useState<string[]>(globalFilters.status);
   const [localDateRange, setLocalDateRange] = useState(globalFilters.dateRange);
   const [localAnalyticsView, setLocalAnalyticsView] = useState(globalFilters.analyticsView);
   const [customDateFrom] = useState<Date | undefined>(globalFilters.customDateRange?.from);
   const [customDateTo] = useState<Date | undefined>(globalFilters.customDateRange?.to);
-
-  const handleRemoveNotif = (id: number) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
-  };
 
   const handleApplyFilters = () => {
     const updates: any = {
@@ -67,7 +57,7 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
 
   const activeFiltersCount = globalFilters.categories.length + globalFilters.status.length;
 
-  const isDashboard = activeView === "dashboard";
+  // Updated logic: Filter only shows for Sales Report
   const isSalesReport = activeView === "sales-reports";
   const isAnalytics = activeView === "analytics";
   const isPredictions = activeView === "predictions-trends";
@@ -83,7 +73,8 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
       </div>
 
       <div className="flex items-center gap-3">
-        {!isDashboard && (
+        {/* Only show filter if on Sales Report view */}
+        {isSalesReport && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="relative border-orange-200 hover:bg-orange-50">
@@ -125,7 +116,7 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                 {(isSalesReport || isAnalytics) && (
                   <div className="space-y-3">
                     <DropdownMenuSeparator />
-                    <Label className="font-semibold">Product Categories</Label>
+                    {/* <Label className="font-semibold">Product Categories</Label>
                     <div className="grid grid-cols-1 gap-2">
                       {categories.map((cat) => (
                         <div key={cat} className="flex items-center space-x-2">
@@ -137,7 +128,7 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
                           <Label htmlFor={cat} className="text-sm cursor-pointer">{cat}</Label>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 )}
 
@@ -172,46 +163,6 @@ export function SalesHeader({ onLogout, globalFilters, onUpdateFilters, onClearF
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="relative">
-              <Bell className="w-4 h-4" />
-              {notifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center animate-pulse">
-                  {notifications.length}
-                </span>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel className="flex justify-between items-center">
-              Notifications
-              {notifications.length > 0 && <span className="text-[10px] font-normal text-muted-foreground">Click to dismiss</span>}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <div className="max-h-80 overflow-y-auto">
-              {notifications.length === 0 ? (
-                <div className="p-8 text-center text-muted-foreground text-sm">No new notifications</div>
-              ) : (
-                notifications.map((n) => (
-                  <DropdownMenuItem 
-                    key={n.id} 
-                    className="flex-col items-start py-3 cursor-pointer hover:bg-orange-50 focus:bg-orange-50"
-                    onClick={() => handleRemoveNotif(n.id)}
-                  >
-                    <div className="flex items-center justify-between w-full mb-1">
-                      <span className="font-medium text-sm">{n.title}</span>
-                      <Badge className={`text-[10px] ${n.type === 'urgent' ? 'bg-red-500' : 'bg-blue-500'}`}>{n.type}</Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">{n.desc}</p>
-                    <span className="text-[10px] text-muted-foreground mt-1">{n.time}</span>
-                  </DropdownMenuItem>
-                ))
-              )}
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
