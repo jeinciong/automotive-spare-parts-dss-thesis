@@ -48,7 +48,7 @@ export function SettingsView() {
   const [businessInfo, setBusinessInfo] = useState({
     name: savedUser.user_name || "",
     email: savedUser.email || "",
-    address: "123 Thesis St. Tanza, Cavite" 
+    address: savedUser.business_address ||"" 
   });
 
   const [isEditMemberOpen, setIsEditMemberOpen] = useState(false);
@@ -56,21 +56,38 @@ export function SettingsView() {
   const [passwords, setPasswords] = useState({ old: "", new: "", confirm: "" });
 
   const handleUpdateBusiness = async () => {
-    const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            business_name: businessInfo.name,
-            email: businessInfo.email,
-            business_address: businessInfo.address
-        })
+  const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      business_name: businessInfo.name,
+      email: businessInfo.email,
+      business_address: businessInfo.address
+    })
+  });
+
+  if (response.ok) {
+    // Update localStorage so it persists on refresh
+    const updatedUser = { 
+      ...savedUser, 
+      user_name: businessInfo.name, 
+      email: businessInfo.email,
+      // Add the address here if your local storage user object tracks it
+      business_address: businessInfo.address 
+    };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+
+    setBusinessInfo({
+      name: businessInfo.name,
+      email: businessInfo.email,
+      address: businessInfo.address
     });
-      if (response.ok) {
-          const updatedUser = { ...savedUser, user_name: businessInfo.name, email: businessInfo.email };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-          toast.success("Business profile updated!");
-      }
-  };
+
+    toast.success("Business profile updated!");
+  } else {
+    toast.error("Failed to update business profile");
+  }
+};
 
   const handleChangePassword = async () => {
       if (passwords.new !== passwords.confirm) return toast.error("Passwords do not match");

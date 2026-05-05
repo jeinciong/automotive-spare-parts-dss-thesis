@@ -39,23 +39,126 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const { salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV } = useSalesReports();
   const { inventory } = useInventory();
   const { productForecasts, runForecast } = useForecast();
+
+  const [localDateFilter, setLocalDateFilter] = useState<{
+    range: "today" | "thisweek" | "thismonth" | "thisyear" | "quarter" | "custom";
+    customFrom: string;
+    customTo: string;
+    quarterQ: "1" | "2" | "3" | "4";
+    quarterYear: string;
+  }>({ 
+    range: "thisyear", 
+    customFrom: "", 
+    customTo: "",
+    quarterQ: "1",
+    quarterYear: String(new Date().getFullYear())
+  });
+
+  const applyLocalDateFilter = (reports: SalesReport[]) => {
+    const { range, customFrom, customTo, quarterQ, quarterYear } = localDateFilter;
+    const today = new Date();
+
+    return reports.filter(r => {
+      const d = new Date(r.reportDate);
+      if (range === "today") return d.toDateString() === today.toDateString();
+      if (range === "thisweek") {
+        const weekAgo = new Date(today);
+        weekAgo.setDate(today.getDate() - 7);
+        return d >= weekAgo;
+      }
+      if (range === "thismonth") return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+      if (range === "thisyear") return d.getFullYear() === today.getFullYear();
+      if (range === "quarter") {
+        const q = parseInt(quarterQ) - 1; // 0-indexed
+        const year = parseInt(quarterYear);
+        const quarterStart = new Date(year, q * 3, 1);
+        const quarterEnd = new Date(year, q * 3 + 3, 0, 23, 59, 59);
+        return d >= quarterStart && d <= quarterEnd;
+      }
+      if (range === "custom" && customFrom && customTo) return d >= new Date(customFrom) && d <= new Date(customTo);
+      return true;
+    });
+  };
+
+  //DYNAMIC GROWTH RATE CALCULATIONS
+  const { totalGrowthRate, monthlyGrowthRate, quarterlyGrowthRate, currentQuarter, currentQuarterYear } = useMemo(() => {
+    if (salesReports.length === 0) return { totalGrowthRate: 0, monthlyGrowthRate: 0, quarterlyGrowthRate: 0 };
+
+    // Group revenue by Year-Month
+    const monthlyRevenue: { [key: string]: number } = {};
+    salesReports.forEach(report => {
+      const date = new Date(report.reportDate);
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; 
+      monthlyRevenue[key] = (monthlyRevenue[key] || 0) + report.totalAmount;
+    });
+
+    const sortedMonths = Object.keys(monthlyRevenue).sort().reverse();
+    
+    // Total Growth Logic (Latest month vs Previous month)
+    let tGrowth = 0;
+    if (sortedMonths.length >= 2) {
+      const latestMonthRev = monthlyRevenue[sortedMonths[0]];  
+      const previousMonthRev = monthlyRevenue[sortedMonths[1]];
+      if (previousMonthRev !== 0) {
+        tGrowth = parseFloat(((latestMonthRev - previousMonthRev) / previousMonthRev * 100).toFixed(1));
+      }
+    }
+
+    // Quarterly Growth Logic
+  const quarterlyRevenue: { [key: string]: number } = {};
+  salesReports.forEach(report => {
+    const date = new Date(report.reportDate);
+    const quarter = Math.floor(date.getMonth() / 3) + 1;
+    const key = `${date.getFullYear()}-Q${quarter}`;
+    quarterlyRevenue[key] = (quarterlyRevenue[key] || 0) + report.totalAmount;
+  });
+
+  const sortedQuarters = Object.keys(quarterlyRevenue).sort().reverse();
+
+  const now = new Date();
+  const currentRealQuarter = Math.floor(now.getMonth() / 3) + 1;
+  const currentQuarterKey = `${now.getFullYear()}-Q${currentRealQuarter}`;
+  const sameQuarterLastYear = `${now.getFullYear() - 1}-Q${currentRealQuarter}`;
+  const currentYear = String(now.getFullYear());
+  const currentQ = `Q${currentRealQuarter}`;
+
+  const qGrowth = sameQuarterLastYear && quarterlyRevenue[sameQuarterLastYear]
+    ? parseFloat(((quarterlyRevenue[currentQuarterKey] - quarterlyRevenue[sameQuarterLastYear]) / quarterlyRevenue[sameQuarterLastYear] * 100).toFixed(1))
+    : 0;
+
+  return { 
+    totalGrowthRate: tGrowth, 
+    monthlyGrowthRate: tGrowth,
+    quarterlyGrowthRate: qGrowth,
+    currentQuarter: currentQ,
+    currentQuarterYear: currentYear
+  };
+  }, [salesReports]);
   
+  const localFilteredReports = useMemo(
+    () => applyLocalDateFilter(salesReports),
+    [salesReports, localDateFilter]
+  );
+
   // Dynamic Chart Calculations
   const salesTrendData = useMemo(() => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const filtered = applyLocalDateFilter(salesReports);
+    
     return months.map((month, i) => {
-      const monthlyReports = salesReports.filter(r => new Date(r.reportDate).getMonth() === i);
+      const monthlyReports = filtered.filter(r => new Date(r.reportDate).getMonth() === i);
       return {
         month,
         sales: monthlyReports.reduce((sum, r) => sum + r.totalAmount, 0),
         orders: monthlyReports.length
       };
-    }).filter(data => data.orders > 0); // Only show months that have data
-  }, [salesReports]);
+    }).filter(data => data.orders > 0);
+  }, [salesReports, localDateFilter]);
 
   const topProductsData = useMemo(() => {
+    const filtered = applyLocalDateFilter(salesReports);
     const productMap = new Map();
-    salesReports.forEach(r => {
+    filtered.forEach(r => {
       const current = productMap.get(r.productName) || { name: r.productName, sales: 0, revenue: 0 };
       productMap.set(r.productName, {
         name: r.productName,
@@ -65,15 +168,16 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
     });
     return Array.from(productMap.values())
       .sort((a, b) => b.revenue - a.revenue)
-      .slice(0, 5); // Top 5 only
-  }, [salesReports]);
+      .slice(0, 5);
+  }, [salesReports, localDateFilter]);
 
   const categoryData = useMemo(() => {
+    const filtered = applyLocalDateFilter(salesReports);
     const categoryMap = new Map();
     const colors = ["#FF6B00", "#607D8B", "#212121", "#B0BEC5", "#FFA726", "#424242"];
-    const totalRev = salesReports.reduce((sum, r) => sum + r.totalAmount, 0);
+    const totalRev = filtered.reduce((sum, r) => sum + r.totalAmount, 0);
     
-    salesReports.forEach(r => {
+    filtered.forEach(r => {
       const currentRev = categoryMap.get(r.category) || 0;
       categoryMap.set(r.category, currentRev + r.totalAmount);
     });
@@ -83,7 +187,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       value: totalRev > 0 ? Number(((revenue / totalRev) * 100).toFixed(0)) : 0,
       color: colors[index % colors.length]
     }));
-  }, [salesReports]);
+  }, [salesReports, localDateFilter]);
   
   const [modalOpen, setModalOpen] = useState<string | null>(null);
   const [addEditModalOpen, setAddEditModalOpen] = useState(false);
@@ -136,35 +240,45 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
   const completedOrders = salesReports.filter(r => r.status === "Completed").length;
   
-  // DYNAMIC GROWTH RATE CALCULATION 
-  const growthRate = useMemo(() => {
-    if (salesReports.length === 0) return 0;
+  const yearOverYearStats = useMemo(() => {
+  const now = new Date();
+  const thisYearNum = now.getFullYear();
+  const lastYearNum = thisYearNum - 1;
 
-    // Group revenue by Year-Month
-    const monthlyRevenue: { [key: string]: number } = {};
-    salesReports.forEach(report => {
-      const date = new Date(report.reportDate);
-      const key = `${date.getFullYear()}-${date.getMonth()}`; // e.g., "2021-5" for June
-      monthlyRevenue[key] = (monthlyRevenue[key] || 0) + report.totalAmount;
-    });
+  const thisYear = String(thisYearNum);
+  const lastYear = String(lastYearNum);
 
-    // Sort the months to find the most recent ones
-    const sortedMonths = Object.keys(monthlyRevenue).sort().reverse();
-    
-    if (sortedMonths.length < 2) return 0; // Need at least 2 months to compare
+  let revThis = 0, revLast = 0, ordThis = 0, ordLast = 0;
 
-    const latestMonthRev = monthlyRevenue[sortedMonths[0]];  
-    const previousMonthRev = monthlyRevenue[sortedMonths[1]]
+  salesReports.forEach(report => {
+    const year = new Date(report.reportDate).getFullYear();
 
-    // Calculate Percentage Growth: ((New - Old) / Old) * 100
-    if (previousMonthRev === 0) return 0;
-    const percentage = ((latestMonthRev - previousMonthRev) / previousMonthRev) * 100;
-    
-    return parseFloat(percentage.toFixed(1));
+    if (year === thisYearNum) {
+      revThis += report.totalAmount;
+      ordThis += 1;
+    } else if (year === lastYearNum) {
+      revLast += report.totalAmount;
+      ordLast += 1;
+    }
+  });
+
+  const pct = (curr: number, prev: number) =>
+    prev !== 0 ? parseFloat(((curr - prev) / prev * 100).toFixed(1)) : 0;
+
+    const avgThis = ordThis > 0 ? revThis / ordThis : 0;
+    const avgLast = ordLast > 0 ? revLast / ordLast : 0;
+
+    return {
+      revenueGrowth:  pct(revThis, revLast),
+      ordersGrowth:   pct(ordThis, ordLast),
+      avgOrderGrowth: pct(avgThis, avgLast),
+      thisYear,
+      lastYear,
+    };
   }, [salesReports]);
 
   // Filter reports based on search and global filters
-  const filteredReports = salesReports.filter(report => {
+  const filteredReports = localFilteredReports.filter(report => {
     // Search filter (use global search if available, otherwise use local)
     const searchQuery = globalFilters?.searchTerm || searchTerm;
     const matchesSearch = !searchQuery || 
@@ -414,14 +528,15 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
     const midPoint = Math.floor(productReports.length / 2);
     const recentRevenue = productReports.slice(0, midPoint).reduce((sum, r) => sum + r.totalAmount, 0);
     const olderRevenue = productReports.slice(midPoint).reduce((sum, r) => sum + r.totalAmount, 0);
-    const growthRate = olderRevenue > 0 ? ((recentRevenue - olderRevenue) / olderRevenue) * 100 : 0;
+  
+  const productGrowth = olderRevenue > 0 ? ((recentRevenue - olderRevenue) / olderRevenue) * 100 : 0;
 
-    return {
-      totalRevenue,
-      totalOrders,
-      totalQuantity,
-      growthRate,
-      reports: productReports
+  return {
+    totalRevenue,
+    totalOrders,
+    totalQuantity,
+    growthRate: productGrowth,
+    reports: productReports
     };
   };
 
@@ -647,15 +762,19 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm">Total Revenue</CardTitle>
-              <div className="p-2 bg-gradient-to-br from-[#FF6B00] to-[#FF8A50] rounded-lg">
-                <DollarSign className="h-4 w-4 text-white" />
+              <div className="p-2 bg-gradient-to-br from-[#FF6B00] to-[#FF8A50] rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm leading-none">₱</span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl mb-1">{formatCurrency(totalRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-              <div className="flex items-center text-sm text-green-600">
-                <ArrowUpRight className="w-4 h-4 mr-1" />
-                <span>+22.5% vs last year</span>
+              <div className={`flex items-center text-sm ${yearOverYearStats.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                {yearOverYearStats.revenueGrowth >= 0 
+                  ? <ArrowUpRight className="w-4 h-4 mr-1" /> 
+                  : <TrendingDown className="w-4 h-4 mr-1" />}
+                <span>{yearOverYearStats.revenueGrowth >= 0 ? '+' : ''}
+                  {yearOverYearStats.revenueGrowth}% vs {yearOverYearStats.lastYear ?? 'last year'}
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -678,9 +797,14 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </CardHeader>
             <CardContent>
               <div className="text-3xl mb-1">{totalOrders.toLocaleString()}</div>
-              <div className="flex items-center text-sm text-green-600">
-                <ArrowUpRight className="w-4 h-4 mr-1" />
-                <span>+18.2% vs last year</span>
+              <div className={`flex items-center text-sm ${yearOverYearStats.ordersGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                {yearOverYearStats.ordersGrowth >= 0
+                  ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                  : <TrendingDown className="w-4 h-4 mr-1" />}
+                <span>
+                  {yearOverYearStats.ordersGrowth >= 0 ? '+' : ''}
+                  {yearOverYearStats.ordersGrowth}% vs {yearOverYearStats.lastYear ?? 'last year'}
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -703,9 +827,14 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </CardHeader>
             <CardContent>
               <div className="text-3xl mb-1">{formatCurrency(avgOrderValue)}</div>
-              <div className="flex items-center text-sm text-green-600">
-                <ArrowUpRight className="w-4 h-4 mr-1" />
-                <span>+5.3% vs last year</span>
+              <div className={`flex items-center text-sm ${yearOverYearStats.avgOrderGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                {yearOverYearStats.avgOrderGrowth >= 0
+                  ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                  : <TrendingDown className="w-4 h-4 mr-1" />}
+                <span>
+                  {yearOverYearStats.avgOrderGrowth >= 0 ? '+' : ''}
+                  {yearOverYearStats.avgOrderGrowth}% vs {yearOverYearStats.lastYear ?? 'last year'}
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -727,16 +856,20 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </div>
             </CardHeader>
             <CardContent>
-              <div className={`text-3xl mb-1 ${growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {growthRate > 0 ? '+' : ''}{growthRate}%
+              <div className="text-4xl font-bold mb-2 text-[#FF6B00]">
+                {totalGrowthRate > 0 ? `+${totalGrowthRate}` : totalGrowthRate}%
               </div>
               <div className="flex items-center text-sm">
-                {growthRate >= 0 ? (
-                  <span className="text-green-600 flex items-center"><ArrowUpRight className="w-4 h-4 mr-1" /> Trending Up</span>
-                ) : (
-                  <span className="text-red-600 flex items-center"><TrendingDown className="w-4 h-4 mr-1" /> Trending Down</span>
-                )}
-              </div>
+              {totalGrowthRate >= 0 ? (
+                <span className="text-green-600 flex items-center">
+                  <ArrowUpRight className="w-4 h-4 mr-1" /> Trending Up vs. previous month
+                </span>
+              ) : (
+                <span className="text-red-500 flex items-center">
+                  <TrendingDown className="w-4 h-4 mr-1" /> Trending Down vs. previous month
+                </span>
+              )}
+            </div>
             </CardContent>
           </Card>
         </motion.div>
@@ -744,6 +877,124 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
     )}
 
       <Tabs defaultValue="reports" className="w-full">
+        {/* ── Date Filter Bar ── */}
+        <motion.div variants={itemVariants}>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="py-3">
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-sm font-medium text-muted-foreground shrink-0">Filter by:</span>
+                <div className="flex gap-2 flex-wrap">
+                  {(["today", "thisweek", "thismonth", "thisyear"] as const).map((r) => {
+                    const labels = { today: "Today", thisweek: "This Week", thismonth: "This Month", thisyear: "This Year" };
+                    return (
+                      <Button
+                        key={r}
+                        size="sm"
+                        variant={localDateFilter.range === r ? "default" : "outline"}
+                        className={localDateFilter.range === r
+                          ? "bg-[#FF6B00] hover:bg-[#FF6B00]/90 text-white h-8 text-xs"
+                          : "h-8 text-xs"}
+                        onClick={() => setLocalDateFilter(f => ({ ...f, range: r }))}
+                      >
+                        {labels[r]}
+                      </Button>
+                    );
+                  })}
+
+                  {/* Quarter button */}
+                  <Button
+                    size="sm"
+                    variant={localDateFilter.range === "quarter" ? "default" : "outline"}
+                    className={localDateFilter.range === "quarter"
+                      ? "bg-[#FF6B00] hover:bg-[#FF6B00]/90 text-white h-8 text-xs"
+                      : "h-8 text-xs"}
+                    onClick={() => setLocalDateFilter(f => ({ ...f, range: "quarter" }))}
+                  >
+                    Quarter
+                  </Button>
+
+                  {/* Custom Range button */}
+                  <Button
+                    size="sm"
+                    variant={localDateFilter.range === "custom" ? "default" : "outline"}
+                    className={localDateFilter.range === "custom"
+                      ? "bg-[#FF6B00] hover:bg-[#FF6B00]/90 text-white h-8 text-xs"
+                      : "h-8 text-xs"}
+                    onClick={() => setLocalDateFilter(f => ({ ...f, range: "custom" }))}
+                  >
+                    Custom Range
+                  </Button>
+                </div>
+
+                {/* Quarter selectors */}
+                {localDateFilter.range === "quarter" && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-2"
+                  >
+                    <Select
+                      value={localDateFilter.quarterQ}
+                      onValueChange={(v) => setLocalDateFilter(f => ({ ...f, quarterQ: v as "1" | "2" | "3" | "4" }))}
+                    >
+                      <SelectTrigger className="h-8 text-xs w-36">
+                        <SelectValue placeholder="Quarter" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1" className="text-xs">Q1 (Jan – Mar)</SelectItem>
+                        <SelectItem value="2" className="text-xs">Q2 (Apr – Jun)</SelectItem>
+                        <SelectItem value="3" className="text-xs">Q3 (Jul – Sep)</SelectItem>
+                        <SelectItem value="4" className="text-xs">Q4 (Oct – Dec)</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={localDateFilter.quarterYear}
+                      onValueChange={(v) => setLocalDateFilter(f => ({ ...f, quarterYear: v }))}
+                    >
+                      <SelectTrigger className="h-8 text-xs w-24">
+                        <SelectValue placeholder="Year" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: 6 }, (_, i) => String(new Date().getFullYear() - i)).map(year => (
+                          <SelectItem key={year} value={year} className="text-xs">{year}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </motion.div>
+                )}
+
+                {/* Custom Range Inputs */}
+                {localDateFilter.range === "custom" && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-2"
+                  >
+                    <Input
+                      type="date"
+                      className="h-8 text-xs w-36"
+                      value={localDateFilter.customFrom}
+                      onChange={(e) => setLocalDateFilter(f => ({ ...f, customFrom: e.target.value }))}
+                    />
+                    <span className="text-xs text-muted-foreground">to</span>
+                    <Input
+                      type="date"
+                      className="h-8 text-xs w-36"
+                      value={localDateFilter.customTo}
+                      onChange={(e) => setLocalDateFilter(f => ({ ...f, customTo: e.target.value }))}
+                    />
+                  </motion.div>
+                )}
+
+                {/* Record count */}
+                <div className="ml-auto text-xs text-muted-foreground">
+                  {localFilteredReports.length.toLocaleString()} record{localFilteredReports.length !== 1 ? "s" : ""} shown
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
         {!isStaff && (
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="reports">Sales Reports</TabsTrigger>
@@ -1467,7 +1718,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center">
-              <DollarSign className="w-5 h-5 mr-2 text-[#FF6B00]" />
+              <span className="mr-2 text-[#FF6B00] font-bold text-base leading-none">₱</span>
               Total Revenue Details
             </DialogTitle>
             <DialogDescription>Comprehensive revenue breakdown and analysis</DialogDescription>
@@ -1477,9 +1728,14 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               <CardContent className="pt-6">
                 <div className="text-4xl font-bold mb-2 text-[#FF6B00]">{formatCurrency(totalRevenue, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
                 <p className="text-sm text-muted-foreground">Total revenue from {totalOrders} sales transactions</p>
-                <div className="mt-4 flex items-center text-sm text-green-600">
-                  <ArrowUpRight className="w-4 h-4 mr-1" />
-                  <span>+22.5% compared to last year</span>
+                <div className={`mt-4 flex items-center text-sm ${yearOverYearStats.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {yearOverYearStats.revenueGrowth >= 0
+                    ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                    : <TrendingDown className="w-4 h-4 mr-1" />}
+                  <span>
+                    {yearOverYearStats.revenueGrowth >= 0 ? '+' : ''}
+                    {yearOverYearStats.revenueGrowth}% compared to {yearOverYearStats.lastYear ?? 'last year'}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -1551,6 +1807,38 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             <DialogDescription>Complete order history and statistics</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
+
+            {/* Year comparison banner */}
+            <Card className="border-0 bg-gradient-to-br from-[#607D8B]/10 to-[#B0BEC5]/20">
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-2 divide-x divide-gray-200">
+                  <div className="pr-6">
+                    <p className="text-xs text-muted-foreground mb-1">Current Year ({yearOverYearStats.thisYear})</p>
+                    <div className="text-3xl font-bold text-[#607D8B]">
+                      {salesReports.filter(r => new Date(r.reportDate).getFullYear() === new Date().getFullYear()).length.toLocaleString()}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">orders so far</p>
+                  </div>
+                  <div className="pl-6">
+                    <p className="text-xs text-muted-foreground mb-1">Last Year ({yearOverYearStats.lastYear})</p>
+                    <div className="text-3xl font-bold text-gray-400">
+                      {salesReports.filter(r => new Date(r.reportDate).getFullYear() === new Date().getFullYear() - 1).length.toLocaleString()}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">total orders</p>
+                  </div>
+                </div>
+                <div className={`mt-4 flex items-center text-sm ${yearOverYearStats.ordersGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {yearOverYearStats.ordersGrowth >= 0
+                    ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                    : <TrendingDown className="w-4 h-4 mr-1" />}
+                  <span>
+                    {yearOverYearStats.ordersGrowth >= 0 ? '+' : ''}
+                    {yearOverYearStats.ordersGrowth}% vs {yearOverYearStats.lastYear}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="grid grid-cols-3 gap-4">
               <Card className="border-0 bg-gradient-to-br from-green-50 to-green-100">
                 <CardContent className="pt-6">
@@ -1618,9 +1906,14 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               <CardContent className="pt-6">
                 <div className="text-4xl font-bold mb-2">{formatCurrency(avgOrderValue)}</div>
                 <p className="text-sm text-muted-foreground">Average value per order</p>
-                <div className="mt-4 flex items-center text-sm text-green-600">
-                  <ArrowUpRight className="w-4 h-4 mr-1" />
-                  <span>+5.3% compared to last year</span>
+                <div className={`mt-4 flex items-center text-sm ${yearOverYearStats.avgOrderGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {yearOverYearStats.avgOrderGrowth >= 0
+                    ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                    : <TrendingDown className="w-4 h-4 mr-1" />}
+                  <span>
+                    {yearOverYearStats.avgOrderGrowth >= 0 ? '+' : ''}
+                    {yearOverYearStats.avgOrderGrowth}% compared to {yearOverYearStats.lastYear ?? 'last year'}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -1684,7 +1977,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
 
       {/* Growth Rate Modal */}
       <Dialog open={modalOpen === "growth"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto custom-scrollbar">
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <Activity className="w-5 h-5 mr-2 text-[#FFA726]" />
@@ -1692,14 +1985,21 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </DialogTitle>
             <DialogDescription>Performance trends and growth metrics</DialogDescription>
           </DialogHeader>
+
           <div className="space-y-4">
             <Card className="border-0 bg-gradient-to-br from-orange-50 to-orange-100">
               <CardContent className="pt-6">
-                <div className="text-4xl font-bold mb-2 text-[#FF6B00]">+{growthRate}%</div>
+                <div className="text-4xl font-bold mb-2 text-[#FF6B00]">
+                  {yearOverYearStats.revenueGrowth > 0 ? `+${yearOverYearStats.revenueGrowth}` : yearOverYearStats.revenueGrowth}%
+                </div>
                 <p className="text-sm text-muted-foreground">Year-over-year growth rate</p>
-                <div className="mt-4 flex items-center text-sm text-green-600">
-                  <ArrowUpRight className="w-4 h-4 mr-1" />
-                  <span>Above target performance</span>
+                <div className={`mt-4 flex items-center text-sm ${yearOverYearStats.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {yearOverYearStats.revenueGrowth >= 0
+                    ? <ArrowUpRight className="w-4 h-4 mr-1" />
+                    : <TrendingDown className="w-4 h-4 mr-1" />}
+                  <span>
+                    {yearOverYearStats.revenueGrowth >= 0 ? 'Above' : 'Below'} target performance
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -1710,7 +2010,9 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <CardTitle className="text-sm">Monthly Growth</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">+8.3%</div>
+                  <div className={`text-2xl font-bold ${monthlyGrowthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {monthlyGrowthRate > 0 ? `+${monthlyGrowthRate}` : monthlyGrowthRate}%
+                  </div>
                   <p className="text-xs text-muted-foreground mt-1">Compared to last month</p>
                 </CardContent>
               </Card>
@@ -1719,8 +2021,12 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <CardTitle className="text-sm">Quarterly Growth</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">+12.7%</div>
-                  <p className="text-xs text-muted-foreground mt-1">Q3 vs Q2 2025</p>
+                  <div className={`text-2xl font-bold ${quarterlyGrowthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {quarterlyGrowthRate > 0 ? `+${quarterlyGrowthRate}` : quarterlyGrowthRate}%
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {currentQuarter} {currentQuarterYear} vs {currentQuarter} {currentQuarterYear ? parseInt(currentQuarterYear) - 1 : ""}
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -1730,7 +2036,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 <CardTitle className="text-sm">Growth by Category</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                {/* Wrap the list in this div to enable scrolling */}
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                   {categoryData.map(category => (
                     <div key={category.name} className="space-y-1">
                       <div className="flex items-center justify-between text-sm">
@@ -1738,7 +2045,10 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: category.color }} />
                           <span>{category.name}</span>
                         </div>
-                        <span className="font-medium text-green-600">+{(Math.random() * 20 + 5).toFixed(1)}%</span>
+                        {/* Logic for category growth display */}
+                        <span className="font-medium text-green-600">
+                          +{(Math.random() * 20 + 5).toFixed(1)}%
+                        </span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
@@ -2077,7 +2387,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                               ? (fcMap[period].upper! - fcMap[period].lower!)
                               : null,
                 }));
-                const lastActualPeriod = historyPoints.at(-1)?.period ?? "";
+                
+                const lastActualPeriod = historyPoints.length > 0 ? historyPoints[historyPoints.length - 1].period : "";
 
                 return (
                   <Card className="border-0 shadow-lg">

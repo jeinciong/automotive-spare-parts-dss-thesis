@@ -126,7 +126,11 @@ app.post('/api/login', async (req, res) => {
 
         if (owner) {
             return res.json({ 
-                role: 'admin', business_id: owner.business_id, email: owner.email, user_name: owner.business_name 
+                role: 'admin', 
+                business_id: owner.business_id, 
+                email: owner.email, 
+                user_name: owner.business_name,
+                business_address: owner.business_address,
             });
         }
 
@@ -744,14 +748,28 @@ app.put('/api/change-password/:id', async (req, res) => {
 app.delete('/api/business/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
-        // Prisma transaction to clean up related data if not handled by CASCADE
+        
         await prisma.$transaction([
+            //Delete all leaf-level records first
+            prisma.activity_logs.deleteMany({ where: { business_id: id } }),
+            prisma.predictions.deleteMany({ where: { business_id: id } }),
+            prisma.recommendation_actions.deleteMany({ where: { business_id: id } }),
+            prisma.sales_reports.deleteMany({ where: { business_id: id } }),
+            
+            //Delete POs before Suppliers (because POs depend on Suppliers)
+            prisma.purchase_orders.deleteMany({ where: { business_id: id } }),
+            prisma.suppliers.deleteMany({ where: { business_id: id } }),
+
             prisma.inventory.deleteMany({ where: { business_id: id } }),
             prisma.users.deleteMany({ where: { business_id: id } }),
             prisma.businesses.delete({ where: { business_id: id } }),
         ]);
-        res.json({ message: "Account deleted" });
-    } catch (err) { res.status(500).send(err); }
+        
+        res.json({ message: "Account and all associated data deleted" });
+    } catch (err) { 
+        console.error("Delete Business Error:", err);
+        res.status(500).send("Failed to delete account. Ensure all dependencies are cleared."); 
+    }
 });
 
 app.get('/api/export-all', async (req, res) => {

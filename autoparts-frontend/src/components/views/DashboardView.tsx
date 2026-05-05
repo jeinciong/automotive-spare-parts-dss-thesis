@@ -15,7 +15,6 @@ import { formatCurrency } from "../../lib/currency";
 import { apiUrl } from "../../lib/api";
 import { 
   ShoppingCart,
-  Users,
   ArrowUpRight,
   ArrowDownRight,
   Calendar,
@@ -94,19 +93,19 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
   const stats = useMemo(() => {
     const totalRev = salesData.reduce((sum, s) => sum + Number(s.total_amount), 0);
     const now = new Date();
-    const curInterval = { start: startOfMonth(now), end: now };
-    const prevInterval = { start: startOfMonth(subMonths(now, 1)), end: endOfMonth(subMonths(now, 1)) };
-    const curSales = salesData.filter(s => isWithinInterval(new Date(s.date), curInterval));
-    const prevSales = salesData.filter(s => isWithinInterval(new Date(s.date), prevInterval));
-    const curRev = curSales.reduce((sum, s) => sum + Number(s.total_amount), 0);
-    const prevRev = prevSales.reduce((sum, s) => sum + Number(s.total_amount), 0);
-    
+    const thisYear = now.getFullYear();
+
+    const curYearSales = salesData.filter(s => new Date(s.date).getFullYear() === thisYear);
+    const prevYearSales = salesData.filter(s => new Date(s.date).getFullYear() === thisYear - 1);
+
+    const curRev = curYearSales.reduce((sum, s) => sum + Number(s.total_amount), 0);
+    const prevRev = prevYearSales.reduce((sum, s) => sum + Number(s.total_amount), 0);
+
     return {
       revenue: totalRev,
       revenueGrowth: prevRev === 0 ? 0 : ((curRev - prevRev) / prevRev) * 100,
       orders: salesData.length,
-      ordersGrowth: prevSales.length === 0 ? 0 : ((curSales.length - prevSales.length) / prevSales.length) * 100,
-      customers: new Set(salesData.map(s => s.customer_type)).size,
+      ordersGrowth: prevYearSales.length === 0 ? 0 : ((curYearSales.length - prevYearSales.length) / prevYearSales.length) * 100,
       units: salesData.reduce((sum, s) => sum + s.quantity, 0)
     };
   }, [salesData]);
@@ -133,7 +132,6 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
         label: m,
         sales: monthSales.reduce((sum, s) => sum + Number(s.total_amount), 0),
         orders: monthSales.length,
-        customers: new Set(monthSales.map(s => s.customer_type)).size
       };
     });
   }, [salesData]);
@@ -234,11 +232,10 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
       </motion.div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
           { label: "Total Revenue", val: formatCurrency(stats.revenue), growth: stats.revenueGrowth, isCurrency: true, id: "revenue", col: "from-[#FF6B00]/20 to-[#FF8A50]/20", grad: "from-[#FF6B00] to-[#FF8A50]", showProgress: false },
           { label: "Total Orders", val: stats.orders, growth: stats.ordersGrowth, icon: ShoppingCart, id: "orders", col: "from-[#607D8B]/20 to-[#B0BEC5]/20", grad: "from-[#607D8B] to-[#B0BEC5]", showProgress: false },
-          { label: "Active Customers", val: stats.customers, growth: null, icon: Users, id: "customers", col: "from-[#212121]/20 to-[#424242]/20", grad: "from-[#212121] to-[#424242]", showProgress: false },
           { label: "Units Sold", val: stats.units, growth: null, icon: Package, id: "units", col: "from-[#FFA726]/20 to-[#FF6B00]/20", grad: "from-[#FFA726] to-[#FF6B00]", showProgress: true }
         ].map((item) => (
           <motion.div key={item.id} variants={itemVariants} whileHover={{ scale: 1.02 }} onClick={() => setModalOpen(item.id)}>
@@ -255,7 +252,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                 {item.growth !== null ? (
                   <div className={`flex items-center text-sm ${item.growth >= 0 ? "text-green-600" : "text-red-600"}`}>
                     {item.growth >= 0 ? <ArrowUpRight className="w-4 h-4 mr-1" /> : <ArrowDownRight className="w-4 h-4 mr-1" />}
-                    <span>{Math.abs(item.growth).toFixed(1)}% vs last month</span>
+                    <span>{Math.abs(item.growth).toFixed(1)}% vs last year</span>
                   </div>
                 ) : <div className="text-xs text-muted-foreground">Cumulative performance</div>}
                 {item.showProgress && <Progress value={80} className="mt-3 h-1.5" />}
@@ -276,7 +273,6 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   <TabsList>
                     <TabsTrigger value="revenue">Revenue</TabsTrigger>
                     <TabsTrigger value="orders">Orders</TabsTrigger>
-                    <TabsTrigger value="customers">Customers</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </CardHeader>
@@ -288,7 +284,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                     <XAxis dataKey="label" stroke="#888" fontSize={12} axisLine={false} tickLine={false} />
                     <YAxis stroke="#888" fontSize={12} axisLine={false} tickLine={false} />
                     <Tooltip />
-                    <Area type="monotone" dataKey={selectedMetric === 'revenue' ? 'sales' : selectedMetric === 'orders' ? 'orders' : 'customers'} stroke="#FF6B00" strokeWidth={3} fill="url(#colorMain)" dot={{ fill: '#FF6B00', r: 4 }} />
+                    <Area type="monotone" dataKey={selectedMetric === 'revenue' ? 'sales' : 'orders'} stroke="#FF6B00" strokeWidth={3} fill="url(#colorMain)" dot={{ fill: '#FF6B00', r: 4 }} />
                   </AreaChart>
                 </ResponsiveContainer>
               </CardContent>

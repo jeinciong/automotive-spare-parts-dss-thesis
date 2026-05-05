@@ -8,22 +8,22 @@ datasource db {
 }
 
 model activity_logs {
-  log_id      Int       @id @default(autoincrement())
-  business_id  Int
+  log_id      Int        @id @default(autoincrement())
+  business_id Int
   user_id     Int?
-  action_type String?   @db.VarChar(50)
-  description String?   @db.Text
-  created_at  DateTime? @default(now()) @db.Timestamp(0)
-  businesses   businesses @relation(fields: [business_id], references: [business_id])
-  users       users?    @relation(fields: [user_id], references: [user_id])
+  action_type String?    @db.VarChar(50)
+  description String?    @db.Text
+  created_at  DateTime?  @default(now()) @db.Timestamp(0)
+  businesses  businesses @relation(fields: [business_id], references: [business_id])
+  users       users?     @relation(fields: [user_id], references: [user_id])
 
   @@index([business_id], map: "activity_logs_business_id_fkey")
   @@index([user_id], map: "activity_logs_user_id_fkey")
 }
 
 model businesses {
-  business_id             Int                      @id @default(autoincrement())
-  business_name           String                   @db.VarChar(100)
+  business_id            Int                      @id @default(autoincrement())
+  business_name          String                   @db.VarChar(100)
   business_address       String?                  @db.Text
   email                  String?                  @db.VarChar(255)
   password_hash          String?                  @db.VarChar(255)
@@ -40,7 +40,7 @@ model businesses {
 
 model inventory {
   product_id    Int               @id @default(autoincrement())
-  business_id    Int
+  business_id   Int
   sku           String            @db.VarChar(50)
   product_name  String            @db.VarChar(100)
   category      String?           @db.VarChar(50)
@@ -50,33 +50,33 @@ model inventory {
   supplier      String?           @db.VarChar(100)
   status        inventory_status? @default(In_Stock)
   location      String?           @db.VarChar(100)
-  businesses     businesses         @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_ibfk_1")
+  businesses    businesses        @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
 
 model predictions {
   prediction_id           Int                                  @id @default(autoincrement())
-  business_id              Int
+  business_id             Int
   product_id              Int?
   forecast_date           DateTime?                            @db.Date
   predicted_quantity      Decimal?                             @db.Decimal(10, 2)
   confidence_interval     Decimal?                             @db.Decimal(5, 2)
   recommendation_priority predictions_recommendation_priority?
-  businesses               businesses                            @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "predictions_ibfk_1")
+  businesses              businesses                           @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "predictions_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
 
 model purchase_orders {
   po_id         Int                     @id @default(autoincrement())
-  business_id    Int
+  business_id   Int
   supplier_id   Int
   order_date    DateTime                @db.Date
   delivery_date DateTime?               @db.Date
   total_amount  Decimal                 @db.Decimal(15, 2)
   status        purchase_orders_status? @default(Pending)
-  businesses     businesses               @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_orders_ibfk_1")
+  businesses    businesses              @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_orders_ibfk_1")
   suppliers     suppliers               @relation(fields: [supplier_id], references: [supplier_id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_orders_ibfk_2")
 
   @@index([business_id], map: "business_id")
@@ -84,49 +84,49 @@ model purchase_orders {
 }
 
 model recommendation_actions {
-  action_id          Int       @id @default(autoincrement())
-  business_id         Int
+  action_id          Int        @id @default(autoincrement())
+  business_id        Int
   prediction_id      Int?
-  action_taken       String?   @db.VarChar(100)
-  status             String?   @default("Pending") @db.VarChar(20)
-  executed_at        DateTime? @default(now()) @db.Timestamp(0)
-  recommendation_key String?   @db.VarChar(191)
-  product_name       String?   @db.VarChar(100)
-  priority           String?   @db.VarChar(20)
-  title              String?   @db.VarChar(255)
-  description        String?   @db.Text
-  recommended_action String?   @db.VarChar(100)
-  impact             String?   @db.VarChar(255)
-  generated_at       DateTime? @default(now()) @db.Timestamp(0)
-  updated_at         DateTime? @default(now()) @db.Timestamp(0)
-  completed_at       DateTime? @db.Timestamp(0)
-  action_history     String?   @db.Text
-  businesses          businesses @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "recommendation_actions_ibfk_1")
+  action_taken       String?    @db.VarChar(100)
+  status             String?    @default("Pending") @db.VarChar(20)
+  executed_at        DateTime?  @default(now()) @db.Timestamp(0)
+  recommendation_key String?    @db.VarChar(191)
+  product_name       String?    @db.VarChar(100)
+  priority           String?    @db.VarChar(20)
+  title              String?    @db.VarChar(255)
+  description        String?    @db.Text
+  recommended_action String?    @db.VarChar(100)
+  impact             String?    @db.VarChar(255)
+  generated_at       DateTime?  @default(now()) @db.Timestamp(0)
+  updated_at         DateTime?  @default(now()) @db.Timestamp(0)
+  completed_at       DateTime?  @db.Timestamp(0)
+  action_history     String?    @db.Text
+  businesses         businesses @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "recommendation_actions_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
 
 model sales_reports {
-  report_id      Int       @id @default(autoincrement())
-  business_id     Int
-  date           DateTime  @db.Date
-  order_number   String    @db.VarChar(50)
-  product_name   String?   @db.VarChar(100)
-  category       String?   @db.VarChar(50)
-  customer_type  String?   @db.VarChar(20)
+  report_id      Int        @id @default(autoincrement())
+  business_id    Int
+  date           DateTime   @db.Date
+  order_number   String     @db.VarChar(50)
+  product_name   String?    @db.VarChar(100)
+  category       String?    @db.VarChar(50)
+  customer_type  String?    @db.VarChar(20)
   quantity       Int
-  unit_price     Decimal   @db.Decimal(10, 2)
-  total_amount   Decimal   @db.Decimal(10, 2)
-  payment_method String?   @db.VarChar(20)
-  status         String    @default("Completed")
-  businesses      businesses @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "sales_reports_ibfk_1")
+  unit_price     Decimal    @db.Decimal(10, 2)
+  total_amount   Decimal    @db.Decimal(10, 2)
+  payment_method String?    @db.VarChar(20)
+  status         String     @default("Completed")
+  businesses     businesses @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "sales_reports_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
 
 model suppliers {
   supplier_id     Int               @id @default(autoincrement())
-  business_id      Int
+  business_id     Int
   supplier_name   String            @db.VarChar(100)
   category        String?           @db.VarChar(50)
   location        String?           @db.VarChar(100)
@@ -138,21 +138,21 @@ model suppliers {
   status          suppliers_status? @default(Active)
   delivery_time   String?           @db.VarChar(50)
   purchase_orders purchase_orders[]
-  businesses       businesses         @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "suppliers_ibfk_1")
+  businesses      businesses        @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "suppliers_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
 
 model users {
   user_id       Int             @id @default(autoincrement())
-  business_id    Int
+  business_id   Int
   full_name     String          @db.VarChar(100)
   email         String          @unique(map: "email") @db.VarChar(100)
   password_hash String          @db.VarChar(255)
   role          users_role      @default(Business)
   created_at    DateTime?       @default(now()) @db.Timestamp(0)
   activity_logs activity_logs[]
-  businesses     businesses       @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
+  businesses    businesses      @relation(fields: [business_id], references: [business_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
 
   @@index([business_id], map: "business_id")
 }
