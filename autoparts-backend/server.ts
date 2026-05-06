@@ -98,19 +98,67 @@ function parseRecommendationHistory(history: string | null | undefined) {
 
 // --- AUTH ROUTES ---
 
+app.get('/api/register/availability', async (req, res) => {
+    const rawEmail = String(req.query.email ?? '').trim().toLowerCase();
+    const rawBusinessName = String(req.query.businessName ?? '').trim();
+
+    try {
+        const [existingBusinessByEmail, existingUserByEmail, existingBusinessByName] = await Promise.all([
+            rawEmail
+                ? prisma.businesses.findFirst({ where: { email: rawEmail }, select: { business_id: true } })
+                : Promise.resolve(null),
+            rawEmail
+                ? prisma.users.findFirst({ where: { email: rawEmail }, select: { user_id: true } })
+                : Promise.resolve(null),
+            rawBusinessName
+                ? prisma.businesses.findFirst({ where: { business_name: rawBusinessName }, select: { business_id: true } })
+                : Promise.resolve(null),
+        ]);
+
+        res.json({
+            emailExists: Boolean(existingBusinessByEmail || existingUserByEmail),
+            businessExists: Boolean(existingBusinessByName),
+        });
+    } catch (err: any) {
+        res.status(500).json({ message: 'Failed to check registration availability', error: err.message });
+    }
+});
+
 // Registration: Using Prisma to handle the business creation
 app.post('/api/register', async (req, res) => {
     const { email, password, businessName, businessAddress } = req.body;
+    const normalizedEmail = String(email ?? '').trim().toLowerCase();
+    const normalizedBusinessName = String(businessName ?? '').trim();
+    const normalizedBusinessAddress = String(businessAddress ?? '').trim();
+
+    if (!normalizedEmail || !password || !normalizedBusinessName) {
+        return res.status(400).json({ message: 'Email, password, and business name are required' });
+    }
+
     try {
+        const [existingBusinessByEmail, existingUserByEmail, existingBusinessByName] = await Promise.all([
+            prisma.businesses.findFirst({ where: { email: normalizedEmail }, select: { business_id: true } }),
+            prisma.users.findFirst({ where: { email: normalizedEmail }, select: { user_id: true } }),
+            prisma.businesses.findFirst({ where: { business_name: normalizedBusinessName }, select: { business_id: true } }),
+        ]);
+
+        if (existingBusinessByName) {
+            return res.status(409).json({ message: 'A business account with this business name already exists' });
+        }
+
+        if (existingBusinessByEmail || existingUserByEmail) {
+            return res.status(409).json({ message: 'This email is already registered in the system' });
+        }
+
         const business = await prisma.businesses.create({
             data: {
-                business_name: businessName,
-                business_address: businessAddress || "Main Office",
-                email: email,
+                business_name: normalizedBusinessName,
+                business_address: normalizedBusinessAddress || "Main Office",
+                email: normalizedEmail,
                 password_hash: password 
             }
         });
-        res.status(200).json({ role: 'admin', business_id: business.business_id, email });
+        res.status(200).json({ role: 'admin', business_id: business.business_id, email: normalizedEmail });
     } catch (err: any) {
         res.status(500).json({ message: "Registration failed: " + err.message });
     }
@@ -1078,8 +1126,7 @@ async function resolveBusinessRevenueArtifactPath(
   algorithm: ForecastAlgorithm,
   businessId: number,
 ) {
-  const modelDir = MODEL_SCRIPT_PATHS[algorithm].dir;
-  await ensureDir(modelDir);
+  const modelDir = await resolveBusinessModelDir(MODEL_SCRIPT_PATHS[algorithm].dir, businessId);
   const modelPath = path.join(modelDir, `${BUSINESS_REVENUE_FORECAST_NAME}.pkl`);
 
   if (await fileExists(modelPath)) {
@@ -1087,6 +1134,7 @@ async function resolveBusinessRevenueArtifactPath(
   }
 
   const candidateDirs = [
+    modelDir,
     MODEL_SCRIPT_PATHS[algorithm].dir,
     getBusinessModelDir(MODEL_SCRIPT_PATHS[algorithm].dir, businessId),
     getLegacyCompanyModelDir(MODEL_SCRIPT_PATHS[algorithm].dir, businessId),
@@ -1108,6 +1156,16 @@ async function resolveBusinessRevenueArtifactPath(
   }
 
   return { modelDir, modelPath };
+}
+
+async function cacheSharedArtifactToBusinessPath(sharedModelPath: string, businessModelPath: string) {
+  if (normalizePathForCompare(sharedModelPath) === normalizePathForCompare(businessModelPath)) {
+    return businessModelPath;
+  }
+
+  await ensureDir(path.dirname(businessModelPath));
+  await fs.copyFile(sharedModelPath, businessModelPath);
+  return businessModelPath;
 }
 
 async function resolveSharedRevenueArtifactPath() {
@@ -1361,7 +1419,7 @@ async function getOrTrainForecastArtifact(
           sharedResult.model_info?.algorithm ?? null,
         );
         modelResult = sharedResult;
-        savedModelPath = sharedModelPath;
+        savedModelPath = await cacheSharedArtifactToBusinessPath(sharedModelPath, modelPath);
         loadedFromCache = true;
       } else {
         console.warn(
@@ -1470,7 +1528,11 @@ async function getOrTrainBusinessRevenueForecastArtifact(
       throw new Error(`Shared revenue preload failed: ${cachedResult.error}`);
     }
 
-    const savedModelPath = String(cachedResult.model_info?.saved_model_path ?? sharedArtifact.modelPath);
+    const { modelDir, modelPath } = await resolveBusinessRevenueArtifactPath(sharedArtifact.algorithm, businessId);
+    const savedModelPath = await cacheSharedArtifactToBusinessPath(
+      String(cachedResult.model_info?.saved_model_path ?? sharedArtifact.modelPath),
+      modelPath,
+    );
     const mergedModelInfo = {
       ...(cachedResult.model_info ?? {}),
       saved_model_path: savedModelPath,
@@ -1483,8 +1545,8 @@ async function getOrTrainBusinessRevenueForecastArtifact(
       revenues,
       classResult: cachedResult.model_info ?? null,
       algorithm: sharedArtifact.algorithm,
-      modelDir: sharedArtifact.modelDir,
-      modelPath: sharedArtifact.modelPath,
+      modelDir,
+      modelPath,
       savedModelPath,
       loadedFromCache: true,
       mergedModelInfo,
@@ -1532,10 +1594,40 @@ async function getOrTrainBusinessRevenueForecastArtifact(
     }
   }
 
+  if (!forceRetrain && !modelResult && !hasCanonicalArtifact) {
+    const sharedArtifact = await resolveSharedRevenueArtifactPath();
+    if (sharedArtifact && sharedArtifact.algorithm === algorithm) {
+      const predictionHorizon = dates.length > 0
+        ? Number(horizon) + REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS
+        : Number(horizon);
+
+      const sharedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
+        model_path: sharedArtifact.modelPath,
+        horizon: predictionHorizon,
+      });
+
+      if (sharedResult.success) {
+        savedModelPath = await cacheSharedArtifactToBusinessPath(sharedArtifact.modelPath, modelPath);
+        modelResult = {
+          ...sharedResult,
+          model_info: {
+            ...(sharedResult.model_info ?? {}),
+            saved_model_path: savedModelPath,
+          },
+        };
+        loadedFromCache = true;
+      } else {
+        console.warn(
+          `[Revenue Forecast Shared Preload Miss] business=${businessId} | ${algorithm} | ${sharedResult.error}`
+        );
+      }
+    }
+  }
+
   if (!modelResult) {
     const outputModelPath =
       forceRetrain && hasCanonicalArtifact
-        ? buildRerunModelPath(getBusinessModelDir(modelDir, businessId), BUSINESS_REVENUE_FORECAST_NAME)
+        ? buildRerunModelPath(modelDir, BUSINESS_REVENUE_FORECAST_NAME)
         : modelPath;
 
     await ensureDir(path.dirname(outputModelPath));
