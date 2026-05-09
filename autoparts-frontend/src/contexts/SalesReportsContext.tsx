@@ -10,6 +10,7 @@ export interface SalesReport {
   category: string;
   quantity: number;
   unitPrice: number;
+  otherExpenses: number;
   totalAmount: number;
   customerName: string;
   paymentMethod: string;
@@ -24,6 +25,7 @@ interface SalesReportsContextType {
   updateSalesReport: (id: string, report: any) => Promise<void>;
   deleteSalesReport: (id: string) => Promise<void>;
   importFromCSV: (csvData: string) => Promise<void>;
+  deleteAllSalesReports: () => Promise<boolean>;
   fetchSales: () => Promise<void>;
 }
 
@@ -32,6 +34,41 @@ const SalesReportsContext = createContext<SalesReportsContextType | undefined>(u
 export function SalesReportsProvider({ children }: { children: ReactNode }) {
   const [salesReports, setSalesReports] = useState<SalesReport[]>([]);
   const { fetchInventory } = useInventory();
+  const deleteAllSalesReports = async () => {
+    console.log("RAW localStorage user:", localStorage.getItem("user"));
+    const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    console.log("Parsed user:", savedUser);
+    console.log("business_id:", savedUser.business_id);
+    const businessId = savedUser.business_id;
+
+  if (!businessId) {
+    toast.error("User session not found. Please log in.");
+    return false;
+  }
+
+  try {
+    // business_id goes in the query string — server reads req.query.business_id
+    const response = await fetch(apiUrl(`/api/sales/all?business_id=${businessId}`), {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.ok) {
+      setSalesReports([]);
+      toast.success("All sales reports deleted successfully");
+      await fetchSales();
+      await fetchInventory();
+      return true;
+    } else {
+      const err = await response.json().catch(() => ({ error: "Unknown error" }));
+      toast.error("Failed to delete: " + (err.error || "Unknown error"));
+      return false;
+    }
+  } catch (err) {
+    toast.error("Network error: Could not reach server");
+    return false;
+  }
+};
 
   const fetchSales = useCallback(async () => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -55,6 +92,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         category: s.category || "General",
         quantity: Number(s.quantity) || 0,
         unitPrice: Number(s.unit_price) || 0,
+        otherExpenses: Number(s.other_expenses) || 0,
         totalAmount: Number(s.total_amount) || 0,
         customerName: s.customer_type || "Walk-in",
         paymentMethod: s.payment_method || "Cash",
@@ -84,6 +122,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         category: report.category,
         quantity: report.quantity,
         unit_price: report.unitPrice,
+        other_expenses: report.otherExpenses ?? 0,
         total_amount: report.totalAmount,
         customer_type: report.customerName,
         payment_method: report.paymentMethod,
@@ -131,6 +170,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
         category:       row.category       || row.product_line  || "General",
         quantity:       Number(row.quantity)    || 1,
         unit_price:     Number(row.unit_price)  || 0,
+        other_expenses: Number(row.other_expenses) || 0,
         total_amount:   Number(row.total_amount) || Number(row.total) || 0,
         customer_type:  row.customer_type  || row.client_type   || "Retail",
         payment_method: row.payment_method || row.payment       || "Cash",
@@ -201,6 +241,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
           productName: report.productName,
           category: report.category,
           quantity: report.quantity,
+          otherExpenses: report.otherExpenses ?? 0,
           unitPrice: report.unitPrice,
           totalAmount: report.totalAmount,
           customerName: report.customerName,
@@ -244,7 +285,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <SalesReportsContext.Provider value={{ salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV, fetchSales }}>
+    <SalesReportsContext.Provider value={{ salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV, deleteAllSalesReports,fetchSales }}>
       {children}
     </SalesReportsContext.Provider>
   );

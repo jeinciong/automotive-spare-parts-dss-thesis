@@ -116,6 +116,7 @@ model sales_reports {
   customer_type  String?    @db.VarChar(20)
   quantity       Int
   unit_price     Decimal    @db.Decimal(10, 2)
+  other_expenses Decimal    @default(0) @db.Decimal(10, 2)
   total_amount   Decimal    @db.Decimal(10, 2)
   payment_method String?    @db.VarChar(20)
   status         String     @default("Completed")

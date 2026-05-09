@@ -36,12 +36,12 @@ interface SalesReportsViewProps {
 
 export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps) {
   const isStaff = user?.role === 'staff' || user?.role === 'Business';
-  const { salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV } = useSalesReports();
+  const { salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV, deleteAllSalesReports } = useSalesReports();
   const { inventory } = useInventory();
   const { productForecasts, runForecast } = useForecast();
 
   const [localDateFilter, setLocalDateFilter] = useState<{
-    range: "today" | "thisweek" | "thismonth" | "thisyear" | "quarter" | "custom";
+    range: "all" | "today" | "thisweek" | "thismonth" | "thisyear" | "quarter" | "custom";
     customFrom: string;
     customTo: string;
     quarterQ: "1" | "2" | "3" | "4";
@@ -57,9 +57,10 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const applyLocalDateFilter = (reports: SalesReport[]) => {
     const { range, customFrom, customTo, quarterQ, quarterYear } = localDateFilter;
     const today = new Date();
+    if (range === "all") return reports;
 
     return reports.filter(r => {
-      const d = new Date(r.reportDate);
+      const d = new Date(r.reportDate);;
       if (range === "today") return d.toDateString() === today.toDateString();
       if (range === "thisweek") {
         const weekAgo = new Date(today);
@@ -192,6 +193,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const [modalOpen, setModalOpen] = useState<string | null>(null);
   const [addEditModalOpen, setAddEditModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [editingReport, setEditingReport] = useState<SalesReport | null>(null);
   const [reportToDelete, setReportToDelete] = useState<string | null>(null);
@@ -224,6 +227,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
     category: "",
     quantity: 1,
     unitPrice: 0,
+    otherExpenses: 0, 
     customerName: "",
     paymentMethod: "Cash",
     status: "Completed" as "Completed" | "Pending" | "Cancelled",
@@ -234,48 +238,59 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const selectedInvItem = inventory.find(i => i.name === formData.productName);
   const isOverStock = !!selectedInvItem && formData.quantity > selectedInvItem.currentStock;
 
+  const handleConfirmDeleteAll = async () => {
+    setIsDeletingAll(true);
+    const success = await deleteAllSalesReports();
+    setIsDeletingAll(false);
+
+    if (success) {
+      setDeleteAllDialogOpen(false);
+    }
+  };
+
   // Calculate summary statistics
   const totalRevenue = salesReports.reduce((sum, report) => sum + report.totalAmount, 0);
   const totalOrders = salesReports.length;
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
   const completedOrders = salesReports.filter(r => r.status === "Completed").length;
   
-  const yearOverYearStats = useMemo(() => {
-  const now = new Date();
-  const thisYearNum = now.getFullYear();
-  const lastYearNum = thisYearNum - 1;
-
-  const thisYear = String(thisYearNum);
-  const lastYear = String(lastYearNum);
-
-  let revThis = 0, revLast = 0, ordThis = 0, ordLast = 0;
-
-  salesReports.forEach(report => {
-    const year = new Date(report.reportDate).getFullYear();
-
-    if (year === thisYearNum) {
-      revThis += report.totalAmount;
-      ordThis += 1;
-    } else if (year === lastYearNum) {
-      revLast += report.totalAmount;
-      ordLast += 1;
-    }
-  });
-
-  const pct = (curr: number, prev: number) =>
-    prev !== 0 ? parseFloat(((curr - prev) / prev * 100).toFixed(1)) : 0;
-
-    const avgThis = ordThis > 0 ? revThis / ordThis : 0;
-    const avgLast = ordLast > 0 ? revLast / ordLast : 0;
-
-    return {
-      revenueGrowth:  pct(revThis, revLast),
-      ordersGrowth:   pct(ordThis, ordLast),
-      avgOrderGrowth: pct(avgThis, avgLast),
-      thisYear,
-      lastYear,
-    };
-  }, [salesReports]);
+    const yearOverYearStats = useMemo(() => {
+      if (salesReports.length === 0) {
+        return {
+          revenueGrowth: 0, ordersGrowth: 0, avgOrderGrowth: 0,
+          thisYear: String(new Date().getFullYear()),
+          lastYear: String(new Date().getFullYear() - 1),
+        };
+      }
+  
+      // Find the two most-recent years that actually have sales data
+      const yearSet = new Set(salesReports.map(r => new Date(r.reportDate).getFullYear()));
+      const sortedYears = Array.from(yearSet).sort((a, b) => b - a); // descending
+      const thisYearNum = sortedYears[0];                            // most recent with data
+      const lastYearNum = sortedYears[1] ?? thisYearNum - 1;         
+  
+      let revThis = 0, revLast = 0, ordThis = 0, ordLast = 0;
+  
+      salesReports.forEach(report => {
+        const year = new Date(report.reportDate).getFullYear();
+        if (year === thisYearNum) { revThis += report.totalAmount; ordThis += 1; }
+        else if (year === lastYearNum) { revLast += report.totalAmount; ordLast += 1; }
+      });
+  
+      const pct = (curr: number, prev: number) =>
+        prev !== 0 ? parseFloat(((curr - prev) / prev * 100).toFixed(1)) : 0;
+  
+      const avgThis = ordThis > 0 ? revThis / ordThis : 0;
+      const avgLast = ordLast > 0 ? revLast / ordLast : 0;
+  
+      return {
+        revenueGrowth:  pct(revThis, revLast),
+        ordersGrowth:   pct(ordThis, ordLast),
+        avgOrderGrowth: pct(avgThis, avgLast),
+        thisYear: String(thisYearNum),
+        lastYear: String(lastYearNum),
+      };
+    }, [salesReports]);
 
   // Filter reports based on search and global filters
   const filteredReports = localFilteredReports.filter(report => {
@@ -361,6 +376,10 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
         aValue = a.unitPrice;
         bValue = b.unitPrice;
         break;
+      case "otherExpenses":
+        aValue = a.otherExpenses;
+        bValue = b.otherExpenses;
+        break;
       case "total":
         aValue = a.totalAmount;
         bValue = b.totalAmount;
@@ -416,7 +435,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       new Promise((resolve) => {
         setTimeout(() => {
           // Create CSV content
-          const headers = ["ID", "Date", "Product", "Category", "Quantity", "Unit Price", "Total", "Customer", "Payment", "Status", "Order #"];
+          const headers = ["ID", "Date", "Product", "Category", "Quantity", "Unit Price", "Other Expenses", "Total", "Customer", "Payment", "Status", "Order #"];
           const csvContent = [
             headers.join(","),
             ...salesReports.map(report => [
@@ -426,6 +445,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               report.category,
               report.quantity,
               report.unitPrice,
+              report.otherExpenses,
               report.totalAmount,
               report.customerName,
               report.paymentMethod,
@@ -473,6 +493,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       category: "",
       quantity: 1,
       unitPrice: 0,
+      otherExpenses: 0,
       customerName: "",
       paymentMethod: "Cash",
       status: "Completed",
@@ -490,6 +511,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       category: report.category,
       quantity: report.quantity,
       unitPrice: report.unitPrice,
+      otherExpenses: report.otherExpenses ?? 0,
       customerName: report.customerName,
       paymentMethod: report.paymentMethod,
       status: report.status,
@@ -584,18 +606,18 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   };
 
   const handleSubmitReport = () => {
-    // 1. Final Stock Validation
+    // Final Stock Validation
     const selectedInvItem = inventory.find(i => i.name === formData.productName);
     
     if (selectedInvItem && formData.quantity > selectedInvItem.currentStock) {
       toast.error(`Cannot complete sale. Only ${selectedInvItem.currentStock} units available.`);
-      return; // Stop the function here
+      return; 
     }
 
     setIsLoading(true);
     
     setTimeout(() => {
-      const totalAmount = formData.quantity * formData.unitPrice;
+      const totalAmount = formData.quantity * formData.unitPrice + formData.otherExpenses;
       
       if (editingReport) {
         updateSalesReport(editingReport.id, {
@@ -671,7 +693,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
 
   const downloadTemplate = () => {
     const template = [
-      "reportDate,productName,category,quantity,unitPrice,totalAmount,customerName,paymentMethod,status,orderNumber,notes",
+      "reportDate,productName,category,quantity,unitPrice,otherExpenses,totalAmount,customerName,paymentMethod,status,orderNumber,notes",
       "2025-10-20,Sample Product,Engine Parts,2,100,200,Sample Customer,Credit Card,Completed,ORD-SAMPLE,Sample notes"
     ].join("\n");
 
@@ -737,7 +759,15 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </Button>
             </>
           )}
-          
+          <Button
+            variant="outline"
+            className="border-red-500 text-red-600 hover:bg-red-50"
+            onClick={() => setDeleteAllDialogOpen(true)}
+            disabled={salesReports.length === 0}
+          >
+            <Trash2 className="w-4 h-4 mr-2" />
+            Delete All
+          </Button>
           <Button 
             className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]" 
             onClick={handleAddReport}
@@ -852,7 +882,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm">Growth Rate</CardTitle>
               <div className="p-2 bg-gradient-to-br from-[#FFA726] to-[#FF6B00] rounded-lg">
-                <Activity className="h-4 w-4 text-white" />
+                <Activity className="h-3 w-4 text-white" />
               </div>
             </CardHeader>
             <CardContent>
@@ -884,6 +914,16 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               <div className="flex items-center gap-3 flex-wrap">
                 <span className="text-sm font-medium text-muted-foreground shrink-0">Filter by:</span>
                 <div className="flex gap-2 flex-wrap">
+                  <Button
+                    size="sm"
+                    variant={localDateFilter.range === "all" ? "default" : "outline"}
+                    className={localDateFilter.range === "all"
+                      ? "bg-[#FF6B00] hover:bg-[#FF6B00]/90 text-white h-8 text-xs"
+                      : "h-8 text-xs"}
+                    onClick={() => setLocalDateFilter(f => ({ ...f, range: "all" }))}
+                  >
+                    All
+                  </Button>
                   {(["today", "thisweek", "thismonth", "thisyear"] as const).map((r) => {
                     const labels = { today: "Today", thisweek: "This Week", thismonth: "This Month", thisyear: "This Year" };
                     return (
@@ -1111,6 +1151,12 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                       >
                         Unit Price {renderSortIcon("unitPrice")}
                       </TableHead>
+                      <TableHead
+                        className="cursor-pointer hover:bg-gray-100 transition-colors select-none"
+                        onClick={() => handleSort("otherExpenses")}
+                      >
+                        Other Expenses {renderSortIcon("otherExpenses")}
+                      </TableHead>
                       <TableHead 
                         className="cursor-pointer hover:bg-gray-100 transition-colors select-none"
                         onClick={() => handleSort("total")}
@@ -1135,7 +1181,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <TableBody>
                     {pagedReports.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
+                        <TableCell colSpan={12} className="text-center py-8 text-muted-foreground">
                           {(globalFilters?.searchTerm || searchTerm) ? "No reports found matching your search" : "No sales reports yet. Add your first report!"}
                         </TableCell>
                       </TableRow>
@@ -1163,6 +1209,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                           <TableCell>{report.customerName}</TableCell>
                           <TableCell>{report.quantity}</TableCell>
                           <TableCell>{formatCurrency(report.unitPrice)}</TableCell>
+                          <TableCell>{formatCurrency(report.otherExpenses)}</TableCell>
                           <TableCell className="font-semibold">{formatCurrency(report.totalAmount)}</TableCell>
                           <TableCell>{report.paymentMethod}</TableCell>
                           <TableCell>
@@ -1549,13 +1596,27 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="customerName">Customer Name *</Label>
+              <Label htmlFor="otherExpenses">Other Expenses ({PESO_SYMBOL})</Label>
+              <Input
+                id="otherExpenses"
+                type="number"
+                min="0"
+                step="0.01"
+                value={formData.otherExpenses}
+                onChange={(e) =>
+                  setFormData({ ...formData, otherExpenses: parseFloat(e.target.value) || 0 })
+                }
+                placeholder="0.00"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="customerName">Customer Name </Label>
               <Input
                 id="customerName"
                 value={formData.customerName}
                 onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
                 placeholder="Enter customer name"
-                required
               />
             </div>
 
@@ -1570,10 +1631,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Cash">Cash</SelectItem>
-                  <SelectItem value="Credit Card">Credit Card</SelectItem>
-                  <SelectItem value="Debit Card">Debit Card</SelectItem>
-                  <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
-                  <SelectItem value="Check">Check</SelectItem>
+                  <SelectItem value="E Wallet">E-Wallet</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -1598,20 +1656,9 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             <div className="space-y-2">
               <Label>Total Amount</Label>
               <Input
-                value={formatCurrency(formData.quantity * formData.unitPrice)}
+                value={formatCurrency(formData.quantity * formData.unitPrice+ formData.otherExpenses)}
                 disabled
                 className="bg-gray-100"
-              />
-            </div>
-
-            <div className="space-y-2 col-span-2">
-              <Label htmlFor="notes">Notes</Label>
-              <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                placeholder="Additional notes or comments..."
-                rows={3}
               />
             </div>
           </div>
@@ -1622,7 +1669,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </Button>
             <Button 
               onClick={handleSubmitReport}
-              disabled={isLoading || !formData.productName || !formData.customerName || !formData.category}
+              disabled={isLoading || !formData.productName || !formData.category}
               className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]"
             >
               {isLoading ? "Saving..." : editingReport ? "Update Report" : "Add Report"}
@@ -1708,6 +1755,44 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               className="bg-red-600 hover:bg-red-700"
             >
               Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      
+      {/* Delete All Confirmation Dialog */}
+      <AlertDialog open={deleteAllDialogOpen} onOpenChange={(open) => { if (!isDeletingAll) setDeleteAllDialogOpen(open); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete All Sales Reports?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. All {salesReports.length} sales reports will be permanently deleted from the system.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeletingAll}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isDeletingAll}
+              onClick={async (e) => {
+                e.preventDefault();
+                setIsDeletingAll(true);
+                const ids = salesReports.map(r => r.id);
+                for (const id of ids) {
+                  await deleteSalesReport(id);
+                }
+                setIsDeletingAll(false);
+                setDeleteAllDialogOpen(false);
+              }}
+              className="bg-red-600 hover:bg-red-700 min-w-[100px]"
+            >
+              {isDeletingAll ? (
+                <span className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Deleting...
+                </span>
+              ) : (
+                "Delete All"
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

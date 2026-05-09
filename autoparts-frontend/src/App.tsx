@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { LoginPage } from "./components/LoginPage";
 import { SalesHeader } from "./components/SalesHeader";
 import { AppSidebar } from "./components/AppSidebar";
@@ -35,94 +35,108 @@ function AppContent() {
   // Authentication and User States
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<{ role: string; business_id: number; email: string; user_name?: string } | null>(null);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true); 
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const isFirstLogin = useRef(false);
 
   const [activeView, setActiveView] = useState(() => {
+    const savedView = localStorage.getItem("activeView");
+    if (savedView) return savedView;
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    
-    // If USER is staff, set default view to 'sales-reports'
-    //if user is business, set default view to 'sales-reports'
-    return (savedUser.role === 'staff' || savedUser.role === 'Business') 
-      ? "sales-reports" 
+    return (savedUser.role === 'staff' || savedUser.role === 'Business')
+      ? "sales-reports"
       : "dashboard";
   });
+
+  const changeView = (view: string) => {
+    localStorage.setItem("activeView", view);
+    setActiveView(view);
+  };
+
   const [showLowStockModal, setShowLowStockModal] = useState(false);
-  const { inventory, setInventory } = useInventory(); 
+  const { inventory, setInventory } = useInventory();
 
   const [globalFilters, setGlobalFilters] = useState<GlobalFilters>({
     searchTerm: "",
-    dateRange: "all", // Change this from "october" to "all"
+    dateRange: "all",
     analyticsView: "monthly",
     categories: [],
     status: [],
     priceRange: { min: 0, max: 1000 }
   });
 
-  // Check localStorage on Mount
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
-        setUser(parsedUser);
-        setIsAuthenticated(false); 
-      } catch (e) {
-        console.error("Failed to parse saved user", e);
-        localStorage.removeItem("user");
+    const isPageRefresh = sessionStorage.getItem("appSession") === "active";
+
+    if (isPageRefresh) {
+      // Refresh: restore saved session
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) {
+        try {
+          const parsedUser = JSON.parse(savedUser);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        } catch (e) {
+          console.error("Failed to parse saved user", e);
+          localStorage.removeItem("user");
+          localStorage.removeItem("activeView");
+        }
       }
+    } else {
+      // Fresh start: force login
+      localStorage.removeItem("user");
+      localStorage.removeItem("activeView");
+      // Mark this tab as having an active session so refreshes are detected
+      sessionStorage.setItem("appSession", "active");
     }
-    // Ensure checking state is disabled after the check
+
     setIsCheckingAuth(false);
   }, []);
 
   // Single handleLogin to trigger immediate transition
   const handleLogin = (userData: any) => {
-      // Save to local storage
-      localStorage.setItem("user", JSON.stringify(userData)); 
-      
-      // Dispatch the event
-      window.dispatchEvent(new Event("userLogin")); 
-      
-      // Update App state
-      setUser(userData);
-      setIsAuthenticated(true);
-
-      // Redirect based on role
-      const isStaff = userData.role === 'staff' || userData.role === 'Business';
-      setActiveView(isStaff ? "sales-reports" : "dashboard");
+    isFirstLogin.current = true;
+    localStorage.setItem("user", JSON.stringify(userData));
+    sessionStorage.setItem("appSession", "active"); // ensure refresh flag is set
+    window.dispatchEvent(new Event("userLogin"));
+    setUser(userData);
+    setIsAuthenticated(true);
+    const isStaff = userData.role === 'staff' || userData.role === 'Business';
+    changeView(isStaff ? "sales-reports" : "dashboard");
   };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    // Clear inventory state so the next business doesn't see old data
-    if (setInventory) setInventory([]); 
+    localStorage.removeItem("activeView");
+    sessionStorage.removeItem("appSession"); // clear session so next open = login
+    if (setInventory) setInventory([]);
     setIsAuthenticated(false);
     setUser(null);
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   // Monitor user changes for debugging/tracking
   useEffect(() => {
     if (isAuthenticated && user?.business_id) {
-        console.log("Active session for business:", user.business_id);
+      console.log("Active session for business:", user.business_id);
     }
   }, [user, isAuthenticated]);
 
+  // Low stock modal — only on fresh login, not on refresh
   useEffect(() => {
-    if (isAuthenticated && inventory.length > 0) {
-      const lowStockItems = inventory.filter(item => 
+    if (isAuthenticated && inventory.length > 0 && isFirstLogin.current) {
+      const lowStockItems = inventory.filter(item =>
         item.status === "Critical" || item.status === "Low Stock"
       );
-
       if (lowStockItems.length > 0) {
         setShowLowStockModal(true);
+        isFirstLogin.current = false;
       }
     }
   }, [isAuthenticated, inventory]);
 
   useEffect(() => {
     const handleFilterUpdate = (event: any) => updateFilters(event.detail);
-    const handleViewChange = (event: any) => setActiveView(event.detail);
+    const handleViewChange = (event: any) => changeView(event.detail);
 
     window.addEventListener('updateFilters', handleFilterUpdate as EventListener);
     window.addEventListener('changeView', handleViewChange as EventListener);
@@ -144,7 +158,7 @@ function AppContent() {
       case "sales-reports":
         return <SalesReportsView globalFilters={globalFilters} user={user} />;
       case "predictions-trends":
-        return <PredictionsTrendsView />; 
+        return <PredictionsTrendsView />;
       case "analytics":
         return <AnalyticsView globalFilters={globalFilters} />;
       case "recommendations":
@@ -154,7 +168,6 @@ function AppContent() {
       case "suppliers":
         return <SuppliersView user={user} />;
       case "settings":
-        // Role-based access control
         if (user?.role === 'admin') {
           return <SettingsView />;
         }
@@ -179,52 +192,47 @@ function AppContent() {
     return <LoginPage onLogin={handleLogin} />;
   }
 
-return (
-  <>
-    <SidebarProvider>
-      {/* 1. The outer wrapper must be exactly the screen height */}
-      <div className="flex h-screen w-full bg-background overflow-hidden">
-        
-        <AppSidebar 
-          activeView={activeView} 
-          onViewChange={setActiveView} 
-          user={user} 
-        />
-        
-        {/* 2. SidebarInset must be flex-col and h-screen */}
-        <SidebarInset className="flex flex-col flex-1 min-w-0 h-screen overflow-hidden bg-slate-50">
-          
-          {/* 3. The Header: 'sticky' works here because the parent isn't scrolling */}
-          <header className="sticky top-0 z-20 w-full bg-white border-b flex-shrink-0">
-            <SalesHeader
-              onLogout={handleLogout}
-              globalFilters={globalFilters}
-              onUpdateFilters={updateFilters}
-              onClearFilters={() => {}}
-              activeView={activeView}
-            />
-          </header>
-          
-          {/* 4. THE FIX: The main tag needs h-full or flex-1 AND overflow-y-auto */}
-          <main className="flex-1 w-full overflow-y-auto p-4 md:p-6 scroll-smooth">
-            {/* This inner div ensures content stretches enough to trigger scroll */}
-            <div className="mx-auto w-full min-h-full">
-              {renderView()}
-            </div>
-          </main>
+  return (
+    <>
+      <SidebarProvider>
+        <div className="flex h-screen w-full bg-background overflow-hidden">
 
-        </SidebarInset>
+          <AppSidebar
+            activeView={activeView}
+            onViewChange={changeView}
+            user={user}
+          />
 
-        <LowStockModal
-          isOpen={showLowStockModal}
-          onClose={() => setShowLowStockModal(false)}
-          onViewInventory={() => setActiveView("inventory")}
-        />
-      </div>
-    </SidebarProvider>
-    <Toaster position="top-right" richColors />
-  </>
-);
+          <SidebarInset className="flex flex-col flex-1 min-w-0 h-screen overflow-hidden bg-slate-50">
+
+            <header className="sticky top-0 z-20 w-full bg-white border-b flex-shrink-0">
+              <SalesHeader
+                onLogout={handleLogout}
+                globalFilters={globalFilters}
+                onUpdateFilters={updateFilters}
+                onClearFilters={() => {}}
+                activeView={activeView}
+              />
+            </header>
+
+            <main className="flex-1 w-full overflow-y-auto p-4 md:p-6 scroll-smooth">
+              <div className="mx-auto w-full min-h-full">
+                {renderView()}
+              </div>
+            </main>
+
+          </SidebarInset>
+
+          <LowStockModal
+            isOpen={showLowStockModal}
+            onClose={() => setShowLowStockModal(false)}
+            onViewInventory={() => changeView("inventory")}
+          />
+        </div>
+      </SidebarProvider>
+      <Toaster position="top-right" richColors />
+    </>
+  );
 }
 
 export default function App() {

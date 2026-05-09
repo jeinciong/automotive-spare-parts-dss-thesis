@@ -334,10 +334,6 @@ app.get('/api/sales', async (req, res) => {
 });
 
 // POST: Bulk Add/Import Sales
-// Handles large imports (thousands of rows) by:
-//   1. Inserting sales in chunks of CHUNK_SIZE via createMany (fast, no row-by-row loop)
-//   2. Updating inventory in a single pass after all inserts are done
-//   3. Using a generous transaction timeout per chunk so Prisma never times out
 app.post('/api/sales', async (req: any, res: any) => {
     const CHUNK_SIZE = 500;
 
@@ -362,7 +358,7 @@ app.post('/api/sales', async (req: any, res: any) => {
 
         let totalInserted = 0;
 
-        // ── Step 1: insert sales in chunks (no inventory check yet) ─────────
+        // insert sales in chunks (no inventory check yet)
         for (let i = 0; i < reports.length; i += CHUNK_SIZE) {
             const chunk = reports.slice(i, i + CHUNK_SIZE);
 
@@ -378,6 +374,7 @@ app.post('/api/sales', async (req: any, res: any) => {
                             customer_type:  r.customer_type  || 'Walk-in',
                             quantity:       Number(r.quantity),
                             unit_price:     Number(r.unit_price),
+                            other_expenses:  Number(r.other_expenses ?? 0), 
                             total_amount:   Number(r.total_amount),
                             payment_method: r.payment_method || 'Cash',
                             status:         r.status         || 'Completed',
@@ -390,7 +387,7 @@ app.post('/api/sales', async (req: any, res: any) => {
             );
         }
 
-        // ── Step 2: update inventory in one aggregated pass ──────────────────
+        // update inventory in one aggregated pass
         // Sum quantities sold per (product_name, business_id) across all reports
         const soldMap: Record<string, number> = {};
         for (const r of reports) {
@@ -455,7 +452,7 @@ app.post('/api/sales', async (req: any, res: any) => {
 // UPDATE a sale
 app.put('/api/sales/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    const { productName, quantity, business_id, reportDate, orderNumber, category, unitPrice, totalAmount, customerName, paymentMethod, status } = req.body;
+    const { productName, quantity, business_id, reportDate, orderNumber, category, unitPrice, otherExpenses, totalAmount, customerName, paymentMethod, status } = req.body;
     const businessId = Number(business_id);
 
     if (!Number.isInteger(businessId) || businessId <= 0) {
@@ -484,6 +481,7 @@ app.put('/api/sales/:id', async (req, res) => {
                     category,
                     quantity: Number(quantity),
                     unit_price: Number(unitPrice),
+                    other_expenses: Number(otherExpenses),
                     total_amount: Number(totalAmount),
                     customer_type: customerName,
                     payment_method: paymentMethod,
@@ -529,6 +527,39 @@ app.put('/api/sales/:id', async (req, res) => {
         console.error("Update Error:", err.message);
         res.status(500).json({ error: err.message });
     }
+});
+
+app.delete('/api/sales/all', async (req, res) => {
+  const businessId = Number(req.query.business_id ?? req.body?.business_id);
+
+  if (!Number.isInteger(businessId) || businessId <= 0) {
+    return res.status(400).json({ error: 'business_id required' });
+  }
+
+  try {
+    // Delete recommendation_actions first (they may reference predictions)
+    await prisma.recommendation_actions.deleteMany({
+      where: { business_id: businessId }
+    });
+
+    // Delete predictions
+    await prisma.predictions.deleteMany({
+      where: { business_id: businessId }
+    });
+
+    // Now safe to delete sales
+    const result = await prisma.sales_reports.deleteMany({
+      where: { business_id: businessId }
+    });
+
+    res.json({ 
+      message: 'All sales deleted', 
+      count: result.count
+    });
+  } catch (err: any) {
+    console.error("Delete All Error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // DELETE a sale

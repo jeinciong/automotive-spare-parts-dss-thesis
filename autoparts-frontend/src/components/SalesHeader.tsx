@@ -29,7 +29,7 @@ export function SalesHeader({ onLogout }: SalesHeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="flex items-center space-x-2 border-orange-200">
               <div className="w-6 h-6 rounded-full bg-[#FF6B00] flex items-center justify-center text-white text-[10px] font-bold">A</div>
-              <span className="hidden md:inline text-xs">Admin</span>
+              <span className="hidden md:inline text-xs">Login to another account</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
