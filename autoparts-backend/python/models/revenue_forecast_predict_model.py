@@ -26,16 +26,18 @@ def main():
         payload = json.loads(sys.stdin.read())
         artifact = _load_artifact(payload["model_path"])
         algorithm = artifact.get("algorithm") or artifact.get("meta", {}).get("algorithm")
+        current_last_period = payload.get("current_last_period")
 
         if algorithm == "ARIMA_XGB":
-            forecasts = forecast_arima_xgb(artifact, int(payload.get("horizon", 6)))
+            forecasts = forecast_arima_xgb(artifact, int(payload.get("horizon", 6)), current_last_period=current_last_period)
         elif algorithm == "TSB_XGB":
-            forecasts = forecast_tsb_xgb(artifact, int(payload.get("horizon", 6)))
+            forecasts = forecast_tsb_xgb(artifact, int(payload.get("horizon", 6)), current_last_period=current_last_period)
         else:
             raise ValueError(f"Unsupported revenue artifact algorithm: {algorithm or 'UNKNOWN'}")
 
         model_info = dict(artifact.get("meta", {}))
         model_info["saved_model_path"] = payload["model_path"]
+        model_info["last_period"] = artifact.get("last_period")
         print(json.dumps({
             "success": True,
             "algorithm": algorithm,

@@ -145,7 +145,14 @@ def _fit_tsb_xgb(series, alpha_grid, beta_grid, xgb_params, horizon, dates):
         for p, v in zip(periods, final)
     ]
 
-    nz_pairs = [(series[i], tsb_fitted[i]) for i in range(len(series)) if series[i] != 0]
+    # Compute hybrid fitted values (TSB + XGB) for accurate MAPE
+    hybrid_fitted = tsb_fitted.copy()
+    if xgb_enabled and model is not None and scaler is not None and len(df) >= 3:
+        xgb_train_preds = model.predict(scaler.transform(df[feat_cols]))
+        for j, idx in enumerate(df.index):
+            hybrid_fitted[idx] += float(xgb_train_preds[j])
+
+    nz_pairs = [(float(series[i]), float(hybrid_fitted[i])) for i in range(len(series)) if series[i] != 0]
     mape = (sum(abs((a - p) / a) for a, p in nz_pairs) / len(nz_pairs) * 100) if nz_pairs else None
 
     meta = {
@@ -183,15 +190,33 @@ def _fit_tsb_xgb(series, alpha_grid, beta_grid, xgb_params, horizon, dates):
     return artifact, forecasts, meta, mape
 
 
-def forecast_from_artifact(artifact, horizon=None):
+def forecast_from_artifact(artifact, horizon=None, current_last_period=None):
     horizon = int(horizon or artifact.get("meta", {}).get("horizon", 6))
     tsb_fc = np.full(horizon, float(artifact["tsb_level"]))
+
+    # Determine how many months the artifact lags behind current data
+    artifact_last = str(artifact.get("last_period", ""))
+    effective_last = current_last_period or artifact_last
+    skip_steps = 0
+    if current_last_period and artifact_last and current_last_period > artifact_last:
+        try:
+            ay, am = int(artifact_last[:4]), int(artifact_last[5:7])
+            cy, cm = int(current_last_period[:4]), int(current_last_period[5:7])
+            skip_steps = max(0, (cy - ay) * 12 + (cm - am))
+        except (ValueError, IndexError):
+            skip_steps = 0
 
     xgb_corrections = np.zeros(horizon)
     window = list(artifact.get("residual_window", []))
     model = artifact.get("xgb_model")
     scaler = artifact.get("xgb_scaler")
     if artifact.get("xgb_enabled") and model is not None and scaler is not None:
+        # Advance window through skipped (stale) months
+        for _ in range(skip_steps):
+            feat = _extract(window)
+            pred = float(model.predict(scaler.transform([feat]))[0])
+            window.append(pred)
+        # Generate corrections for the requested horizon
         for i in range(horizon):
             feat = _extract(window)
             pred = float(model.predict(scaler.transform([feat]))[0])
@@ -200,7 +225,7 @@ def forecast_from_artifact(artifact, horizon=None):
 
     final = tsb_fc + xgb_corrections
     ci_hw = norm.ppf(1 - CI_ALPHA / 2) * float(artifact.get("residual_std", 0.0))
-    last = pd.Period(artifact["last_period"], freq="M")
+    last = pd.Period(effective_last, freq="M")
     periods = [str(last + i) for i in range(1, horizon + 1)]
     return [
         {

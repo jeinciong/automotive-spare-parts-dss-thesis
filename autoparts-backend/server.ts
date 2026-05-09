@@ -1232,6 +1232,19 @@ function buildSharedProductModelPath(
   return path.join(scriptConfig.dir, `${slugifyProductName(productName)}.pkl`);
 }
 
+/**
+ * Returns the signed number of months between two YYYY-MM period strings.
+ * Positive when \to\ is later than \from\.
+ */
+function monthsDiff(from: string | undefined | null, to: string | undefined | null): number {
+  if (!from || !to) return 0;
+  const parseYM = (s: string) => { const m = /^(\d{4})-(\d{2})$/.exec(s); return m ? { y: +m[1], mo: +m[2] } : null; };
+  const a = parseYM(from);
+  const b = parseYM(to);
+  if (!a || !b) return 0;
+  return (b.y - a.y) * 12 + (b.mo - a.mo);
+}
+
 function keepFutureForecasts<T extends { period?: string | null }>(
   forecasts: T[],
   lastHistoryPeriod: string,
@@ -1404,25 +1417,37 @@ async function getOrTrainForecastArtifact(
   let loadedFromCache = false;
   const hasCanonicalArtifact = await fileExists(modelPath);
 
-  if (!forceRetrain && hasCanonicalArtifact) {
-    const predictionHorizon = sortedKeys.length > 0
-      ? Number(horizon) + PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS
-      : Number(horizon);
+  // Fix: no +120 horizon inflation; pass current_last_period so Python shifts periods correctly
+  const currentLastPeriod = sortedKeys.length > 0 ? sortedKeys[sortedKeys.length - 1] : undefined;
 
+  if (!forceRetrain && hasCanonicalArtifact) {
     const cachedResult = await runPython(scriptConfig.predict, {
       model_path: modelPath,
-      horizon: predictionHorizon,
+      horizon: Number(horizon),
+      ...(currentLastPeriod ? { current_last_period: currentLastPeriod } : {}),
     });
 
     if (cachedResult.success) {
-      assertModelSelectionConsistency(
-        algorithm,
-        modelDir,
-        String(cachedResult.model_info?.saved_model_path ?? modelPath),
-        cachedResult.model_info?.algorithm ?? null,
-      );
-      modelResult = cachedResult;
-      loadedFromCache = true;
+      // Reject artifacts whose last_period lags current sales by more than horizon months
+      const artifactLastPeriod = cachedResult.model_info?.last_period as string | undefined;
+      const staleMonths = monthsDiff(artifactLastPeriod, currentLastPeriod);
+      if (staleMonths > Number(horizon)) {
+        console.warn(
+          `[Forecast Stale Cache] business=${businessId} | ${productName} | ` +
+          `artifact last: ${artifactLastPeriod} | sales last: ${currentLastPeriod} | ` +
+          `stale by ${staleMonths} months — retraining`
+        );
+        // modelResult stays null → falls through to retrain
+      } else {
+        assertModelSelectionConsistency(
+          algorithm,
+          modelDir,
+          String(cachedResult.model_info?.saved_model_path ?? modelPath),
+          cachedResult.model_info?.algorithm ?? null,
+        );
+        modelResult = cachedResult;
+        loadedFromCache = true;
+      }
     } else {
       console.warn(
         `[Forecast Cache Miss] business=${businessId} | ${productName} | ${algorithm} | ${cachedResult.error}`
@@ -1433,25 +1458,34 @@ async function getOrTrainForecastArtifact(
   if (!forceRetrain && !modelResult && !hasCanonicalArtifact) {
     const sharedModelPath = buildSharedProductModelPath(scriptConfig, productName);
     if (await fileExists(sharedModelPath)) {
-      const predictionHorizon = sortedKeys.length > 0
-        ? Number(horizon) + PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS
-        : Number(horizon);
-
       const sharedResult = await runPython(scriptConfig.predict, {
         model_path: sharedModelPath,
-        horizon: predictionHorizon,
+        horizon: Number(horizon),
+        ...(currentLastPeriod ? { current_last_period: currentLastPeriod } : {}),
       });
 
       if (sharedResult.success) {
-        assertModelSelectionConsistency(
-          algorithm,
-          scriptConfig.dir,
-          String(sharedResult.model_info?.saved_model_path ?? sharedModelPath),
-          sharedResult.model_info?.algorithm ?? null,
-        );
-        modelResult = sharedResult;
-        savedModelPath = await cacheSharedArtifactToBusinessPath(sharedModelPath, modelPath);
-        loadedFromCache = true;
+        // Same staleness gate for shared pre-loaded artifacts
+        const artifactLastPeriod = sharedResult.model_info?.last_period as string | undefined;
+        const staleMonths = monthsDiff(artifactLastPeriod, currentLastPeriod);
+        if (staleMonths > Number(horizon)) {
+          console.warn(
+            `[Forecast Stale Shared Preload] business=${businessId} | ${productName} | ` +
+            `artifact last: ${artifactLastPeriod} | sales last: ${currentLastPeriod} | ` +
+            `stale by ${staleMonths} months — will retrain`
+          );
+          // modelResult stays null → falls through to retrain
+        } else {
+          assertModelSelectionConsistency(
+            algorithm,
+            scriptConfig.dir,
+            String(sharedResult.model_info?.saved_model_path ?? sharedModelPath),
+            sharedResult.model_info?.algorithm ?? null,
+          );
+          modelResult = sharedResult;
+          savedModelPath = await cacheSharedArtifactToBusinessPath(sharedModelPath, modelPath);
+          loadedFromCache = true;
+        }
       } else {
         console.warn(
           `[Forecast Shared Preload Miss] business=${businessId} | ${productName} | ${algorithm} | ${sharedResult.error}`
@@ -1459,6 +1493,10 @@ async function getOrTrainForecastArtifact(
       }
     }
   }
+
+
+
+
 
   if (!modelResult) {
     const outputModelPath =
@@ -1601,23 +1639,35 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   let loadedFromCache = false;
   const hasCanonicalArtifact = await fileExists(modelPath);
 
-  if (!forceRetrain && hasCanonicalArtifact) {
-    const predictionHorizon = dates.length > 0
-      ? Number(horizon) + REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS
-      : Number(horizon);
+  // Fix: no +120 horizon inflation; pass current_last_period so Python shifts periods correctly
+  const currentLastPeriod = dates.length > 0 ? dates[dates.length - 1] : undefined;
 
+  if (!forceRetrain && hasCanonicalArtifact) {
     const cachedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
       model_path: modelPath,
-      horizon: predictionHorizon,
+      horizon: Number(horizon),
+      ...(currentLastPeriod ? { current_last_period: currentLastPeriod } : {}),
     });
 
     if (cachedResult.success) {
-      const cachedPath = String(cachedResult.model_info?.saved_model_path ?? modelPath);
-      if (!isPathInsideDir(cachedPath, modelDir)) {
-        throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${cachedPath}`);
+      // Reject artifacts whose last_period lags current sales by more than horizon months
+      const artifactLastPeriod = cachedResult.model_info?.last_period as string | undefined;
+      const staleMonths = monthsDiff(artifactLastPeriod, currentLastPeriod);
+      if (staleMonths > Number(horizon)) {
+        console.warn(
+          `[Revenue Forecast Stale Cache] business=${businessId} | ` +
+          `artifact last: ${artifactLastPeriod} | sales last: ${currentLastPeriod} | ` +
+          `stale by ${staleMonths} months — retraining`
+        );
+        // modelResult stays null → falls through to retrain
+      } else {
+        const cachedPath = String(cachedResult.model_info?.saved_model_path ?? modelPath);
+        if (!isPathInsideDir(cachedPath, modelDir)) {
+          throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${cachedPath}`);
+        }
+        modelResult = cachedResult;
+        loadedFromCache = true;
       }
-      modelResult = cachedResult;
-      loadedFromCache = true;
     } else {
       console.warn(
         `[Revenue Forecast Cache Miss] business=${businessId} | ${cachedResult.error}`
@@ -1628,25 +1678,34 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   if (!forceRetrain && !modelResult && !hasCanonicalArtifact) {
     const sharedArtifact = await resolveSharedRevenueArtifactPath();
     if (sharedArtifact && sharedArtifact.algorithm === algorithm) {
-      const predictionHorizon = dates.length > 0
-        ? Number(horizon) + REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS
-        : Number(horizon);
-
       const sharedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
         model_path: sharedArtifact.modelPath,
-        horizon: predictionHorizon,
+        horizon: Number(horizon),
+        ...(currentLastPeriod ? { current_last_period: currentLastPeriod } : {}),
       });
 
       if (sharedResult.success) {
-        savedModelPath = await cacheSharedArtifactToBusinessPath(sharedArtifact.modelPath, modelPath);
-        modelResult = {
-          ...sharedResult,
-          model_info: {
-            ...(sharedResult.model_info ?? {}),
-            saved_model_path: savedModelPath,
-          },
-        };
-        loadedFromCache = true;
+        // Same staleness gate for shared pre-loaded revenue artifacts
+        const artifactLastPeriod = sharedResult.model_info?.last_period as string | undefined;
+        const staleMonths = monthsDiff(artifactLastPeriod, currentLastPeriod);
+        if (staleMonths > Number(horizon)) {
+          console.warn(
+            `[Revenue Forecast Stale Shared Preload] business=${businessId} | ` +
+            `artifact last: ${artifactLastPeriod} | sales last: ${currentLastPeriod} | ` +
+            `stale by ${staleMonths} months — will retrain`
+          );
+          // modelResult stays null → falls through to retrain
+        } else {
+          savedModelPath = await cacheSharedArtifactToBusinessPath(sharedArtifact.modelPath, modelPath);
+          modelResult = {
+            ...sharedResult,
+            model_info: {
+              ...(sharedResult.model_info ?? {}),
+              saved_model_path: savedModelPath,
+            },
+          };
+          loadedFromCache = true;
+        }
       } else {
         console.warn(
           `[Revenue Forecast Shared Preload Miss] business=${businessId} | ${algorithm} | ${sharedResult.error}`
@@ -1957,7 +2016,7 @@ app.get('/api/forecast/accuracy', async (req: any, res: any) => {
       salesMap[pname][period] = (salesMap[pname][period] ?? 0) + Number(s.quantity);
     });
 
-    let mapeSum = 0, count = 0;
+    let mapeSum = 0, count = 0, skipped = 0, zeroActualCorrect = 0;
     for (const pred of preds) {
       if (!pred.product_id) continue;
       const pname = pidToName[pred.product_id];
@@ -1965,15 +2024,28 @@ app.get('/api/forecast/accuracy', async (req: any, res: any) => {
       const d = new Date(pred.forecast_date!);
       const period = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
       const actual = salesMap[pname]?.[period];
-      if (actual === undefined || actual === 0) continue;
+      if (actual === undefined) { skipped++; continue; }
       const predicted = Number(pred.predicted_quantity ?? 0);
+      if (actual === 0) {
+        // Zero-actual: if predicted is also ~0 count as correct; otherwise skip MAPE (division by zero)
+        if (Math.abs(predicted) < 0.5) { zeroActualCorrect++; count++; }
+        else { skipped++; }
+        continue;
+      }
       mapeSum += Math.abs((actual - predicted) / actual);
       count++;
     }
 
     const mape     = count > 0 ? (mapeSum / count) * 100 : null;
-    const accuracy = mape !== null ? Math.round(100 - mape) : null;
-    return res.json({ accuracy, mape: mape ? Math.round(mape * 10) / 10 : null, pairs: count });
+    const accuracy = mape !== null ? Math.max(0, Math.round(100 - mape)) : null;
+    return res.json({
+      accuracy,
+      mape: mape !== null ? Math.round(mape * 10) / 10 : null,
+      pairs: count,
+      skipped_pairs: skipped,
+      zero_actual_correct: zeroActualCorrect,
+      insufficient_data: count === 0,
+    });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }

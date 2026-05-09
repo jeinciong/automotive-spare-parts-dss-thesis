@@ -1,0 +1,15 @@
+product_id,business_id,sku,product_name,category,current_stock,min_stock,unit_cost,supplier,status,location
+1,1,AIR0001,Air Filter,Engine,10,10,17.71,General Supplier,In_Stock,Warehouse A
+2,1,ALT0002,Alternator,Electrical,10,10,174.91,General Supplier,In_Stock,Warehouse A
+3,1,BAT0003,Battery,Electrical,10,10,122.24,General Supplier,In_Stock,Warehouse A
+4,1,BRA0004,Brake Pads,Braking system,10,10,34.86,General Supplier,In_Stock,Warehouse A
+5,1,BRA0005,Brake Rotor,Braking system,10,10,48.61,General Supplier,In_Stock,Warehouse A
+6,1,CLU0006,Clutch Kit,Transmission,10,10,245.86,General Supplier,In_Stock,Warehouse A
+7,1,CON0007,Control Arm,Suspension,10,10,87.17,General Supplier,In_Stock,Warehouse A
+8,1,ENG0008,Engine Oil,Engine,10,10,31.71,General Supplier,In_Stock,Warehouse A
+9,1,FUE0009,Fuel Pump,Fuel System,10,10,106.26,General Supplier,In_Stock,Warehouse A
+10,1,OIL0010,Oil Filter,Engine,10,10,12.13,General Supplier,In_Stock,Warehouse A
+11,1,RAD0011,Radiator,Cooling,10,10,99.76,General Supplier,In_Stock,Warehouse A
+12,1,SHO0012,Shock Absorber,Suspension,10,10,74.03,General Supplier,In_Stock,Warehouse A
+13,1,SPA0013,Spark Plugs,Ignition,10,10,7.07,General Supplier,In_Stock,Warehouse A
+14,1,WAT0014,Water Pump,Cooling,10,10,55.16,General Supplier,In_Stock,Warehouse A

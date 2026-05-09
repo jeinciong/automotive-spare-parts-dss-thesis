@@ -24,9 +24,11 @@ def main():
             raise ValueError(
                 f"Model artifact algorithm mismatch: expected {EXPECTED_ALGORITHM}, got {artifact_algorithm or 'UNKNOWN'}"
             )
-        forecasts = forecast_from_artifact(artifact, int(payload.get("horizon", 6)))
+        current_last_period = payload.get("current_last_period")
+        forecasts = forecast_from_artifact(artifact, int(payload.get("horizon", 6)), current_last_period=current_last_period)
         model_info = dict(artifact.get("meta", {}))
         model_info["saved_model_path"] = payload["model_path"]
+        model_info["last_period"] = artifact.get("last_period")
         print(json.dumps({"success": True, "forecasts": forecasts, "model_info": model_info}))
     except Exception as e:
         print(json.dumps({"success": False, "error": str(e)}))
