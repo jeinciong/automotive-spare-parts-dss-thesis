@@ -154,8 +154,24 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
 
     const lines = csvData.trim().split('\n');
 
-    // Strip quotes and \r from headers
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/["\r]/g, ''));
+    const normalizeHeader = (header: string) =>
+      header
+        .trim()
+        .replace(/["\r]/g, '')
+        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+        .toLowerCase();
+
+    const readNumber = (value: unknown, fallback: number) => {
+      if (value === undefined || value === null || String(value).trim() === "") {
+        return fallback;
+      }
+
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    };
+
+    // Strip quotes/\r from headers and accept both snake_case and camelCase CSVs.
+    const headers = lines[0].split(',').map(normalizeHeader);
 
     const reportsToImport = lines.slice(1).map(line => {
       if (!line.trim()) return null;
@@ -163,6 +179,14 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
       const values = line.split(',').map(v => v.trim().replace(/["\r]/g, ''));
       const row: any = {};
       headers.forEach((header, index) => { row[header] = values[index]; });
+
+      const quantity = readNumber(row.quantity, 0);
+      const unitPrice = readNumber(row.unit_price, 0);
+      const totalAmount = row.total_amount !== undefined && String(row.total_amount).trim() !== ""
+        ? readNumber(row.total_amount, 0)
+        : row.total !== undefined && String(row.total).trim() !== ""
+          ? readNumber(row.total, 0)
+          : quantity * unitPrice;
 
       return {
         date:           row.date           || new Date().toISOString().split('T')[0],

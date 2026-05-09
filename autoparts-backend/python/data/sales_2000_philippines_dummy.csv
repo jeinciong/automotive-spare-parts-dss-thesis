@@ -1,0 +1,2001 @@
+date,order_number,product_name,category,customer_type,quantity,unit_price,total_amount,payment_method
+2021-01-01,ORD001433,Alternator,Electrical system,Retail,0,9327.9,0.0,Bank Transfer
+2021-01-01,ORD001344,Battery,Electrical system,Retail,0,6062.63,0.0,Check
+2021-01-01,ORD001652,Catalytic Converter,Exhaust system,Retail,27,23674.19,639203.13,GCash
+2021-01-01,ORD001792,ECU Module,Electrical system,Wholesale,0,27071.69,0.0,Maya
+2021-01-02,ORD000560,Brake Pads,Braking system,Retail,15,1061.3,15919.5,Cash
+2021-01-02,ORD001650,Catalytic Converter,Exhaust system,Wholesale,26,17628.96,458352.96,Bank Transfer
+2021-01-03,ORD001654,Catalytic Converter,Exhaust system,Retail,14,23578.05,330092.7,GCash
+2021-01-04,ORD001651,Catalytic Converter,Exhaust system,Wholesale,25,12201.83,305045.75,Maya
+2021-01-04,ORD000005,Oil Filter,Engine system,Retail,21,206.16,4329.36,Maya
+2021-01-07,ORD000003,Oil Filter,Engine system,Wholesale,21,145.21,3049.41,GCash
+2021-01-08,ORD001657,Catalytic Converter,Exhaust system,Wholesale,40,21824.14,872965.6,Bank Transfer
+2021-01-10,ORD000886,Shock Absorber,Suspension & traction,Retail,28,3154.36,88322.08,Cash
+2021-01-11,ORD000333,Air Filter,Engine system,Retail,29,231.86,6723.94,Check
+2021-01-13,ORD000001,Oil Filter,Engine system,Retail,31,172.07,5334.17,Cash
+2021-01-13,ORD001551,Starter Motor,Electrical system,Retail,15,7814.78,117221.7,Check
+2021-01-14,ORD001552,Starter Motor,Electrical system,Wholesale,31,7226.17,224011.27,Bank Transfer
+2021-01-15,ORD000331,Air Filter,Engine system,Wholesale,26,247.4,6432.4,GCash
+2021-01-15,ORD000562,Brake Pads,Braking system,Retail,35,1139.79,39892.65,Maya
+2021-01-15,ORD001649,Catalytic Converter,Exhaust system,Retail,30,19986.96,599608.8,Bank Transfer
+2021-01-15,ORD000888,Shock Absorber,Suspension & traction,Wholesale,34,4023.19,136788.46,GCash
+2021-01-15,ORD001162,Wheel Bearing,Drivetrain,Retail,27,2886.61,77938.47,Cash
+2021-01-21,ORD000330,Air Filter,Engine system,Wholesale,7,275.49,1928.43,Cash
+2021-01-21,ORD000564,Brake Pads,Braking system,Wholesale,28,980.29,27448.12,Bank Transfer
+2021-01-21,ORD001656,Catalytic Converter,Exhaust system,Retail,45,21799.62,980982.9,Cash
+2021-01-22,ORD001163,Wheel Bearing,Drivetrain,Retail,38,1725.68,65575.84,Bank Transfer
+2021-01-23,ORD001653,Catalytic Converter,Exhaust system,Retail,21,21287.04,447027.84,Cash
+2021-01-23,ORD001655,Catalytic Converter,Exhaust system,Wholesale,35,14833.76,519181.6,Cash
+2021-01-26,ORD000332,Air Filter,Engine system,Retail,38,337.77,12835.26,Maya
+2021-01-27,ORD000561,Brake Pads,Braking system,Wholesale,20,1011.63,20232.6,Maya
+2021-01-27,ORD000887,Shock Absorber,Suspension & traction,Retail,26,3537.33,91970.58,Cash
+2021-01-27,ORD000889,Shock Absorber,Suspension & traction,Retail,14,4177.11,58479.54,Cash
+2021-01-30,ORD000563,Brake Pads,Braking system,Retail,20,1180.51,23610.2,Check
+2021-01-31,ORD000002,Oil Filter,Engine system,Retail,22,242.6,5337.2,Maya
+2021-01-31,ORD000004,Oil Filter,Engine system,Wholesale,34,179.59,6106.06,Cash
+2021-01-31,ORD001164,Wheel Bearing,Drivetrain,Retail,26,2158.64,56124.64,Bank Transfer
+2021-02-01,ORD001345,Battery,Electrical system,Retail,0,7067.75,0.0,Check
+2021-02-01,ORD000568,Brake Pads,Braking system,Retail,32,1153.13,36900.16,Bank Transfer
+2021-02-01,ORD001553,Starter Motor,Electrical system,Wholesale,0,7284.64,0.0,Cash
+2021-02-02,ORD000335,Air Filter,Engine system,Retail,44,294.6,12962.4,Check
+2021-02-02,ORD000566,Brake Pads,Braking system,Wholesale,30,1492.72,44781.6,Maya
+2021-02-02,ORD001798,ECU Module,Electrical system,Wholesale,22,17325.92,381170.24,Bank Transfer
+2021-02-02,ORD001807,ECU Module,Electrical system,Wholesale,34,27378.53,930870.02,Bank Transfer
+2021-02-02,ORD001165,Wheel Bearing,Drivetrain,Wholesale,15,1876.07,28141.05,Cash
+2021-02-04,ORD000892,Shock Absorber,Suspension & traction,Retail,40,3574.85,142994.0,GCash
+2021-02-05,ORD000010,Oil Filter,Engine system,Retail,20,148.58,2971.6,Maya
+2021-02-06,ORD001799,ECU Module,Electrical system,Wholesale,14,17718.42,248057.88,GCash
+2021-02-10,ORD001795,ECU Module,Electrical system,Wholesale,29,21148.14,613296.06,Check
+2021-02-10,ORD001797,ECU Module,Electrical system,Wholesale,22,19816.17,435955.74,GCash
+2021-02-10,ORD001800,ECU Module,Electrical system,Retail,37,17006.58,629243.46,GCash
+2021-02-11,ORD001794,ECU Module,Electrical system,Retail,38,22053.97,838050.86,Bank Transfer
+2021-02-11,ORD001796,ECU Module,Electrical system,Retail,29,25274.21,732952.09,GCash
+2021-02-11,ORD000891,Shock Absorber,Suspension & traction,Retail,28,3692.88,103400.64,Maya
+2021-02-11,ORD000893,Shock Absorber,Suspension & traction,Wholesale,12,4090.09,49081.08,Check
+2021-02-12,ORD000895,Shock Absorber,Suspension & traction,Wholesale,33,3601.43,118847.19,Check
+2021-02-14,ORD000569,Brake Pads,Braking system,Wholesale,18,963.7,17346.6,GCash
+2021-02-14,ORD001803,ECU Module,Electrical system,Wholesale,23,20887.08,480402.84,Maya
+2021-02-14,ORD000008,Oil Filter,Engine system,Wholesale,17,203.12,3453.04,Cash
+2021-02-15,ORD001434,Alternator,Electrical system,Retail,32,12407.51,397040.32,Cash
+2021-02-15,ORD000890,Shock Absorber,Suspension & traction,Retail,31,3508.45,108761.95,Bank Transfer
+2021-02-17,ORD000567,Brake Pads,Braking system,Wholesale,19,1272.64,24180.16,Check
+2021-02-17,ORD001801,ECU Module,Electrical system,Retail,36,19496.32,701867.52,Cash
+2021-02-17,ORD000896,Shock Absorber,Suspension & traction,Wholesale,50,2875.62,143781.0,Check
+2021-02-18,ORD001658,Catalytic Converter,Exhaust system,Wholesale,4,15681.86,62727.44,GCash
+2021-02-18,ORD001804,ECU Module,Electrical system,Retail,48,21032.0,1009536.0,Bank Transfer
+2021-02-20,ORD001808,ECU Module,Electrical system,Retail,39,14716.49,573943.11,Cash
+2021-02-20,ORD000007,Oil Filter,Engine system,Wholesale,35,171.27,5994.45,Maya
+2021-02-21,ORD001802,ECU Module,Electrical system,Wholesale,28,23244.33,650841.24,Check
+2021-02-21,ORD000009,Oil Filter,Engine system,Retail,34,253.82,8629.88,Cash
+2021-02-22,ORD001806,ECU Module,Electrical system,Retail,30,27705.56,831166.8,Maya
+2021-02-23,ORD000565,Brake Pads,Braking system,Wholesale,38,1469.78,55851.64,Cash
+2021-02-24,ORD000336,Air Filter,Engine system,Wholesale,36,330.93,11913.48,Bank Transfer
+2021-02-25,ORD001805,ECU Module,Electrical system,Wholesale,23,20463.83,470668.09,Cash
+2021-02-26,ORD001793,ECU Module,Electrical system,Wholesale,37,14551.58,538408.46,Cash
+2021-02-27,ORD000334,Air Filter,Engine system,Wholesale,9,252.51,2272.59,Check
+2021-02-27,ORD000006,Oil Filter,Engine system,Retail,21,210.8,4426.8,Maya
+2021-02-27,ORD000894,Shock Absorber,Suspension & traction,Retail,1,3017.81,3017.81,Check
+2021-02-28,ORD001435,Alternator,Electrical system,Wholesale,28,11815.63,330837.64,GCash
+2021-03-01,ORD000337,Air Filter,Engine system,Retail,21,248.15,5211.15,GCash
+2021-03-01,ORD001436,Alternator,Electrical system,Wholesale,0,8558.01,0.0,Cash
+2021-03-01,ORD001346,Battery,Electrical system,Retail,0,6643.06,0.0,Cash
+2021-03-01,ORD001814,ECU Module,Electrical system,Wholesale,33,18937.3,624930.9,Bank Transfer
+2021-03-01,ORD001816,ECU Module,Electrical system,Retail,19,25183.37,478484.03,Maya
+2021-03-01,ORD001819,ECU Module,Electrical system,Wholesale,16,24856.6,397705.6,GCash
+2021-03-02,ORD001662,Catalytic Converter,Exhaust system,Retail,29,23819.91,690777.39,Bank Transfer
+2021-03-02,ORD000898,Shock Absorber,Suspension & traction,Retail,36,2737.14,98537.04,GCash
+2021-03-02,ORD001166,Wheel Bearing,Drivetrain,Wholesale,20,2220.02,44400.4,GCash
+2021-03-03,ORD000011,Oil Filter,Engine system,Wholesale,33,149.61,4937.13,Bank Transfer
+2021-03-05,ORD001809,ECU Module,Electrical system,Retail,31,22867.23,708884.13,Bank Transfer
+2021-03-05,ORD000901,Shock Absorber,Suspension & traction,Retail,35,3238.45,113345.75,GCash
+2021-03-06,ORD001665,Catalytic Converter,Exhaust system,Retail,39,17106.56,667155.84,Check
+2021-03-08,ORD001813,ECU Module,Electrical system,Wholesale,21,16596.36,348523.56,GCash
+2021-03-08,ORD000900,Shock Absorber,Suspension & traction,Retail,25,3269.37,81734.25,Cash
+2021-03-09,ORD000012,Oil Filter,Engine system,Wholesale,40,258.49,10339.6,Check
+2021-03-10,ORD000902,Shock Absorber,Suspension & traction,Retail,6,2791.86,16751.16,Bank Transfer
+2021-03-11,ORD000572,Brake Pads,Braking system,Wholesale,28,1141.94,31974.32,Cash
+2021-03-11,ORD001812,ECU Module,Electrical system,Wholesale,34,17957.36,610550.24,Maya
+2021-03-13,ORD000013,Oil Filter,Engine system,Wholesale,11,206.83,2275.13,Bank Transfer
+2021-03-13,ORD001554,Starter Motor,Electrical system,Wholesale,21,10513.89,220791.69,Bank Transfer
+2021-03-15,ORD001666,Catalytic Converter,Exhaust system,Retail,26,20956.83,544877.58,Cash
+2021-03-15,ORD001818,ECU Module,Electrical system,Retail,25,22166.99,554174.75,Check
+2021-03-15,ORD001820,ECU Module,Electrical system,Retail,54,28265.22,1526321.88,Bank Transfer
+2021-03-16,ORD000897,Shock Absorber,Suspension & traction,Wholesale,33,3545.2,116991.6,Bank Transfer
+2021-03-17,ORD000014,Oil Filter,Engine system,Wholesale,19,210.18,3993.42,Check
+2021-03-18,ORD000015,Oil Filter,Engine system,Retail,24,219.93,5278.32,Maya
+2021-03-18,ORD000903,Shock Absorber,Suspension & traction,Retail,30,4013.5,120405.0,Check
+2021-03-18,ORD000904,Shock Absorber,Suspension & traction,Wholesale,18,3151.6,56728.8,Check
+2021-03-20,ORD000899,Shock Absorber,Suspension & traction,Wholesale,35,2500.16,87505.6,Maya
+2021-03-22,ORD001815,ECU Module,Electrical system,Retail,13,18322.16,238188.08,GCash
+2021-03-22,ORD001817,ECU Module,Electrical system,Retail,31,26378.91,817746.21,Cash
+2021-03-23,ORD000571,Brake Pads,Braking system,Retail,49,1570.92,76975.08,Bank Transfer
+2021-03-24,ORD000570,Brake Pads,Braking system,Retail,21,1258.84,26435.64,Check
+2021-03-25,ORD001811,ECU Module,Electrical system,Wholesale,54,16505.07,891273.78,GCash
+2021-03-26,ORD000338,Air Filter,Engine system,Wholesale,12,287.7,3452.4,Bank Transfer
+2021-03-27,ORD000339,Air Filter,Engine system,Wholesale,51,265.08,13519.08,GCash
+2021-03-27,ORD001661,Catalytic Converter,Exhaust system,Retail,38,15360.51,583699.38,Check
+2021-03-27,ORD001664,Catalytic Converter,Exhaust system,Wholesale,14,12794.33,179120.62,GCash
+2021-03-28,ORD001663,Catalytic Converter,Exhaust system,Wholesale,25,14308.99,357724.75,Bank Transfer
+2021-03-28,ORD001821,ECU Module,Electrical system,Retail,29,25454.23,738172.67,GCash
+2021-03-28,ORD001555,Starter Motor,Electrical system,Wholesale,23,6861.53,157815.19,Maya
+2021-03-29,ORD000573,Brake Pads,Braking system,Retail,4,1033.02,4132.08,Maya
+2021-03-29,ORD001659,Catalytic Converter,Exhaust system,Wholesale,37,23480.35,868772.95,Check
+2021-03-29,ORD001810,ECU Module,Electrical system,Retail,33,27499.72,907490.76,GCash
+2021-03-31,ORD000574,Brake Pads,Braking system,Retail,26,1368.51,35581.26,Maya
+2021-03-31,ORD001660,Catalytic Converter,Exhaust system,Wholesale,33,13116.22,432835.26,Maya
+2021-04-01,ORD001347,Battery,Electrical system,Wholesale,0,6468.71,0.0,Bank Transfer
+2021-04-01,ORD001822,ECU Module,Electrical system,Retail,0,25289.18,0.0,Check
+2021-04-01,ORD000915,Shock Absorber,Suspension & traction,Retail,11,3345.65,36802.15,Cash
+2021-04-02,ORD001671,Catalytic Converter,Exhaust system,Retail,31,14871.65,461021.15,Cash
+2021-04-03,ORD000914,Shock Absorber,Suspension & traction,Wholesale,28,3300.5,92414.0,Cash
+2021-04-05,ORD000580,Brake Pads,Braking system,Wholesale,27,1174.86,31721.22,Maya
+2021-04-05,ORD001167,Wheel Bearing,Drivetrain,Retail,29,2822.51,81852.79,Cash
+2021-04-06,ORD000017,Oil Filter,Engine system,Wholesale,28,234.64,6569.92,Cash
+2021-04-06,ORD000912,Shock Absorber,Suspension & traction,Wholesale,23,4021.98,92505.54,Cash
+2021-04-07,ORD000909,Shock Absorber,Suspension & traction,Retail,50,4091.69,204584.5,Check
+2021-04-07,ORD001557,Starter Motor,Electrical system,Wholesale,25,11066.71,276667.75,Maya
+2021-04-08,ORD001669,Catalytic Converter,Exhaust system,Wholesale,42,17384.26,730138.92,GCash
+2021-04-08,ORD000016,Oil Filter,Engine system,Retail,28,198.65,5562.2,Bank Transfer
+2021-04-08,ORD000907,Shock Absorber,Suspension & traction,Retail,32,3339.15,106852.8,Cash
+2021-04-09,ORD000020,Oil Filter,Engine system,Wholesale,21,188.08,3949.68,Check
+2021-04-10,ORD000344,Air Filter,Engine system,Wholesale,22,301.8,6639.6,Maya
+2021-04-12,ORD000578,Brake Pads,Braking system,Retail,39,1296.07,50546.73,GCash
+2021-04-12,ORD001668,Catalytic Converter,Exhaust system,Wholesale,36,18718.4,673862.4,Maya
+2021-04-12,ORD000018,Oil Filter,Engine system,Wholesale,25,238.88,5972.0,GCash
+2021-04-13,ORD000019,Oil Filter,Engine system,Retail,32,237.57,7602.24,Bank Transfer
+2021-04-14,ORD000341,Air Filter,Engine system,Retail,28,350.8,9822.4,GCash
+2021-04-14,ORD000905,Shock Absorber,Suspension & traction,Wholesale,53,3547.91,188039.23,Check
+2021-04-16,ORD000343,Air Filter,Engine system,Retail,26,329.64,8570.64,GCash
+2021-04-16,ORD001556,Starter Motor,Electrical system,Wholesale,28,11111.12,311111.36,GCash
+2021-04-18,ORD000577,Brake Pads,Braking system,Wholesale,21,1269.13,26651.73,Maya
+2021-04-18,ORD001667,Catalytic Converter,Exhaust system,Wholesale,11,21368.07,235048.77,Cash
+2021-04-18,ORD000910,Shock Absorber,Suspension & traction,Retail,18,3774.15,67934.7,Maya
+2021-04-19,ORD001438,Alternator,Electrical system,Retail,48,9566.49,459191.52,Check
+2021-04-20,ORD000575,Brake Pads,Braking system,Retail,16,1471.26,23540.16,Cash
+2021-04-20,ORD000908,Shock Absorber,Suspension & traction,Retail,27,3369.89,90987.03,GCash
+2021-04-21,ORD000340,Air Filter,Engine system,Retail,20,332.3,6646.0,Cash
+2021-04-21,ORD000913,Shock Absorber,Suspension & traction,Retail,48,4128.39,198162.72,Check
+2021-04-22,ORD000342,Air Filter,Engine system,Wholesale,12,339.92,4079.04,Maya
+2021-04-22,ORD000911,Shock Absorber,Suspension & traction,Wholesale,36,2407.28,86662.08,Check
+2021-04-25,ORD001670,Catalytic Converter,Exhaust system,Retail,20,12086.2,241724.0,Maya
+2021-04-25,ORD001673,Catalytic Converter,Exhaust system,Retail,32,13550.79,433625.28,Bank Transfer
+2021-04-25,ORD000906,Shock Absorber,Suspension & traction,Wholesale,16,2998.19,47971.04,Maya
+2021-04-26,ORD001672,Catalytic Converter,Exhaust system,Retail,23,19121.96,439805.08,GCash
+2021-04-28,ORD001437,Alternator,Electrical system,Wholesale,21,6890.15,144693.15,Check
+2021-04-29,ORD000576,Brake Pads,Braking system,Wholesale,34,995.03,33831.02,Bank Transfer
+2021-04-30,ORD000579,Brake Pads,Braking system,Wholesale,28,1324.84,37095.52,Maya
+2021-05-01,ORD000345,Air Filter,Engine system,Wholesale,10,311.94,3119.4,Cash
+2021-05-01,ORD001348,Battery,Electrical system,Retail,0,4802.35,0.0,Check
+2021-05-01,ORD001674,Catalytic Converter,Exhaust system,Retail,0,12038.64,0.0,Maya
+2021-05-01,ORD001823,ECU Module,Electrical system,Wholesale,0,28496.97,0.0,Bank Transfer
+2021-05-01,ORD001558,Starter Motor,Electrical system,Retail,0,8720.45,0.0,GCash
+2021-05-02,ORD000585,Brake Pads,Braking system,Wholesale,33,1227.38,40503.54,Check
+2021-05-02,ORD000916,Shock Absorber,Suspension & traction,Wholesale,28,2663.42,74575.76,Bank Transfer
+2021-05-03,ORD001439,Alternator,Electrical system,Wholesale,8,11646.83,93174.64,Maya
+2021-05-04,ORD000918,Shock Absorber,Suspension & traction,Retail,24,2455.11,58922.64,Cash
+2021-05-04,ORD001173,Wheel Bearing,Drivetrain,Retail,26,2115.68,55007.68,Bank Transfer
+2021-05-05,ORD000581,Brake Pads,Braking system,Wholesale,29,1129.02,32741.58,GCash
+2021-05-07,ORD000349,Air Filter,Engine system,Wholesale,21,256.2,5380.2,Cash
+2021-05-09,ORD000917,Shock Absorber,Suspension & traction,Wholesale,23,3351.62,77087.26,Cash
+2021-05-10,ORD001172,Wheel Bearing,Drivetrain,Wholesale,21,1743.3,36609.3,GCash
+2021-05-11,ORD001441,Alternator,Electrical system,Retail,21,12152.78,255208.38,Bank Transfer
+2021-05-11,ORD000024,Oil Filter,Engine system,Retail,23,161.71,3719.33,GCash
+2021-05-11,ORD001168,Wheel Bearing,Drivetrain,Wholesale,30,2282.9,68487.0,Bank Transfer
+2021-05-13,ORD000583,Brake Pads,Braking system,Wholesale,9,1071.27,9641.43,Maya
+2021-05-13,ORD000584,Brake Pads,Braking system,Retail,21,1513.29,31779.09,GCash
+2021-05-14,ORD000021,Oil Filter,Engine system,Wholesale,30,182.08,5462.4,GCash
+2021-05-15,ORD000582,Brake Pads,Braking system,Retail,39,1595.24,62214.36,Check
+2021-05-16,ORD001170,Wheel Bearing,Drivetrain,Retail,32,2520.78,80664.96,Maya
+2021-05-17,ORD000586,Brake Pads,Braking system,Wholesale,22,1471.2,32366.4,Maya
+2021-05-17,ORD000022,Oil Filter,Engine system,Retail,14,168.87,2364.18,GCash
+2021-05-17,ORD000025,Oil Filter,Engine system,Retail,29,243.1,7049.9,Maya
+2021-05-17,ORD001169,Wheel Bearing,Drivetrain,Wholesale,23,1726.83,39717.09,Cash
+2021-05-18,ORD001440,Alternator,Electrical system,Retail,47,10171.47,478059.09,Maya
+2021-05-19,ORD001171,Wheel Bearing,Drivetrain,Retail,7,1754.27,12279.89,Check
+2021-05-21,ORD000348,Air Filter,Engine system,Retail,25,235.23,5880.75,Cash
+2021-05-25,ORD000347,Air Filter,Engine system,Wholesale,33,235.32,7765.56,Check
+2021-05-27,ORD000346,Air Filter,Engine system,Retail,26,331.47,8618.22,Maya
+2021-05-27,ORD000023,Oil Filter,Engine system,Wholesale,39,232.97,9085.83,Cash
+2021-05-30,ORD001174,Wheel Bearing,Drivetrain,Wholesale,36,2880.41,103694.76,Cash
+2021-06-01,ORD001349,Battery,Electrical system,Retail,0,7326.07,0.0,Bank Transfer
+2021-06-01,ORD001675,Catalytic Converter,Exhaust system,Retail,0,21452.13,0.0,Maya
+2021-06-01,ORD001824,ECU Module,Electrical system,Retail,0,22919.88,0.0,Cash
+2021-06-01,ORD001559,Starter Motor,Electrical system,Retail,0,6214.6,0.0,Check
+2021-06-05,ORD000354,Air Filter,Engine system,Wholesale,20,300.35,6007.0,Check
+2021-06-05,ORD001442,Alternator,Electrical system,Wholesale,43,9028.77,388237.11,Maya
+2021-06-06,ORD000588,Brake Pads,Braking system,Retail,22,1047.5,23045.0,Check
+2021-06-06,ORD000592,Brake Pads,Braking system,Retail,7,1283.7,8985.9,Bank Transfer
+2021-06-06,ORD000030,Oil Filter,Engine system,Retail,51,144.96,7392.96,Maya
+2021-06-07,ORD000920,Shock Absorber,Suspension & traction,Wholesale,34,2474.91,84146.94,Maya
+2021-06-07,ORD000924,Shock Absorber,Suspension & traction,Retail,42,3180.14,133565.88,Cash
+2021-06-09,ORD000925,Shock Absorber,Suspension & traction,Wholesale,23,3434.59,78995.57,Check
+2021-06-11,ORD000587,Brake Pads,Braking system,Wholesale,29,1150.08,33352.32,Bank Transfer
+2021-06-13,ORD001443,Alternator,Electrical system,Wholesale,24,8607.02,206568.48,Maya
+2021-06-13,ORD000590,Brake Pads,Braking system,Wholesale,31,1387.16,43001.96,Bank Transfer
+2021-06-13,ORD000922,Shock Absorber,Suspension & traction,Retail,32,2591.05,82913.6,Check
+2021-06-15,ORD000921,Shock Absorber,Suspension & traction,Wholesale,28,3028.01,84784.28,Bank Transfer
+2021-06-15,ORD000928,Shock Absorber,Suspension & traction,Wholesale,29,3761.2,109074.8,Cash
+2021-06-16,ORD000031,Oil Filter,Engine system,Retail,34,183.62,6243.08,Bank Transfer
+2021-06-17,ORD000028,Oil Filter,Engine system,Retail,9,153.37,1380.33,Check
+2021-06-17,ORD001175,Wheel Bearing,Drivetrain,Wholesale,16,2394.21,38307.36,GCash
+2021-06-18,ORD000029,Oil Filter,Engine system,Wholesale,18,153.31,2759.58,Cash
+2021-06-18,ORD000923,Shock Absorber,Suspension & traction,Retail,23,2825.27,64981.21,Maya
+2021-06-19,ORD000929,Shock Absorber,Suspension & traction,Retail,32,3781.66,121013.12,Bank Transfer
+2021-06-24,ORD000926,Shock Absorber,Suspension & traction,Retail,36,4088.79,147196.44,Check
+2021-06-25,ORD000351,Air Filter,Engine system,Wholesale,26,315.92,8213.92,Check
+2021-06-25,ORD000353,Air Filter,Engine system,Wholesale,36,246.95,8890.2,GCash
+2021-06-25,ORD000591,Brake Pads,Braking system,Retail,18,1504.13,27074.34,Check
+2021-06-27,ORD000589,Brake Pads,Braking system,Wholesale,46,968.06,44530.76,Cash
+2021-06-27,ORD000027,Oil Filter,Engine system,Retail,24,199.52,4788.48,Check
+2021-06-29,ORD000026,Oil Filter,Engine system,Wholesale,16,238.66,3818.56,Bank Transfer
+2021-06-29,ORD000919,Shock Absorber,Suspension & traction,Retail,27,2734.9,73842.3,Maya
+2021-06-29,ORD000927,Shock Absorber,Suspension & traction,Retail,33,2909.01,95997.33,Check
+2021-06-30,ORD000350,Air Filter,Engine system,Retail,21,261.42,5489.82,GCash
+2021-06-30,ORD000352,Air Filter,Engine system,Retail,31,266.3,8255.3,Check
+2021-07-01,ORD001444,Alternator,Electrical system,Wholesale,0,10309.3,0.0,Check
+2021-07-01,ORD001350,Battery,Electrical system,Wholesale,0,5726.9,0.0,Cash
+2021-07-01,ORD001825,ECU Module,Electrical system,Retail,0,22718.31,0.0,Maya
+2021-07-03,ORD001561,Starter Motor,Electrical system,Wholesale,26,11276.71,293194.46,Check
+2021-07-05,ORD000930,Shock Absorber,Suspension & traction,Wholesale,31,2531.97,78491.07,Bank Transfer
+2021-07-07,ORD001176,Wheel Bearing,Drivetrain,Wholesale,12,2427.85,29134.2,Maya
+2021-07-08,ORD000593,Brake Pads,Braking system,Wholesale,23,1284.63,29546.49,Check
+2021-07-08,ORD000035,Oil Filter,Engine system,Wholesale,25,148.86,3721.5,Bank Transfer
+2021-07-12,ORD000597,Brake Pads,Braking system,Retail,30,1593.44,47803.2,GCash
+2021-07-12,ORD000033,Oil Filter,Engine system,Retail,22,210.22,4624.84,Cash
+2021-07-13,ORD001676,Catalytic Converter,Exhaust system,Retail,16,14027.76,224444.16,Maya
+2021-07-14,ORD000931,Shock Absorber,Suspension & traction,Retail,17,3804.23,64671.91,Bank Transfer
+2021-07-15,ORD000032,Oil Filter,Engine system,Retail,23,202.86,4665.78,Maya
+2021-07-16,ORD000594,Brake Pads,Braking system,Wholesale,18,1353.44,24361.92,Maya
+2021-07-19,ORD000357,Air Filter,Engine system,Retail,33,301.69,9955.77,Cash
+2021-07-19,ORD001560,Starter Motor,Electrical system,Retail,18,8940.42,160927.56,Maya
+2021-07-23,ORD000036,Oil Filter,Engine system,Retail,49,167.61,8212.89,Bank Transfer
+2021-07-25,ORD000595,Brake Pads,Braking system,Retail,15,1017.55,15263.25,Maya
+2021-07-25,ORD000034,Oil Filter,Engine system,Retail,2,200.34,400.68,Check
+2021-07-26,ORD000596,Brake Pads,Braking system,Retail,27,955.12,25788.24,Maya
+2021-07-28,ORD001177,Wheel Bearing,Drivetrain,Retail,32,2708.05,86657.6,Bank Transfer
+2021-07-29,ORD000356,Air Filter,Engine system,Wholesale,49,300.56,14727.44,GCash
+2021-07-29,ORD000932,Shock Absorber,Suspension & traction,Wholesale,34,3132.94,106519.96,Cash
+2021-07-30,ORD000355,Air Filter,Engine system,Wholesale,11,236.28,2599.08,GCash
+2021-08-01,ORD001445,Alternator,Electrical system,Retail,0,10242.39,0.0,Cash
+2021-08-01,ORD001351,Battery,Electrical system,Retail,0,6025.44,0.0,Maya
+2021-08-01,ORD001677,Catalytic Converter,Exhaust system,Retail,0,18034.3,0.0,Check
+2021-08-01,ORD001826,ECU Module,Electrical system,Wholesale,0,18376.6,0.0,Cash
+2021-08-01,ORD001562,Starter Motor,Electrical system,Wholesale,0,7043.37,0.0,Cash
+2021-08-02,ORD000603,Brake Pads,Braking system,Retail,30,1598.75,47962.5,Cash
+2021-08-02,ORD000934,Shock Absorber,Suspension & traction,Wholesale,26,3460.06,89961.56,Cash
+2021-08-09,ORD000599,Brake Pads,Braking system,Retail,30,1227.46,36823.8,Check
+2021-08-10,ORD000037,Oil Filter,Engine system,Retail,31,145.42,4508.02,Bank Transfer
+2021-08-10,ORD000038,Oil Filter,Engine system,Wholesale,58,232.48,13483.84,Maya
+2021-08-13,ORD000598,Brake Pads,Braking system,Retail,24,1397.22,33533.28,GCash
+2021-08-14,ORD000041,Oil Filter,Engine system,Retail,9,180.31,1622.79,Maya
+2021-08-17,ORD000602,Brake Pads,Braking system,Retail,7,1577.09,11039.63,GCash
+2021-08-19,ORD000358,Air Filter,Engine system,Retail,40,251.45,10058.0,Cash
+2021-08-19,ORD000600,Brake Pads,Braking system,Wholesale,25,1298.1,32452.5,Cash
+2021-08-21,ORD000601,Brake Pads,Braking system,Retail,30,1103.69,33110.7,GCash
+2021-08-21,ORD001178,Wheel Bearing,Drivetrain,Wholesale,20,1894.05,37881.0,Bank Transfer
+2021-08-23,ORD000359,Air Filter,Engine system,Retail,22,250.94,5520.68,Cash
+2021-08-23,ORD000039,Oil Filter,Engine system,Retail,20,254.06,5081.2,Maya
+2021-08-24,ORD000360,Air Filter,Engine system,Retail,27,265.89,7179.03,Check
+2021-08-24,ORD000040,Oil Filter,Engine system,Retail,17,231.9,3942.3,GCash
+2021-08-26,ORD000933,Shock Absorber,Suspension & traction,Retail,12,3860.5,46326.0,Cash
+2021-09-01,ORD001678,Catalytic Converter,Exhaust system,Retail,0,17166.12,0.0,Cash
+2021-09-01,ORD001827,ECU Module,Electrical system,Wholesale,0,22035.55,0.0,GCash
+2021-09-02,ORD000043,Oil Filter,Engine system,Wholesale,26,252.37,6561.62,Bank Transfer
+2021-09-03,ORD001353,Battery,Electrical system,Wholesale,26,5188.69,134905.94,Cash
+2021-09-03,ORD000042,Oil Filter,Engine system,Wholesale,18,211.32,3803.76,GCash
+2021-09-04,ORD000936,Shock Absorber,Suspension & traction,Retail,15,3157.35,47360.25,Cash
+2021-09-06,ORD000608,Brake Pads,Braking system,Wholesale,10,1174.97,11749.7,GCash
+2021-09-09,ORD000045,Oil Filter,Engine system,Wholesale,13,182.64,2374.32,Bank Transfer
+2021-09-10,ORD001447,Alternator,Electrical system,Retail,30,7383.16,221494.8,Check
+2021-09-10,ORD000604,Brake Pads,Braking system,Wholesale,31,954.51,29589.81,Maya
+2021-09-12,ORD000361,Air Filter,Engine system,Retail,37,287.02,10619.74,GCash
+2021-09-13,ORD000362,Air Filter,Engine system,Retail,22,236.17,5195.74,Check
+2021-09-15,ORD000935,Shock Absorber,Suspension & traction,Retail,14,4049.74,56696.36,Check
+2021-09-16,ORD000609,Brake Pads,Braking system,Retail,36,1016.64,36599.04,Maya
+2021-09-16,ORD000046,Oil Filter,Engine system,Retail,60,233.05,13983.0,Maya
+2021-09-19,ORD001446,Alternator,Electrical system,Wholesale,35,10731.19,375591.65,Bank Transfer
+2021-09-19,ORD000937,Shock Absorber,Suspension & traction,Retail,47,2865.36,134671.92,Bank Transfer
+2021-09-19,ORD001563,Starter Motor,Electrical system,Retail,14,7102.13,99429.82,Bank Transfer
+2021-09-22,ORD000606,Brake Pads,Braking system,Wholesale,17,1060.25,18024.25,Maya
+2021-09-23,ORD000364,Air Filter,Engine system,Retail,14,286.85,4015.9,GCash
+2021-09-24,ORD000044,Oil Filter,Engine system,Retail,14,161.67,2263.38,Cash
+2021-09-24,ORD000938,Shock Absorber,Suspension & traction,Wholesale,25,3799.72,94993.0,GCash
+2021-09-25,ORD001352,Battery,Electrical system,Retail,34,5967.33,202889.22,Cash
+2021-09-25,ORD000607,Brake Pads,Braking system,Retail,28,1470.52,41174.56,Cash
+2021-09-25,ORD000047,Oil Filter,Engine system,Retail,27,174.45,4710.15,Maya
+2021-09-25,ORD001179,Wheel Bearing,Drivetrain,Wholesale,18,2326.84,41883.12,Check
+2021-09-26,ORD000605,Brake Pads,Braking system,Wholesale,36,1491.54,53695.44,Cash
+2021-09-26,ORD000048,Oil Filter,Engine system,Wholesale,38,147.79,5616.02,Maya
+2021-09-26,ORD001564,Starter Motor,Electrical system,Retail,27,7517.83,202981.41,Cash
+2021-09-29,ORD000365,Air Filter,Engine system,Wholesale,17,345.91,5880.47,Check
+2021-09-30,ORD000363,Air Filter,Engine system,Wholesale,28,260.02,7280.56,GCash
+2021-10-01,ORD001354,Battery,Electrical system,Retail,0,5256.55,0.0,Maya
+2021-10-01,ORD001679,Catalytic Converter,Exhaust system,Wholesale,0,23940.53,0.0,Cash
+2021-10-01,ORD001836,ECU Module,Electrical system,Retail,21,20222.18,424665.78,Cash
+2021-10-03,ORD000614,Brake Pads,Braking system,Wholesale,22,1558.33,34283.26,Bank Transfer
+2021-10-04,ORD000612,Brake Pads,Braking system,Retail,34,1566.54,53262.36,GCash
+2021-10-04,ORD000053,Oil Filter,Engine system,Wholesale,11,151.6,1667.6,Cash
+2021-10-05,ORD001829,ECU Module,Electrical system,Wholesale,40,23679.68,947187.2,Maya
+2021-10-05,ORD001832,ECU Module,Electrical system,Wholesale,22,26037.2,572818.4,Maya
+2021-10-06,ORD001566,Starter Motor,Electrical system,Retail,29,8206.43,237986.47,Cash
+2021-10-06,ORD001180,Wheel Bearing,Drivetrain,Retail,27,1909.8,51564.6,Check
+2021-10-08,ORD001837,ECU Module,Electrical system,Wholesale,42,16029.49,673238.58,Check
+2021-10-09,ORD001834,ECU Module,Electrical system,Wholesale,22,16529.4,363646.8,Bank Transfer
+2021-10-10,ORD001448,Alternator,Electrical system,Retail,33,10674.57,352260.81,Check
+2021-10-10,ORD001450,Alternator,Electrical system,Retail,15,6833.61,102504.15,GCash
+2021-10-12,ORD000368,Air Filter,Engine system,Wholesale,34,359.18,12212.12,Maya
+2021-10-12,ORD001831,ECU Module,Electrical system,Retail,35,24373.56,853074.6,GCash
+2021-10-13,ORD000611,Brake Pads,Braking system,Retail,25,1240.05,31001.25,Cash
+2021-10-13,ORD000940,Shock Absorber,Suspension & traction,Wholesale,32,2457.84,78650.88,Check
+2021-10-14,ORD001182,Wheel Bearing,Drivetrain,Retail,27,1916.12,51735.24,Cash
+2021-10-16,ORD000366,Air Filter,Engine system,Wholesale,37,323.09,11954.33,Maya
+2021-10-16,ORD000939,Shock Absorber,Suspension & traction,Retail,6,3043.46,18260.76,Cash
+2021-10-18,ORD000054,Oil Filter,Engine system,Wholesale,1,170.46,170.46,Check
+2021-10-18,ORD000943,Shock Absorber,Suspension & traction,Wholesale,25,3330.5,83262.5,GCash
+2021-10-19,ORD000367,Air Filter,Engine system,Wholesale,10,251.72,2517.2,Maya
+2021-10-19,ORD001835,ECU Module,Electrical system,Retail,50,22317.23,1115861.5,Cash
+2021-10-20,ORD001449,Alternator,Electrical system,Wholesale,22,12271.3,269968.6,Check
+2021-10-20,ORD001833,ECU Module,Electrical system,Retail,30,23630.5,708915.0,Bank Transfer
+2021-10-20,ORD000049,Oil Filter,Engine system,Wholesale,21,164.59,3456.39,Maya
+2021-10-23,ORD000615,Brake Pads,Braking system,Retail,12,1179.19,14150.28,Bank Transfer
+2021-10-23,ORD001830,ECU Module,Electrical system,Retail,38,27339.65,1038906.7,Cash
+2021-10-23,ORD000050,Oil Filter,Engine system,Wholesale,49,225.3,11039.7,Bank Transfer
+2021-10-24,ORD001838,ECU Module,Electrical system,Wholesale,38,26053.44,990030.72,GCash
+2021-10-24,ORD001840,ECU Module,Electrical system,Wholesale,20,16358.63,327172.6,Cash
+2021-10-24,ORD000051,Oil Filter,Engine system,Retail,51,189.96,9687.96,Maya
+2021-10-24,ORD000052,Oil Filter,Engine system,Wholesale,26,250.19,6504.94,Maya
+2021-10-24,ORD000941,Shock Absorber,Suspension & traction,Retail,23,3977.82,91489.86,Bank Transfer
+2021-10-25,ORD000610,Brake Pads,Braking system,Retail,25,1131.94,28298.5,Bank Transfer
+2021-10-25,ORD001828,ECU Module,Electrical system,Retail,34,15291.27,519903.18,Bank Transfer
+2021-10-25,ORD000942,Shock Absorber,Suspension & traction,Wholesale,41,3037.35,124531.35,Cash
+2021-10-28,ORD000613,Brake Pads,Braking system,Wholesale,26,1023.62,26614.12,Maya
+2021-10-28,ORD001839,ECU Module,Electrical system,Retail,22,19842.22,436528.84,Bank Transfer
+2021-10-30,ORD001841,ECU Module,Electrical system,Wholesale,23,20698.15,476057.45,Maya
+2021-10-30,ORD001565,Starter Motor,Electrical system,Wholesale,18,6549.68,117894.24,Bank Transfer
+2021-10-31,ORD001181,Wheel Bearing,Drivetrain,Retail,24,2013.12,48314.88,Cash
+2021-11-01,ORD000369,Air Filter,Engine system,Retail,20,263.28,5265.6,Bank Transfer
+2021-11-01,ORD001451,Alternator,Electrical system,Wholesale,0,12052.61,0.0,Check
+2021-11-01,ORD001842,ECU Module,Electrical system,Retail,27,16974.48,458310.96,Cash
+2021-11-02,ORD000619,Brake Pads,Braking system,Wholesale,22,1264.49,27818.78,Maya
+2021-11-02,ORD000946,Shock Absorber,Suspension & traction,Wholesale,21,3189.39,66977.19,Cash
+2021-11-04,ORD001356,Battery,Electrical system,Wholesale,14,4643.65,65011.1,Bank Transfer
+2021-11-04,ORD001680,Catalytic Converter,Exhaust system,Retail,18,12059.7,217074.6,GCash
+2021-11-04,ORD001848,ECU Module,Electrical system,Retail,32,23096.71,739094.72,GCash
+2021-11-04,ORD001857,ECU Module,Electrical system,Wholesale,14,19168.89,268364.46,Cash
+2021-11-06,ORD001355,Battery,Electrical system,Retail,50,6041.51,302075.5,Check
+2021-11-06,ORD000059,Oil Filter,Engine system,Wholesale,39,140.66,5485.74,Maya
+2021-11-07,ORD001850,ECU Module,Electrical system,Wholesale,31,24045.32,745404.92,Maya
+2021-11-07,ORD001856,ECU Module,Electrical system,Retail,26,15501.92,403049.92,Maya
+2021-11-07,ORD000055,Oil Filter,Engine system,Wholesale,44,200.51,8822.44,Check
+2021-11-07,ORD000948,Shock Absorber,Suspension & traction,Retail,28,2581.84,72291.52,Check
+2021-11-08,ORD000370,Air Filter,Engine system,Wholesale,27,328.22,8861.94,GCash
+2021-11-09,ORD001184,Wheel Bearing,Drivetrain,Wholesale,24,2705.95,64942.8,GCash
+2021-11-10,ORD000371,Air Filter,Engine system,Wholesale,36,263.04,9469.44,Check
+2021-11-10,ORD001852,ECU Module,Electrical system,Retail,10,15730.13,157301.3,Cash
+2021-11-10,ORD000056,Oil Filter,Engine system,Retail,21,157.6,3309.6,Maya
+2021-11-11,ORD001851,ECU Module,Electrical system,Wholesale,28,16912.55,473551.4,Maya
+2021-11-11,ORD000058,Oil Filter,Engine system,Wholesale,32,157.62,5043.84,Bank Transfer
+2021-11-12,ORD001858,ECU Module,Electrical system,Retail,28,26286.41,736019.48,Maya
+2021-11-12,ORD000950,Shock Absorber,Suspension & traction,Wholesale,31,2607.04,80818.24,Maya
+2021-11-13,ORD000621,Brake Pads,Braking system,Wholesale,21,1014.54,21305.34,Check
+2021-11-13,ORD001845,ECU Module,Electrical system,Retail,50,26690.15,1334507.5,Cash
+2021-11-13,ORD000949,Shock Absorber,Suspension & traction,Retail,52,3401.14,176859.28,Bank Transfer
+2021-11-13,ORD000952,Shock Absorber,Suspension & traction,Retail,17,3687.71,62691.07,Check
+2021-11-14,ORD000060,Oil Filter,Engine system,Wholesale,11,187.56,2063.16,Bank Transfer
+2021-11-15,ORD000944,Shock Absorber,Suspension & traction,Retail,22,3921.16,86265.52,Bank Transfer
+2021-11-16,ORD001844,ECU Module,Electrical system,Retail,46,16280.52,748903.92,GCash
+2021-11-16,ORD000057,Oil Filter,Engine system,Retail,14,225.59,3158.26,Maya
+2021-11-18,ORD000620,Brake Pads,Braking system,Wholesale,32,1247.33,39914.56,Check
+2021-11-18,ORD001843,ECU Module,Electrical system,Retail,53,22820.72,1209498.16,Bank Transfer
+2021-11-18,ORD001849,ECU Module,Electrical system,Retail,39,25597.64,998307.96,Cash
+2021-11-18,ORD001185,Wheel Bearing,Drivetrain,Retail,46,2446.91,112557.86,GCash
+2021-11-19,ORD000953,Shock Absorber,Suspension & traction,Wholesale,43,2892.94,124396.42,Cash
+2021-11-20,ORD001846,ECU Module,Electrical system,Retail,30,22633.11,678993.3,GCash
+2021-11-20,ORD000945,Shock Absorber,Suspension & traction,Retail,18,2586.75,46561.5,Check
+2021-11-21,ORD000618,Brake Pads,Braking system,Retail,10,1018.99,10189.9,Cash
+2021-11-22,ORD000616,Brake Pads,Braking system,Wholesale,23,1191.76,27410.48,Bank Transfer
+2021-11-22,ORD000951,Shock Absorber,Suspension & traction,Retail,27,3659.73,98812.71,Check
+2021-11-23,ORD001567,Starter Motor,Electrical system,Retail,10,10905.85,109058.5,GCash
+2021-11-23,ORD001183,Wheel Bearing,Drivetrain,Wholesale,30,1865.6,55968.0,Check
+2021-11-25,ORD001847,ECU Module,Electrical system,Wholesale,30,23240.8,697224.0,Maya
+2021-11-25,ORD001854,ECU Module,Electrical system,Wholesale,28,19229.61,538429.08,Check
+2021-11-26,ORD001853,ECU Module,Electrical system,Retail,20,25419.71,508394.2,Check
+2021-11-26,ORD001568,Starter Motor,Electrical system,Wholesale,30,9951.85,298555.5,Check
+2021-11-28,ORD000617,Brake Pads,Braking system,Wholesale,32,1216.57,38930.24,Cash
+2021-11-28,ORD001855,ECU Module,Electrical system,Wholesale,35,23146.89,810141.15,GCash
+2021-11-28,ORD000947,Shock Absorber,Suspension & traction,Wholesale,43,4030.81,173324.83,Bank Transfer
+2021-12-01,ORD001357,Battery,Electrical system,Wholesale,0,6628.71,0.0,GCash
+2021-12-01,ORD001681,Catalytic Converter,Exhaust system,Wholesale,0,23302.56,0.0,Maya
+2021-12-01,ORD001859,ECU Module,Electrical system,Wholesale,0,15528.02,0.0,Check
+2021-12-01,ORD001569,Starter Motor,Electrical system,Wholesale,0,6381.79,0.0,Maya
+2021-12-02,ORD000625,Brake Pads,Braking system,Retail,25,1567.54,39188.5,Bank Transfer
+2021-12-03,ORD000065,Oil Filter,Engine system,Retail,17,184.29,3132.93,Bank Transfer
+2021-12-04,ORD000062,Oil Filter,Engine system,Wholesale,23,181.18,4167.14,Bank Transfer
+2021-12-04,ORD000064,Oil Filter,Engine system,Retail,25,223.88,5597.0,Bank Transfer
+2021-12-06,ORD000958,Shock Absorber,Suspension & traction,Retail,26,4071.15,105849.9,GCash
+2021-12-07,ORD001454,Alternator,Electrical system,Retail,28,7223.44,202256.32,GCash
+2021-12-07,ORD000061,Oil Filter,Engine system,Retail,36,174.53,6283.08,GCash
+2021-12-08,ORD000956,Shock Absorber,Suspension & traction,Wholesale,27,4167.26,112516.02,Maya
+2021-12-10,ORD001186,Wheel Bearing,Drivetrain,Retail,22,2293.29,50452.38,Cash
+2021-12-11,ORD000955,Shock Absorber,Suspension & traction,Wholesale,17,2439.88,41477.96,GCash
+2021-12-12,ORD000626,Brake Pads,Braking system,Wholesale,35,1256.17,43965.95,GCash
+2021-12-15,ORD000624,Brake Pads,Braking system,Wholesale,22,1333.12,29328.64,Check
+2021-12-15,ORD000954,Shock Absorber,Suspension & traction,Wholesale,27,4023.49,108634.23,Check
+2021-12-15,ORD000957,Shock Absorber,Suspension & traction,Wholesale,23,3292.25,75721.75,Maya
+2021-12-17,ORD000623,Brake Pads,Braking system,Retail,21,1432.71,30086.91,Cash
+2021-12-18,ORD000374,Air Filter,Engine system,Wholesale,15,338.27,5074.05,Check
+2021-12-18,ORD000622,Brake Pads,Braking system,Wholesale,32,1546.4,49484.8,Maya
+2021-12-20,ORD001187,Wheel Bearing,Drivetrain,Retail,31,1744.0,54064.0,Cash
+2021-12-24,ORD000372,Air Filter,Engine system,Retail,28,258.29,7232.12,Maya
+2021-12-24,ORD000373,Air Filter,Engine system,Wholesale,39,283.93,11073.27,Check
+2021-12-24,ORD001452,Alternator,Electrical system,Wholesale,24,8246.77,197922.48,Cash
+2021-12-25,ORD000063,Oil Filter,Engine system,Retail,23,195.2,4489.6,Check
+2021-12-31,ORD001453,Alternator,Electrical system,Wholesale,25,10054.34,251358.5,Maya
+2022-01-01,ORD001682,Catalytic Converter,Exhaust system,Wholesale,0,22033.55,0.0,Bank Transfer
+2022-01-01,ORD000961,Shock Absorber,Suspension & traction,Retail,23,2810.59,64643.57,GCash
+2022-01-01,ORD000962,Shock Absorber,Suspension & traction,Wholesale,25,2477.0,61925.0,Bank Transfer
+2022-01-03,ORD001359,Battery,Electrical system,Wholesale,28,7041.65,197166.2,GCash
+2022-01-03,ORD001868,ECU Module,Electrical system,Wholesale,13,18007.7,234100.1,Maya
+2022-01-04,ORD001189,Wheel Bearing,Drivetrain,Wholesale,22,2405.18,52913.96,GCash
+2022-01-05,ORD001865,ECU Module,Electrical system,Retail,42,16374.92,687746.64,Check
+2022-01-05,ORD001570,Starter Motor,Electrical system,Wholesale,38,10352.97,393412.86,Cash
+2022-01-06,ORD000627,Brake Pads,Braking system,Retail,12,1561.97,18743.64,Cash
+2022-01-06,ORD001862,ECU Module,Electrical system,Retail,34,16230.76,551845.84,Cash
+2022-01-07,ORD001866,ECU Module,Electrical system,Wholesale,18,18101.68,325830.24,Check
+2022-01-09,ORD001455,Alternator,Electrical system,Retail,25,8956.56,223914.0,Bank Transfer
+2022-01-09,ORD001869,ECU Module,Electrical system,Wholesale,43,24419.14,1050023.02,Bank Transfer
+2022-01-09,ORD001871,ECU Module,Electrical system,Retail,28,24260.1,679282.8,Bank Transfer
+2022-01-10,ORD001870,ECU Module,Electrical system,Wholesale,29,23108.42,670144.18,Cash
+2022-01-10,ORD000960,Shock Absorber,Suspension & traction,Retail,24,3314.53,79548.72,Cash
+2022-01-11,ORD001867,ECU Module,Electrical system,Wholesale,21,19176.23,402700.83,Maya
+2022-01-11,ORD000066,Oil Filter,Engine system,Wholesale,36,176.61,6357.96,Check
+2022-01-12,ORD000631,Brake Pads,Braking system,Retail,48,1168.84,56104.32,Maya
+2022-01-13,ORD001358,Battery,Electrical system,Wholesale,26,4926.3,128083.8,GCash
+2022-01-13,ORD000067,Oil Filter,Engine system,Wholesale,33,169.7,5600.1,Check
+2022-01-13,ORD000071,Oil Filter,Engine system,Retail,27,210.05,5671.35,Maya
+2022-01-13,ORD000959,Shock Absorber,Suspension & traction,Retail,29,3879.65,112509.85,Bank Transfer
+2022-01-14,ORD000376,Air Filter,Engine system,Retail,23,292.47,6726.81,Cash
+2022-01-15,ORD001861,ECU Module,Electrical system,Retail,41,16137.43,661634.63,Bank Transfer
+2022-01-15,ORD001874,ECU Module,Electrical system,Retail,31,15454.17,479079.27,GCash
+2022-01-16,ORD000379,Air Filter,Engine system,Retail,17,326.83,5556.11,GCash
+2022-01-16,ORD001456,Alternator,Electrical system,Retail,37,11471.31,424438.47,Maya
+2022-01-18,ORD001873,ECU Module,Electrical system,Wholesale,8,23256.05,186048.4,GCash
+2022-01-18,ORD000072,Oil Filter,Engine system,Retail,44,257.3,11321.2,Maya
+2022-01-18,ORD001571,Starter Motor,Electrical system,Retail,14,8973.79,125633.06,Maya
+2022-01-19,ORD000378,Air Filter,Engine system,Wholesale,28,329.75,9233.0,Maya
+2022-01-19,ORD000068,Oil Filter,Engine system,Wholesale,21,167.81,3524.01,Check
+2022-01-22,ORD000377,Air Filter,Engine system,Wholesale,23,260.15,5983.45,Bank Transfer
+2022-01-22,ORD001860,ECU Module,Electrical system,Retail,42,15270.59,641364.78,Maya
+2022-01-22,ORD000070,Oil Filter,Engine system,Wholesale,15,214.28,3214.2,Check
+2022-01-23,ORD000630,Brake Pads,Braking system,Wholesale,20,982.9,19658.0,GCash
+2022-01-25,ORD000375,Air Filter,Engine system,Wholesale,13,286.6,3725.8,GCash
+2022-01-25,ORD001360,Battery,Electrical system,Wholesale,17,6015.65,102266.05,Check
+2022-01-25,ORD000069,Oil Filter,Engine system,Retail,15,240.2,3603.0,Maya
+2022-01-27,ORD001863,ECU Module,Electrical system,Wholesale,56,18019.66,1009100.96,GCash
+2022-01-27,ORD000963,Shock Absorber,Suspension & traction,Wholesale,22,3096.84,68130.48,Cash
+2022-01-28,ORD000629,Brake Pads,Braking system,Wholesale,20,1002.15,20043.0,Check
+2022-01-30,ORD000628,Brake Pads,Braking system,Wholesale,14,1367.79,19149.06,GCash
+2022-01-30,ORD001188,Wheel Bearing,Drivetrain,Retail,43,2235.49,96126.07,Check
+2022-01-31,ORD001864,ECU Module,Electrical system,Retail,37,20230.0,748510.0,Check
+2022-01-31,ORD001872,ECU Module,Electrical system,Wholesale,41,18441.19,756088.79,Cash
+2022-02-01,ORD000382,Air Filter,Engine system,Wholesale,19,345.39,6562.41,GCash
+2022-02-01,ORD001457,Alternator,Electrical system,Retail,0,10638.21,0.0,Check
+2022-02-01,ORD001361,Battery,Electrical system,Wholesale,0,4628.94,0.0,Maya
+2022-02-01,ORD000636,Brake Pads,Braking system,Retail,27,1334.35,36027.45,GCash
+2022-02-02,ORD001882,ECU Module,Electrical system,Wholesale,22,18658.95,410496.9,GCash
+2022-02-02,ORD000076,Oil Filter,Engine system,Wholesale,11,188.68,2075.48,Check
+2022-02-02,ORD001190,Wheel Bearing,Drivetrain,Retail,31,2733.16,84727.96,Maya
+2022-02-03,ORD000381,Air Filter,Engine system,Retail,39,319.55,12462.45,Cash
+2022-02-04,ORD000634,Brake Pads,Braking system,Wholesale,23,1417.7,32607.1,Bank Transfer
+2022-02-04,ORD001684,Catalytic Converter,Exhaust system,Wholesale,9,12802.84,115225.56,GCash
+2022-02-04,ORD001573,Starter Motor,Electrical system,Wholesale,27,6801.68,183645.36,Check
+2022-02-05,ORD000633,Brake Pads,Braking system,Wholesale,36,1285.83,46289.88,GCash
+2022-02-05,ORD000077,Oil Filter,Engine system,Wholesale,1,213.6,213.6,Cash
+2022-02-06,ORD001685,Catalytic Converter,Exhaust system,Wholesale,49,18253.02,894397.98,Bank Transfer
+2022-02-07,ORD001876,ECU Module,Electrical system,Retail,36,15636.02,562896.72,Maya
+2022-02-07,ORD001191,Wheel Bearing,Drivetrain,Retail,25,1630.67,40766.75,Check
+2022-02-08,ORD001875,ECU Module,Electrical system,Retail,8,21372.79,170982.32,Bank Transfer
+2022-02-08,ORD000964,Shock Absorber,Suspension & traction,Wholesale,21,2485.01,52185.21,GCash
+2022-02-12,ORD001688,Catalytic Converter,Exhaust system,Retail,27,17223.44,465032.88,Bank Transfer
+2022-02-12,ORD001194,Wheel Bearing,Drivetrain,Wholesale,20,2737.71,54754.2,GCash
+2022-02-13,ORD001193,Wheel Bearing,Drivetrain,Retail,29,2182.38,63289.02,Cash
+2022-02-15,ORD001686,Catalytic Converter,Exhaust system,Wholesale,26,12817.36,333251.36,Maya
+2022-02-15,ORD001880,ECU Module,Electrical system,Retail,31,23917.41,741439.71,Cash
+2022-02-16,ORD001881,ECU Module,Electrical system,Wholesale,61,16910.02,1031511.22,Check
+2022-02-17,ORD000965,Shock Absorber,Suspension & traction,Wholesale,41,3172.49,130072.09,Check
+2022-02-18,ORD000074,Oil Filter,Engine system,Retail,27,170.38,4600.26,Maya
+2022-02-19,ORD001195,Wheel Bearing,Drivetrain,Wholesale,39,1777.68,69329.52,GCash
+2022-02-21,ORD000073,Oil Filter,Engine system,Retail,37,258.25,9555.25,Cash
+2022-02-21,ORD001192,Wheel Bearing,Drivetrain,Retail,22,1717.81,37791.82,Check
+2022-02-22,ORD000380,Air Filter,Engine system,Retail,22,347.05,7635.1,Cash
+2022-02-22,ORD001689,Catalytic Converter,Exhaust system,Wholesale,24,23911.91,573885.84,Cash
+2022-02-22,ORD001879,ECU Module,Electrical system,Retail,26,18765.12,487893.12,Bank Transfer
+2022-02-23,ORD000632,Brake Pads,Braking system,Retail,19,1372.04,26068.76,GCash
+2022-02-23,ORD000075,Oil Filter,Engine system,Wholesale,60,165.7,9942.0,Cash
+2022-02-24,ORD001687,Catalytic Converter,Exhaust system,Wholesale,45,19421.21,873954.45,Check
+2022-02-25,ORD001572,Starter Motor,Electrical system,Retail,27,7674.11,207200.97,Cash
+2022-02-26,ORD000635,Brake Pads,Braking system,Retail,18,1176.12,21170.16,Check
+2022-02-26,ORD001877,ECU Module,Electrical system,Wholesale,34,26026.98,884917.32,Cash
+2022-02-27,ORD000637,Brake Pads,Braking system,Retail,23,1464.24,33677.52,Cash
+2022-02-28,ORD001683,Catalytic Converter,Exhaust system,Retail,12,21385.72,256628.64,Maya
+2022-02-28,ORD001690,Catalytic Converter,Exhaust system,Wholesale,29,17740.11,514463.19,Bank Transfer
+2022-02-28,ORD001878,ECU Module,Electrical system,Retail,32,18750.05,600001.6,GCash
+2022-02-28,ORD001883,ECU Module,Electrical system,Retail,27,17788.68,480294.36,GCash
+2022-02-28,ORD001884,ECU Module,Electrical system,Wholesale,18,14996.83,269942.94,GCash
+2022-02-28,ORD001885,ECU Module,Electrical system,Wholesale,20,17172.86,343457.2,Maya
+2022-03-01,ORD001362,Battery,Electrical system,Wholesale,0,6481.19,0.0,Cash
+2022-03-01,ORD001691,Catalytic Converter,Exhaust system,Retail,0,16062.36,0.0,Cash
+2022-03-01,ORD001886,ECU Module,Electrical system,Retail,0,17945.4,0.0,Maya
+2022-03-01,ORD000081,Oil Filter,Engine system,Retail,29,185.01,5365.29,Cash
+2022-03-03,ORD000974,Shock Absorber,Suspension & traction,Wholesale,50,2823.78,141189.0,Cash
+2022-03-03,ORD000976,Shock Absorber,Suspension & traction,Wholesale,38,3403.61,129337.18,Bank Transfer
+2022-03-04,ORD000640,Brake Pads,Braking system,Wholesale,50,1103.25,55162.5,GCash
+2022-03-04,ORD001200,Wheel Bearing,Drivetrain,Wholesale,14,2710.96,37953.44,Bank Transfer
+2022-03-05,ORD000970,Shock Absorber,Suspension & traction,Retail,38,3283.34,124766.92,Check
+2022-03-07,ORD001458,Alternator,Electrical system,Wholesale,22,10317.2,226978.4,Bank Transfer
+2022-03-07,ORD000971,Shock Absorber,Suspension & traction,Retail,26,3681.21,95711.46,Cash
+2022-03-07,ORD000977,Shock Absorber,Suspension & traction,Wholesale,24,3914.96,93959.04,Bank Transfer
+2022-03-07,ORD001202,Wheel Bearing,Drivetrain,Retail,36,2257.12,81256.32,Bank Transfer
+2022-03-08,ORD001574,Starter Motor,Electrical system,Retail,18,10268.3,184829.4,Cash
+2022-03-10,ORD000980,Shock Absorber,Suspension & traction,Wholesale,1,3090.73,3090.73,Bank Transfer
+2022-03-11,ORD000972,Shock Absorber,Suspension & traction,Retail,32,2669.18,85413.76,Cash
+2022-03-13,ORD000967,Shock Absorber,Suspension & traction,Retail,47,3526.96,165767.12,Check
+2022-03-13,ORD001201,Wheel Bearing,Drivetrain,Wholesale,36,1924.23,69272.28,GCash
+2022-03-13,ORD001203,Wheel Bearing,Drivetrain,Retail,4,2591.93,10367.72,Check
+2022-03-14,ORD000083,Oil Filter,Engine system,Wholesale,18,252.1,4537.8,GCash
+2022-03-14,ORD001196,Wheel Bearing,Drivetrain,Retail,29,2549.53,73936.37,GCash
+2022-03-15,ORD000975,Shock Absorber,Suspension & traction,Wholesale,50,3266.36,163318.0,Bank Transfer
+2022-03-15,ORD001575,Starter Motor,Electrical system,Retail,29,11129.75,322762.75,Cash
+2022-03-16,ORD000082,Oil Filter,Engine system,Retail,17,175.45,2982.65,GCash
+2022-03-17,ORD000383,Air Filter,Engine system,Wholesale,11,336.29,3699.19,Check
+2022-03-17,ORD000638,Brake Pads,Braking system,Retail,8,1007.14,8057.12,Check
+2022-03-17,ORD001198,Wheel Bearing,Drivetrain,Wholesale,30,1656.27,49688.1,Bank Transfer
+2022-03-18,ORD001459,Alternator,Electrical system,Wholesale,40,11156.3,446252.0,Cash
+2022-03-18,ORD000979,Shock Absorber,Suspension & traction,Retail,12,2569.01,30828.12,Maya
+2022-03-18,ORD001197,Wheel Bearing,Drivetrain,Retail,43,1625.75,69907.25,Cash
+2022-03-19,ORD000384,Air Filter,Engine system,Retail,40,318.08,12723.2,Cash
+2022-03-20,ORD000080,Oil Filter,Engine system,Retail,32,197.48,6319.36,Bank Transfer
+2022-03-21,ORD000966,Shock Absorber,Suspension & traction,Retail,44,3589.45,157935.8,Check
+2022-03-21,ORD000973,Shock Absorber,Suspension & traction,Wholesale,9,2886.0,25974.0,Maya
+2022-03-22,ORD000387,Air Filter,Engine system,Wholesale,37,281.43,10412.91,Maya
+2022-03-22,ORD001460,Alternator,Electrical system,Retail,20,7874.39,157487.8,Bank Transfer
+2022-03-22,ORD000639,Brake Pads,Braking system,Wholesale,41,1287.16,52773.56,Maya
+2022-03-23,ORD000968,Shock Absorber,Suspension & traction,Wholesale,19,3416.78,64918.82,GCash
+2022-03-24,ORD000386,Air Filter,Engine system,Wholesale,14,321.97,4507.58,Bank Transfer
+2022-03-25,ORD000385,Air Filter,Engine system,Retail,14,282.65,3957.1,GCash
+2022-03-25,ORD000969,Shock Absorber,Suspension & traction,Wholesale,36,2529.26,91053.36,Bank Transfer
+2022-03-26,ORD000078,Oil Filter,Engine system,Retail,49,180.66,8852.34,Check
+2022-03-29,ORD000981,Shock Absorber,Suspension & traction,Retail,21,2526.82,53063.22,GCash
+2022-03-30,ORD000079,Oil Filter,Engine system,Retail,13,146.5,1904.5,Cash
+2022-03-30,ORD000978,Shock Absorber,Suspension & traction,Wholesale,39,4107.53,160193.67,Check
+2022-03-31,ORD001199,Wheel Bearing,Drivetrain,Wholesale,35,2187.18,76551.3,Check
+2022-04-01,ORD001364,Battery,Electrical system,Retail,29,6610.26,191697.54,Cash
+2022-04-01,ORD001692,Catalytic Converter,Exhaust system,Retail,0,18940.19,0.0,Cash
+2022-04-01,ORD001887,ECU Module,Electrical system,Retail,0,25594.68,0.0,Check
+2022-04-01,ORD000982,Shock Absorber,Suspension & traction,Wholesale,45,2972.39,133757.55,Cash
+2022-04-01,ORD001576,Starter Motor,Electrical system,Retail,0,9683.27,0.0,Bank Transfer
+2022-04-02,ORD000087,Oil Filter,Engine system,Wholesale,27,148.78,4017.06,GCash
+2022-04-03,ORD001462,Alternator,Electrical system,Retail,30,9182.31,275469.3,Check
+2022-04-03,ORD001204,Wheel Bearing,Drivetrain,Wholesale,26,2502.33,65060.58,Check
+2022-04-04,ORD000644,Brake Pads,Braking system,Wholesale,31,1238.14,38382.34,Maya
+2022-04-05,ORD000646,Brake Pads,Braking system,Retail,28,1020.61,28577.08,Check
+2022-04-05,ORD000088,Oil Filter,Engine system,Retail,12,204.28,2451.36,Maya
+2022-04-07,ORD000086,Oil Filter,Engine system,Wholesale,22,195.17,4293.74,Maya
+2022-04-09,ORD000389,Air Filter,Engine system,Wholesale,16,304.81,4876.96,GCash
+2022-04-09,ORD001461,Alternator,Electrical system,Wholesale,32,11672.46,373518.72,Check
+2022-04-09,ORD000642,Brake Pads,Braking system,Retail,25,1357.02,33925.5,Bank Transfer
+2022-04-10,ORD000641,Brake Pads,Braking system,Retail,39,1341.22,52307.58,Bank Transfer
+2022-04-11,ORD000089,Oil Filter,Engine system,Wholesale,34,183.21,6229.14,Cash
+2022-04-13,ORD000983,Shock Absorber,Suspension & traction,Retail,23,4005.81,92133.63,GCash
+2022-04-16,ORD000085,Oil Filter,Engine system,Wholesale,7,232.45,1627.15,Bank Transfer
+2022-04-19,ORD000084,Oil Filter,Engine system,Wholesale,42,164.4,6904.8,Check
+2022-04-19,ORD000984,Shock Absorber,Suspension & traction,Wholesale,24,2809.45,67426.8,Bank Transfer
+2022-04-22,ORD000390,Air Filter,Engine system,Wholesale,32,262.11,8387.52,Bank Transfer
+2022-04-23,ORD000645,Brake Pads,Braking system,Wholesale,25,1459.55,36488.75,Check
+2022-04-25,ORD000643,Brake Pads,Braking system,Retail,14,951.98,13327.72,Maya
+2022-04-30,ORD000388,Air Filter,Engine system,Wholesale,37,270.04,9991.48,Check
+2022-04-30,ORD001363,Battery,Electrical system,Retail,18,4508.91,81160.38,Check
+2022-05-01,ORD001577,Starter Motor,Electrical system,Wholesale,0,10340.17,0.0,Cash
+2022-05-03,ORD000648,Brake Pads,Braking system,Retail,48,1498.09,71908.32,GCash
+2022-05-03,ORD000985,Shock Absorber,Suspension & traction,Wholesale,31,2849.04,88320.24,Bank Transfer
+2022-05-05,ORD001896,ECU Module,Electrical system,Wholesale,29,24128.15,699716.35,Bank Transfer
+2022-05-05,ORD000095,Oil Filter,Engine system,Retail,22,204.04,4488.88,GCash
+2022-05-08,ORD000988,Shock Absorber,Suspension & traction,Wholesale,11,2773.86,30512.46,Cash
+2022-05-09,ORD001366,Battery,Electrical system,Retail,50,6210.25,310512.5,GCash
+2022-05-10,ORD001897,ECU Module,Electrical system,Wholesale,19,21082.6,400569.4,Maya
+2022-05-10,ORD001205,Wheel Bearing,Drivetrain,Retail,19,2198.15,41764.85,Check
+2022-05-11,ORD000391,Air Filter,Engine system,Wholesale,29,318.34,9231.86,Cash
+2022-05-11,ORD000651,Brake Pads,Braking system,Retail,8,1530.96,12247.68,Check
+2022-05-11,ORD000094,Oil Filter,Engine system,Wholesale,26,150.01,3900.26,Maya
+2022-05-12,ORD001463,Alternator,Electrical system,Retail,27,8035.64,216962.28,GCash
+2022-05-12,ORD001902,ECU Module,Electrical system,Retail,15,26018.81,390282.15,Check
+2022-05-12,ORD001903,ECU Module,Electrical system,Wholesale,26,14540.96,378064.96,Bank Transfer
+2022-05-13,ORD000986,Shock Absorber,Suspension & traction,Wholesale,48,3635.56,174506.88,Check
+2022-05-15,ORD000649,Brake Pads,Braking system,Wholesale,16,1482.81,23724.96,Check
+2022-05-16,ORD001890,ECU Module,Electrical system,Wholesale,25,18535.53,463388.25,Check
+2022-05-16,ORD001900,ECU Module,Electrical system,Retail,22,19849.51,436689.22,Maya
+2022-05-17,ORD001892,ECU Module,Electrical system,Wholesale,43,18521.11,796407.73,Maya
+2022-05-17,ORD000091,Oil Filter,Engine system,Wholesale,34,234.13,7960.42,GCash
+2022-05-17,ORD000987,Shock Absorber,Suspension & traction,Wholesale,25,2887.56,72189.0,Cash
+2022-05-18,ORD000650,Brake Pads,Braking system,Wholesale,19,1322.17,25121.23,Maya
+2022-05-18,ORD001895,ECU Module,Electrical system,Retail,48,27373.41,1313923.68,Cash
+2022-05-19,ORD000989,Shock Absorber,Suspension & traction,Wholesale,14,3461.63,48462.82,Maya
+2022-05-21,ORD001894,ECU Module,Electrical system,Wholesale,43,15274.65,656809.95,Check
+2022-05-21,ORD000090,Oil Filter,Engine system,Retail,2,249.18,498.36,Check
+2022-05-22,ORD001901,ECU Module,Electrical system,Wholesale,28,25722.04,720217.12,Cash
+2022-05-22,ORD000092,Oil Filter,Engine system,Wholesale,34,210.14,7144.76,Cash
+2022-05-23,ORD001465,Alternator,Electrical system,Retail,10,11720.47,117204.7,GCash
+2022-05-23,ORD001891,ECU Module,Electrical system,Retail,26,18568.47,482780.22,Maya
+2022-05-23,ORD001893,ECU Module,Electrical system,Wholesale,45,17773.98,799829.1,Cash
+2022-05-23,ORD000093,Oil Filter,Engine system,Retail,22,142.69,3139.18,Cash
+2022-05-24,ORD000394,Air Filter,Engine system,Wholesale,13,241.57,3140.41,GCash
+2022-05-24,ORD001889,ECU Module,Electrical system,Wholesale,30,22047.67,661430.1,Cash
+2022-05-26,ORD001888,ECU Module,Electrical system,Retail,46,24646.04,1133717.84,Cash
+2022-05-27,ORD000647,Brake Pads,Braking system,Wholesale,29,1494.89,43351.81,Maya
+2022-05-28,ORD000393,Air Filter,Engine system,Wholesale,29,259.04,7512.16,Check
+2022-05-28,ORD001464,Alternator,Electrical system,Retail,35,8456.59,295980.65,Cash
+2022-05-28,ORD001693,Catalytic Converter,Exhaust system,Wholesale,16,15686.73,250987.68,Bank Transfer
+2022-05-28,ORD001898,ECU Module,Electrical system,Retail,19,18136.91,344601.29,Maya
+2022-05-30,ORD001899,ECU Module,Electrical system,Wholesale,38,15195.06,577412.28,Check
+2022-05-31,ORD000392,Air Filter,Engine system,Retail,31,221.58,6868.98,Check
+2022-05-31,ORD001365,Battery,Electrical system,Wholesale,9,5919.36,53274.24,Cash
+2022-06-01,ORD001367,Battery,Electrical system,Retail,0,7243.54,0.0,Bank Transfer
+2022-06-01,ORD001694,Catalytic Converter,Exhaust system,Wholesale,0,19952.96,0.0,Cash
+2022-06-02,ORD000654,Brake Pads,Braking system,Retail,38,1413.82,53725.16,GCash
+2022-06-02,ORD000990,Shock Absorber,Suspension & traction,Wholesale,13,3419.34,44451.42,Check
+2022-06-03,ORD001904,ECU Module,Electrical system,Wholesale,34,25939.74,881951.16,Maya
+2022-06-05,ORD000395,Air Filter,Engine system,Retail,17,275.29,4679.93,GCash
+2022-06-05,ORD000398,Air Filter,Engine system,Wholesale,39,254.14,9911.46,Bank Transfer
+2022-06-07,ORD000399,Air Filter,Engine system,Retail,15,267.25,4008.75,GCash
+2022-06-07,ORD000099,Oil Filter,Engine system,Wholesale,27,190.85,5152.95,Check
+2022-06-09,ORD001468,Alternator,Electrical system,Wholesale,31,9892.34,306662.54,Maya
+2022-06-09,ORD001579,Starter Motor,Electrical system,Wholesale,18,10437.57,187876.26,GCash
+2022-06-16,ORD000656,Brake Pads,Braking system,Retail,18,1287.23,23170.14,Cash
+2022-06-16,ORD000100,Oil Filter,Engine system,Wholesale,21,219.49,4609.29,Check
+2022-06-17,ORD001206,Wheel Bearing,Drivetrain,Wholesale,13,2444.04,31772.52,GCash
+2022-06-18,ORD000097,Oil Filter,Engine system,Retail,32,253.77,8120.64,Maya
+2022-06-19,ORD000655,Brake Pads,Braking system,Retail,24,1271.67,30520.08,Maya
+2022-06-21,ORD000652,Brake Pads,Braking system,Retail,24,1267.32,30415.68,Check
+2022-06-22,ORD001466,Alternator,Electrical system,Wholesale,9,11496.8,103471.2,Maya
+2022-06-22,ORD000991,Shock Absorber,Suspension & traction,Retail,23,3567.7,82057.1,Cash
+2022-06-24,ORD000653,Brake Pads,Braking system,Retail,17,961.53,16346.01,Maya
+2022-06-24,ORD000101,Oil Filter,Engine system,Wholesale,28,210.44,5892.32,Bank Transfer
+2022-06-25,ORD000396,Air Filter,Engine system,Retail,21,256.54,5387.34,Maya
+2022-06-26,ORD000096,Oil Filter,Engine system,Wholesale,14,170.95,2393.3,Maya
+2022-06-26,ORD000098,Oil Filter,Engine system,Wholesale,37,199.67,7387.79,GCash
+2022-06-27,ORD000397,Air Filter,Engine system,Wholesale,19,345.31,6560.89,Cash
+2022-06-27,ORD001578,Starter Motor,Electrical system,Retail,33,8616.24,284335.92,Maya
+2022-06-28,ORD001467,Alternator,Electrical system,Wholesale,33,11023.0,363759.0,Bank Transfer
+2022-07-01,ORD001469,Alternator,Electrical system,Retail,0,7818.49,0.0,Maya
+2022-07-01,ORD001368,Battery,Electrical system,Retail,0,7147.68,0.0,Bank Transfer
+2022-07-01,ORD001905,ECU Module,Electrical system,Retail,0,22870.91,0.0,Bank Transfer
+2022-07-01,ORD000103,Oil Filter,Engine system,Wholesale,33,256.03,8448.99,Maya
+2022-07-02,ORD000661,Brake Pads,Braking system,Wholesale,33,960.03,31680.99,Bank Transfer
+2022-07-03,ORD000403,Air Filter,Engine system,Wholesale,12,248.76,2985.12,GCash
+2022-07-03,ORD000660,Brake Pads,Braking system,Wholesale,12,1290.03,15480.36,Cash
+2022-07-04,ORD000401,Air Filter,Engine system,Retail,44,242.28,10660.32,Check
+2022-07-05,ORD001695,Catalytic Converter,Exhaust system,Wholesale,17,15254.0,259318.0,Check
+2022-07-06,ORD000105,Oil Filter,Engine system,Retail,14,164.45,2302.3,Bank Transfer
+2022-07-07,ORD000658,Brake Pads,Braking system,Retail,29,1189.7,34501.3,GCash
+2022-07-08,ORD000659,Brake Pads,Braking system,Wholesale,22,1054.76,23204.72,Maya
+2022-07-09,ORD000102,Oil Filter,Engine system,Wholesale,9,200.23,1802.07,Check
+2022-07-11,ORD000400,Air Filter,Engine system,Wholesale,31,310.39,9622.09,GCash
+2022-07-13,ORD000993,Shock Absorber,Suspension & traction,Retail,9,2547.92,22931.28,Check
+2022-07-14,ORD001207,Wheel Bearing,Drivetrain,Wholesale,17,1671.95,28423.15,GCash
+2022-07-15,ORD000107,Oil Filter,Engine system,Wholesale,20,216.65,4333.0,Check
+2022-07-15,ORD001581,Starter Motor,Electrical system,Retail,24,10786.03,258864.72,GCash
+2022-07-16,ORD000106,Oil Filter,Engine system,Wholesale,33,249.46,8232.18,GCash
+2022-07-17,ORD000657,Brake Pads,Braking system,Wholesale,26,1562.83,40633.58,Maya
+2022-07-18,ORD000992,Shock Absorber,Suspension & traction,Retail,31,3874.39,120106.09,Cash
+2022-07-28,ORD000402,Air Filter,Engine system,Retail,21,291.25,6116.25,Cash
+2022-07-29,ORD000104,Oil Filter,Engine system,Retail,30,166.08,4982.4,Bank Transfer
+2022-07-30,ORD000404,Air Filter,Engine system,Wholesale,4,309.49,1237.96,Cash
+2022-07-31,ORD001580,Starter Motor,Electrical system,Wholesale,30,7101.29,213038.7,Check
+2022-08-01,ORD001470,Alternator,Electrical system,Retail,0,10646.56,0.0,Cash
+2022-08-01,ORD001696,Catalytic Converter,Exhaust system,Retail,0,19213.43,0.0,Maya
+2022-08-01,ORD001906,ECU Module,Electrical system,Wholesale,0,26169.16,0.0,Cash
+2022-08-01,ORD000112,Oil Filter,Engine system,Retail,24,187.81,4507.44,Bank Transfer
+2022-08-01,ORD001582,Starter Motor,Electrical system,Retail,0,11219.79,0.0,Bank Transfer
+2022-08-02,ORD000109,Oil Filter,Engine system,Retail,23,194.96,4484.08,GCash
+2022-08-03,ORD000665,Brake Pads,Braking system,Retail,10,1412.57,14125.7,Cash
+2022-08-05,ORD000405,Air Filter,Engine system,Retail,41,267.68,10974.88,GCash
+2022-08-06,ORD000110,Oil Filter,Engine system,Wholesale,19,238.34,4528.46,Cash
+2022-08-07,ORD000663,Brake Pads,Braking system,Retail,19,1089.73,20704.87,Check
+2022-08-09,ORD001369,Battery,Electrical system,Wholesale,59,6022.39,355321.01,Bank Transfer
+2022-08-09,ORD000108,Oil Filter,Engine system,Retail,36,252.43,9087.48,Maya
+2022-08-09,ORD000113,Oil Filter,Engine system,Retail,24,213.74,5129.76,Cash
+2022-08-09,ORD001208,Wheel Bearing,Drivetrain,Retail,25,2757.42,68935.5,Check
+2022-08-13,ORD000994,Shock Absorber,Suspension & traction,Retail,25,3187.28,79682.0,GCash
+2022-08-18,ORD000407,Air Filter,Engine system,Retail,25,309.43,7735.75,Check
+2022-08-20,ORD000111,Oil Filter,Engine system,Wholesale,17,149.65,2544.05,Maya
+2022-08-21,ORD000662,Brake Pads,Braking system,Retail,12,1296.99,15563.88,Check
+2022-08-25,ORD000664,Brake Pads,Braking system,Wholesale,40,1329.99,53199.6,GCash
+2022-08-26,ORD001370,Battery,Electrical system,Wholesale,2,5484.12,10968.24,Maya
+2022-08-27,ORD000666,Brake Pads,Braking system,Wholesale,44,1541.92,67844.48,Check
+2022-08-28,ORD000406,Air Filter,Engine system,Retail,15,317.0,4755.0,Cash
+2022-09-01,ORD001371,Battery,Electrical system,Wholesale,0,4518.64,0.0,GCash
+2022-09-01,ORD001697,Catalytic Converter,Exhaust system,Retail,0,14857.87,0.0,Bank Transfer
+2022-09-02,ORD001471,Alternator,Electrical system,Wholesale,20,8064.93,161298.6,Check
+2022-09-03,ORD001210,Wheel Bearing,Drivetrain,Wholesale,24,2766.8,66403.2,Cash
+2022-09-04,ORD000997,Shock Absorber,Suspension & traction,Retail,18,2906.38,52314.84,Check
+2022-09-06,ORD000408,Air Filter,Engine system,Wholesale,17,276.3,4697.1,GCash
+2022-09-06,ORD001583,Starter Motor,Electrical system,Retail,25,8259.39,206484.75,Cash
+2022-09-07,ORD001472,Alternator,Electrical system,Retail,23,10375.93,238646.39,Cash
+2022-09-07,ORD000667,Brake Pads,Braking system,Wholesale,5,1462.92,7314.6,Bank Transfer
+2022-09-07,ORD001907,ECU Module,Electrical system,Wholesale,6,15050.33,90301.98,GCash
+2022-09-09,ORD000409,Air Filter,Engine system,Wholesale,27,242.86,6557.22,GCash
+2022-09-09,ORD000996,Shock Absorber,Suspension & traction,Retail,41,3942.02,161622.82,Check
+2022-09-10,ORD000410,Air Filter,Engine system,Retail,51,235.63,12017.13,GCash
+2022-09-10,ORD000670,Brake Pads,Braking system,Wholesale,41,1004.45,41182.45,Check
+2022-09-12,ORD000995,Shock Absorber,Suspension & traction,Retail,31,3454.74,107096.94,Check
+2022-09-13,ORD000999,Shock Absorber,Suspension & traction,Retail,21,3196.53,67127.13,Bank Transfer
+2022-09-15,ORD000116,Oil Filter,Engine system,Retail,48,206.83,9927.84,Maya
+2022-09-16,ORD001584,Starter Motor,Electrical system,Wholesale,18,8367.77,150619.86,Bank Transfer
+2022-09-20,ORD000669,Brake Pads,Braking system,Retail,23,1503.54,34581.42,Bank Transfer
+2022-09-21,ORD000114,Oil Filter,Engine system,Retail,29,143.6,4164.4,GCash
+2022-09-21,ORD001000,Shock Absorber,Suspension & traction,Wholesale,31,4124.19,127849.89,Maya
+2022-09-21,ORD001211,Wheel Bearing,Drivetrain,Retail,24,2010.58,48253.92,Check
+2022-09-23,ORD000115,Oil Filter,Engine system,Wholesale,14,193.58,2710.12,Maya
+2022-09-23,ORD001212,Wheel Bearing,Drivetrain,Wholesale,16,1636.69,26187.04,Maya
+2022-09-24,ORD001213,Wheel Bearing,Drivetrain,Wholesale,37,2322.49,85932.13,GCash
+2022-09-26,ORD001473,Alternator,Electrical system,Wholesale,31,8923.63,276632.53,Cash
+2022-09-26,ORD000998,Shock Absorber,Suspension & traction,Wholesale,24,2901.63,69639.12,Cash
+2022-09-27,ORD000668,Brake Pads,Braking system,Retail,34,1550.89,52730.26,Bank Transfer
+2022-09-28,ORD001209,Wheel Bearing,Drivetrain,Retail,10,1833.36,18333.6,Bank Transfer
+2022-09-29,ORD000671,Brake Pads,Braking system,Wholesale,33,1181.73,38997.09,GCash
+2022-10-01,ORD001474,Alternator,Electrical system,Wholesale,0,11266.16,0.0,Cash
+2022-10-01,ORD001698,Catalytic Converter,Exhaust system,Wholesale,0,20058.72,0.0,Bank Transfer
+2022-10-01,ORD001908,ECU Module,Electrical system,Retail,0,25855.38,0.0,Check
+2022-10-02,ORD001003,Shock Absorber,Suspension & traction,Retail,28,3883.54,108739.12,Bank Transfer
+2022-10-02,ORD001215,Wheel Bearing,Drivetrain,Retail,25,2145.67,53641.75,GCash
+2022-10-05,ORD000118,Oil Filter,Engine system,Retail,20,213.12,4262.4,Cash
+2022-10-06,ORD000412,Air Filter,Engine system,Wholesale,12,345.55,4146.6,Maya
+2022-10-06,ORD000413,Air Filter,Engine system,Wholesale,46,280.62,12908.52,Check
+2022-10-07,ORD001214,Wheel Bearing,Drivetrain,Retail,25,2350.61,58765.25,GCash
+2022-10-08,ORD000121,Oil Filter,Engine system,Retail,31,249.24,7726.44,Maya
+2022-10-09,ORD000117,Oil Filter,Engine system,Wholesale,30,177.06,5311.8,Maya
+2022-10-11,ORD001001,Shock Absorber,Suspension & traction,Retail,18,4039.28,72707.04,Bank Transfer
+2022-10-11,ORD001216,Wheel Bearing,Drivetrain,Wholesale,24,2050.39,49209.36,Maya
+2022-10-11,ORD001219,Wheel Bearing,Drivetrain,Retail,32,2633.64,84276.48,Maya
+2022-10-12,ORD000415,Air Filter,Engine system,Retail,21,283.7,5957.7,GCash
+2022-10-12,ORD000676,Brake Pads,Braking system,Retail,37,1416.87,52424.19,Check
+2022-10-12,ORD001006,Shock Absorber,Suspension & traction,Wholesale,28,3374.79,94494.12,Bank Transfer
+2022-10-13,ORD000411,Air Filter,Engine system,Wholesale,22,344.69,7583.18,Bank Transfer
+2022-10-16,ORD001372,Battery,Electrical system,Wholesale,37,4922.11,182118.07,Cash
+2022-10-16,ORD001004,Shock Absorber,Suspension & traction,Retail,40,2533.82,101352.8,GCash
+2022-10-19,ORD001373,Battery,Electrical system,Retail,29,5519.34,160060.86,Check
+2022-10-19,ORD000675,Brake Pads,Braking system,Retail,14,1549.47,21692.58,Bank Transfer
+2022-10-19,ORD000120,Oil Filter,Engine system,Wholesale,27,220.69,5958.63,Maya
+2022-10-21,ORD000673,Brake Pads,Braking system,Wholesale,30,1320.61,39618.3,Maya
+2022-10-22,ORD001585,Starter Motor,Electrical system,Retail,18,11452.46,206144.28,Maya
+2022-10-22,ORD001217,Wheel Bearing,Drivetrain,Wholesale,31,2089.44,64772.64,Check
+2022-10-23,ORD001218,Wheel Bearing,Drivetrain,Wholesale,24,2795.87,67100.88,Cash
+2022-10-24,ORD000672,Brake Pads,Braking system,Wholesale,25,1042.77,26069.25,Cash
+2022-10-26,ORD000119,Oil Filter,Engine system,Wholesale,21,163.9,3441.9,Maya
+2022-10-26,ORD001586,Starter Motor,Electrical system,Retail,27,6395.33,172673.91,GCash
+2022-10-28,ORD001002,Shock Absorber,Suspension & traction,Wholesale,27,3295.16,88969.32,Check
+2022-10-29,ORD000674,Brake Pads,Braking system,Wholesale,11,1010.23,11112.53,Maya
+2022-10-30,ORD000414,Air Filter,Engine system,Retail,3,340.84,1022.52,Bank Transfer
+2022-10-31,ORD001005,Shock Absorber,Suspension & traction,Wholesale,21,3749.07,78730.47,GCash
+2022-11-01,ORD001475,Alternator,Electrical system,Wholesale,0,8379.88,0.0,Bank Transfer
+2022-11-01,ORD001374,Battery,Electrical system,Retail,0,5153.69,0.0,Bank Transfer
+2022-11-01,ORD000677,Brake Pads,Braking system,Retail,8,1158.87,9270.96,Maya
+2022-11-01,ORD001918,ECU Module,Electrical system,Wholesale,15,26940.09,404101.35,Check
+2022-11-02,ORD001012,Shock Absorber,Suspension & traction,Retail,17,2456.06,41753.02,Maya
+2022-11-02,ORD001221,Wheel Bearing,Drivetrain,Retail,26,1638.55,42602.3,Cash
+2022-11-03,ORD001922,ECU Module,Electrical system,Retail,44,25212.87,1109366.28,Maya
+2022-11-05,ORD001703,Catalytic Converter,Exhaust system,Retail,10,23493.96,234939.6,GCash
+2022-11-05,ORD001919,ECU Module,Electrical system,Retail,40,23090.03,923601.2,GCash
+2022-11-06,ORD001702,Catalytic Converter,Exhaust system,Retail,23,23611.47,543063.81,GCash
+2022-11-06,ORD001916,ECU Module,Electrical system,Retail,36,15452.13,556276.68,Bank Transfer
+2022-11-06,ORD001921,ECU Module,Electrical system,Retail,7,19505.4,136537.8,Maya
+2022-11-06,ORD001222,Wheel Bearing,Drivetrain,Retail,37,2016.66,74616.42,Bank Transfer
+2022-11-07,ORD000127,Oil Filter,Engine system,Wholesale,32,140.72,4503.04,Check
+2022-11-07,ORD001013,Shock Absorber,Suspension & traction,Wholesale,16,2413.2,38611.2,GCash
+2022-11-07,ORD001587,Starter Motor,Electrical system,Wholesale,26,11126.8,289296.8,Cash
+2022-11-08,ORD001705,Catalytic Converter,Exhaust system,Retail,14,20647.54,289065.56,Cash
+2022-11-08,ORD001915,ECU Module,Electrical system,Wholesale,49,15772.75,772864.75,Check
+2022-11-08,ORD001920,ECU Module,Electrical system,Wholesale,35,21349.89,747246.15,Check
+2022-11-08,ORD000126,Oil Filter,Engine system,Wholesale,27,146.85,3964.95,Check
+2022-11-09,ORD001913,ECU Module,Electrical system,Retail,51,20931.64,1067513.64,Bank Transfer
+2022-11-11,ORD001914,ECU Module,Electrical system,Wholesale,28,24243.15,678808.2,Bank Transfer
+2022-11-11,ORD001009,Shock Absorber,Suspension & traction,Wholesale,15,3863.95,57959.25,GCash
+2022-11-12,ORD001700,Catalytic Converter,Exhaust system,Retail,40,15245.89,609835.6,GCash
+2022-11-13,ORD001011,Shock Absorber,Suspension & traction,Wholesale,48,2491.22,119578.56,Bank Transfer
+2022-11-14,ORD001008,Shock Absorber,Suspension & traction,Wholesale,24,3887.99,93311.76,Maya
+2022-11-15,ORD000417,Air Filter,Engine system,Wholesale,34,296.24,10072.16,Maya
+2022-11-15,ORD001924,ECU Module,Electrical system,Retail,29,28206.37,817984.73,GCash
+2022-11-16,ORD001701,Catalytic Converter,Exhaust system,Retail,38,18367.39,697960.82,Bank Transfer
+2022-11-16,ORD001910,ECU Module,Electrical system,Retail,52,14770.82,768082.64,Bank Transfer
+2022-11-16,ORD000125,Oil Filter,Engine system,Wholesale,38,199.35,7575.3,Bank Transfer
+2022-11-17,ORD000682,Brake Pads,Braking system,Wholesale,24,1142.26,27414.24,GCash
+2022-11-18,ORD000418,Air Filter,Engine system,Wholesale,27,269.57,7278.39,Maya
+2022-11-19,ORD001706,Catalytic Converter,Exhaust system,Retail,39,20222.7,788685.3,Cash
+2022-11-20,ORD000123,Oil Filter,Engine system,Wholesale,17,173.72,2953.24,Bank Transfer
+2022-11-20,ORD001220,Wheel Bearing,Drivetrain,Retail,20,2199.7,43994.0,Cash
+2022-11-21,ORD001699,Catalytic Converter,Exhaust system,Retail,24,21520.69,516496.56,Maya
+2022-11-22,ORD000680,Brake Pads,Braking system,Wholesale,7,982.6,6878.2,Maya
+2022-11-22,ORD000681,Brake Pads,Braking system,Retail,27,1088.17,29380.59,GCash
+2022-11-23,ORD000416,Air Filter,Engine system,Retail,28,311.47,8721.16,Bank Transfer
+2022-11-23,ORD000124,Oil Filter,Engine system,Wholesale,33,187.34,6182.22,Bank Transfer
+2022-11-23,ORD001010,Shock Absorber,Suspension & traction,Retail,32,3795.88,121468.16,GCash
+2022-11-24,ORD001912,ECU Module,Electrical system,Wholesale,34,23012.32,782418.88,GCash
+2022-11-25,ORD001923,ECU Module,Electrical system,Retail,24,21488.76,515730.24,GCash
+2022-11-25,ORD001007,Shock Absorber,Suspension & traction,Wholesale,23,3807.88,87581.24,Check
+2022-11-26,ORD001704,Catalytic Converter,Exhaust system,Retail,41,18531.48,759790.68,Maya
+2022-11-26,ORD001909,ECU Module,Electrical system,Retail,23,24618.89,566234.47,Check
+2022-11-26,ORD000122,Oil Filter,Engine system,Wholesale,19,147.2,2796.8,GCash
+2022-11-26,ORD001588,Starter Motor,Electrical system,Retail,21,10141.07,212962.47,Cash
+2022-11-27,ORD000678,Brake Pads,Braking system,Wholesale,44,1259.47,55416.68,Maya
+2022-11-27,ORD001911,ECU Module,Electrical system,Retail,15,27889.63,418344.45,Maya
+2022-11-29,ORD000679,Brake Pads,Braking system,Retail,33,1084.17,35777.61,GCash
+2022-11-30,ORD001917,ECU Module,Electrical system,Wholesale,17,20232.23,343947.91,Check
+2022-12-01,ORD001375,Battery,Electrical system,Retail,0,7544.77,0.0,GCash
+2022-12-01,ORD001707,Catalytic Converter,Exhaust system,Wholesale,0,18307.09,0.0,Cash
+2022-12-01,ORD001925,ECU Module,Electrical system,Retail,0,18394.5,0.0,Maya
+2022-12-01,ORD000132,Oil Filter,Engine system,Retail,30,234.27,7028.1,Check
+2022-12-03,ORD001016,Shock Absorber,Suspension & traction,Wholesale,26,4092.57,106406.82,Check
+2022-12-04,ORD000685,Brake Pads,Braking system,Wholesale,28,993.46,27816.88,Maya
+2022-12-06,ORD001223,Wheel Bearing,Drivetrain,Wholesale,35,1894.23,66298.05,Cash
+2022-12-07,ORD000129,Oil Filter,Engine system,Retail,30,194.36,5830.8,Bank Transfer
+2022-12-07,ORD000131,Oil Filter,Engine system,Retail,24,169.37,4064.88,Check
+2022-12-08,ORD000421,Air Filter,Engine system,Wholesale,40,304.5,12180.0,GCash
+2022-12-08,ORD001224,Wheel Bearing,Drivetrain,Wholesale,26,1796.27,46703.02,GCash
+2022-12-09,ORD000687,Brake Pads,Braking system,Retail,16,1304.18,20866.88,Check
+2022-12-11,ORD000684,Brake Pads,Braking system,Wholesale,13,1039.04,13507.52,GCash
+2022-12-12,ORD001476,Alternator,Electrical system,Retail,29,7814.79,226628.91,GCash
+2022-12-13,ORD000419,Air Filter,Engine system,Wholesale,14,288.76,4042.64,Bank Transfer
+2022-12-13,ORD001018,Shock Absorber,Suspension & traction,Wholesale,27,2949.74,79642.98,Maya
+2022-12-14,ORD000420,Air Filter,Engine system,Wholesale,9,277.22,2494.98,Cash
+2022-12-15,ORD000128,Oil Filter,Engine system,Wholesale,15,155.84,2337.6,Cash
+2022-12-17,ORD000686,Brake Pads,Braking system,Wholesale,56,1175.77,65843.12,Maya
+2022-12-17,ORD001589,Starter Motor,Electrical system,Wholesale,14,6396.14,89545.96,GCash
+2022-12-19,ORD000130,Oil Filter,Engine system,Wholesale,34,167.18,5684.12,Bank Transfer
+2022-12-20,ORD001477,Alternator,Electrical system,Retail,33,7148.88,235913.04,Bank Transfer
+2022-12-21,ORD000133,Oil Filter,Engine system,Wholesale,14,211.0,2954.0,Check
+2022-12-22,ORD001014,Shock Absorber,Suspension & traction,Wholesale,23,2671.65,61447.95,Bank Transfer
+2022-12-24,ORD000683,Brake Pads,Braking system,Retail,14,986.07,13804.98,Bank Transfer
+2022-12-27,ORD001015,Shock Absorber,Suspension & traction,Wholesale,22,4099.68,90192.96,Maya
+2022-12-28,ORD001590,Starter Motor,Electrical system,Wholesale,37,8943.96,330926.52,Cash
+2022-12-30,ORD000422,Air Filter,Engine system,Retail,37,342.84,12685.08,Maya
+2022-12-31,ORD001017,Shock Absorber,Suspension & traction,Retail,27,3929.62,106099.74,GCash
+2023-01-01,ORD001708,Catalytic Converter,Exhaust system,Retail,0,16138.69,0.0,Check
+2023-01-01,ORD001926,ECU Module,Electrical system,Wholesale,0,19918.82,0.0,Cash
+2023-01-01,ORD001591,Starter Motor,Electrical system,Retail,0,6438.21,0.0,Bank Transfer
+2023-01-02,ORD001024,Shock Absorber,Suspension & traction,Wholesale,18,2682.8,48290.4,GCash
+2023-01-05,ORD000691,Brake Pads,Braking system,Retail,29,1079.71,31311.59,GCash
+2023-01-06,ORD000139,Oil Filter,Engine system,Retail,30,242.21,7266.3,Bank Transfer
+2023-01-07,ORD001377,Battery,Electrical system,Retail,23,6671.2,153437.6,Maya
+2023-01-07,ORD000688,Brake Pads,Braking system,Retail,31,1046.36,32437.16,Maya
+2023-01-08,ORD000426,Air Filter,Engine system,Wholesale,27,349.34,9432.18,Check
+2023-01-08,ORD000134,Oil Filter,Engine system,Wholesale,20,254.53,5090.6,Bank Transfer
+2023-01-08,ORD001021,Shock Absorber,Suspension & traction,Retail,13,3997.18,51963.34,GCash
+2023-01-09,ORD001020,Shock Absorber,Suspension & traction,Wholesale,4,4156.34,16625.36,Bank Transfer
+2023-01-10,ORD000135,Oil Filter,Engine system,Wholesale,25,184.96,4624.0,Maya
+2023-01-11,ORD000424,Air Filter,Engine system,Wholesale,20,263.48,5269.6,GCash
+2023-01-12,ORD001019,Shock Absorber,Suspension & traction,Wholesale,51,4052.49,206676.99,Check
+2023-01-14,ORD001225,Wheel Bearing,Drivetrain,Wholesale,24,2178.33,52279.92,Bank Transfer
+2023-01-15,ORD000690,Brake Pads,Braking system,Wholesale,22,1489.76,32774.72,Check
+2023-01-16,ORD000427,Air Filter,Engine system,Retail,16,270.6,4329.6,Cash
+2023-01-17,ORD001376,Battery,Electrical system,Wholesale,39,5602.76,218507.64,Bank Transfer
+2023-01-18,ORD000137,Oil Filter,Engine system,Retail,23,210.47,4840.81,Bank Transfer
+2023-01-18,ORD001023,Shock Absorber,Suspension & traction,Wholesale,36,2799.68,100788.48,GCash
+2023-01-19,ORD000689,Brake Pads,Braking system,Retail,24,1594.26,38262.24,Maya
+2023-01-21,ORD000692,Brake Pads,Braking system,Retail,31,1525.01,47275.31,Maya
+2023-01-21,ORD000136,Oil Filter,Engine system,Retail,33,225.56,7443.48,Check
+2023-01-23,ORD001479,Alternator,Electrical system,Wholesale,44,8263.85,363609.4,GCash
+2023-01-25,ORD000138,Oil Filter,Engine system,Wholesale,28,252.43,7068.04,Cash
+2023-01-27,ORD001478,Alternator,Electrical system,Retail,23,8221.09,189085.07,GCash
+2023-01-29,ORD001022,Shock Absorber,Suspension & traction,Wholesale,39,3669.57,143113.23,Bank Transfer
+2023-01-31,ORD000423,Air Filter,Engine system,Retail,16,250.69,4011.04,Cash
+2023-01-31,ORD000425,Air Filter,Engine system,Wholesale,42,324.44,13626.48,Bank Transfer
+2023-02-01,ORD001480,Alternator,Electrical system,Wholesale,0,9034.98,0.0,Check
+2023-02-01,ORD000698,Brake Pads,Braking system,Retail,25,1091.88,27297.0,Cash
+2023-02-01,ORD001025,Shock Absorber,Suspension & traction,Retail,27,3159.06,85294.62,GCash
+2023-02-02,ORD000695,Brake Pads,Braking system,Retail,23,1222.72,28122.56,Check
+2023-02-03,ORD000145,Oil Filter,Engine system,Wholesale,23,188.24,4329.52,Maya
+2023-02-03,ORD001031,Shock Absorber,Suspension & traction,Retail,37,3876.49,143430.13,Cash
+2023-02-04,ORD000430,Air Filter,Engine system,Wholesale,17,245.82,4178.94,GCash
+2023-02-04,ORD000431,Air Filter,Engine system,Retail,50,350.28,17514.0,Maya
+2023-02-04,ORD000696,Brake Pads,Braking system,Retail,15,1106.39,16595.85,Cash
+2023-02-05,ORD001592,Starter Motor,Electrical system,Wholesale,28,11222.8,314238.4,Maya
+2023-02-07,ORD000693,Brake Pads,Braking system,Wholesale,35,1460.96,51133.6,Bank Transfer
+2023-02-07,ORD001927,ECU Module,Electrical system,Wholesale,14,28006.73,392094.22,Maya
+2023-02-08,ORD000428,Air Filter,Engine system,Retail,27,323.97,8747.19,Cash
+2023-02-08,ORD001378,Battery,Electrical system,Retail,36,6904.84,248574.24,Maya
+2023-02-08,ORD001709,Catalytic Converter,Exhaust system,Wholesale,11,18883.39,207717.29,Check
+2023-02-08,ORD000140,Oil Filter,Engine system,Wholesale,18,251.77,4531.86,Maya
+2023-02-08,ORD001027,Shock Absorber,Suspension & traction,Retail,12,3424.0,41088.0,Bank Transfer
+2023-02-09,ORD001379,Battery,Electrical system,Retail,22,6195.46,136300.12,Maya
+2023-02-10,ORD000429,Air Filter,Engine system,Wholesale,8,229.95,1839.6,Bank Transfer
+2023-02-11,ORD001593,Starter Motor,Electrical system,Wholesale,13,7323.77,95209.01,Cash
+2023-02-13,ORD000142,Oil Filter,Engine system,Retail,11,146.47,1611.17,GCash
+2023-02-16,ORD001032,Shock Absorber,Suspension & traction,Wholesale,19,3462.61,65789.59,Maya
+2023-02-17,ORD001226,Wheel Bearing,Drivetrain,Retail,12,2210.64,26527.68,Maya
+2023-02-18,ORD000697,Brake Pads,Braking system,Retail,35,1445.15,50580.25,GCash
+2023-02-18,ORD001033,Shock Absorber,Suspension & traction,Wholesale,16,3397.51,54360.16,Maya
+2023-02-20,ORD000694,Brake Pads,Braking system,Wholesale,21,1463.25,30728.25,Check
+2023-02-20,ORD000141,Oil Filter,Engine system,Retail,59,236.36,13945.24,Maya
+2023-02-22,ORD001028,Shock Absorber,Suspension & traction,Wholesale,46,3075.57,141476.22,Maya
+2023-02-22,ORD001029,Shock Absorber,Suspension & traction,Retail,15,2794.3,41914.5,Cash
+2023-02-24,ORD000144,Oil Filter,Engine system,Wholesale,29,252.4,7319.6,Bank Transfer
+2023-02-24,ORD001030,Shock Absorber,Suspension & traction,Retail,57,3514.69,200337.33,GCash
+2023-02-25,ORD001026,Shock Absorber,Suspension & traction,Wholesale,19,3477.46,66071.74,GCash
+2023-02-27,ORD000143,Oil Filter,Engine system,Retail,22,220.61,4853.42,Check
+2023-02-28,ORD001928,ECU Module,Electrical system,Retail,23,28476.82,654966.86,Maya
+2023-03-01,ORD001710,Catalytic Converter,Exhaust system,Retail,0,12639.41,0.0,Check
+2023-03-01,ORD001929,ECU Module,Electrical system,Retail,0,20168.63,0.0,Cash
+2023-03-01,ORD001035,Shock Absorber,Suspension & traction,Retail,16,2486.21,39779.36,GCash
+2023-03-02,ORD001228,Wheel Bearing,Drivetrain,Wholesale,15,2748.69,41230.35,Maya
+2023-03-02,ORD001230,Wheel Bearing,Drivetrain,Wholesale,28,2512.61,70353.08,Bank Transfer
+2023-03-03,ORD000147,Oil Filter,Engine system,Retail,23,177.93,4092.39,GCash
+2023-03-04,ORD000704,Brake Pads,Braking system,Retail,13,1105.26,14368.38,Bank Transfer
+2023-03-04,ORD001229,Wheel Bearing,Drivetrain,Wholesale,43,2820.13,121265.59,Cash
+2023-03-06,ORD001595,Starter Motor,Electrical system,Wholesale,28,9495.04,265861.12,GCash
+2023-03-07,ORD000702,Brake Pads,Braking system,Wholesale,33,1587.17,52376.61,GCash
+2023-03-07,ORD001037,Shock Absorber,Suspension & traction,Retail,38,2417.81,91876.78,GCash
+2023-03-09,ORD001483,Alternator,Electrical system,Wholesale,36,8278.03,298009.08,Bank Transfer
+2023-03-09,ORD000703,Brake Pads,Braking system,Retail,35,1384.17,48445.95,GCash
+2023-03-09,ORD000148,Oil Filter,Engine system,Retail,17,188.11,3197.87,Check
+2023-03-09,ORD001038,Shock Absorber,Suspension & traction,Retail,36,3478.93,125241.48,Maya
+2023-03-09,ORD001594,Starter Motor,Electrical system,Wholesale,18,8895.3,160115.4,Bank Transfer
+2023-03-10,ORD000699,Brake Pads,Braking system,Retail,12,1059.54,12714.48,Cash
+2023-03-12,ORD001381,Battery,Electrical system,Wholesale,33,5289.92,174567.36,Cash
+2023-03-13,ORD000146,Oil Filter,Engine system,Retail,30,161.14,4834.2,Check
+2023-03-14,ORD000701,Brake Pads,Braking system,Wholesale,14,1159.32,16230.48,Maya
+2023-03-15,ORD001034,Shock Absorber,Suspension & traction,Retail,25,3840.39,96009.75,Check
+2023-03-18,ORD001481,Alternator,Electrical system,Wholesale,21,7320.88,153738.48,Bank Transfer
+2023-03-18,ORD001380,Battery,Electrical system,Retail,25,6350.29,158757.25,Maya
+2023-03-18,ORD000149,Oil Filter,Engine system,Retail,25,155.24,3881.0,Cash
+2023-03-19,ORD000432,Air Filter,Engine system,Wholesale,20,307.01,6140.2,Cash
+2023-03-20,ORD001039,Shock Absorber,Suspension & traction,Wholesale,20,3167.96,63359.2,Maya
+2023-03-21,ORD001036,Shock Absorber,Suspension & traction,Retail,23,4104.19,94396.37,Maya
+2023-03-21,ORD001227,Wheel Bearing,Drivetrain,Wholesale,33,2728.56,90042.48,Check
+2023-03-22,ORD000700,Brake Pads,Braking system,Wholesale,36,973.37,35041.32,GCash
+2023-03-22,ORD000150,Oil Filter,Engine system,Retail,16,216.16,3458.56,GCash
+2023-03-24,ORD001040,Shock Absorber,Suspension & traction,Retail,49,2561.27,125502.23,Cash
+2023-03-24,ORD001231,Wheel Bearing,Drivetrain,Wholesale,15,2847.85,42717.75,Cash
+2023-03-25,ORD001482,Alternator,Electrical system,Wholesale,21,7878.8,165454.8,Cash
+2023-03-26,ORD000434,Air Filter,Engine system,Retail,37,342.3,12665.1,Check
+2023-03-29,ORD000433,Air Filter,Engine system,Wholesale,34,333.52,11339.68,Maya
+2023-04-01,ORD001484,Alternator,Electrical system,Wholesale,0,11356.81,0.0,Maya
+2023-04-01,ORD001382,Battery,Electrical system,Retail,0,4978.81,0.0,GCash
+2023-04-01,ORD000709,Brake Pads,Braking system,Retail,24,1515.69,36376.56,Cash
+2023-04-01,ORD001711,Catalytic Converter,Exhaust system,Wholesale,0,13200.14,0.0,Bank Transfer
+2023-04-01,ORD001930,ECU Module,Electrical system,Wholesale,0,25033.75,0.0,Bank Transfer
+2023-04-02,ORD001045,Shock Absorber,Suspension & traction,Retail,24,2980.33,71527.92,Bank Transfer
+2023-04-05,ORD000708,Brake Pads,Braking system,Wholesale,11,1215.14,13366.54,Check
+2023-04-06,ORD001043,Shock Absorber,Suspension & traction,Wholesale,19,3275.62,62236.78,GCash
+2023-04-07,ORD000437,Air Filter,Engine system,Wholesale,21,273.08,5734.68,Check
+2023-04-07,ORD000154,Oil Filter,Engine system,Retail,20,164.07,3281.4,Check
+2023-04-07,ORD001041,Shock Absorber,Suspension & traction,Retail,20,3439.2,68784.0,Bank Transfer
+2023-04-10,ORD000152,Oil Filter,Engine system,Wholesale,21,249.49,5239.29,GCash
+2023-04-10,ORD001044,Shock Absorber,Suspension & traction,Retail,27,3233.36,87300.72,Maya
+2023-04-11,ORD000710,Brake Pads,Braking system,Wholesale,18,1474.18,26535.24,Bank Transfer
+2023-04-13,ORD001234,Wheel Bearing,Drivetrain,Retail,46,2355.47,108351.62,GCash
+2023-04-14,ORD000153,Oil Filter,Engine system,Wholesale,23,202.12,4648.76,Check
+2023-04-14,ORD000155,Oil Filter,Engine system,Wholesale,37,196.33,7264.21,Cash
+2023-04-15,ORD000705,Brake Pads,Braking system,Wholesale,40,1313.42,52536.8,Bank Transfer
+2023-04-15,ORD001597,Starter Motor,Electrical system,Wholesale,29,9708.36,281542.44,Maya
+2023-04-16,ORD000436,Air Filter,Engine system,Wholesale,47,232.15,10911.05,Bank Transfer
+2023-04-16,ORD000707,Brake Pads,Braking system,Wholesale,16,1460.85,23373.6,GCash
+2023-04-20,ORD001232,Wheel Bearing,Drivetrain,Wholesale,18,2888.58,51994.44,Bank Transfer
+2023-04-21,ORD001596,Starter Motor,Electrical system,Wholesale,27,8950.43,241661.61,Check
+2023-04-26,ORD001042,Shock Absorber,Suspension & traction,Retail,21,3091.76,64926.96,Bank Transfer
+2023-04-26,ORD001233,Wheel Bearing,Drivetrain,Wholesale,22,2648.52,58267.44,Cash
+2023-04-27,ORD000435,Air Filter,Engine system,Retail,22,265.79,5847.38,GCash
+2023-04-27,ORD000706,Brake Pads,Braking system,Retail,36,1217.56,43832.16,GCash
+2023-04-29,ORD000151,Oil Filter,Engine system,Wholesale,18,245.44,4417.92,Bank Transfer
+2023-05-01,ORD001383,Battery,Electrical system,Wholesale,0,5486.95,0.0,Bank Transfer
+2023-05-01,ORD000715,Brake Pads,Braking system,Retail,23,1162.97,26748.31,Cash
+2023-05-01,ORD001931,ECU Module,Electrical system,Wholesale,0,27255.17,0.0,Maya
+2023-05-01,ORD000156,Oil Filter,Engine system,Retail,31,173.68,5384.08,Bank Transfer
+2023-05-01,ORD001598,Starter Motor,Electrical system,Retail,0,11093.63,0.0,GCash
+2023-05-03,ORD001485,Alternator,Electrical system,Wholesale,13,11467.07,149071.91,GCash
+2023-05-03,ORD000714,Brake Pads,Braking system,Retail,22,1295.99,28511.78,GCash
+2023-05-03,ORD001235,Wheel Bearing,Drivetrain,Wholesale,42,2054.54,86290.68,Bank Transfer
+2023-05-04,ORD000439,Air Filter,Engine system,Wholesale,28,263.96,7390.88,GCash
+2023-05-09,ORD001717,Catalytic Converter,Exhaust system,Wholesale,16,17902.83,286445.28,Maya
+2023-05-10,ORD000712,Brake Pads,Braking system,Wholesale,9,1490.84,13417.56,Cash
+2023-05-10,ORD001236,Wheel Bearing,Drivetrain,Retail,39,2560.0,99840.0,Check
+2023-05-11,ORD001486,Alternator,Electrical system,Retail,52,11205.91,582707.32,Maya
+2023-05-12,ORD001237,Wheel Bearing,Drivetrain,Retail,11,1969.6,21665.6,Bank Transfer
+2023-05-13,ORD001712,Catalytic Converter,Exhaust system,Wholesale,36,15206.04,547417.44,GCash
+2023-05-13,ORD000157,Oil Filter,Engine system,Retail,41,229.59,9413.19,Check
+2023-05-16,ORD001713,Catalytic Converter,Exhaust system,Wholesale,40,19034.35,761374.0,Check
+2023-05-19,ORD000716,Brake Pads,Braking system,Wholesale,46,1318.53,60652.38,GCash
+2023-05-19,ORD001719,Catalytic Converter,Exhaust system,Wholesale,27,23686.77,639542.79,Bank Transfer
+2023-05-20,ORD001714,Catalytic Converter,Exhaust system,Retail,34,12727.79,432744.86,Cash
+2023-05-20,ORD001716,Catalytic Converter,Exhaust system,Wholesale,35,21064.02,737240.7,Bank Transfer
+2023-05-21,ORD001048,Shock Absorber,Suspension & traction,Wholesale,16,3595.46,57527.36,Maya
+2023-05-21,ORD001049,Shock Absorber,Suspension & traction,Retail,24,2546.1,61106.4,GCash
+2023-05-22,ORD000158,Oil Filter,Engine system,Wholesale,13,188.39,2449.07,Bank Transfer
+2023-05-22,ORD001046,Shock Absorber,Suspension & traction,Retail,27,3181.01,85887.27,Maya
+2023-05-22,ORD001050,Shock Absorber,Suspension & traction,Retail,10,2754.07,27540.7,Bank Transfer
+2023-05-24,ORD000438,Air Filter,Engine system,Retail,5,268.62,1343.1,Maya
+2023-05-24,ORD001051,Shock Absorber,Suspension & traction,Wholesale,30,2821.98,84659.4,Check
+2023-05-25,ORD001715,Catalytic Converter,Exhaust system,Wholesale,14,12518.39,175257.46,Bank Transfer
+2023-05-25,ORD001718,Catalytic Converter,Exhaust system,Retail,28,13303.53,372498.84,Maya
+2023-05-25,ORD000159,Oil Filter,Engine system,Wholesale,25,161.83,4045.75,Check
+2023-05-26,ORD000160,Oil Filter,Engine system,Retail,32,221.21,7078.72,Bank Transfer
+2023-05-27,ORD000440,Air Filter,Engine system,Wholesale,65,305.05,19828.25,Maya
+2023-05-27,ORD000713,Brake Pads,Braking system,Wholesale,17,1598.13,27168.21,Bank Transfer
+2023-05-28,ORD000711,Brake Pads,Braking system,Retail,22,1135.22,24974.84,Maya
+2023-05-28,ORD000161,Oil Filter,Engine system,Retail,1,162.5,162.5,GCash
+2023-05-28,ORD001047,Shock Absorber,Suspension & traction,Wholesale,39,3264.82,127327.98,Bank Transfer
+2023-06-01,ORD001720,Catalytic Converter,Exhaust system,Retail,0,14231.13,0.0,Check
+2023-06-01,ORD001932,ECU Module,Electrical system,Retail,0,21777.8,0.0,GCash
+2023-06-01,ORD001599,Starter Motor,Electrical system,Wholesale,0,11292.58,0.0,Bank Transfer
+2023-06-02,ORD001487,Alternator,Electrical system,Retail,16,11824.09,189185.44,Cash
+2023-06-04,ORD000718,Brake Pads,Braking system,Wholesale,20,1205.08,24101.6,Bank Transfer
+2023-06-04,ORD000163,Oil Filter,Engine system,Wholesale,19,225.91,4292.29,Check
+2023-06-05,ORD000442,Air Filter,Engine system,Wholesale,24,237.26,5694.24,Cash
+2023-06-07,ORD001384,Battery,Electrical system,Wholesale,35,4826.48,168926.8,Bank Transfer
+2023-06-09,ORD000167,Oil Filter,Engine system,Wholesale,37,155.52,5754.24,Bank Transfer
+2023-06-10,ORD000720,Brake Pads,Braking system,Wholesale,24,1580.09,37922.16,Maya
+2023-06-13,ORD001385,Battery,Electrical system,Wholesale,33,5902.34,194777.22,Maya
+2023-06-14,ORD000443,Air Filter,Engine system,Retail,30,335.69,10070.7,GCash
+2023-06-15,ORD000168,Oil Filter,Engine system,Retail,29,240.22,6966.38,Check
+2023-06-16,ORD000721,Brake Pads,Braking system,Retail,16,1445.88,23134.08,Check
+2023-06-18,ORD001238,Wheel Bearing,Drivetrain,Wholesale,6,2799.34,16796.04,GCash
+2023-06-19,ORD000717,Brake Pads,Braking system,Wholesale,31,1404.07,43526.17,Check
+2023-06-20,ORD000719,Brake Pads,Braking system,Retail,24,1509.28,36222.72,Bank Transfer
+2023-06-21,ORD001052,Shock Absorber,Suspension & traction,Retail,28,3687.22,103242.16,Cash
+2023-06-23,ORD000441,Air Filter,Engine system,Wholesale,44,344.73,15168.12,Check
+2023-06-25,ORD001488,Alternator,Electrical system,Retail,24,9224.55,221389.2,Bank Transfer
+2023-06-26,ORD000166,Oil Filter,Engine system,Wholesale,34,232.48,7904.32,Check
+2023-06-27,ORD001489,Alternator,Electrical system,Wholesale,43,12165.35,523110.05,Maya
+2023-06-28,ORD000162,Oil Filter,Engine system,Wholesale,18,162.14,2918.52,GCash
+2023-06-29,ORD000164,Oil Filter,Engine system,Retail,18,172.81,3110.58,GCash
+2023-06-29,ORD000165,Oil Filter,Engine system,Retail,24,143.71,3449.04,Cash
+2023-07-01,ORD001490,Alternator,Electrical system,Wholesale,34,11364.42,386390.28,GCash
+2023-07-01,ORD001386,Battery,Electrical system,Retail,0,7590.45,0.0,Check
+2023-07-01,ORD001933,ECU Module,Electrical system,Retail,0,22374.26,0.0,Bank Transfer
+2023-07-01,ORD001057,Shock Absorber,Suspension & traction,Wholesale,29,3519.58,102067.82,Cash
+2023-07-01,ORD001600,Starter Motor,Electrical system,Retail,0,7152.6,0.0,Cash
+2023-07-02,ORD001491,Alternator,Electrical system,Wholesale,15,9012.25,135183.75,GCash
+2023-07-03,ORD001721,Catalytic Converter,Exhaust system,Retail,28,17472.43,489228.04,Maya
+2023-07-04,ORD000172,Oil Filter,Engine system,Wholesale,38,202.65,7700.7,Check
+2023-07-05,ORD000445,Air Filter,Engine system,Retail,14,287.43,4024.02,Bank Transfer
+2023-07-06,ORD000169,Oil Filter,Engine system,Retail,31,241.47,7485.57,Maya
+2023-07-09,ORD000446,Air Filter,Engine system,Wholesale,50,317.95,15897.5,Check
+2023-07-09,ORD001492,Alternator,Electrical system,Retail,23,6921.0,159183.0,Check
+2023-07-09,ORD000724,Brake Pads,Braking system,Wholesale,28,1328.85,37207.8,Maya
+2023-07-10,ORD000725,Brake Pads,Braking system,Wholesale,24,1529.89,36717.36,GCash
+2023-07-13,ORD000726,Brake Pads,Braking system,Wholesale,17,1481.38,25183.46,GCash
+2023-07-15,ORD000723,Brake Pads,Braking system,Retail,19,1182.29,22463.51,Bank Transfer
+2023-07-15,ORD001058,Shock Absorber,Suspension & traction,Retail,38,3518.61,133707.18,Bank Transfer
+2023-07-16,ORD001723,Catalytic Converter,Exhaust system,Retail,23,17332.05,398637.15,Check
+2023-07-16,ORD000171,Oil Filter,Engine system,Retail,16,150.27,2404.32,Check
+2023-07-16,ORD001059,Shock Absorber,Suspension & traction,Wholesale,19,3237.66,61515.54,Bank Transfer
+2023-07-17,ORD001054,Shock Absorber,Suspension & traction,Retail,39,2667.59,104036.01,Maya
+2023-07-17,ORD001239,Wheel Bearing,Drivetrain,Wholesale,21,1713.44,35982.24,GCash
+2023-07-20,ORD001053,Shock Absorber,Suspension & traction,Retail,23,2832.13,65138.99,GCash
+2023-07-21,ORD001725,Catalytic Converter,Exhaust system,Wholesale,19,15676.37,297851.03,Bank Transfer
+2023-07-21,ORD001060,Shock Absorber,Suspension & traction,Wholesale,44,3798.86,167149.84,Maya
+2023-07-21,ORD001061,Shock Absorber,Suspension & traction,Wholesale,25,3261.06,81526.5,Maya
+2023-07-23,ORD001724,Catalytic Converter,Exhaust system,Wholesale,26,19047.73,495240.98,Check
+2023-07-24,ORD000173,Oil Filter,Engine system,Retail,4,247.59,990.36,Maya
+2023-07-25,ORD000727,Brake Pads,Braking system,Retail,16,1185.88,18974.08,Check
+2023-07-26,ORD001722,Catalytic Converter,Exhaust system,Retail,31,23947.71,742379.01,GCash
+2023-07-26,ORD000170,Oil Filter,Engine system,Retail,39,244.44,9533.16,Maya
+2023-07-27,ORD001726,Catalytic Converter,Exhaust system,Wholesale,14,17582.07,246148.98,Maya
+2023-07-27,ORD001055,Shock Absorber,Suspension & traction,Wholesale,16,3426.51,54824.16,Maya
+2023-07-29,ORD001056,Shock Absorber,Suspension & traction,Retail,31,2721.8,84375.8,GCash
+2023-07-30,ORD000444,Air Filter,Engine system,Wholesale,21,331.9,6969.9,Bank Transfer
+2023-07-30,ORD000722,Brake Pads,Braking system,Wholesale,37,1503.81,55640.97,Bank Transfer
+2023-08-01,ORD001493,Alternator,Electrical system,Retail,0,8093.24,0.0,GCash
+2023-08-01,ORD001387,Battery,Electrical system,Retail,0,6709.71,0.0,Bank Transfer
+2023-08-01,ORD001727,Catalytic Converter,Exhaust system,Retail,0,13312.35,0.0,Cash
+2023-08-02,ORD000448,Air Filter,Engine system,Wholesale,15,235.08,3526.2,Bank Transfer
+2023-08-04,ORD000178,Oil Filter,Engine system,Wholesale,14,197.18,2760.52,GCash
+2023-08-07,ORD000730,Brake Pads,Braking system,Wholesale,33,984.28,32481.24,Bank Transfer
+2023-08-07,ORD000732,Brake Pads,Braking system,Retail,31,1067.25,33084.75,Cash
+2023-08-07,ORD000177,Oil Filter,Engine system,Wholesale,21,162.06,3403.26,GCash
+2023-08-09,ORD000175,Oil Filter,Engine system,Retail,17,171.39,2913.63,Bank Transfer
+2023-08-13,ORD001934,ECU Module,Electrical system,Retail,15,19219.94,288299.1,Check
+2023-08-14,ORD000449,Air Filter,Engine system,Wholesale,32,337.16,10789.12,Maya
+2023-08-15,ORD001240,Wheel Bearing,Drivetrain,Wholesale,12,2539.39,30472.68,GCash
+2023-08-19,ORD001601,Starter Motor,Electrical system,Wholesale,27,6459.1,174395.7,Bank Transfer
+2023-08-20,ORD000176,Oil Filter,Engine system,Retail,55,163.24,8978.2,Cash
+2023-08-21,ORD000728,Brake Pads,Braking system,Retail,23,1207.66,27776.18,Maya
+2023-08-25,ORD000731,Brake Pads,Braking system,Retail,26,1455.31,37838.06,Maya
+2023-08-26,ORD000729,Brake Pads,Braking system,Retail,21,1443.08,30304.68,Maya
+2023-08-26,ORD001062,Shock Absorber,Suspension & traction,Wholesale,10,2854.39,28543.9,Bank Transfer
+2023-08-27,ORD001602,Starter Motor,Electrical system,Retail,23,10602.76,243863.48,Maya
+2023-08-28,ORD000174,Oil Filter,Engine system,Retail,24,188.1,4514.4,Check
+2023-08-30,ORD000447,Air Filter,Engine system,Wholesale,51,317.71,16203.21,GCash
+2023-09-01,ORD001494,Alternator,Electrical system,Retail,0,7498.67,0.0,GCash
+2023-09-01,ORD000736,Brake Pads,Braking system,Wholesale,35,1412.18,49426.3,Cash
+2023-09-01,ORD001943,ECU Module,Electrical system,Wholesale,42,22035.45,925488.9,Maya
+2023-09-01,ORD001603,Starter Motor,Electrical system,Retail,0,8212.5,0.0,Cash
+2023-09-02,ORD001388,Battery,Electrical system,Retail,27,7550.16,203854.32,Maya
+2023-09-04,ORD001940,ECU Module,Electrical system,Retail,11,16343.31,179776.41,Maya
+2023-09-05,ORD001945,ECU Module,Electrical system,Wholesale,45,14650.47,659271.15,GCash
+2023-09-05,ORD001946,ECU Module,Electrical system,Retail,35,22758.55,796549.25,Cash
+2023-09-05,ORD000179,Oil Filter,Engine system,Retail,20,233.17,4663.4,Bank Transfer
+2023-09-07,ORD001935,ECU Module,Electrical system,Retail,16,21961.83,351389.28,Maya
+2023-09-08,ORD001242,Wheel Bearing,Drivetrain,Retail,32,1868.71,59798.72,Cash
+2023-09-09,ORD001241,Wheel Bearing,Drivetrain,Retail,20,2063.07,41261.4,GCash
+2023-09-11,ORD000734,Brake Pads,Braking system,Retail,31,1101.98,34161.38,Bank Transfer
+2023-09-12,ORD001389,Battery,Electrical system,Wholesale,33,4803.3,158508.9,Cash
+2023-09-12,ORD001063,Shock Absorber,Suspension & traction,Retail,27,3394.95,91663.65,Bank Transfer
+2023-09-13,ORD000452,Air Filter,Engine system,Retail,36,334.0,12024.0,Cash
+2023-09-13,ORD000182,Oil Filter,Engine system,Retail,7,188.56,1319.92,Cash
+2023-09-14,ORD001942,ECU Module,Electrical system,Wholesale,40,17589.97,703598.8,Cash
+2023-09-15,ORD000451,Air Filter,Engine system,Retail,26,314.44,8175.44,Maya
+2023-09-15,ORD000733,Brake Pads,Braking system,Wholesale,5,1328.72,6643.6,Maya
+2023-09-15,ORD000737,Brake Pads,Braking system,Wholesale,31,1332.81,41317.11,Maya
+2023-09-16,ORD000181,Oil Filter,Engine system,Retail,34,196.17,6669.78,Bank Transfer
+2023-09-17,ORD001728,Catalytic Converter,Exhaust system,Wholesale,21,22938.87,481716.27,Cash
+2023-09-17,ORD001947,ECU Module,Electrical system,Retail,16,23683.38,378934.08,Maya
+2023-09-17,ORD000180,Oil Filter,Engine system,Wholesale,28,204.65,5730.2,GCash
+2023-09-18,ORD001939,ECU Module,Electrical system,Wholesale,47,16578.12,779171.64,GCash
+2023-09-18,ORD001944,ECU Module,Electrical system,Wholesale,42,22230.32,933673.44,GCash
+2023-09-18,ORD000183,Oil Filter,Engine system,Retail,17,209.53,3562.01,Maya
+2023-09-20,ORD001937,ECU Module,Electrical system,Retail,16,16283.81,260540.96,Bank Transfer
+2023-09-21,ORD001938,ECU Module,Electrical system,Wholesale,12,26433.69,317204.28,GCash
+2023-09-26,ORD000450,Air Filter,Engine system,Retail,22,358.83,7894.26,Maya
+2023-09-26,ORD001936,ECU Module,Electrical system,Wholesale,34,25789.82,876853.88,Bank Transfer
+2023-09-26,ORD001941,ECU Module,Electrical system,Retail,46,23458.9,1079109.4,Maya
+2023-09-30,ORD000735,Brake Pads,Braking system,Retail,34,1548.57,52651.38,Check
+2023-09-30,ORD000184,Oil Filter,Engine system,Retail,38,202.27,7686.26,Maya
+2023-10-01,ORD001390,Battery,Electrical system,Wholesale,0,6544.31,0.0,Check
+2023-10-01,ORD000742,Brake Pads,Braking system,Wholesale,21,1288.13,27050.73,Check
+2023-10-01,ORD001729,Catalytic Converter,Exhaust system,Retail,0,15403.52,0.0,Bank Transfer
+2023-10-01,ORD001948,ECU Module,Electrical system,Wholesale,0,23975.39,0.0,Maya
+2023-10-03,ORD000741,Brake Pads,Braking system,Retail,24,1524.54,36588.96,Bank Transfer
+2023-10-06,ORD001245,Wheel Bearing,Drivetrain,Wholesale,16,1920.54,30728.64,Bank Transfer
+2023-10-07,ORD001247,Wheel Bearing,Drivetrain,Wholesale,15,2538.65,38079.75,Check
+2023-10-08,ORD000739,Brake Pads,Braking system,Retail,21,1449.11,30431.31,Maya
+2023-10-08,ORD000740,Brake Pads,Braking system,Retail,30,1175.09,35252.7,GCash
+2023-10-08,ORD001243,Wheel Bearing,Drivetrain,Wholesale,28,2574.0,72072.0,Check
+2023-10-10,ORD000454,Air Filter,Engine system,Wholesale,36,284.44,10239.84,Maya
+2023-10-10,ORD001496,Alternator,Electrical system,Wholesale,43,11536.36,496063.48,Cash
+2023-10-10,ORD001497,Alternator,Electrical system,Wholesale,25,7494.36,187359.0,Cash
+2023-10-10,ORD001604,Starter Motor,Electrical system,Wholesale,25,8636.48,215912.0,Maya
+2023-10-11,ORD000455,Air Filter,Engine system,Retail,22,234.63,5161.86,GCash
+2023-10-12,ORD000186,Oil Filter,Engine system,Wholesale,18,158.99,2861.82,GCash
+2023-10-14,ORD000190,Oil Filter,Engine system,Wholesale,29,212.57,6164.53,GCash
+2023-10-15,ORD001246,Wheel Bearing,Drivetrain,Wholesale,15,2773.1,41596.5,Maya
+2023-10-17,ORD000189,Oil Filter,Engine system,Retail,39,147.78,5763.42,Cash
+2023-10-18,ORD001064,Shock Absorber,Suspension & traction,Wholesale,7,3970.38,27792.66,Bank Transfer
+2023-10-19,ORD001495,Alternator,Electrical system,Wholesale,6,9764.75,58588.5,Cash
+2023-10-20,ORD001605,Starter Motor,Electrical system,Wholesale,34,8583.23,291829.82,Maya
+2023-10-21,ORD000188,Oil Filter,Engine system,Retail,21,237.16,4980.36,Maya
+2023-10-23,ORD000453,Air Filter,Engine system,Retail,32,268.73,8599.36,GCash
+2023-10-23,ORD001066,Shock Absorber,Suspension & traction,Retail,44,3586.16,157791.04,Cash
+2023-10-23,ORD001244,Wheel Bearing,Drivetrain,Retail,44,2560.2,112648.8,GCash
+2023-10-24,ORD000738,Brake Pads,Braking system,Retail,15,1222.11,18331.65,Bank Transfer
+2023-10-24,ORD001068,Shock Absorber,Suspension & traction,Retail,43,3567.99,153423.57,GCash
+2023-10-24,ORD001069,Shock Absorber,Suspension & traction,Retail,12,4004.6,48055.2,Check
+2023-10-29,ORD000185,Oil Filter,Engine system,Retail,28,172.49,4829.72,Check
+2023-10-29,ORD001065,Shock Absorber,Suspension & traction,Wholesale,38,3499.24,132971.12,Maya
+2023-10-29,ORD001067,Shock Absorber,Suspension & traction,Retail,8,3739.66,29917.28,Cash
+2023-10-30,ORD000187,Oil Filter,Engine system,Retail,13,222.29,2889.77,Check
+2023-11-01,ORD001498,Alternator,Electrical system,Wholesale,28,7436.5,208222.0,Check
+2023-11-01,ORD001730,Catalytic Converter,Exhaust system,Wholesale,0,13048.98,0.0,Check
+2023-11-01,ORD001949,ECU Module,Electrical system,Wholesale,0,23924.74,0.0,Check
+2023-11-01,ORD001606,Starter Motor,Electrical system,Wholesale,0,10882.89,0.0,Check
+2023-11-03,ORD001391,Battery,Electrical system,Wholesale,30,4313.18,129395.4,Bank Transfer
+2023-11-05,ORD001070,Shock Absorber,Suspension & traction,Retail,26,2826.85,73498.1,Cash
+2023-11-05,ORD001251,Wheel Bearing,Drivetrain,Wholesale,7,2590.22,18131.54,Maya
+2023-11-07,ORD000746,Brake Pads,Braking system,Wholesale,36,1319.35,47496.6,Check
+2023-11-07,ORD001252,Wheel Bearing,Drivetrain,Retail,26,1643.13,42721.38,Check
+2023-11-08,ORD000745,Brake Pads,Braking system,Retail,31,1254.85,38900.35,Check
+2023-11-09,ORD000191,Oil Filter,Engine system,Retail,36,234.05,8425.8,Check
+2023-11-10,ORD000457,Air Filter,Engine system,Retail,18,266.28,4793.04,Check
+2023-11-10,ORD001392,Battery,Electrical system,Retail,23,4311.27,99159.21,GCash
+2023-11-12,ORD000744,Brake Pads,Braking system,Retail,17,1116.05,18972.85,Cash
+2023-11-13,ORD001393,Battery,Electrical system,Retail,19,5363.89,101913.91,GCash
+2023-11-13,ORD000194,Oil Filter,Engine system,Wholesale,24,217.28,5214.72,GCash
+2023-11-14,ORD000460,Air Filter,Engine system,Retail,27,299.17,8077.59,Maya
+2023-11-15,ORD000456,Air Filter,Engine system,Retail,30,224.5,6735.0,GCash
+2023-11-16,ORD000193,Oil Filter,Engine system,Wholesale,10,206.14,2061.4,Bank Transfer
+2023-11-21,ORD000458,Air Filter,Engine system,Wholesale,13,324.7,4221.1,Maya
+2023-11-21,ORD000195,Oil Filter,Engine system,Retail,30,214.9,6447.0,Cash
+2023-11-22,ORD001248,Wheel Bearing,Drivetrain,Retail,57,2861.13,163084.41,GCash
+2023-11-22,ORD001254,Wheel Bearing,Drivetrain,Retail,28,2851.51,79842.28,GCash
+2023-11-23,ORD000459,Air Filter,Engine system,Wholesale,16,324.57,5193.12,Cash
+2023-11-23,ORD000743,Brake Pads,Braking system,Wholesale,19,1129.46,21459.74,Bank Transfer
+2023-11-23,ORD000747,Brake Pads,Braking system,Wholesale,31,1169.7,36260.7,GCash
+2023-11-25,ORD001253,Wheel Bearing,Drivetrain,Wholesale,1,2599.34,2599.34,Maya
+2023-11-26,ORD001249,Wheel Bearing,Drivetrain,Wholesale,56,2649.58,148376.48,Maya
+2023-11-27,ORD000748,Brake Pads,Braking system,Retail,14,1315.16,18412.24,Maya
+2023-11-28,ORD001499,Alternator,Electrical system,Wholesale,39,11530.17,449676.63,Maya
+2023-11-29,ORD000192,Oil Filter,Engine system,Wholesale,30,212.71,6381.3,GCash
+2023-11-30,ORD001250,Wheel Bearing,Drivetrain,Retail,15,1689.21,25338.15,GCash
+2023-12-01,ORD001394,Battery,Electrical system,Retail,0,6309.97,0.0,Bank Transfer
+2023-12-01,ORD001731,Catalytic Converter,Exhaust system,Retail,0,15749.91,0.0,Check
+2023-12-01,ORD001950,ECU Module,Electrical system,Retail,0,18989.52,0.0,Check
+2023-12-01,ORD000198,Oil Filter,Engine system,Wholesale,33,250.42,8263.86,GCash
+2023-12-02,ORD000197,Oil Filter,Engine system,Wholesale,27,219.69,5931.63,GCash
+2023-12-03,ORD000751,Brake Pads,Braking system,Wholesale,9,1043.22,9388.98,Bank Transfer
+2023-12-05,ORD001501,Alternator,Electrical system,Wholesale,6,10161.94,60971.64,Check
+2023-12-05,ORD000750,Brake Pads,Braking system,Wholesale,42,1161.82,48796.44,Bank Transfer
+2023-12-05,ORD000200,Oil Filter,Engine system,Retail,31,152.77,4735.87,Bank Transfer
+2023-12-08,ORD001257,Wheel Bearing,Drivetrain,Wholesale,30,2050.47,61514.1,Maya
+2023-12-10,ORD000749,Brake Pads,Braking system,Retail,35,1547.05,54146.75,Maya
+2023-12-11,ORD001500,Alternator,Electrical system,Retail,29,7527.09,218285.61,Maya
+2023-12-13,ORD000465,Air Filter,Engine system,Retail,27,275.72,7444.44,Check
+2023-12-13,ORD001502,Alternator,Electrical system,Wholesale,36,9816.01,353376.36,Check
+2023-12-13,ORD000752,Brake Pads,Braking system,Wholesale,10,1140.04,11400.4,Check
+2023-12-15,ORD000464,Air Filter,Engine system,Wholesale,40,274.42,10976.8,Cash
+2023-12-17,ORD001258,Wheel Bearing,Drivetrain,Retail,36,2358.02,84888.72,Bank Transfer
+2023-12-18,ORD001256,Wheel Bearing,Drivetrain,Retail,35,2426.09,84913.15,Bank Transfer
+2023-12-21,ORD000461,Air Filter,Engine system,Retail,16,220.03,3520.48,Cash
+2023-12-21,ORD000462,Air Filter,Engine system,Retail,26,274.86,7146.36,GCash
+2023-12-21,ORD001255,Wheel Bearing,Drivetrain,Wholesale,27,1719.24,46419.48,Cash
+2023-12-22,ORD000199,Oil Filter,Engine system,Retail,29,252.12,7311.48,Check
+2023-12-26,ORD000196,Oil Filter,Engine system,Wholesale,14,255.87,3582.18,Check
+2023-12-27,ORD001071,Shock Absorber,Suspension & traction,Wholesale,13,3984.68,51800.84,Cash
+2023-12-27,ORD001260,Wheel Bearing,Drivetrain,Retail,30,2561.74,76852.2,Bank Transfer
+2023-12-30,ORD000753,Brake Pads,Braking system,Retail,22,1286.85,28310.7,Cash
+2023-12-30,ORD001607,Starter Motor,Electrical system,Retail,36,6581.16,236921.76,Cash
+2023-12-31,ORD000463,Air Filter,Engine system,Wholesale,16,334.3,5348.8,Cash
+2023-12-31,ORD001608,Starter Motor,Electrical system,Retail,17,11373.95,193357.15,Cash
+2023-12-31,ORD001259,Wheel Bearing,Drivetrain,Retail,2,2288.83,4577.66,Bank Transfer
+2024-01-01,ORD001503,Alternator,Electrical system,Wholesale,0,8922.56,0.0,Maya
+2024-01-01,ORD001951,ECU Module,Electrical system,Retail,0,20614.75,0.0,GCash
+2024-01-02,ORD000201,Oil Filter,Engine system,Retail,24,157.66,3783.84,Cash
+2024-01-03,ORD000467,Air Filter,Engine system,Retail,19,327.86,6229.34,Check
+2024-01-03,ORD001610,Starter Motor,Electrical system,Retail,16,11237.81,179804.96,Maya
+2024-01-04,ORD000756,Brake Pads,Braking system,Retail,22,1092.27,24029.94,Check
+2024-01-04,ORD000758,Brake Pads,Braking system,Wholesale,25,1238.25,30956.25,Maya
+2024-01-05,ORD000468,Air Filter,Engine system,Wholesale,26,339.05,8815.3,Cash
+2024-01-06,ORD000470,Air Filter,Engine system,Retail,21,312.04,6552.84,Cash
+2024-01-09,ORD000755,Brake Pads,Braking system,Retail,19,1411.08,26810.52,Cash
+2024-01-09,ORD000757,Brake Pads,Braking system,Retail,31,1015.23,31472.13,Maya
+2024-01-09,ORD001609,Starter Motor,Electrical system,Retail,35,7094.48,248306.8,GCash
+2024-01-10,ORD000205,Oil Filter,Engine system,Retail,37,215.35,7967.95,Maya
+2024-01-14,ORD001732,Catalytic Converter,Exhaust system,Retail,4,13531.49,54125.96,Cash
+2024-01-15,ORD001072,Shock Absorber,Suspension & traction,Wholesale,38,3095.07,117612.66,Maya
+2024-01-16,ORD001261,Wheel Bearing,Drivetrain,Wholesale,6,1848.97,11093.82,Cash
+2024-01-18,ORD001396,Battery,Electrical system,Retail,39,5711.67,222755.13,Check
+2024-01-19,ORD000754,Brake Pads,Braking system,Wholesale,33,969.9,32006.7,Bank Transfer
+2024-01-21,ORD000203,Oil Filter,Engine system,Retail,15,236.04,3540.6,Bank Transfer
+2024-01-23,ORD001395,Battery,Electrical system,Wholesale,29,6081.31,176357.99,Bank Transfer
+2024-01-26,ORD000466,Air Filter,Engine system,Retail,20,226.78,4535.6,Cash
+2024-01-28,ORD000202,Oil Filter,Engine system,Retail,12,188.84,2266.08,Check
+2024-01-28,ORD001073,Shock Absorber,Suspension & traction,Wholesale,21,3286.8,69022.8,Bank Transfer
+2024-01-29,ORD000204,Oil Filter,Engine system,Wholesale,44,204.25,8987.0,GCash
+2024-01-31,ORD000469,Air Filter,Engine system,Wholesale,19,341.14,6481.66,Maya
+2024-02-01,ORD001733,Catalytic Converter,Exhaust system,Retail,0,15880.29,0.0,Bank Transfer
+2024-02-01,ORD001952,ECU Module,Electrical system,Wholesale,0,27104.99,0.0,Maya
+2024-02-01,ORD000209,Oil Filter,Engine system,Retail,29,229.96,6668.84,Bank Transfer
+2024-02-01,ORD001611,Starter Motor,Electrical system,Retail,0,8134.32,0.0,GCash
+2024-02-02,ORD000206,Oil Filter,Engine system,Retail,23,196.11,4510.53,Check
+2024-02-03,ORD000761,Brake Pads,Braking system,Wholesale,21,1050.28,22055.88,Check
+2024-02-04,ORD001265,Wheel Bearing,Drivetrain,Retail,20,2453.07,49061.4,Cash
+2024-02-04,ORD001268,Wheel Bearing,Drivetrain,Retail,31,1994.58,61831.98,GCash
+2024-02-05,ORD000474,Air Filter,Engine system,Wholesale,23,295.71,6801.33,GCash
+2024-02-05,ORD001262,Wheel Bearing,Drivetrain,Wholesale,35,2088.65,73102.75,Bank Transfer
+2024-02-06,ORD000759,Brake Pads,Braking system,Retail,15,1383.66,20754.9,Check
+2024-02-06,ORD000210,Oil Filter,Engine system,Retail,31,170.86,5296.66,Cash
+2024-02-08,ORD000208,Oil Filter,Engine system,Retail,28,228.54,6399.12,Cash
+2024-02-08,ORD001074,Shock Absorber,Suspension & traction,Wholesale,27,2532.49,68377.23,GCash
+2024-02-08,ORD001075,Shock Absorber,Suspension & traction,Retail,24,2404.03,57696.72,Check
+2024-02-12,ORD001263,Wheel Bearing,Drivetrain,Wholesale,28,2166.96,60674.88,Bank Transfer
+2024-02-13,ORD001504,Alternator,Electrical system,Wholesale,28,7415.2,207625.6,Maya
+2024-02-13,ORD001264,Wheel Bearing,Drivetrain,Retail,32,2111.85,67579.2,Bank Transfer
+2024-02-15,ORD001505,Alternator,Electrical system,Retail,34,11753.33,399613.22,Check
+2024-02-15,ORD001266,Wheel Bearing,Drivetrain,Retail,21,1914.98,40214.58,Maya
+2024-02-17,ORD001269,Wheel Bearing,Drivetrain,Retail,34,2257.49,76754.66,Check
+2024-02-19,ORD000473,Air Filter,Engine system,Retail,27,222.65,6011.55,Bank Transfer
+2024-02-19,ORD000763,Brake Pads,Braking system,Wholesale,43,1139.2,48985.6,Cash
+2024-02-19,ORD001267,Wheel Bearing,Drivetrain,Retail,37,2066.06,76444.22,Maya
+2024-02-21,ORD000472,Air Filter,Engine system,Wholesale,23,338.45,7784.35,Bank Transfer
+2024-02-21,ORD001397,Battery,Electrical system,Wholesale,25,6987.14,174678.5,GCash
+2024-02-21,ORD001398,Battery,Electrical system,Wholesale,18,7010.31,126185.58,GCash
+2024-02-24,ORD000471,Air Filter,Engine system,Wholesale,27,271.93,7342.11,Bank Transfer
+2024-02-24,ORD001399,Battery,Electrical system,Wholesale,27,5017.16,135463.32,Cash
+2024-02-26,ORD000762,Brake Pads,Braking system,Retail,34,1071.8,36441.2,GCash
+2024-02-27,ORD000760,Brake Pads,Braking system,Wholesale,5,1375.0,6875.0,Check
+2024-02-28,ORD000207,Oil Filter,Engine system,Retail,21,201.11,4223.31,Bank Transfer
+2024-02-28,ORD000211,Oil Filter,Engine system,Retail,19,188.16,3575.04,Check
+2024-03-01,ORD001506,Alternator,Electrical system,Retail,0,9283.65,0.0,GCash
+2024-03-01,ORD001734,Catalytic Converter,Exhaust system,Wholesale,8,23320.06,186560.48,Check
+2024-03-01,ORD001612,Starter Motor,Electrical system,Retail,0,8090.29,0.0,Cash
+2024-03-02,ORD000212,Oil Filter,Engine system,Wholesale,25,141.89,3547.25,Cash
+2024-03-03,ORD000213,Oil Filter,Engine system,Wholesale,54,212.07,11451.78,Cash
+2024-03-03,ORD001076,Shock Absorber,Suspension & traction,Retail,8,3380.13,27041.04,Bank Transfer
+2024-03-03,ORD001081,Shock Absorber,Suspension & traction,Wholesale,18,2704.74,48685.32,Check
+2024-03-05,ORD001079,Shock Absorber,Suspension & traction,Wholesale,20,2781.34,55626.8,Cash
+2024-03-05,ORD001270,Wheel Bearing,Drivetrain,Wholesale,11,1859.17,20450.87,Check
+2024-03-06,ORD000477,Air Filter,Engine system,Wholesale,21,357.41,7505.61,GCash
+2024-03-07,ORD001400,Battery,Electrical system,Retail,41,4552.56,186654.96,Maya
+2024-03-09,ORD000765,Brake Pads,Braking system,Wholesale,22,1481.14,32585.08,GCash
+2024-03-11,ORD000767,Brake Pads,Braking system,Wholesale,16,1569.71,25115.36,Check
+2024-03-12,ORD000479,Air Filter,Engine system,Retail,27,254.41,6869.07,Bank Transfer
+2024-03-14,ORD000476,Air Filter,Engine system,Retail,13,309.07,4017.91,Maya
+2024-03-16,ORD001401,Battery,Electrical system,Wholesale,25,6232.24,155806.0,Cash
+2024-03-17,ORD000764,Brake Pads,Braking system,Retail,21,1419.99,29819.79,Bank Transfer
+2024-03-18,ORD001080,Shock Absorber,Suspension & traction,Wholesale,31,3965.79,122939.49,GCash
+2024-03-22,ORD000478,Air Filter,Engine system,Retail,30,256.51,7695.3,Check
+2024-03-22,ORD001953,ECU Module,Electrical system,Retail,31,26953.78,835567.18,Maya
+2024-03-23,ORD000475,Air Filter,Engine system,Wholesale,18,287.53,5175.54,Bank Transfer
+2024-03-23,ORD000214,Oil Filter,Engine system,Retail,19,214.55,4076.45,Bank Transfer
+2024-03-25,ORD000768,Brake Pads,Braking system,Retail,21,1089.06,22870.26,Cash
+2024-03-29,ORD000766,Brake Pads,Braking system,Wholesale,55,1400.78,77042.9,GCash
+2024-03-29,ORD001077,Shock Absorber,Suspension & traction,Wholesale,34,4032.6,137108.4,GCash
+2024-03-29,ORD001082,Shock Absorber,Suspension & traction,Retail,33,4027.88,132920.04,Maya
+2024-03-30,ORD001078,Shock Absorber,Suspension & traction,Retail,30,4085.94,122578.2,Cash
+2024-04-01,ORD000481,Air Filter,Engine system,Wholesale,40,221.82,8872.8,Cash
+2024-04-01,ORD001402,Battery,Electrical system,Wholesale,0,7755.12,0.0,Cash
+2024-04-01,ORD001735,Catalytic Converter,Exhaust system,Retail,0,15413.27,0.0,GCash
+2024-04-01,ORD001954,ECU Module,Electrical system,Retail,0,25411.57,0.0,Check
+2024-04-01,ORD000216,Oil Filter,Engine system,Retail,19,236.92,4501.48,Bank Transfer
+2024-04-01,ORD001613,Starter Motor,Electrical system,Wholesale,0,7276.38,0.0,Cash
+2024-04-02,ORD000215,Oil Filter,Engine system,Retail,10,164.26,1642.6,Maya
+2024-04-03,ORD000770,Brake Pads,Braking system,Retail,25,1149.2,28730.0,Maya
+2024-04-05,ORD001507,Alternator,Electrical system,Wholesale,26,11761.3,305793.8,GCash
+2024-04-06,ORD000218,Oil Filter,Engine system,Retail,44,180.73,7952.12,Cash
+2024-04-07,ORD001085,Shock Absorber,Suspension & traction,Wholesale,25,2837.11,70927.75,GCash
+2024-04-08,ORD001088,Shock Absorber,Suspension & traction,Retail,23,3832.7,88152.1,GCash
+2024-04-08,ORD001276,Wheel Bearing,Drivetrain,Wholesale,8,2115.76,16926.08,Maya
+2024-04-08,ORD001278,Wheel Bearing,Drivetrain,Wholesale,54,2518.95,136023.3,Check
+2024-04-09,ORD000771,Brake Pads,Braking system,Wholesale,26,1168.35,30377.1,Bank Transfer
+2024-04-11,ORD001273,Wheel Bearing,Drivetrain,Retail,43,1997.71,85901.53,GCash
+2024-04-11,ORD001277,Wheel Bearing,Drivetrain,Wholesale,17,1731.02,29427.34,Maya
+2024-04-12,ORD000219,Oil Filter,Engine system,Retail,37,254.27,9407.99,Bank Transfer
+2024-04-15,ORD000769,Brake Pads,Braking system,Retail,27,1037.39,28009.53,Check
+2024-04-15,ORD001271,Wheel Bearing,Drivetrain,Wholesale,4,2165.09,8660.36,Maya
+2024-04-16,ORD000482,Air Filter,Engine system,Retail,20,259.22,5184.4,Bank Transfer
+2024-04-16,ORD000772,Brake Pads,Braking system,Wholesale,30,1213.61,36408.3,Check
+2024-04-17,ORD001272,Wheel Bearing,Drivetrain,Retail,24,2898.99,69575.76,Maya
+2024-04-18,ORD001083,Shock Absorber,Suspension & traction,Retail,13,3307.29,42994.77,Cash
+2024-04-23,ORD001087,Shock Absorber,Suspension & traction,Wholesale,30,4196.25,125887.5,Cash
+2024-04-26,ORD001086,Shock Absorber,Suspension & traction,Wholesale,19,3760.54,71450.26,Bank Transfer
+2024-04-27,ORD001275,Wheel Bearing,Drivetrain,Wholesale,78,2639.94,205915.32,GCash
+2024-04-28,ORD000480,Air Filter,Engine system,Retail,24,300.34,7208.16,GCash
+2024-04-28,ORD000217,Oil Filter,Engine system,Retail,16,209.17,3346.72,GCash
+2024-04-28,ORD000220,Oil Filter,Engine system,Wholesale,25,211.79,5294.75,Bank Transfer
+2024-04-29,ORD001508,Alternator,Electrical system,Retail,38,6961.88,264551.44,Check
+2024-04-29,ORD000773,Brake Pads,Braking system,Wholesale,17,1483.4,25217.8,Cash
+2024-04-29,ORD001084,Shock Absorber,Suspension & traction,Wholesale,29,3346.26,97041.54,Maya
+2024-04-29,ORD001274,Wheel Bearing,Drivetrain,Wholesale,13,2636.4,34273.2,Check
+2024-04-30,ORD001509,Alternator,Electrical system,Wholesale,18,8642.12,155558.16,Maya
+2024-05-01,ORD001738,Catalytic Converter,Exhaust system,Wholesale,25,15659.03,391475.75,Maya
+2024-05-01,ORD001955,ECU Module,Electrical system,Retail,0,21091.41,0.0,Cash
+2024-05-01,ORD001279,Wheel Bearing,Drivetrain,Retail,28,1916.27,53655.56,Cash
+2024-05-02,ORD001093,Shock Absorber,Suspension & traction,Retail,35,3776.05,132161.75,Bank Transfer
+2024-05-05,ORD001737,Catalytic Converter,Exhaust system,Retail,32,23278.46,744910.72,Bank Transfer
+2024-05-05,ORD000221,Oil Filter,Engine system,Wholesale,24,193.94,4654.56,Bank Transfer
+2024-05-05,ORD001091,Shock Absorber,Suspension & traction,Wholesale,29,2896.45,83997.05,Bank Transfer
+2024-05-06,ORD000779,Brake Pads,Braking system,Retail,21,1537.55,32288.55,GCash
+2024-05-06,ORD001736,Catalytic Converter,Exhaust system,Wholesale,26,22041.59,573081.34,GCash
+2024-05-07,ORD001403,Battery,Electrical system,Retail,27,6763.57,182616.39,GCash
+2024-05-07,ORD001742,Catalytic Converter,Exhaust system,Retail,33,12896.64,425589.12,Check
+2024-05-08,ORD001740,Catalytic Converter,Exhaust system,Retail,27,21499.52,580487.04,Maya
+2024-05-09,ORD000487,Air Filter,Engine system,Retail,25,240.12,6003.0,Cash
+2024-05-09,ORD001511,Alternator,Electrical system,Retail,27,9888.09,266978.43,Bank Transfer
+2024-05-09,ORD001739,Catalytic Converter,Exhaust system,Retail,17,19866.95,337738.15,Cash
+2024-05-12,ORD000777,Brake Pads,Braking system,Retail,21,1367.57,28718.97,Check
+2024-05-13,ORD000485,Air Filter,Engine system,Retail,44,343.95,15133.8,Cash
+2024-05-13,ORD001615,Starter Motor,Electrical system,Wholesale,34,11179.69,380109.46,Bank Transfer
+2024-05-14,ORD001512,Alternator,Electrical system,Retail,22,10442.98,229745.56,Cash
+2024-05-14,ORD000774,Brake Pads,Braking system,Wholesale,12,1260.97,15131.64,GCash
+2024-05-14,ORD000222,Oil Filter,Engine system,Retail,28,176.09,4930.52,Cash
+2024-05-16,ORD000224,Oil Filter,Engine system,Retail,27,155.54,4199.58,Bank Transfer
+2024-05-16,ORD000225,Oil Filter,Engine system,Retail,18,198.27,3568.86,Check
+2024-05-17,ORD001092,Shock Absorber,Suspension & traction,Wholesale,20,3435.68,68713.6,Bank Transfer
+2024-05-18,ORD001510,Alternator,Electrical system,Wholesale,25,7358.3,183957.5,Maya
+2024-05-18,ORD001089,Shock Absorber,Suspension & traction,Wholesale,34,2501.8,85061.2,Check
+2024-05-19,ORD000483,Air Filter,Engine system,Wholesale,14,223.35,3126.9,Maya
+2024-05-19,ORD000776,Brake Pads,Braking system,Retail,19,1161.89,22075.91,Maya
+2024-05-20,ORD001741,Catalytic Converter,Exhaust system,Retail,32,19327.62,618483.84,Maya
+2024-05-20,ORD001744,Catalytic Converter,Exhaust system,Retail,32,21920.57,701458.24,Maya
+2024-05-20,ORD000223,Oil Filter,Engine system,Retail,24,192.33,4615.92,GCash
+2024-05-20,ORD001283,Wheel Bearing,Drivetrain,Wholesale,33,2629.67,86779.11,Bank Transfer
+2024-05-24,ORD001282,Wheel Bearing,Drivetrain,Retail,36,2020.03,72721.08,Check
+2024-05-25,ORD001090,Shock Absorber,Suspension & traction,Retail,27,3156.25,85218.75,Check
+2024-05-25,ORD001094,Shock Absorber,Suspension & traction,Retail,19,2918.88,55458.72,GCash
+2024-05-25,ORD001280,Wheel Bearing,Drivetrain,Wholesale,20,2115.63,42312.6,Cash
+2024-05-25,ORD001281,Wheel Bearing,Drivetrain,Wholesale,41,2468.16,101194.56,Cash
+2024-05-25,ORD001284,Wheel Bearing,Drivetrain,Retail,29,2868.58,83188.82,Check
+2024-05-26,ORD000486,Air Filter,Engine system,Wholesale,11,335.12,3686.32,Bank Transfer
+2024-05-26,ORD001285,Wheel Bearing,Drivetrain,Retail,13,2691.17,34985.21,GCash
+2024-05-28,ORD001743,Catalytic Converter,Exhaust system,Retail,40,23492.0,939680.0,Bank Transfer
+2024-05-28,ORD000226,Oil Filter,Engine system,Retail,42,181.67,7630.14,Cash
+2024-05-29,ORD001404,Battery,Electrical system,Retail,34,6845.86,232759.24,Cash
+2024-05-29,ORD000775,Brake Pads,Braking system,Wholesale,39,1387.71,54120.69,GCash
+2024-05-30,ORD000778,Brake Pads,Braking system,Retail,30,1487.99,44639.7,Maya
+2024-05-30,ORD001614,Starter Motor,Electrical system,Retail,17,7209.46,122560.82,Cash
+2024-05-31,ORD000484,Air Filter,Engine system,Wholesale,19,270.23,5134.37,Maya
+2024-06-01,ORD001745,Catalytic Converter,Exhaust system,Retail,0,13282.84,0.0,Maya
+2024-06-01,ORD001956,ECU Module,Electrical system,Retail,0,18851.74,0.0,Maya
+2024-06-01,ORD000227,Oil Filter,Engine system,Wholesale,17,154.27,2622.59,Maya
+2024-06-02,ORD000232,Oil Filter,Engine system,Wholesale,49,167.38,8201.62,GCash
+2024-06-02,ORD001098,Shock Absorber,Suspension & traction,Wholesale,27,3420.17,92344.59,GCash
+2024-06-03,ORD000231,Oil Filter,Engine system,Wholesale,26,175.67,4567.42,GCash
+2024-06-04,ORD001406,Battery,Electrical system,Retail,27,4558.56,123081.12,Bank Transfer
+2024-06-04,ORD001096,Shock Absorber,Suspension & traction,Retail,23,2574.89,59222.47,Bank Transfer
+2024-06-06,ORD000782,Brake Pads,Braking system,Retail,25,1095.19,27379.75,GCash
+2024-06-10,ORD001514,Alternator,Electrical system,Wholesale,21,9489.03,199269.63,GCash
+2024-06-12,ORD001097,Shock Absorber,Suspension & traction,Retail,29,2726.08,79056.32,Check
+2024-06-12,ORD001099,Shock Absorber,Suspension & traction,Retail,27,3911.8,105618.6,GCash
+2024-06-15,ORD001100,Shock Absorber,Suspension & traction,Wholesale,21,3857.04,80997.84,GCash
+2024-06-16,ORD000490,Air Filter,Engine system,Wholesale,33,346.3,11427.9,Maya
+2024-06-16,ORD000784,Brake Pads,Braking system,Retail,13,1417.5,18427.5,Cash
+2024-06-16,ORD000785,Brake Pads,Braking system,Retail,26,1101.51,28639.26,Check
+2024-06-17,ORD000229,Oil Filter,Engine system,Retail,14,218.97,3065.58,Maya
+2024-06-18,ORD000228,Oil Filter,Engine system,Retail,17,175.5,2983.5,Check
+2024-06-18,ORD001616,Starter Motor,Electrical system,Retail,14,11688.29,163636.06,Bank Transfer
+2024-06-19,ORD000783,Brake Pads,Braking system,Retail,35,1265.69,44299.15,Check
+2024-06-20,ORD001513,Alternator,Electrical system,Retail,27,8733.46,235803.42,Cash
+2024-06-20,ORD000780,Brake Pads,Braking system,Retail,34,1137.25,38666.5,Check
+2024-06-21,ORD001095,Shock Absorber,Suspension & traction,Wholesale,31,3807.71,118039.01,Check
+2024-06-22,ORD001287,Wheel Bearing,Drivetrain,Wholesale,30,2552.21,76566.3,Check
+2024-06-23,ORD001515,Alternator,Electrical system,Retail,26,7660.75,199179.5,Bank Transfer
+2024-06-24,ORD001405,Battery,Electrical system,Retail,41,7086.7,290554.7,Bank Transfer
+2024-06-26,ORD000488,Air Filter,Engine system,Wholesale,39,255.0,9945.0,Check
+2024-06-26,ORD000489,Air Filter,Engine system,Retail,19,297.89,5659.91,Bank Transfer
+2024-06-26,ORD001617,Starter Motor,Electrical system,Retail,36,9260.62,333382.32,Check
+2024-06-26,ORD001286,Wheel Bearing,Drivetrain,Wholesale,20,2113.52,42270.4,GCash
+2024-06-29,ORD000230,Oil Filter,Engine system,Wholesale,25,143.83,3595.75,GCash
+2024-06-30,ORD000781,Brake Pads,Braking system,Wholesale,26,1341.56,34880.56,Cash
+2024-07-01,ORD000491,Air Filter,Engine system,Retail,30,260.75,7822.5,Cash
+2024-07-01,ORD001516,Alternator,Electrical system,Retail,0,11774.81,0.0,GCash
+2024-07-01,ORD001746,Catalytic Converter,Exhaust system,Wholesale,0,17717.2,0.0,GCash
+2024-07-01,ORD001957,ECU Module,Electrical system,Wholesale,0,24083.05,0.0,Maya
+2024-07-05,ORD000787,Brake Pads,Braking system,Retail,13,1222.17,15888.21,Cash
+2024-07-05,ORD000788,Brake Pads,Braking system,Retail,18,1180.05,21240.9,Maya
+2024-07-05,ORD000236,Oil Filter,Engine system,Wholesale,33,208.19,6870.27,Bank Transfer
+2024-07-07,ORD000493,Air Filter,Engine system,Wholesale,32,333.11,10659.52,Bank Transfer
+2024-07-08,ORD000233,Oil Filter,Engine system,Wholesale,22,181.9,4001.8,Cash
+2024-07-13,ORD000235,Oil Filter,Engine system,Wholesale,28,168.4,4715.2,Check
+2024-07-14,ORD001101,Shock Absorber,Suspension & traction,Wholesale,9,3450.99,31058.91,GCash
+2024-07-16,ORD000786,Brake Pads,Braking system,Retail,14,988.72,13842.08,Bank Transfer
+2024-07-17,ORD000789,Brake Pads,Braking system,Retail,17,1014.93,17253.81,Cash
+2024-07-19,ORD001288,Wheel Bearing,Drivetrain,Wholesale,28,1934.08,54154.24,Check
+2024-07-20,ORD001102,Shock Absorber,Suspension & traction,Wholesale,27,4031.99,108863.73,GCash
+2024-07-22,ORD000492,Air Filter,Engine system,Retail,20,253.4,5068.0,Bank Transfer
+2024-07-24,ORD001618,Starter Motor,Electrical system,Wholesale,20,10736.43,214728.6,Maya
+2024-07-25,ORD001408,Battery,Electrical system,Wholesale,44,5541.24,243814.56,Bank Transfer
+2024-07-25,ORD000234,Oil Filter,Engine system,Wholesale,20,223.8,4476.0,Bank Transfer
+2024-07-26,ORD000790,Brake Pads,Braking system,Retail,53,1121.07,59416.71,Cash
+2024-07-30,ORD001407,Battery,Electrical system,Wholesale,16,5612.42,89798.72,Cash
+2024-07-31,ORD001619,Starter Motor,Electrical system,Wholesale,21,6224.41,130712.61,Check
+2024-08-01,ORD001517,Alternator,Electrical system,Retail,0,10268.11,0.0,Maya
+2024-08-01,ORD001409,Battery,Electrical system,Retail,0,6232.07,0.0,GCash
+2024-08-01,ORD000795,Brake Pads,Braking system,Retail,31,1440.89,44667.59,Cash
+2024-08-01,ORD001747,Catalytic Converter,Exhaust system,Retail,0,23098.78,0.0,Cash
+2024-08-01,ORD001958,ECU Module,Electrical system,Retail,0,16500.82,0.0,Check
+2024-08-01,ORD001620,Starter Motor,Electrical system,Retail,0,9975.35,0.0,Bank Transfer
+2024-08-03,ORD001103,Shock Absorber,Suspension & traction,Wholesale,24,3770.0,90480.0,Maya
+2024-08-05,ORD000791,Brake Pads,Braking system,Wholesale,37,1474.26,54547.62,Maya
+2024-08-05,ORD000238,Oil Filter,Engine system,Retail,28,210.74,5900.72,Check
+2024-08-05,ORD001104,Shock Absorber,Suspension & traction,Retail,40,3249.83,129993.2,Maya
+2024-08-05,ORD001105,Shock Absorber,Suspension & traction,Retail,21,4182.73,87837.33,Check
+2024-08-10,ORD001290,Wheel Bearing,Drivetrain,Retail,21,2159.34,45346.14,Maya
+2024-08-11,ORD000239,Oil Filter,Engine system,Retail,10,183.41,1834.1,Cash
+2024-08-14,ORD000497,Air Filter,Engine system,Wholesale,23,326.01,7498.23,Check
+2024-08-16,ORD000495,Air Filter,Engine system,Wholesale,18,341.32,6143.76,GCash
+2024-08-17,ORD000241,Oil Filter,Engine system,Retail,31,191.07,5923.17,Bank Transfer
+2024-08-18,ORD000793,Brake Pads,Braking system,Retail,21,1352.04,28392.84,Cash
+2024-08-18,ORD001289,Wheel Bearing,Drivetrain,Wholesale,40,2708.07,108322.8,Maya
+2024-08-23,ORD000792,Brake Pads,Braking system,Retail,15,978.99,14684.85,Bank Transfer
+2024-08-23,ORD000794,Brake Pads,Braking system,Wholesale,18,1147.5,20655.0,Bank Transfer
+2024-08-24,ORD000496,Air Filter,Engine system,Wholesale,20,340.8,6816.0,Cash
+2024-08-25,ORD000242,Oil Filter,Engine system,Wholesale,16,251.1,4017.6,Bank Transfer
+2024-08-28,ORD000494,Air Filter,Engine system,Retail,39,349.0,13611.0,GCash
+2024-08-31,ORD000237,Oil Filter,Engine system,Wholesale,24,203.15,4875.6,Cash
+2024-08-31,ORD000240,Oil Filter,Engine system,Wholesale,33,237.32,7831.56,Check
+2024-09-01,ORD001410,Battery,Electrical system,Wholesale,0,4721.56,0.0,Cash
+2024-09-01,ORD001959,ECU Module,Electrical system,Retail,0,20203.88,0.0,Maya
+2024-09-01,ORD000244,Oil Filter,Engine system,Wholesale,28,166.07,4649.96,Bank Transfer
+2024-09-01,ORD001107,Shock Absorber,Suspension & traction,Retail,33,2786.39,91950.87,Maya
+2024-09-05,ORD000798,Brake Pads,Braking system,Retail,43,1093.65,47026.95,Maya
+2024-09-09,ORD001748,Catalytic Converter,Exhaust system,Retail,22,20857.13,458856.86,Bank Transfer
+2024-09-10,ORD000243,Oil Filter,Engine system,Wholesale,25,178.88,4472.0,GCash
+2024-09-11,ORD000498,Air Filter,Engine system,Wholesale,46,319.11,14679.06,Bank Transfer
+2024-09-12,ORD001520,Alternator,Electrical system,Retail,31,9125.6,282893.6,Bank Transfer
+2024-09-14,ORD000500,Air Filter,Engine system,Retail,41,339.61,13924.01,Maya
+2024-09-16,ORD000800,Brake Pads,Braking system,Retail,13,1571.61,20430.93,Bank Transfer
+2024-09-16,ORD001108,Shock Absorber,Suspension & traction,Wholesale,31,2651.23,82188.13,Check
+2024-09-16,ORD001621,Starter Motor,Electrical system,Retail,15,9697.16,145457.4,GCash
+2024-09-17,ORD000499,Air Filter,Engine system,Retail,12,333.74,4004.88,Check
+2024-09-17,ORD001518,Alternator,Electrical system,Wholesale,14,8930.94,125033.16,Check
+2024-09-18,ORD001519,Alternator,Electrical system,Retail,31,6974.5,216209.5,Maya
+2024-09-18,ORD000799,Brake Pads,Braking system,Wholesale,20,1464.66,29293.2,Cash
+2024-09-19,ORD000245,Oil Filter,Engine system,Retail,22,168.67,3710.74,Bank Transfer
+2024-09-20,ORD001622,Starter Motor,Electrical system,Wholesale,33,10203.61,336719.13,Maya
+2024-09-24,ORD000797,Brake Pads,Braking system,Wholesale,10,1463.37,14633.7,Maya
+2024-09-24,ORD000247,Oil Filter,Engine system,Retail,23,147.08,3382.84,GCash
+2024-09-24,ORD001106,Shock Absorber,Suspension & traction,Retail,20,3506.63,70132.6,Maya
+2024-09-26,ORD001291,Wheel Bearing,Drivetrain,Retail,22,1632.2,35908.4,Bank Transfer
+2024-09-29,ORD000796,Brake Pads,Braking system,Retail,38,994.58,37794.04,Bank Transfer
+2024-09-29,ORD000246,Oil Filter,Engine system,Wholesale,19,154.13,2928.47,Check
+2024-10-01,ORD000803,Brake Pads,Braking system,Wholesale,38,1072.08,40739.04,GCash
+2024-10-01,ORD000804,Brake Pads,Braking system,Retail,38,1184.11,44996.18,Maya
+2024-10-01,ORD001752,Catalytic Converter,Exhaust system,Retail,38,15501.49,589056.62,Cash
+2024-10-01,ORD001294,Wheel Bearing,Drivetrain,Wholesale,9,1917.88,17260.92,Check
+2024-10-02,ORD001755,Catalytic Converter,Exhaust system,Wholesale,28,17114.05,479193.4,Cash
+2024-10-02,ORD000253,Oil Filter,Engine system,Retail,16,244.55,3912.8,Check
+2024-10-03,ORD001522,Alternator,Electrical system,Retail,33,9288.98,306536.34,GCash
+2024-10-04,ORD001110,Shock Absorber,Suspension & traction,Retail,26,2436.37,63345.62,Cash
+2024-10-05,ORD000505,Air Filter,Engine system,Retail,7,308.85,2161.95,Bank Transfer
+2024-10-06,ORD001960,ECU Module,Electrical system,Retail,13,20065.74,260854.62,Maya
+2024-10-06,ORD000249,Oil Filter,Engine system,Wholesale,14,153.03,2142.42,Check
+2024-10-06,ORD000250,Oil Filter,Engine system,Retail,26,155.13,4033.38,GCash
+2024-10-07,ORD001523,Alternator,Electrical system,Wholesale,20,9365.0,187300.0,Bank Transfer
+2024-10-07,ORD001412,Battery,Electrical system,Wholesale,38,6383.54,242574.52,Maya
+2024-10-08,ORD000251,Oil Filter,Engine system,Retail,25,141.12,3528.0,GCash
+2024-10-10,ORD000504,Air Filter,Engine system,Wholesale,12,255.0,3060.0,Cash
+2024-10-12,ORD001623,Starter Motor,Electrical system,Wholesale,22,9997.65,219948.3,Maya
+2024-10-14,ORD001754,Catalytic Converter,Exhaust system,Retail,1,23984.77,23984.77,Check
+2024-10-16,ORD000252,Oil Filter,Engine system,Wholesale,37,193.84,7172.08,Cash
+2024-10-17,ORD001521,Alternator,Electrical system,Wholesale,23,7188.4,165333.2,Check
+2024-10-17,ORD001411,Battery,Electrical system,Retail,31,4497.17,139412.27,Maya
+2024-10-17,ORD000805,Brake Pads,Braking system,Wholesale,16,1569.71,25115.36,Bank Transfer
+2024-10-18,ORD001109,Shock Absorber,Suspension & traction,Retail,24,4146.37,99512.88,Check
+2024-10-19,ORD000501,Air Filter,Engine system,Retail,6,296.84,1781.04,Bank Transfer
+2024-10-19,ORD000802,Brake Pads,Braking system,Wholesale,29,1541.57,44705.53,Check
+2024-10-19,ORD001111,Shock Absorber,Suspension & traction,Wholesale,42,3108.68,130564.56,GCash
+2024-10-20,ORD001749,Catalytic Converter,Exhaust system,Wholesale,30,12813.52,384405.6,Maya
+2024-10-20,ORD001751,Catalytic Converter,Exhaust system,Wholesale,14,12481.01,174734.14,Cash
+2024-10-20,ORD000248,Oil Filter,Engine system,Retail,25,246.39,6159.75,GCash
+2024-10-21,ORD000503,Air Filter,Engine system,Retail,12,241.87,2902.44,Bank Transfer
+2024-10-23,ORD000806,Brake Pads,Braking system,Retail,22,1430.38,31468.36,GCash
+2024-10-23,ORD001624,Starter Motor,Electrical system,Retail,33,11296.67,372790.11,Cash
+2024-10-25,ORD001753,Catalytic Converter,Exhaust system,Wholesale,43,14113.46,606878.78,Cash
+2024-10-26,ORD001292,Wheel Bearing,Drivetrain,Retail,37,1743.34,64503.58,Maya
+2024-10-26,ORD001293,Wheel Bearing,Drivetrain,Retail,34,2405.66,81792.44,Cash
+2024-10-27,ORD001750,Catalytic Converter,Exhaust system,Retail,45,20022.18,900998.1,GCash
+2024-10-30,ORD000502,Air Filter,Engine system,Wholesale,67,261.29,17506.43,GCash
+2024-10-30,ORD000801,Brake Pads,Braking system,Retail,28,1144.59,32048.52,Check
+2024-11-01,ORD001756,Catalytic Converter,Exhaust system,Wholesale,0,20936.67,0.0,Cash
+2024-11-01,ORD000255,Oil Filter,Engine system,Wholesale,19,226.06,4295.14,Cash
+2024-11-01,ORD001116,Shock Absorber,Suspension & traction,Wholesale,17,3925.89,66740.13,Bank Transfer
+2024-11-03,ORD001413,Battery,Electrical system,Retail,38,7175.91,272684.58,Maya
+2024-11-03,ORD001962,ECU Module,Electrical system,Wholesale,27,19206.2,518567.4,Check
+2024-11-06,ORD000812,Brake Pads,Braking system,Retail,33,1270.58,41929.14,Maya
+2024-11-06,ORD001113,Shock Absorber,Suspension & traction,Wholesale,34,2958.08,100574.72,Maya
+2024-11-09,ORD001297,Wheel Bearing,Drivetrain,Retail,20,2024.0,40480.0,Check
+2024-11-10,ORD001526,Alternator,Electrical system,Retail,25,9774.57,244364.25,GCash
+2024-11-10,ORD000254,Oil Filter,Engine system,Retail,25,245.96,6149.0,Maya
+2024-11-10,ORD001117,Shock Absorber,Suspension & traction,Wholesale,19,4008.21,76155.99,Check
+2024-11-11,ORD000509,Air Filter,Engine system,Wholesale,15,248.8,3732.0,GCash
+2024-11-11,ORD000257,Oil Filter,Engine system,Retail,20,188.54,3770.8,Cash
+2024-11-13,ORD000808,Brake Pads,Braking system,Wholesale,30,1238.94,37168.2,Check
+2024-11-15,ORD001115,Shock Absorber,Suspension & traction,Retail,26,3226.81,83897.06,Bank Transfer
+2024-11-16,ORD000258,Oil Filter,Engine system,Retail,39,220.49,8599.11,GCash
+2024-11-17,ORD001626,Starter Motor,Electrical system,Retail,25,10867.14,271678.5,Cash
+2024-11-17,ORD001296,Wheel Bearing,Drivetrain,Wholesale,30,2595.27,77858.1,Cash
+2024-11-19,ORD000507,Air Filter,Engine system,Retail,23,325.24,7480.52,GCash
+2024-11-20,ORD000508,Air Filter,Engine system,Retail,21,350.1,7352.1,Maya
+2024-11-20,ORD001525,Alternator,Electrical system,Wholesale,29,7587.19,220028.51,Bank Transfer
+2024-11-20,ORD000809,Brake Pads,Braking system,Retail,22,1594.45,35077.9,GCash
+2024-11-21,ORD000256,Oil Filter,Engine system,Retail,24,175.92,4222.08,Check
+2024-11-21,ORD001625,Starter Motor,Electrical system,Wholesale,16,10812.55,173000.8,GCash
+2024-11-22,ORD001961,ECU Module,Electrical system,Retail,10,21323.22,213232.2,GCash
+2024-11-24,ORD001112,Shock Absorber,Suspension & traction,Wholesale,17,2468.39,41962.63,Bank Transfer
+2024-11-25,ORD001414,Battery,Electrical system,Wholesale,21,7720.93,162139.53,Check
+2024-11-25,ORD000807,Brake Pads,Braking system,Wholesale,14,1167.88,16350.32,Cash
+2024-11-25,ORD000810,Brake Pads,Braking system,Retail,33,1573.14,51913.62,Maya
+2024-11-26,ORD001524,Alternator,Electrical system,Retail,38,10616.94,403443.72,Bank Transfer
+2024-11-29,ORD000506,Air Filter,Engine system,Wholesale,43,295.41,12702.63,Check
+2024-11-29,ORD000811,Brake Pads,Braking system,Wholesale,12,965.32,11583.84,GCash
+2024-11-29,ORD001114,Shock Absorber,Suspension & traction,Retail,31,2559.08,79331.48,GCash
+2024-11-30,ORD000259,Oil Filter,Engine system,Retail,19,243.99,4635.81,GCash
+2024-11-30,ORD001295,Wheel Bearing,Drivetrain,Wholesale,26,2544.58,66159.08,Cash
+2024-12-01,ORD001415,Battery,Electrical system,Wholesale,0,5641.32,0.0,GCash
+2024-12-01,ORD001757,Catalytic Converter,Exhaust system,Retail,0,12229.99,0.0,Cash
+2024-12-01,ORD001963,ECU Module,Electrical system,Retail,0,23424.78,0.0,Bank Transfer
+2024-12-01,ORD001118,Shock Absorber,Suspension & traction,Wholesale,28,3094.47,86645.16,GCash
+2024-12-01,ORD001627,Starter Motor,Electrical system,Retail,0,10131.99,0.0,GCash
+2024-12-03,ORD000260,Oil Filter,Engine system,Retail,21,175.72,3690.12,Bank Transfer
+2024-12-04,ORD001301,Wheel Bearing,Drivetrain,Retail,24,2887.79,69306.96,Bank Transfer
+2024-12-08,ORD000817,Brake Pads,Braking system,Retail,34,1083.07,36824.38,GCash
+2024-12-08,ORD001119,Shock Absorber,Suspension & traction,Wholesale,27,2642.33,71342.91,Maya
+2024-12-09,ORD000818,Brake Pads,Braking system,Retail,26,1528.55,39742.3,Bank Transfer
+2024-12-09,ORD001120,Shock Absorber,Suspension & traction,Retail,37,4016.6,148614.2,Check
+2024-12-10,ORD001527,Alternator,Electrical system,Wholesale,50,8296.3,414815.0,Maya
+2024-12-11,ORD001298,Wheel Bearing,Drivetrain,Retail,39,2014.9,78581.1,Bank Transfer
+2024-12-13,ORD000512,Air Filter,Engine system,Retail,19,321.96,6117.24,Check
+2024-12-14,ORD000813,Brake Pads,Braking system,Wholesale,14,1506.42,21089.88,Maya
+2024-12-15,ORD000511,Air Filter,Engine system,Retail,38,278.02,10564.76,Maya
+2024-12-15,ORD000815,Brake Pads,Braking system,Wholesale,47,1166.48,54824.56,GCash
+2024-12-15,ORD000816,Brake Pads,Braking system,Retail,7,1416.17,9913.19,Check
+2024-12-17,ORD000510,Air Filter,Engine system,Wholesale,9,231.69,2085.21,Maya
+2024-12-19,ORD000261,Oil Filter,Engine system,Retail,24,155.59,3734.16,Bank Transfer
+2024-12-22,ORD000262,Oil Filter,Engine system,Retail,29,158.44,4594.76,Maya
+2024-12-23,ORD000513,Air Filter,Engine system,Retail,23,220.8,5078.4,GCash
+2024-12-24,ORD001300,Wheel Bearing,Drivetrain,Retail,19,1950.11,37052.09,GCash
+2024-12-25,ORD000514,Air Filter,Engine system,Wholesale,21,332.23,6976.83,Cash
+2024-12-25,ORD001299,Wheel Bearing,Drivetrain,Retail,32,2238.22,71623.04,Maya
+2024-12-26,ORD001302,Wheel Bearing,Drivetrain,Wholesale,10,1826.65,18266.5,Check
+2024-12-29,ORD001528,Alternator,Electrical system,Retail,17,7679.99,130559.83,Check
+2024-12-29,ORD000263,Oil Filter,Engine system,Wholesale,20,140.12,2802.4,Cash
+2024-12-30,ORD000814,Brake Pads,Braking system,Retail,26,1564.29,40671.54,Maya
+2024-12-31,ORD000264,Oil Filter,Engine system,Wholesale,33,142.56,4704.48,Bank Transfer
+2025-01-01,ORD001529,Alternator,Electrical system,Wholesale,0,8858.4,0.0,GCash
+2025-01-01,ORD001964,ECU Module,Electrical system,Retail,0,19848.0,0.0,Cash
+2025-01-03,ORD000268,Oil Filter,Engine system,Retail,22,252.01,5544.22,Cash
+2025-01-04,ORD000822,Brake Pads,Braking system,Wholesale,23,1263.42,29058.66,Bank Transfer
+2025-01-05,ORD001416,Battery,Electrical system,Wholesale,13,7296.29,94851.77,GCash
+2025-01-06,ORD001121,Shock Absorber,Suspension & traction,Retail,17,3031.89,51542.13,Check
+2025-01-07,ORD001124,Shock Absorber,Suspension & traction,Retail,17,2877.47,48916.99,GCash
+2025-01-08,ORD000820,Brake Pads,Braking system,Retail,20,995.08,19901.6,GCash
+2025-01-08,ORD001123,Shock Absorber,Suspension & traction,Wholesale,24,3621.57,86917.68,Check
+2025-01-08,ORD001303,Wheel Bearing,Drivetrain,Retail,15,2112.46,31686.9,Bank Transfer
+2025-01-09,ORD000266,Oil Filter,Engine system,Retail,13,200.37,2604.81,GCash
+2025-01-10,ORD000269,Oil Filter,Engine system,Wholesale,28,161.2,4513.6,GCash
+2025-01-10,ORD001629,Starter Motor,Electrical system,Wholesale,26,7413.48,192750.48,Maya
+2025-01-10,ORD001305,Wheel Bearing,Drivetrain,Retail,26,2784.14,72387.64,GCash
+2025-01-11,ORD000518,Air Filter,Engine system,Wholesale,20,341.84,6836.8,Cash
+2025-01-11,ORD001628,Starter Motor,Electrical system,Wholesale,19,10885.73,206828.87,Maya
+2025-01-12,ORD001309,Wheel Bearing,Drivetrain,Wholesale,26,2579.32,67062.32,GCash
+2025-01-13,ORD000819,Brake Pads,Braking system,Retail,21,1042.85,21899.85,Maya
+2025-01-13,ORD000823,Brake Pads,Braking system,Retail,8,1175.11,9400.88,Bank Transfer
+2025-01-13,ORD001758,Catalytic Converter,Exhaust system,Wholesale,18,14967.96,269423.28,Cash
+2025-01-13,ORD001126,Shock Absorber,Suspension & traction,Retail,37,2734.21,101165.77,Check
+2025-01-14,ORD000515,Air Filter,Engine system,Retail,13,314.23,4084.99,Bank Transfer
+2025-01-14,ORD001306,Wheel Bearing,Drivetrain,Retail,37,1687.57,62440.09,GCash
+2025-01-17,ORD001125,Shock Absorber,Suspension & traction,Wholesale,34,3533.39,120135.26,Cash
+2025-01-18,ORD001122,Shock Absorber,Suspension & traction,Retail,35,2934.3,102700.5,Bank Transfer
+2025-01-18,ORD001308,Wheel Bearing,Drivetrain,Retail,16,2192.73,35083.68,Maya
+2025-01-19,ORD000516,Air Filter,Engine system,Wholesale,35,246.17,8615.95,GCash
+2025-01-19,ORD000821,Brake Pads,Braking system,Wholesale,50,1440.81,72040.5,Check
+2025-01-19,ORD000824,Brake Pads,Braking system,Retail,22,1571.18,34565.96,Check
+2025-01-19,ORD000267,Oil Filter,Engine system,Retail,15,176.17,2642.55,Maya
+2025-01-19,ORD001304,Wheel Bearing,Drivetrain,Retail,32,2002.85,64091.2,Check
+2025-01-20,ORD000517,Air Filter,Engine system,Wholesale,32,348.37,11147.84,GCash
+2025-01-20,ORD001417,Battery,Electrical system,Wholesale,47,4485.14,210801.58,Check
+2025-01-26,ORD000265,Oil Filter,Engine system,Wholesale,38,184.21,6999.98,Maya
+2025-01-27,ORD001307,Wheel Bearing,Drivetrain,Retail,31,2190.32,67899.92,Maya
+2025-02-01,ORD001419,Battery,Electrical system,Wholesale,22,5571.03,122562.66,Bank Transfer
+2025-02-01,ORD001971,ECU Module,Electrical system,Wholesale,9,19000.63,171005.67,GCash
+2025-02-01,ORD000273,Oil Filter,Engine system,Retail,21,155.42,3263.82,GCash
+2025-02-01,ORD001630,Starter Motor,Electrical system,Retail,0,7666.38,0.0,Maya
+2025-02-02,ORD000827,Brake Pads,Braking system,Wholesale,23,1114.1,25624.3,GCash
+2025-02-02,ORD000270,Oil Filter,Engine system,Wholesale,14,142.78,1998.92,GCash
+2025-02-03,ORD001974,ECU Module,Electrical system,Wholesale,15,21660.57,324908.55,GCash
+2025-02-03,ORD001975,ECU Module,Electrical system,Wholesale,49,25134.98,1231614.02,Cash
+2025-02-03,ORD001312,Wheel Bearing,Drivetrain,Wholesale,35,1657.29,58005.15,Cash
+2025-02-04,ORD001760,Catalytic Converter,Exhaust system,Wholesale,23,14554.47,334752.81,Bank Transfer
+2025-02-05,ORD001970,ECU Module,Electrical system,Retail,37,26184.79,968837.23,Maya
+2025-02-06,ORD001979,ECU Module,Electrical system,Retail,34,17693.34,601573.56,GCash
+2025-02-07,ORD000826,Brake Pads,Braking system,Retail,37,1104.18,40854.66,Bank Transfer
+2025-02-07,ORD001759,Catalytic Converter,Exhaust system,Retail,32,17137.2,548390.4,Cash
+2025-02-07,ORD001763,Catalytic Converter,Exhaust system,Retail,7,12484.15,87389.05,Cash
+2025-02-07,ORD001967,ECU Module,Electrical system,Retail,23,24808.36,570592.28,Maya
+2025-02-09,ORD001969,ECU Module,Electrical system,Wholesale,42,23620.43,992058.06,Bank Transfer
+2025-02-10,ORD000825,Brake Pads,Braking system,Wholesale,16,1435.28,22964.48,Bank Transfer
+2025-02-10,ORD000272,Oil Filter,Engine system,Retail,26,225.49,5862.74,Cash
+2025-02-11,ORD000523,Air Filter,Engine system,Wholesale,14,340.82,4771.48,Bank Transfer
+2025-02-12,ORD001530,Alternator,Electrical system,Wholesale,32,9754.29,312137.28,GCash
+2025-02-13,ORD001764,Catalytic Converter,Exhaust system,Retail,35,14682.81,513898.35,Bank Transfer
+2025-02-13,ORD001972,ECU Module,Electrical system,Wholesale,42,21890.56,919403.52,GCash
+2025-02-13,ORD001973,ECU Module,Electrical system,Wholesale,39,18166.57,708496.23,GCash
+2025-02-13,ORD001310,Wheel Bearing,Drivetrain,Retail,49,1831.1,89723.9,Bank Transfer
+2025-02-16,ORD001531,Alternator,Electrical system,Wholesale,11,7301.93,80321.23,Bank Transfer
+2025-02-16,ORD000271,Oil Filter,Engine system,Retail,49,241.69,11842.81,GCash
+2025-02-17,ORD000522,Air Filter,Engine system,Wholesale,21,282.53,5933.13,GCash
+2025-02-17,ORD001311,Wheel Bearing,Drivetrain,Wholesale,8,1956.6,15652.8,Bank Transfer
+2025-02-18,ORD001761,Catalytic Converter,Exhaust system,Wholesale,21,16836.85,353573.85,Check
+2025-02-19,ORD000520,Air Filter,Engine system,Wholesale,21,248.23,5212.83,Bank Transfer
+2025-02-19,ORD000829,Brake Pads,Braking system,Wholesale,27,1419.0,38313.0,Maya
+2025-02-20,ORD001981,ECU Module,Electrical system,Retail,8,28121.34,224970.72,Check
+2025-02-20,ORD001127,Shock Absorber,Suspension & traction,Wholesale,12,3187.82,38253.84,GCash
+2025-02-21,ORD000519,Air Filter,Engine system,Retail,34,267.07,9080.38,Check
+2025-02-21,ORD000830,Brake Pads,Braking system,Retail,18,1195.07,21511.26,Maya
+2025-02-21,ORD001977,ECU Module,Electrical system,Wholesale,33,16635.09,548957.97,Cash
+2025-02-22,ORD000828,Brake Pads,Braking system,Wholesale,23,1529.62,35181.26,Cash
+2025-02-23,ORD001418,Battery,Electrical system,Retail,37,6724.61,248810.57,Check
+2025-02-23,ORD001976,ECU Module,Electrical system,Retail,32,16754.29,536137.28,Bank Transfer
+2025-02-23,ORD000275,Oil Filter,Engine system,Retail,30,251.81,7554.3,GCash
+2025-02-25,ORD001965,ECU Module,Electrical system,Wholesale,35,28218.95,987663.25,Maya
+2025-02-25,ORD000274,Oil Filter,Engine system,Retail,24,257.47,6179.28,Bank Transfer
+2025-02-26,ORD001966,ECU Module,Electrical system,Retail,36,16186.05,582697.8,Cash
+2025-02-27,ORD000521,Air Filter,Engine system,Wholesale,18,316.64,5699.52,Maya
+2025-02-27,ORD001762,Catalytic Converter,Exhaust system,Wholesale,30,15400.9,462027.0,Bank Transfer
+2025-02-27,ORD001978,ECU Module,Electrical system,Retail,25,26001.22,650030.5,Maya
+2025-02-28,ORD001532,Alternator,Electrical system,Retail,37,11581.55,428517.35,Cash
+2025-02-28,ORD001968,ECU Module,Electrical system,Wholesale,44,22850.9,1005439.6,Check
+2025-02-28,ORD001980,ECU Module,Electrical system,Retail,29,19220.89,557405.81,Cash
+2025-03-01,ORD001533,Alternator,Electrical system,Wholesale,0,9077.99,0.0,Maya
+2025-03-01,ORD001765,Catalytic Converter,Exhaust system,Wholesale,0,21514.81,0.0,Check
+2025-03-01,ORD001631,Starter Motor,Electrical system,Retail,44,8060.14,354646.16,GCash
+2025-03-02,ORD000835,Brake Pads,Braking system,Retail,20,1048.64,20972.8,GCash
+2025-03-03,ORD000525,Air Filter,Engine system,Wholesale,21,221.23,4645.83,Bank Transfer
+2025-03-03,ORD000833,Brake Pads,Braking system,Wholesale,10,1218.52,12185.2,GCash
+2025-03-06,ORD001632,Starter Motor,Electrical system,Wholesale,6,10253.4,61520.4,GCash
+2025-03-07,ORD001985,ECU Module,Electrical system,Wholesale,42,14969.98,628739.16,Bank Transfer
+2025-03-08,ORD000278,Oil Filter,Engine system,Wholesale,14,187.78,2628.92,Maya
+2025-03-09,ORD001983,ECU Module,Electrical system,Retail,9,18354.71,165192.39,Bank Transfer
+2025-03-10,ORD000524,Air Filter,Engine system,Wholesale,46,267.98,12327.08,Cash
+2025-03-11,ORD000281,Oil Filter,Engine system,Retail,31,227.66,7057.46,Check
+2025-03-12,ORD001987,ECU Module,Electrical system,Wholesale,28,23612.49,661149.72,Bank Transfer
+2025-03-12,ORD000280,Oil Filter,Engine system,Wholesale,32,219.46,7022.72,Cash
+2025-03-13,ORD001420,Battery,Electrical system,Wholesale,29,7078.24,205268.96,Cash
+2025-03-14,ORD000526,Air Filter,Engine system,Retail,26,298.91,7771.66,GCash
+2025-03-14,ORD001129,Shock Absorber,Suspension & traction,Retail,31,3979.99,123379.69,Maya
+2025-03-15,ORD001988,ECU Module,Electrical system,Wholesale,26,21603.54,561692.04,Cash
+2025-03-17,ORD000832,Brake Pads,Braking system,Wholesale,20,1098.71,21974.2,Maya
+2025-03-17,ORD001984,ECU Module,Electrical system,Retail,29,20060.76,581762.04,Bank Transfer
+2025-03-18,ORD000834,Brake Pads,Braking system,Wholesale,57,956.65,54529.05,Bank Transfer
+2025-03-18,ORD001986,ECU Module,Electrical system,Wholesale,38,26998.62,1025947.56,Check
+2025-03-18,ORD000277,Oil Filter,Engine system,Wholesale,21,141.38,2968.98,Maya
+2025-03-20,ORD000279,Oil Filter,Engine system,Wholesale,26,221.64,5762.64,Check
+2025-03-21,ORD000831,Brake Pads,Braking system,Retail,22,1292.5,28435.0,Cash
+2025-03-21,ORD001990,ECU Module,Electrical system,Retail,40,14792.64,591705.6,Check
+2025-03-22,ORD001982,ECU Module,Electrical system,Retail,21,19924.48,418414.08,GCash
+2025-03-22,ORD001128,Shock Absorber,Suspension & traction,Wholesale,23,3486.21,80182.83,Maya
+2025-03-24,ORD001313,Wheel Bearing,Drivetrain,Wholesale,21,2492.26,52337.46,Check
+2025-03-26,ORD001130,Shock Absorber,Suspension & traction,Wholesale,45,2527.21,113724.45,Cash
+2025-03-27,ORD001991,ECU Module,Electrical system,Wholesale,25,24099.83,602495.75,GCash
+2025-03-27,ORD000276,Oil Filter,Engine system,Retail,21,173.57,3644.97,GCash
+2025-03-27,ORD001131,Shock Absorber,Suspension & traction,Retail,12,3275.79,39309.48,Check
+2025-03-28,ORD001421,Battery,Electrical system,Retail,38,5823.57,221295.66,GCash
+2025-03-31,ORD001989,ECU Module,Electrical system,Retail,22,18745.78,412407.16,Check
+2025-03-31,ORD001132,Shock Absorber,Suspension & traction,Retail,21,2922.99,61382.79,Maya
+2025-04-01,ORD000529,Air Filter,Engine system,Wholesale,29,297.51,8627.79,Cash
+2025-04-01,ORD001534,Alternator,Electrical system,Wholesale,0,7474.12,0.0,GCash
+2025-04-01,ORD001422,Battery,Electrical system,Retail,0,5863.38,0.0,Bank Transfer
+2025-04-01,ORD001766,Catalytic Converter,Exhaust system,Retail,0,18967.74,0.0,Check
+2025-04-08,ORD000286,Oil Filter,Engine system,Retail,4,209.72,838.88,Check
+2025-04-09,ORD000287,Oil Filter,Engine system,Retail,22,174.49,3838.78,Bank Transfer
+2025-04-10,ORD000838,Brake Pads,Braking system,Wholesale,26,1103.82,28699.32,Cash
+2025-04-10,ORD000283,Oil Filter,Engine system,Retail,31,252.01,7812.31,Maya
+2025-04-13,ORD001314,Wheel Bearing,Drivetrain,Retail,22,2380.23,52365.06,Bank Transfer
+2025-04-14,ORD000837,Brake Pads,Braking system,Retail,26,974.23,25329.98,GCash
+2025-04-15,ORD000836,Brake Pads,Braking system,Retail,21,1376.13,28898.73,Cash
+2025-04-15,ORD001634,Starter Motor,Electrical system,Wholesale,20,7510.51,150210.2,Bank Transfer
+2025-04-18,ORD001133,Shock Absorber,Suspension & traction,Retail,15,3263.67,48955.05,Bank Transfer
+2025-04-20,ORD001992,ECU Module,Electrical system,Retail,14,19565.7,273919.8,Check
+2025-04-20,ORD001633,Starter Motor,Electrical system,Wholesale,22,10267.35,225881.7,Check
+2025-04-21,ORD000528,Air Filter,Engine system,Wholesale,22,224.46,4938.12,GCash
+2025-04-22,ORD000285,Oil Filter,Engine system,Retail,28,219.85,6155.8,Maya
+2025-04-23,ORD001315,Wheel Bearing,Drivetrain,Wholesale,31,2738.86,84904.66,GCash
+2025-04-24,ORD000840,Brake Pads,Braking system,Wholesale,16,1183.86,18941.76,Check
+2025-04-28,ORD000282,Oil Filter,Engine system,Retail,36,167.94,6045.84,Check
+2025-04-29,ORD000527,Air Filter,Engine system,Wholesale,47,295.04,13866.88,Bank Transfer
+2025-04-29,ORD000839,Brake Pads,Braking system,Retail,31,1096.28,33984.68,Bank Transfer
+2025-04-29,ORD000284,Oil Filter,Engine system,Retail,21,182.56,3833.76,Cash
+2025-05-01,ORD001767,Catalytic Converter,Exhaust system,Wholesale,0,19933.86,0.0,Cash
+2025-05-01,ORD001993,ECU Module,Electrical system,Wholesale,0,15643.06,0.0,GCash
+2025-05-01,ORD000290,Oil Filter,Engine system,Retail,52,177.18,9213.36,Maya
+2025-05-03,ORD001535,Alternator,Electrical system,Wholesale,22,8701.57,191434.54,Maya
+2025-05-03,ORD000292,Oil Filter,Engine system,Retail,24,228.19,5476.56,Maya
+2025-05-06,ORD000289,Oil Filter,Engine system,Retail,17,232.18,3947.06,Check
+2025-05-07,ORD001134,Shock Absorber,Suspension & traction,Retail,17,3476.92,59107.64,Check
+2025-05-09,ORD001318,Wheel Bearing,Drivetrain,Retail,29,2088.05,60553.45,Check
+2025-05-10,ORD001536,Alternator,Electrical system,Wholesale,23,7891.06,181494.38,Bank Transfer
+2025-05-11,ORD001635,Starter Motor,Electrical system,Wholesale,22,6473.19,142410.18,Bank Transfer
+2025-05-11,ORD001316,Wheel Bearing,Drivetrain,Retail,24,1877.29,45054.96,Check
+2025-05-13,ORD001424,Battery,Electrical system,Retail,31,7316.82,226821.42,Bank Transfer
+2025-05-13,ORD001136,Shock Absorber,Suspension & traction,Retail,19,2538.38,48229.22,Maya
+2025-05-13,ORD001137,Shock Absorber,Suspension & traction,Wholesale,32,3505.04,112161.28,GCash
+2025-05-14,ORD000841,Brake Pads,Braking system,Wholesale,25,1035.83,25895.75,Cash
+2025-05-16,ORD000842,Brake Pads,Braking system,Wholesale,27,1426.67,38520.09,GCash
+2025-05-16,ORD000844,Brake Pads,Braking system,Wholesale,40,1108.25,44330.0,Check
+2025-05-16,ORD001320,Wheel Bearing,Drivetrain,Wholesale,29,1982.67,57497.43,Bank Transfer
+2025-05-18,ORD001537,Alternator,Electrical system,Retail,28,6885.97,192807.16,Maya
+2025-05-20,ORD000843,Brake Pads,Braking system,Wholesale,21,1099.92,23098.32,Cash
+2025-05-20,ORD001636,Starter Motor,Electrical system,Wholesale,36,7884.23,283832.28,Maya
+2025-05-22,ORD000293,Oil Filter,Engine system,Retail,21,256.31,5382.51,Cash
+2025-05-23,ORD001423,Battery,Electrical system,Wholesale,31,6759.62,209548.22,GCash
+2025-05-25,ORD000532,Air Filter,Engine system,Retail,20,263.36,5267.2,GCash
+2025-05-25,ORD001138,Shock Absorber,Suspension & traction,Retail,8,3701.72,29613.76,Maya
+2025-05-26,ORD000288,Oil Filter,Engine system,Retail,12,237.65,2851.8,Check
+2025-05-27,ORD001319,Wheel Bearing,Drivetrain,Wholesale,9,1685.77,15171.93,Cash
+2025-05-29,ORD000291,Oil Filter,Engine system,Retail,25,173.89,4347.25,Maya
+2025-05-30,ORD000531,Air Filter,Engine system,Wholesale,36,231.69,8340.84,Cash
+2025-05-30,ORD001135,Shock Absorber,Suspension & traction,Retail,30,3986.27,119588.1,Cash
+2025-05-31,ORD000530,Air Filter,Engine system,Retail,40,316.21,12648.4,Bank Transfer
+2025-05-31,ORD000845,Brake Pads,Braking system,Wholesale,15,1526.43,22896.45,GCash
+2025-05-31,ORD001317,Wheel Bearing,Drivetrain,Wholesale,17,2826.06,48043.02,Check
+2025-06-01,ORD001425,Battery,Electrical system,Retail,0,5678.82,0.0,Bank Transfer
+2025-06-01,ORD001994,ECU Module,Electrical system,Wholesale,0,16256.98,0.0,Cash
+2025-06-02,ORD000294,Oil Filter,Engine system,Wholesale,9,192.37,1731.33,GCash
+2025-06-02,ORD001638,Starter Motor,Electrical system,Retail,19,9338.83,177437.77,Bank Transfer
+2025-06-03,ORD001539,Alternator,Electrical system,Retail,30,9926.33,297789.9,Cash
+2025-06-03,ORD000847,Brake Pads,Braking system,Retail,31,1373.81,42588.11,Maya
+2025-06-04,ORD001323,Wheel Bearing,Drivetrain,Wholesale,20,1881.71,37634.2,GCash
+2025-06-04,ORD001324,Wheel Bearing,Drivetrain,Retail,31,2680.02,83080.62,Bank Transfer
+2025-06-05,ORD000851,Brake Pads,Braking system,Wholesale,12,1505.35,18064.2,Maya
+2025-06-06,ORD000295,Oil Filter,Engine system,Wholesale,24,202.73,4865.52,Cash
+2025-06-09,ORD001142,Shock Absorber,Suspension & traction,Wholesale,8,3245.02,25960.16,GCash
+2025-06-10,ORD001538,Alternator,Electrical system,Retail,31,9436.4,292528.4,Maya
+2025-06-12,ORD000850,Brake Pads,Braking system,Retail,18,982.38,17682.84,Maya
+2025-06-12,ORD001141,Shock Absorber,Suspension & traction,Wholesale,26,3338.28,86795.28,Cash
+2025-06-12,ORD001637,Starter Motor,Electrical system,Wholesale,27,11002.23,297060.21,Check
+2025-06-13,ORD001321,Wheel Bearing,Drivetrain,Retail,14,1754.69,24565.66,GCash
+2025-06-15,ORD001325,Wheel Bearing,Drivetrain,Wholesale,11,2703.68,29740.48,Cash
+2025-06-16,ORD001326,Wheel Bearing,Drivetrain,Retail,32,2433.41,77869.12,Bank Transfer
+2025-06-17,ORD001140,Shock Absorber,Suspension & traction,Retail,23,2408.71,55400.33,Cash
+2025-06-17,ORD001322,Wheel Bearing,Drivetrain,Wholesale,49,2160.56,105867.44,Cash
+2025-06-18,ORD000534,Air Filter,Engine system,Wholesale,39,222.53,8678.67,Maya
+2025-06-19,ORD000297,Oil Filter,Engine system,Wholesale,40,192.25,7690.0,Cash
+2025-06-22,ORD001139,Shock Absorber,Suspension & traction,Wholesale,17,3662.73,62266.41,Maya
+2025-06-22,ORD001143,Shock Absorber,Suspension & traction,Retail,46,2913.6,134025.6,GCash
+2025-06-23,ORD000535,Air Filter,Engine system,Wholesale,18,334.49,6020.82,GCash
+2025-06-23,ORD000848,Brake Pads,Braking system,Wholesale,54,1341.3,72430.2,Bank Transfer
+2025-06-25,ORD000296,Oil Filter,Engine system,Wholesale,32,149.62,4787.84,Check
+2025-06-25,ORD000298,Oil Filter,Engine system,Retail,33,182.59,6025.47,GCash
+2025-06-27,ORD000846,Brake Pads,Braking system,Wholesale,9,1158.86,10429.74,GCash
+2025-06-27,ORD001768,Catalytic Converter,Exhaust system,Wholesale,15,15934.0,239010.0,Cash
+2025-06-28,ORD000533,Air Filter,Engine system,Wholesale,35,227.69,7969.15,Maya
+2025-06-28,ORD000849,Brake Pads,Braking system,Wholesale,18,1244.4,22399.2,Cash
+2025-07-01,ORD001426,Battery,Electrical system,Retail,0,4947.13,0.0,Maya
+2025-07-01,ORD001769,Catalytic Converter,Exhaust system,Wholesale,0,12628.32,0.0,Maya
+2025-07-01,ORD001995,ECU Module,Electrical system,Wholesale,0,25461.49,0.0,Maya
+2025-07-01,ORD001144,Shock Absorber,Suspension & traction,Wholesale,6,3015.82,18094.92,Bank Transfer
+2025-07-01,ORD001639,Starter Motor,Electrical system,Retail,0,6598.17,0.0,GCash
+2025-07-04,ORD001327,Wheel Bearing,Drivetrain,Retail,26,1600.72,41618.72,Maya
+2025-07-05,ORD000536,Air Filter,Engine system,Retail,30,322.34,9670.2,Cash
+2025-07-05,ORD001328,Wheel Bearing,Drivetrain,Retail,23,2192.13,50418.99,GCash
+2025-07-10,ORD001329,Wheel Bearing,Drivetrain,Wholesale,28,2110.06,59081.68,GCash
+2025-07-11,ORD000537,Air Filter,Engine system,Retail,21,282.04,5922.84,Maya
+2025-07-11,ORD000855,Brake Pads,Braking system,Wholesale,26,1285.01,33410.26,Check
+2025-07-12,ORD000301,Oil Filter,Engine system,Retail,33,231.56,7641.48,GCash
+2025-07-14,ORD001541,Alternator,Electrical system,Retail,40,10269.75,410790.0,GCash
+2025-07-21,ORD000538,Air Filter,Engine system,Wholesale,27,305.83,8257.41,Cash
+2025-07-22,ORD000857,Brake Pads,Braking system,Wholesale,23,1255.3,28871.9,Bank Transfer
+2025-07-22,ORD000300,Oil Filter,Engine system,Retail,7,229.74,1608.18,GCash
+2025-07-23,ORD000856,Brake Pads,Braking system,Retail,25,1228.4,30710.0,Bank Transfer
+2025-07-23,ORD000302,Oil Filter,Engine system,Wholesale,34,229.21,7793.14,Bank Transfer
+2025-07-24,ORD000303,Oil Filter,Engine system,Wholesale,21,240.14,5042.94,Maya
+2025-07-29,ORD001542,Alternator,Electrical system,Wholesale,24,11534.74,276833.76,GCash
+2025-07-30,ORD000854,Brake Pads,Braking system,Retail,19,1564.31,29721.89,GCash
+2025-07-30,ORD000299,Oil Filter,Engine system,Retail,30,244.52,7335.6,Cash
+2025-07-31,ORD001540,Alternator,Electrical system,Wholesale,17,11791.06,200448.02,Cash
+2025-07-31,ORD000852,Brake Pads,Braking system,Wholesale,28,1328.69,37203.32,Bank Transfer
+2025-07-31,ORD000853,Brake Pads,Braking system,Retail,29,1057.46,30666.34,GCash
+2025-08-01,ORD001427,Battery,Electrical system,Wholesale,0,4314.01,0.0,Cash
+2025-08-01,ORD001996,ECU Module,Electrical system,Retail,0,25183.76,0.0,Cash
+2025-08-01,ORD000306,Oil Filter,Engine system,Wholesale,22,162.34,3571.48,Cash
+2025-08-02,ORD001770,Catalytic Converter,Exhaust system,Retail,26,23765.99,617915.74,GCash
+2025-08-02,ORD001640,Starter Motor,Electrical system,Wholesale,10,10709.64,107096.4,Check
+2025-08-03,ORD001331,Wheel Bearing,Drivetrain,Retail,28,2248.47,62957.16,Cash
+2025-08-06,ORD001146,Shock Absorber,Suspension & traction,Wholesale,18,3523.14,63416.52,Cash
+2025-08-07,ORD001771,Catalytic Converter,Exhaust system,Retail,22,16620.8,365657.6,Bank Transfer
+2025-08-07,ORD001641,Starter Motor,Electrical system,Retail,27,6325.46,170787.42,Maya
+2025-08-08,ORD000542,Air Filter,Engine system,Retail,22,334.31,7354.82,Check
+2025-08-10,ORD000861,Brake Pads,Braking system,Wholesale,26,1368.48,35580.48,Cash
+2025-08-10,ORD001772,Catalytic Converter,Exhaust system,Wholesale,46,15924.16,732511.36,GCash
+2025-08-10,ORD000305,Oil Filter,Engine system,Retail,28,178.59,5000.52,Check
+2025-08-10,ORD001145,Shock Absorber,Suspension & traction,Wholesale,19,4192.64,79660.16,Check
+2025-08-11,ORD000541,Air Filter,Engine system,Wholesale,30,332.9,9987.0,Maya
+2025-08-11,ORD000304,Oil Filter,Engine system,Wholesale,13,154.98,2014.74,Check
+2025-08-11,ORD001330,Wheel Bearing,Drivetrain,Retail,36,1638.03,58969.08,Bank Transfer
+2025-08-14,ORD000858,Brake Pads,Braking system,Retail,63,1450.75,91397.25,Bank Transfer
+2025-08-16,ORD000540,Air Filter,Engine system,Wholesale,30,259.28,7778.4,Maya
+2025-08-16,ORD000859,Brake Pads,Braking system,Retail,8,1163.57,9308.56,Bank Transfer
+2025-08-16,ORD001773,Catalytic Converter,Exhaust system,Retail,33,15979.17,527312.61,Maya
+2025-08-17,ORD000863,Brake Pads,Braking system,Retail,8,1274.15,10193.2,Cash
+2025-08-19,ORD001774,Catalytic Converter,Exhaust system,Wholesale,16,20249.72,323995.52,Cash
+2025-08-20,ORD000307,Oil Filter,Engine system,Retail,33,242.43,8000.19,Cash
+2025-08-20,ORD000308,Oil Filter,Engine system,Retail,36,141.66,5099.76,Cash
+2025-08-24,ORD001332,Wheel Bearing,Drivetrain,Wholesale,13,2417.43,31426.59,Maya
+2025-08-26,ORD000862,Brake Pads,Braking system,Retail,21,1100.16,23103.36,Check
+2025-08-28,ORD001543,Alternator,Electrical system,Wholesale,34,10544.83,358524.22,Bank Transfer
+2025-08-30,ORD000539,Air Filter,Engine system,Retail,29,260.3,7548.7,Bank Transfer
+2025-08-30,ORD000860,Brake Pads,Braking system,Wholesale,31,1277.3,39596.3,Check
+2025-08-31,ORD000543,Air Filter,Engine system,Wholesale,5,324.28,1621.4,Maya
+2025-08-31,ORD001775,Catalytic Converter,Exhaust system,Wholesale,30,13322.58,399677.4,Bank Transfer
+2025-09-01,ORD001428,Battery,Electrical system,Wholesale,0,7786.5,0.0,Cash
+2025-09-01,ORD001778,Catalytic Converter,Exhaust system,Wholesale,27,23220.0,626940.0,GCash
+2025-09-01,ORD001997,ECU Module,Electrical system,Retail,0,28459.59,0.0,Bank Transfer
+2025-09-01,ORD001642,Starter Motor,Electrical system,Wholesale,0,9049.36,0.0,Bank Transfer
+2025-09-06,ORD000544,Air Filter,Engine system,Wholesale,32,310.06,9921.92,Check
+2025-09-07,ORD000866,Brake Pads,Braking system,Wholesale,35,1270.08,44452.8,Maya
+2025-09-07,ORD001335,Wheel Bearing,Drivetrain,Wholesale,29,2426.74,70375.46,Maya
+2025-09-08,ORD000311,Oil Filter,Engine system,Wholesale,34,191.67,6516.78,Maya
+2025-09-09,ORD000546,Air Filter,Engine system,Wholesale,47,292.79,13761.13,GCash
+2025-09-09,ORD000869,Brake Pads,Braking system,Retail,14,1567.04,21938.56,GCash
+2025-09-09,ORD000312,Oil Filter,Engine system,Wholesale,17,251.78,4280.26,Bank Transfer
+2025-09-10,ORD000868,Brake Pads,Braking system,Retail,16,1455.38,23286.08,Cash
+2025-09-10,ORD001782,Catalytic Converter,Exhaust system,Retail,25,16979.47,424486.75,Check
+2025-09-12,ORD001781,Catalytic Converter,Exhaust system,Wholesale,20,19108.04,382160.8,Check
+2025-09-13,ORD001546,Alternator,Electrical system,Wholesale,32,10701.53,342448.96,Bank Transfer
+2025-09-13,ORD001779,Catalytic Converter,Exhaust system,Wholesale,26,17708.85,460430.1,Cash
+2025-09-14,ORD000864,Brake Pads,Braking system,Wholesale,36,1372.07,49394.52,Check
+2025-09-14,ORD001776,Catalytic Converter,Exhaust system,Retail,28,19619.86,549356.08,Maya
+2025-09-15,ORD001545,Alternator,Electrical system,Wholesale,15,9369.69,140545.35,Check
+2025-09-17,ORD001147,Shock Absorber,Suspension & traction,Retail,10,3348.21,33482.1,Maya
+2025-09-18,ORD000867,Brake Pads,Braking system,Retail,26,1594.59,41459.34,Maya
+2025-09-18,ORD000309,Oil Filter,Engine system,Wholesale,15,197.76,2966.4,GCash
+2025-09-19,ORD001780,Catalytic Converter,Exhaust system,Retail,31,19073.2,591269.2,Bank Transfer
+2025-09-22,ORD001336,Wheel Bearing,Drivetrain,Retail,30,2479.98,74399.4,Check
+2025-09-23,ORD000310,Oil Filter,Engine system,Wholesale,10,246.33,2463.3,Check
+2025-09-24,ORD000545,Air Filter,Engine system,Wholesale,19,328.05,6232.95,Check
+2025-09-24,ORD001544,Alternator,Electrical system,Retail,28,8618.15,241308.2,Check
+2025-09-24,ORD001337,Wheel Bearing,Drivetrain,Retail,19,2218.36,42148.84,Bank Transfer
+2025-09-26,ORD001333,Wheel Bearing,Drivetrain,Retail,22,2178.37,47924.14,Maya
+2025-09-27,ORD001338,Wheel Bearing,Drivetrain,Retail,24,2219.65,53271.6,GCash
+2025-09-28,ORD001334,Wheel Bearing,Drivetrain,Wholesale,49,2107.9,103287.1,Cash
+2025-09-29,ORD000865,Brake Pads,Braking system,Wholesale,17,1315.5,22363.5,Maya
+2025-09-29,ORD001777,Catalytic Converter,Exhaust system,Wholesale,38,19234.54,730912.52,Maya
+2025-09-30,ORD000313,Oil Filter,Engine system,Retail,30,209.24,6277.2,Bank Transfer
+2025-10-01,ORD001547,Alternator,Electrical system,Wholesale,0,9473.4,0.0,Cash
+2025-10-01,ORD001429,Battery,Electrical system,Wholesale,0,7618.52,0.0,Maya
+2025-10-01,ORD001998,ECU Module,Electrical system,Wholesale,0,28137.67,0.0,GCash
+2025-10-02,ORD000873,Brake Pads,Braking system,Retail,22,1037.19,22818.18,Cash
+2025-10-02,ORD001787,Catalytic Converter,Exhaust system,Retail,17,12582.86,213908.62,Maya
+2025-10-02,ORD000318,Oil Filter,Engine system,Wholesale,24,240.9,5781.6,Bank Transfer
+2025-10-03,ORD001788,Catalytic Converter,Exhaust system,Retail,23,13457.28,309517.44,GCash
+2025-10-06,ORD000549,Air Filter,Engine system,Wholesale,16,240.23,3843.68,Bank Transfer
+2025-10-06,ORD000871,Brake Pads,Braking system,Wholesale,35,1075.99,37659.65,Bank Transfer
+2025-10-07,ORD000314,Oil Filter,Engine system,Wholesale,20,156.96,3139.2,Bank Transfer
+2025-10-07,ORD001643,Starter Motor,Electrical system,Retail,14,8848.65,123881.1,Check
+2025-10-07,ORD001644,Starter Motor,Electrical system,Wholesale,29,8860.02,256940.58,Bank Transfer
+2025-10-08,ORD001785,Catalytic Converter,Exhaust system,Wholesale,40,14577.85,583114.0,Bank Transfer
+2025-10-11,ORD000550,Air Filter,Engine system,Retail,13,233.4,3034.2,GCash
+2025-10-12,ORD000874,Brake Pads,Braking system,Retail,28,1131.39,31678.92,Cash
+2025-10-14,ORD000547,Air Filter,Engine system,Retail,15,274.94,4124.1,Cash
+2025-10-14,ORD000875,Brake Pads,Braking system,Retail,31,1271.39,39413.09,GCash
+2025-10-16,ORD001789,Catalytic Converter,Exhaust system,Retail,18,12846.7,231240.6,Cash
+2025-10-17,ORD000315,Oil Filter,Engine system,Retail,22,258.99,5697.78,Bank Transfer
+2025-10-18,ORD000872,Brake Pads,Braking system,Retail,30,1140.93,34227.9,Cash
+2025-10-18,ORD001786,Catalytic Converter,Exhaust system,Wholesale,46,20705.62,952458.52,Check
+2025-10-18,ORD000317,Oil Filter,Engine system,Retail,45,252.5,11362.5,Maya
+2025-10-19,ORD001148,Shock Absorber,Suspension & traction,Retail,14,3402.71,47637.94,Cash
+2025-10-20,ORD000316,Oil Filter,Engine system,Wholesale,21,235.94,4954.74,Bank Transfer
+2025-10-21,ORD001339,Wheel Bearing,Drivetrain,Wholesale,15,2176.57,32648.55,Maya
+2025-10-22,ORD000551,Air Filter,Engine system,Retail,36,319.19,11490.84,Maya
+2025-10-27,ORD000548,Air Filter,Engine system,Retail,24,236.35,5672.4,GCash
+2025-10-28,ORD000870,Brake Pads,Braking system,Wholesale,12,1422.43,17069.16,GCash
+2025-10-31,ORD001783,Catalytic Converter,Exhaust system,Wholesale,34,20499.66,696988.44,Maya
+2025-10-31,ORD001784,Catalytic Converter,Exhaust system,Retail,27,16465.63,444572.01,GCash
+2025-11-01,ORD001430,Battery,Electrical system,Wholesale,0,5243.72,0.0,GCash
+2025-11-01,ORD001790,Catalytic Converter,Exhaust system,Retail,0,21854.28,0.0,Maya
+2025-11-01,ORD001999,ECU Module,Electrical system,Retail,0,18712.05,0.0,Cash
+2025-11-03,ORD000552,Air Filter,Engine system,Wholesale,49,322.09,15782.41,GCash
+2025-11-03,ORD000323,Oil Filter,Engine system,Wholesale,23,160.93,3701.39,GCash
+2025-11-06,ORD000877,Brake Pads,Braking system,Retail,18,1109.99,19979.82,GCash
+2025-11-06,ORD001153,Shock Absorber,Suspension & traction,Wholesale,32,3385.99,108351.68,GCash
+2025-11-06,ORD001342,Wheel Bearing,Drivetrain,Retail,36,2468.6,88869.6,Check
+2025-11-07,ORD000319,Oil Filter,Engine system,Retail,39,179.98,7019.22,Maya
+2025-11-08,ORD000320,Oil Filter,Engine system,Wholesale,14,226.3,3168.2,Maya
+2025-11-08,ORD000321,Oil Filter,Engine system,Retail,20,148.85,2977.0,Bank Transfer
+2025-11-09,ORD000322,Oil Filter,Engine system,Wholesale,35,250.72,8775.2,Maya
+2025-11-10,ORD001645,Starter Motor,Electrical system,Retail,28,11651.22,326234.16,Bank Transfer
+2025-11-12,ORD000878,Brake Pads,Braking system,Wholesale,12,1472.46,17669.52,Cash
+2025-11-14,ORD001154,Shock Absorber,Suspension & traction,Retail,29,3901.97,113157.13,Maya
+2025-11-15,ORD001152,Shock Absorber,Suspension & traction,Retail,19,2720.92,51697.48,GCash
+2025-11-15,ORD001340,Wheel Bearing,Drivetrain,Retail,9,2390.69,21516.21,Maya
+2025-11-15,ORD001341,Wheel Bearing,Drivetrain,Retail,31,2025.51,62790.81,GCash
+2025-11-19,ORD001549,Alternator,Electrical system,Wholesale,28,10941.87,306372.36,Cash
+2025-11-19,ORD001646,Starter Motor,Electrical system,Retail,30,8357.18,250715.4,Bank Transfer
+2025-11-21,ORD001548,Alternator,Electrical system,Retail,30,11835.84,355075.2,GCash
+2025-11-21,ORD001151,Shock Absorber,Suspension & traction,Wholesale,16,3254.91,52078.56,Bank Transfer
+2025-11-23,ORD000879,Brake Pads,Braking system,Wholesale,23,1016.08,23369.84,GCash
+2025-11-24,ORD001149,Shock Absorber,Suspension & traction,Retail,26,2731.52,71019.52,Cash
+2025-11-24,ORD001150,Shock Absorber,Suspension & traction,Wholesale,18,2958.99,53261.82,GCash
+2025-11-26,ORD000880,Brake Pads,Braking system,Retail,27,1024.64,27665.28,Check
+2025-11-27,ORD000876,Brake Pads,Braking system,Retail,54,959.88,51833.52,Check
+2025-11-29,ORD000554,Air Filter,Engine system,Retail,16,297.98,4767.68,Bank Transfer
+2025-11-30,ORD000553,Air Filter,Engine system,Retail,13,232.5,3022.5,Check
+2025-12-01,ORD000555,Air Filter,Engine system,Retail,2,282.24,564.48,Check
+2025-12-01,ORD001550,Alternator,Electrical system,Retail,0,7469.49,0.0,Cash
+2025-12-01,ORD001791,Catalytic Converter,Exhaust system,Retail,0,17065.37,0.0,Bank Transfer
+2025-12-01,ORD002000,ECU Module,Electrical system,Retail,0,28269.74,0.0,Bank Transfer
+2025-12-01,ORD001161,Shock Absorber,Suspension & traction,Retail,38,2740.23,104128.74,GCash
+2025-12-02,ORD000885,Brake Pads,Braking system,Wholesale,17,1286.3,21867.1,Bank Transfer
+2025-12-02,ORD001647,Starter Motor,Electrical system,Wholesale,22,8131.71,178897.62,Cash
+2025-12-03,ORD001431,Battery,Electrical system,Wholesale,18,6883.93,123910.74,Check
+2025-12-04,ORD000324,Oil Filter,Engine system,Retail,10,140.93,1409.3,Bank Transfer
+2025-12-05,ORD000325,Oil Filter,Engine system,Retail,45,250.98,11294.1,Bank Transfer
+2025-12-06,ORD001160,Shock Absorber,Suspension & traction,Wholesale,35,3172.63,111042.05,Maya
+2025-12-07,ORD000558,Air Filter,Engine system,Retail,23,342.36,7874.28,Check
+2025-12-08,ORD001155,Shock Absorber,Suspension & traction,Retail,18,2730.91,49156.38,Bank Transfer
+2025-12-08,ORD001648,Starter Motor,Electrical system,Wholesale,35,10047.26,351654.1,Bank Transfer
+2025-12-11,ORD000326,Oil Filter,Engine system,Retail,35,171.37,5997.95,Check
+2025-12-12,ORD000882,Brake Pads,Braking system,Wholesale,32,1099.21,35174.72,Cash
+2025-12-13,ORD000556,Air Filter,Engine system,Retail,35,337.31,11805.85,Check
+2025-12-13,ORD000329,Oil Filter,Engine system,Wholesale,29,232.58,6744.82,Maya
+2025-12-14,ORD000883,Brake Pads,Braking system,Retail,25,1090.21,27255.25,Check
+2025-12-15,ORD001156,Shock Absorber,Suspension & traction,Retail,18,4049.48,72890.64,Check
+2025-12-16,ORD000559,Air Filter,Engine system,Retail,23,286.35,6586.05,Cash
+2025-12-19,ORD000328,Oil Filter,Engine system,Retail,21,233.65,4906.65,Maya
+2025-12-20,ORD001159,Shock Absorber,Suspension & traction,Wholesale,31,3178.67,98538.77,Cash
+2025-12-22,ORD000327,Oil Filter,Engine system,Retail,8,183.19,1465.52,Maya
+2025-12-22,ORD001158,Shock Absorber,Suspension & traction,Wholesale,28,3803.32,106492.96,Maya
+2025-12-23,ORD000881,Brake Pads,Braking system,Retail,31,1372.55,42549.05,Maya
+2025-12-23,ORD001157,Shock Absorber,Suspension & traction,Retail,15,2613.79,39206.85,GCash
+2025-12-24,ORD001432,Battery,Electrical system,Retail,45,7190.08,323553.6,Cash
+2025-12-25,ORD001343,Wheel Bearing,Drivetrain,Retail,19,2605.6,49506.4,Cash
+2025-12-26,ORD000884,Brake Pads,Braking system,Wholesale,21,1507.9,31665.9,Check
+2025-12-27,ORD000557,Air Filter,Engine system,Retail,40,274.69,10987.6,GCash

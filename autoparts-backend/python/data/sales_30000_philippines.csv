@@ -1,0 +1,1801 @@
+date,order_number,product_name,category,customer_type,quantity,unit_price,total_amount,payment_method
+2020-01-05,ORD000001,Spark Plugs,Electrical system,Retail,105,42.75,4488.75,Check
+2020-02-03,ORD000002,Spark Plugs,Electrical system,Retail,103,37.17,3828.51,Transfer
+2020-03-20,ORD000003,Spark Plugs,Electrical system,Wholesale,125,32.53,4066.25,Cash
+2020-04-14,ORD000004,Spark Plugs,Electrical system,Retail,53,39.38,2087.14,Check
+2020-05-20,ORD000005,Spark Plugs,Electrical system,Retail,85,44.99,3824.15,Cash
+2020-06-06,ORD000006,Spark Plugs,Electrical system,Retail,86,31.07,2672.02,Credit card
+2020-07-10,ORD000007,Spark Plugs,Electrical system,Retail,91,44.11,4014.01,Credit card
+2020-08-28,ORD000008,Spark Plugs,Electrical system,Wholesale,82,30.95,2537.9,Credit card
+2020-09-10,ORD000009,Spark Plugs,Electrical system,Wholesale,79,40.99,3238.21,Check
+2020-10-24,ORD000010,Spark Plugs,Electrical system,Retail,73,39.44,2879.12,Cash
+2020-11-24,ORD000011,Spark Plugs,Electrical system,Retail,80,27.82,2225.6,Check
+2020-12-26,ORD000012,Spark Plugs,Electrical system,Retail,53,41.27,2187.31,Check
+2021-01-28,ORD000013,Spark Plugs,Electrical system,Retail,97,43.65,4234.05,Check
+2021-02-04,ORD000014,Spark Plugs,Electrical system,Wholesale,77,29.62,2280.74,Credit card
+2021-03-04,ORD000015,Spark Plugs,Electrical system,Wholesale,78,34.93,2724.54,Check
+2021-04-23,ORD000016,Spark Plugs,Electrical system,Retail,83,31.73,2633.59,Check
+2021-05-01,ORD000017,Spark Plugs,Electrical system,Retail,106,40.63,4306.78,Transfer
+2021-06-19,ORD000018,Spark Plugs,Electrical system,Retail,107,33.64,3599.48,Cash
+2021-07-04,ORD000019,Spark Plugs,Electrical system,Retail,104,29.8,3099.2,Cash
+2021-08-10,ORD000020,Spark Plugs,Electrical system,Wholesale,97,29.89,2899.33,Cash
+2021-09-01,ORD000021,Spark Plugs,Electrical system,Wholesale,50,44.7,2235.0,Credit card
+2021-10-01,ORD000022,Spark Plugs,Electrical system,Retail,97,28.92,2805.24,Credit card
+2021-11-17,ORD000023,Spark Plugs,Electrical system,Wholesale,81,39.1,3167.1,Check
+2021-12-08,ORD000024,Spark Plugs,Electrical system,Retail,86,26.93,2315.98,Cash
+2022-01-27,ORD000025,Spark Plugs,Electrical system,Wholesale,72,39.0,2808.0,Credit card
+2022-02-07,ORD000026,Spark Plugs,Electrical system,Wholesale,97,30.43,2951.71,Cash
+2022-03-25,ORD000027,Spark Plugs,Electrical system,Retail,79,39.42,3114.18,Cash
+2022-04-08,ORD000028,Spark Plugs,Electrical system,Wholesale,107,35.22,3768.54,Credit card
+2022-05-08,ORD000029,Spark Plugs,Electrical system,Wholesale,115,26.78,3079.7,Cash
+2022-06-18,ORD000030,Spark Plugs,Electrical system,Wholesale,121,36.3,4392.3,Transfer
+2022-07-20,ORD000031,Spark Plugs,Electrical system,Wholesale,88,43.14,3796.32,Cash
+2022-08-07,ORD000032,Spark Plugs,Electrical system,Wholesale,75,39.92,2994.0,Check
+2022-09-12,ORD000033,Spark Plugs,Electrical system,Wholesale,88,43.5,3828.0,Transfer
+2022-10-03,ORD000034,Spark Plugs,Electrical system,Retail,81,39.12,3168.72,Credit card
+2022-11-04,ORD000035,Spark Plugs,Electrical system,Wholesale,87,33.3,2897.1,Check
+2022-12-20,ORD000036,Spark Plugs,Electrical system,Wholesale,63,32.33,2036.79,Credit card
+2023-01-23,ORD000037,Spark Plugs,Electrical system,Retail,69,31.47,2171.43,Transfer
+2023-02-05,ORD000038,Spark Plugs,Electrical system,Wholesale,148,26.45,3914.6,Cash
+2023-03-29,ORD000039,Spark Plugs,Electrical system,Wholesale,81,29.56,2394.36,Cash
+2023-04-06,ORD000040,Spark Plugs,Electrical system,Retail,90,31.81,2862.9,Credit card
+2023-05-08,ORD000041,Spark Plugs,Electrical system,Wholesale,118,37.34,4406.12,Credit card
+2023-06-01,ORD000042,Spark Plugs,Electrical system,Wholesale,76,44.28,3365.28,Transfer
+2023-07-07,ORD000043,Spark Plugs,Electrical system,Retail,90,42.26,3803.4,Check
+2023-08-15,ORD000044,Spark Plugs,Electrical system,Retail,97,34.8,3375.6,Cash
+2023-09-10,ORD000045,Spark Plugs,Electrical system,Wholesale,55,40.77,2242.35,Check
+2023-10-13,ORD000046,Spark Plugs,Electrical system,Retail,72,36.8,2649.6,Cash
+2023-11-07,ORD000047,Spark Plugs,Electrical system,Retail,89,27.48,2445.72,Transfer
+2023-12-22,ORD000048,Spark Plugs,Electrical system,Retail,92,40.95,3767.4,Transfer
+2024-01-04,ORD000049,Spark Plugs,Electrical system,Wholesale,78,31.48,2455.44,Credit card
+2024-02-08,ORD000050,Spark Plugs,Electrical system,Wholesale,99,32.42,3209.58,Credit card
+2024-03-06,ORD000051,Spark Plugs,Electrical system,Retail,67,39.44,2642.48,Check
+2024-04-04,ORD000052,Spark Plugs,Electrical system,Wholesale,93,27.24,2533.32,Credit card
+2024-05-06,ORD000053,Spark Plugs,Electrical system,Wholesale,113,35.6,4022.8,Check
+2024-06-09,ORD000054,Spark Plugs,Electrical system,Retail,96,42.38,4068.48,Transfer
+2024-07-27,ORD000055,Spark Plugs,Electrical system,Wholesale,84,40.93,3438.12,Transfer
+2024-08-09,ORD000056,Spark Plugs,Electrical system,Wholesale,117,27.71,3242.07,Check
+2024-09-30,ORD000057,Spark Plugs,Electrical system,Wholesale,116,36.76,4264.16,Check
+2024-10-21,ORD000058,Spark Plugs,Electrical system,Wholesale,65,37.0,2405.0,Transfer
+2024-11-16,ORD000059,Spark Plugs,Electrical system,Wholesale,110,42.58,4683.8,Transfer
+2024-12-04,ORD000060,Spark Plugs,Electrical system,Retail,35,25.64,897.4,Check
+2020-01-09,ORD000061,Brake Pads,Braking system,Retail,25,21.43,535.75,Transfer
+2020-02-09,ORD000062,Brake Pads,Braking system,Retail,30,15.48,464.4,Credit card
+2020-03-01,ORD000063,Brake Pads,Braking system,Retail,37,18.09,669.33,Check
+2020-04-07,ORD000064,Brake Pads,Braking system,Wholesale,28,21.52,602.56,Check
+2020-05-25,ORD000065,Brake Pads,Braking system,Retail,33,12.24,403.92,Credit card
+2020-06-15,ORD000066,Brake Pads,Braking system,Retail,29,30.8,893.2,Check
+2020-07-06,ORD000067,Brake Pads,Braking system,Wholesale,26,13.58,353.08,Credit card
+2020-08-09,ORD000068,Brake Pads,Braking system,Retail,28,20.41,571.48,Cash
+2020-09-23,ORD000069,Brake Pads,Braking system,Wholesale,34,32.34,1099.56,Credit card
+2020-10-11,ORD000070,Brake Pads,Braking system,Wholesale,39,24.56,957.84,Credit card
+2020-11-10,ORD000071,Brake Pads,Braking system,Retail,28,31.91,893.48,Cash
+2020-12-26,ORD000072,Brake Pads,Braking system,Retail,34,24.21,823.14,Check
+2021-01-08,ORD000073,Brake Pads,Braking system,Wholesale,32,20.58,658.56,Credit card
+2021-02-20,ORD000074,Brake Pads,Braking system,Wholesale,35,33.02,1155.7,Credit card
+2021-03-17,ORD000075,Brake Pads,Braking system,Wholesale,32,16.63,532.16,Credit card
+2021-04-10,ORD000076,Brake Pads,Braking system,Retail,28,26.32,736.96,Check
+2021-05-18,ORD000077,Brake Pads,Braking system,Retail,27,15.55,419.85,Check
+2021-06-14,ORD000078,Brake Pads,Braking system,Retail,31,34.3,1063.3,Credit card
+2021-07-04,ORD000079,Brake Pads,Braking system,Retail,35,20.34,711.9,Transfer
+2021-08-03,ORD000080,Brake Pads,Braking system,Retail,30,16.61,498.3,Credit card
+2021-09-28,ORD000081,Brake Pads,Braking system,Wholesale,26,12.17,316.42,Check
+2021-10-29,ORD000082,Brake Pads,Braking system,Retail,38,13.51,513.38,Cash
+2021-11-27,ORD000083,Brake Pads,Braking system,Retail,27,31.34,846.18,Cash
+2021-12-17,ORD000084,Brake Pads,Braking system,Wholesale,32,32.19,1030.08,Cash
+2022-01-16,ORD000085,Brake Pads,Braking system,Wholesale,26,12.46,323.96,Credit card
+2022-02-05,ORD000086,Brake Pads,Braking system,Wholesale,30,14.33,429.9,Cash
+2022-03-25,ORD000087,Brake Pads,Braking system,Retail,29,29.01,841.29,Cash
+2022-04-10,ORD000088,Brake Pads,Braking system,Retail,27,22.57,609.39,Check
+2022-05-15,ORD000089,Brake Pads,Braking system,Wholesale,25,31.02,775.5,Transfer
+2022-06-08,ORD000090,Brake Pads,Braking system,Retail,30,33.11,993.3,Transfer
+2022-07-01,ORD000091,Brake Pads,Braking system,Wholesale,34,22.04,749.36,Cash
+2022-08-23,ORD000092,Brake Pads,Braking system,Wholesale,35,30.0,1050.0,Transfer
+2022-09-19,ORD000093,Brake Pads,Braking system,Retail,35,19.89,696.15,Cash
+2022-10-06,ORD000094,Brake Pads,Braking system,Wholesale,31,34.92,1082.52,Credit card
+2022-11-01,ORD000095,Brake Pads,Braking system,Wholesale,28,34.06,953.68,Cash
+2022-12-23,ORD000096,Brake Pads,Braking system,Wholesale,28,34.03,952.84,Transfer
+2023-01-30,ORD000097,Brake Pads,Braking system,Wholesale,31,32.0,992.0,Credit card
+2023-02-23,ORD000098,Brake Pads,Braking system,Retail,24,13.57,325.68,Cash
+2023-03-22,ORD000099,Brake Pads,Braking system,Wholesale,28,26.84,751.52,Credit card
+2023-04-05,ORD000100,Brake Pads,Braking system,Wholesale,33,21.83,720.39,Credit card
+2023-05-27,ORD000101,Brake Pads,Braking system,Wholesale,32,29.79,953.28,Transfer
+2023-06-24,ORD000102,Brake Pads,Braking system,Wholesale,31,26.47,820.57,Credit card
+2023-07-10,ORD000103,Brake Pads,Braking system,Retail,25,20.62,515.5,Transfer
+2023-08-30,ORD000104,Brake Pads,Braking system,Retail,26,32.15,835.9,Transfer
+2023-09-20,ORD000105,Brake Pads,Braking system,Retail,32,18.94,606.08,Transfer
+2023-10-12,ORD000106,Brake Pads,Braking system,Wholesale,31,31.9,988.9,Credit card
+2023-11-12,ORD000107,Brake Pads,Braking system,Retail,32,24.65,788.8,Transfer
+2023-12-26,ORD000108,Brake Pads,Braking system,Wholesale,31,21.73,673.63,Check
+2024-01-20,ORD000109,Brake Pads,Braking system,Wholesale,26,20.67,537.42,Transfer
+2024-02-17,ORD000110,Brake Pads,Braking system,Wholesale,32,28.29,905.28,Transfer
+2024-03-31,ORD000111,Brake Pads,Braking system,Wholesale,30,14.93,447.9,Credit card
+2024-04-02,ORD000112,Brake Pads,Braking system,Wholesale,25,30.8,770.0,Cash
+2024-05-23,ORD000113,Brake Pads,Braking system,Wholesale,27,20.6,556.2,Check
+2024-06-04,ORD000114,Brake Pads,Braking system,Wholesale,30,12.62,378.6,Credit card
+2024-07-03,ORD000115,Brake Pads,Braking system,Wholesale,28,26.81,750.68,Check
+2024-08-09,ORD000116,Brake Pads,Braking system,Wholesale,34,18.46,627.64,Check
+2024-09-28,ORD000117,Brake Pads,Braking system,Wholesale,28,23.01,644.28,Cash
+2024-10-22,ORD000118,Brake Pads,Braking system,Wholesale,27,25.01,675.27,Transfer
+2024-11-21,ORD000119,Brake Pads,Braking system,Retail,26,29.75,773.5,Transfer
+2024-12-26,ORD000120,Brake Pads,Braking system,Wholesale,31,25.51,790.81,Transfer
+2020-01-04,ORD000121,Oil Filter,Engine system,Retail,35,10.68,373.8,Transfer
+2020-02-15,ORD000122,Oil Filter,Engine system,Wholesale,31,18.85,584.35,Transfer
+2020-03-05,ORD000123,Oil Filter,Engine system,Retail,46,18.82,865.72,Check
+2020-04-25,ORD000124,Oil Filter,Engine system,Wholesale,34,16.05,545.7,Credit card
+2020-05-25,ORD000125,Oil Filter,Engine system,Retail,65,13.56,881.4,Transfer
+2020-06-09,ORD000126,Oil Filter,Engine system,Retail,44,14.7,646.8,Check
+2020-07-08,ORD000127,Oil Filter,Engine system,Wholesale,51,19.23,980.73,Credit card
+2020-08-10,ORD000128,Oil Filter,Engine system,Wholesale,53,8.12,430.36,Check
+2020-09-06,ORD000129,Oil Filter,Engine system,Wholesale,42,14.84,623.28,Check
+2020-10-22,ORD000130,Oil Filter,Engine system,Retail,42,12.86,540.12,Credit card
+2020-11-08,ORD000131,Oil Filter,Engine system,Retail,47,19.52,917.44,Check
+2020-12-16,ORD000132,Oil Filter,Engine system,Wholesale,48,10.64,510.72,Cash
+2021-01-28,ORD000133,Oil Filter,Engine system,Retail,47,10.83,509.01,Cash
+2021-02-20,ORD000134,Oil Filter,Engine system,Wholesale,58,18.0,1044.0,Check
+2021-03-11,ORD000135,Oil Filter,Engine system,Wholesale,55,12.96,712.8,Credit card
+2021-04-08,ORD000136,Oil Filter,Engine system,Retail,43,11.72,503.96,Transfer
+2021-05-09,ORD000137,Oil Filter,Engine system,Retail,43,18.71,804.53,Cash
+2021-06-20,ORD000138,Oil Filter,Engine system,Wholesale,42,9.08,381.36,Check
+2021-07-16,ORD000139,Oil Filter,Engine system,Wholesale,47,9.99,469.53,Cash
+2021-08-03,ORD000140,Oil Filter,Engine system,Retail,44,10.23,450.12,Check
+2021-09-16,ORD000141,Oil Filter,Engine system,Wholesale,41,18.6,762.6,Transfer
+2021-10-30,ORD000142,Oil Filter,Engine system,Retail,58,13.2,765.6,Credit card
+2021-11-11,ORD000143,Oil Filter,Engine system,Retail,52,13.53,703.56,Check
+2021-12-22,ORD000144,Oil Filter,Engine system,Wholesale,46,13.81,635.26,Check
+2022-01-30,ORD000145,Oil Filter,Engine system,Retail,24,14.03,336.72,Transfer
+2022-02-02,ORD000146,Oil Filter,Engine system,Wholesale,69,19.62,1353.78,Cash
+2022-03-05,ORD000147,Oil Filter,Engine system,Retail,47,9.5,446.5,Transfer
+2022-04-15,ORD000148,Oil Filter,Engine system,Wholesale,46,15.82,727.72,Cash
+2022-05-28,ORD000149,Oil Filter,Engine system,Retail,42,15.35,644.7,Check
+2022-06-09,ORD000150,Oil Filter,Engine system,Retail,56,8.14,455.84,Credit card
+2022-07-18,ORD000151,Oil Filter,Engine system,Retail,52,8.38,435.76,Cash
+2022-08-04,ORD000152,Oil Filter,Engine system,Wholesale,35,19.7,689.5,Cash
+2022-09-03,ORD000153,Oil Filter,Engine system,Retail,38,14.08,535.04,Credit card
+2022-10-14,ORD000154,Oil Filter,Engine system,Wholesale,44,12.62,555.28,Credit card
+2022-11-22,ORD000155,Oil Filter,Engine system,Retail,48,12.94,621.12,Credit card
+2022-12-31,ORD000156,Oil Filter,Engine system,Wholesale,48,14.72,706.56,Check
+2023-01-18,ORD000157,Oil Filter,Engine system,Retail,36,11.53,415.08,Check
+2023-02-03,ORD000158,Oil Filter,Engine system,Wholesale,34,16.71,568.14,Transfer
+2023-03-09,ORD000159,Oil Filter,Engine system,Wholesale,36,11.82,425.52,Check
+2023-04-13,ORD000160,Oil Filter,Engine system,Wholesale,49,10.88,533.12,Transfer
+2023-05-22,ORD000161,Oil Filter,Engine system,Retail,48,16.71,802.08,Transfer
+2023-06-19,ORD000162,Oil Filter,Engine system,Retail,39,14.36,560.04,Check
+2023-07-02,ORD000163,Oil Filter,Engine system,Retail,38,18.57,705.66,Check
+2023-08-06,ORD000164,Oil Filter,Engine system,Wholesale,41,14.55,596.55,Check
+2023-09-11,ORD000165,Oil Filter,Engine system,Wholesale,58,19.4,1125.2,Transfer
+2023-10-16,ORD000166,Oil Filter,Engine system,Retail,66,18.46,1218.36,Credit card
+2023-11-04,ORD000167,Oil Filter,Engine system,Wholesale,66,19.35,1277.1,Cash
+2023-12-08,ORD000168,Oil Filter,Engine system,Retail,40,11.45,458.0,Check
+2024-01-26,ORD000169,Oil Filter,Engine system,Wholesale,52,9.11,473.72,Check
+2024-02-27,ORD000170,Oil Filter,Engine system,Retail,44,18.39,809.16,Transfer
+2024-03-30,ORD000171,Oil Filter,Engine system,Wholesale,34,19.01,646.34,Transfer
+2024-04-11,ORD000172,Oil Filter,Engine system,Retail,45,18.01,810.45,Check
+2024-05-01,ORD000173,Oil Filter,Engine system,Wholesale,45,18.37,826.65,Check
+2024-06-15,ORD000174,Oil Filter,Engine system,Wholesale,43,17.87,768.41,Transfer
+2024-07-03,ORD000175,Oil Filter,Engine system,Wholesale,52,9.6,499.2,Cash
+2024-08-20,ORD000176,Oil Filter,Engine system,Wholesale,37,14.97,553.89,Transfer
+2024-09-27,ORD000177,Oil Filter,Engine system,Retail,43,10.58,454.94,Check
+2024-10-12,ORD000178,Oil Filter,Engine system,Wholesale,47,12.4,582.8,Credit card
+2024-11-06,ORD000179,Oil Filter,Engine system,Wholesale,37,15.13,559.81,Transfer
+2024-12-19,ORD000180,Oil Filter,Engine system,Retail,51,10.68,544.68,Check
+2020-01-24,ORD000181,Air Filter,Engine system,Retail,99,20.56,2035.44,Check
+2020-02-11,ORD000182,Air Filter,Engine system,Retail,82,19.33,1585.06,Transfer
+2020-03-18,ORD000183,Air Filter,Engine system,Retail,93,11.43,1062.99,Cash
+2020-04-23,ORD000184,Air Filter,Engine system,Wholesale,126,12.68,1597.68,Check
+2020-05-10,ORD000185,Air Filter,Engine system,Wholesale,59,17.83,1051.97,Cash
+2020-06-16,ORD000186,Air Filter,Engine system,Retail,105,21.39,2245.95,Credit card
+2020-07-27,ORD000187,Air Filter,Engine system,Wholesale,94,12.99,1221.06,Check
+2020-08-04,ORD000188,Air Filter,Engine system,Wholesale,65,12.99,844.35,Transfer
+2020-09-06,ORD000189,Air Filter,Engine system,Retail,97,20.68,2005.96,Cash
+2020-10-26,ORD000190,Air Filter,Engine system,Wholesale,74,16.75,1239.5,Transfer
+2020-11-01,ORD000191,Air Filter,Engine system,Wholesale,81,18.84,1526.04,Credit card
+2020-12-21,ORD000192,Air Filter,Engine system,Retail,85,17.91,1522.35,Cash
+2021-01-27,ORD000193,Air Filter,Engine system,Retail,102,12.83,1308.66,Credit card
+2021-02-09,ORD000194,Air Filter,Engine system,Retail,74,12.81,947.94,Check
+2021-03-04,ORD000195,Air Filter,Engine system,Retail,73,21.6,1576.8,Check
+2021-04-24,ORD000196,Air Filter,Engine system,Retail,69,20.42,1408.98,Transfer
+2021-05-12,ORD000197,Air Filter,Engine system,Retail,110,14.32,1575.2,Credit card
+2021-06-02,ORD000198,Air Filter,Engine system,Retail,71,15.33,1088.43,Cash
+2021-07-07,ORD000199,Air Filter,Engine system,Retail,66,15.5,1023.0,Credit card
+2021-08-31,ORD000200,Air Filter,Engine system,Retail,121,20.09,2430.89,Credit card
+2021-09-17,ORD000201,Air Filter,Engine system,Retail,79,10.74,848.46,Check
+2021-10-02,ORD000202,Air Filter,Engine system,Wholesale,100,19.53,1953.0,Credit card
+2021-11-01,ORD000203,Air Filter,Engine system,Retail,86,11.23,965.78,Check
+2021-12-15,ORD000204,Air Filter,Engine system,Wholesale,75,11.9,892.5,Credit card
+2022-01-30,ORD000205,Air Filter,Engine system,Retail,54,11.93,644.22,Transfer
+2022-02-16,ORD000206,Air Filter,Engine system,Wholesale,76,21.3,1618.8,Transfer
+2022-03-04,ORD000207,Air Filter,Engine system,Wholesale,98,12.84,1258.32,Check
+2022-04-26,ORD000208,Air Filter,Engine system,Wholesale,79,15.76,1245.04,Cash
+2022-05-23,ORD000209,Air Filter,Engine system,Retail,41,10.9,446.9,Cash
+2022-06-15,ORD000210,Air Filter,Engine system,Wholesale,93,19.37,1801.41,Credit card
+2022-07-06,ORD000211,Air Filter,Engine system,Wholesale,98,10.28,1007.44,Transfer
+2022-08-25,ORD000212,Air Filter,Engine system,Wholesale,62,14.17,878.54,Transfer
+2022-09-07,ORD000213,Air Filter,Engine system,Wholesale,61,21.03,1282.83,Cash
+2022-10-19,ORD000214,Air Filter,Engine system,Retail,95,11.52,1094.4,Cash
+2022-11-20,ORD000215,Air Filter,Engine system,Retail,76,21.55,1637.8,Transfer
+2022-12-15,ORD000216,Air Filter,Engine system,Wholesale,97,11.29,1095.13,Cash
+2023-01-09,ORD000217,Air Filter,Engine system,Retail,120,16.25,1950.0,Credit card
+2023-02-25,ORD000218,Air Filter,Engine system,Retail,81,10.37,839.97,Cash
+2023-03-22,ORD000219,Air Filter,Engine system,Retail,84,11.16,937.44,Cash
+2023-04-27,ORD000220,Air Filter,Engine system,Wholesale,118,15.54,1833.72,Cash
+2023-05-23,ORD000221,Air Filter,Engine system,Wholesale,74,14.75,1091.5,Transfer
+2023-06-05,ORD000222,Air Filter,Engine system,Wholesale,94,16.45,1546.3,Cash
+2023-07-19,ORD000223,Air Filter,Engine system,Retail,82,16.23,1330.86,Cash
+2023-08-06,ORD000224,Air Filter,Engine system,Wholesale,79,20.01,1580.79,Cash
+2023-09-16,ORD000225,Air Filter,Engine system,Wholesale,94,15.37,1444.78,Transfer
+2023-10-23,ORD000226,Air Filter,Engine system,Wholesale,102,18.83,1920.66,Cash
+2023-11-18,ORD000227,Air Filter,Engine system,Wholesale,81,20.29,1643.49,Transfer
+2023-12-15,ORD000228,Air Filter,Engine system,Wholesale,71,18.44,1309.24,Credit card
+2024-01-26,ORD000229,Air Filter,Engine system,Retail,85,15.59,1325.15,Check
+2024-02-25,ORD000230,Air Filter,Engine system,Wholesale,97,19.67,1907.99,Credit card
+2024-03-24,ORD000231,Air Filter,Engine system,Retail,73,16.05,1171.65,Check
+2024-04-26,ORD000232,Air Filter,Engine system,Wholesale,75,11.21,840.75,Check
+2024-05-23,ORD000233,Air Filter,Engine system,Wholesale,67,21.58,1445.86,Cash
+2024-06-01,ORD000234,Air Filter,Engine system,Wholesale,105,14.81,1555.05,Check
+2024-07-07,ORD000235,Air Filter,Engine system,Wholesale,87,10.46,910.02,Credit card
+2024-08-11,ORD000236,Air Filter,Engine system,Wholesale,61,18.4,1122.4,Credit card
+2024-09-07,ORD000237,Air Filter,Engine system,Wholesale,66,17.73,1170.18,Transfer
+2024-10-30,ORD000238,Air Filter,Engine system,Retail,90,12.79,1151.1,Transfer
+2024-11-24,ORD000239,Air Filter,Engine system,Retail,113,12.34,1394.42,Credit card
+2024-12-27,ORD000240,Air Filter,Engine system,Wholesale,80,21.61,1728.8,Transfer
+2020-01-11,ORD000241,Shock Absorbers,Suspension & traction,Retail,80,49.38,3950.4,Check
+2020-02-29,ORD000242,Shock Absorbers,Suspension & traction,Wholesale,66,46.39,3061.74,Cash
+2020-03-07,ORD000243,Shock Absorbers,Suspension & traction,Retail,51,62.35,3179.85,Check
+2020-04-18,ORD000244,Shock Absorbers,Suspension & traction,Wholesale,93,42.38,3941.34,Credit card
+2020-05-18,ORD000245,Shock Absorbers,Suspension & traction,Wholesale,89,54.7,4868.3,Credit card
+2020-06-06,ORD000246,Shock Absorbers,Suspension & traction,Retail,99,56.05,5548.95,Credit card
+2020-07-22,ORD000247,Shock Absorbers,Suspension & traction,Retail,102,66.61,6794.22,Credit card
+2020-08-14,ORD000248,Shock Absorbers,Suspension & traction,Wholesale,83,39.28,3260.24,Credit card
+2020-09-18,ORD000249,Shock Absorbers,Suspension & traction,Retail,88,32.15,2829.2,Credit card
+2020-10-24,ORD000250,Shock Absorbers,Suspension & traction,Wholesale,42,44.73,1878.66,Cash
+2020-11-03,ORD000251,Shock Absorbers,Suspension & traction,Wholesale,66,66.23,4371.18,Credit card
+2020-12-10,ORD000252,Shock Absorbers,Suspension & traction,Wholesale,75,69.29,5196.75,Transfer
+2021-01-30,ORD000253,Shock Absorbers,Suspension & traction,Wholesale,77,55.94,4307.38,Cash
+2021-02-21,ORD000254,Shock Absorbers,Suspension & traction,Wholesale,51,67.08,3421.08,Transfer
+2021-03-09,ORD000255,Shock Absorbers,Suspension & traction,Wholesale,81,63.29,5126.49,Check
+2021-04-10,ORD000256,Shock Absorbers,Suspension & traction,Retail,28,55.38,1550.64,Check
+2021-05-06,ORD000257,Shock Absorbers,Suspension & traction,Wholesale,55,44.98,2473.9,Transfer
+2021-06-19,ORD000258,Shock Absorbers,Suspension & traction,Wholesale,73,48.59,3547.07,Transfer
+2021-07-22,ORD000259,Shock Absorbers,Suspension & traction,Retail,70,56.81,3976.7,Credit card
+2021-08-11,ORD000260,Shock Absorbers,Suspension & traction,Wholesale,73,43.26,3157.98,Cash
+2021-09-29,ORD000261,Shock Absorbers,Suspension & traction,Retail,63,55.0,3465.0,Transfer
+2021-10-08,ORD000262,Shock Absorbers,Suspension & traction,Retail,51,38.0,1938.0,Cash
+2021-11-17,ORD000263,Shock Absorbers,Suspension & traction,Retail,70,35.3,2471.0,Credit card
+2021-12-21,ORD000264,Shock Absorbers,Suspension & traction,Wholesale,74,61.65,4562.1,Credit card
+2022-01-09,ORD000265,Shock Absorbers,Suspension & traction,Wholesale,84,50.64,4253.76,Credit card
+2022-02-17,ORD000266,Shock Absorbers,Suspension & traction,Retail,87,43.61,3794.07,Check
+2022-03-09,ORD000267,Shock Absorbers,Suspension & traction,Retail,76,49.71,3777.96,Check
+2022-04-19,ORD000268,Shock Absorbers,Suspension & traction,Wholesale,105,42.01,4411.05,Cash
+2022-05-13,ORD000269,Shock Absorbers,Suspension & traction,Wholesale,80,53.91,4312.8,Credit card
+2022-06-08,ORD000270,Shock Absorbers,Suspension & traction,Retail,80,55.3,4424.0,Credit card
+2022-07-15,ORD000271,Shock Absorbers,Suspension & traction,Retail,60,67.61,4056.6,Credit card
+2022-08-25,ORD000272,Shock Absorbers,Suspension & traction,Retail,78,44.14,3442.92,Check
+2022-09-09,ORD000273,Shock Absorbers,Suspension & traction,Retail,74,39.47,2920.78,Cash
+2022-10-20,ORD000274,Shock Absorbers,Suspension & traction,Retail,69,33.71,2325.99,Cash
+2022-11-04,ORD000275,Shock Absorbers,Suspension & traction,Retail,48,58.97,2830.56,Credit card
+2022-12-11,ORD000276,Shock Absorbers,Suspension & traction,Retail,69,51.88,3579.72,Credit card
+2023-01-09,ORD000277,Shock Absorbers,Suspension & traction,Wholesale,65,66.1,4296.5,Check
+2023-02-10,ORD000278,Shock Absorbers,Suspension & traction,Wholesale,73,66.71,4869.83,Transfer
+2023-03-24,ORD000279,Shock Absorbers,Suspension & traction,Wholesale,56,67.56,3783.36,Credit card
+2023-04-13,ORD000280,Shock Absorbers,Suspension & traction,Retail,40,30.61,1224.4,Check
+2023-05-05,ORD000281,Shock Absorbers,Suspension & traction,Retail,75,56.14,4210.5,Check
+2023-06-07,ORD000282,Shock Absorbers,Suspension & traction,Retail,104,69.02,7178.08,Check
+2023-07-31,ORD000283,Shock Absorbers,Suspension & traction,Retail,48,37.41,1795.68,Credit card
+2023-08-06,ORD000284,Shock Absorbers,Suspension & traction,Retail,60,63.65,3819.0,Cash
+2023-09-29,ORD000285,Shock Absorbers,Suspension & traction,Retail,61,64.97,3963.17,Transfer
+2023-10-30,ORD000286,Shock Absorbers,Suspension & traction,Retail,93,65.66,6106.38,Transfer
+2023-11-25,ORD000287,Shock Absorbers,Suspension & traction,Wholesale,84,32.61,2739.24,Credit card
+2023-12-07,ORD000288,Shock Absorbers,Suspension & traction,Wholesale,71,56.76,4029.96,Transfer
+2024-01-02,ORD000289,Shock Absorbers,Suspension & traction,Retail,61,43.5,2653.5,Credit card
+2024-02-05,ORD000290,Shock Absorbers,Suspension & traction,Retail,57,32.51,1853.07,Check
+2024-03-23,ORD000291,Shock Absorbers,Suspension & traction,Wholesale,105,62.76,6589.8,Credit card
+2024-04-16,ORD000292,Shock Absorbers,Suspension & traction,Retail,83,35.34,2933.22,Cash
+2024-05-18,ORD000293,Shock Absorbers,Suspension & traction,Retail,55,31.8,1749.0,Transfer
+2024-06-05,ORD000294,Shock Absorbers,Suspension & traction,Retail,93,57.65,5361.45,Check
+2024-07-15,ORD000295,Shock Absorbers,Suspension & traction,Retail,92,62.65,5763.8,Check
+2024-08-27,ORD000296,Shock Absorbers,Suspension & traction,Wholesale,60,55.62,3337.2,Cash
+2024-09-17,ORD000297,Shock Absorbers,Suspension & traction,Retail,85,57.73,4907.05,Cash
+2024-10-07,ORD000298,Shock Absorbers,Suspension & traction,Retail,60,53.91,3234.6,Credit card
+2024-11-11,ORD000299,Shock Absorbers,Suspension & traction,Wholesale,60,47.03,2821.8,Cash
+2024-12-26,ORD000300,Shock Absorbers,Suspension & traction,Retail,87,67.82,5900.34,Check
+2020-01-08,ORD000301,Brake Fluid,Braking system,Wholesale,25,10.14,253.5,Transfer
+2020-02-15,ORD000302,Brake Fluid,Braking system,Wholesale,47,14.44,678.68,Credit card
+2020-03-05,ORD000303,Brake Fluid,Braking system,Retail,50,12.4,620.0,Transfer
+2020-04-29,ORD000304,Brake Fluid,Braking system,Retail,48,11.33,543.84,Transfer
+2020-05-25,ORD000305,Brake Fluid,Braking system,Retail,37,8.03,297.11,Check
+2020-06-09,ORD000306,Brake Fluid,Braking system,Wholesale,45,10.33,464.85,Credit card
+2020-07-17,ORD000307,Brake Fluid,Braking system,Wholesale,40,10.5,420.0,Check
+2020-08-07,ORD000308,Brake Fluid,Braking system,Retail,40,8.7,348.0,Cash
+2020-09-22,ORD000309,Brake Fluid,Braking system,Wholesale,25,14.11,352.75,Check
+2020-10-21,ORD000310,Brake Fluid,Braking system,Wholesale,28,8.25,231.0,Check
+2020-11-01,ORD000311,Brake Fluid,Braking system,Retail,29,12.36,358.44,Transfer
+2020-12-15,ORD000312,Brake Fluid,Braking system,Retail,41,8.77,359.57,Transfer
+2021-01-26,ORD000313,Brake Fluid,Braking system,Retail,38,11.24,427.12,Transfer
+2021-02-14,ORD000314,Brake Fluid,Braking system,Wholesale,32,10.89,348.48,Check
+2021-03-04,ORD000315,Brake Fluid,Braking system,Wholesale,27,13.13,354.51,Credit card
+2021-04-26,ORD000316,Brake Fluid,Braking system,Wholesale,44,9.01,396.44,Transfer
+2021-05-31,ORD000317,Brake Fluid,Braking system,Retail,24,11.24,269.76,Transfer
+2021-06-28,ORD000318,Brake Fluid,Braking system,Wholesale,37,8.94,330.78,Transfer
+2021-07-22,ORD000319,Brake Fluid,Braking system,Retail,26,8.25,214.5,Credit card
+2021-08-03,ORD000320,Brake Fluid,Braking system,Wholesale,38,10.79,410.02,Credit card
+2021-09-10,ORD000321,Brake Fluid,Braking system,Retail,33,11.07,365.31,Check
+2021-10-18,ORD000322,Brake Fluid,Braking system,Wholesale,14,10.94,153.16,Cash
+2021-11-12,ORD000323,Brake Fluid,Braking system,Wholesale,38,11.49,436.62,Transfer
+2021-12-30,ORD000324,Brake Fluid,Braking system,Wholesale,37,10.68,395.16,Check
+2022-01-06,ORD000325,Brake Fluid,Braking system,Wholesale,39,10.67,416.13,Cash
+2022-02-26,ORD000326,Brake Fluid,Braking system,Wholesale,32,14.51,464.32,Cash
+2022-03-08,ORD000327,Brake Fluid,Braking system,Retail,41,8.44,346.04,Credit card
+2022-04-23,ORD000328,Brake Fluid,Braking system,Retail,42,12.87,540.54,Cash
+2022-05-09,ORD000329,Brake Fluid,Braking system,Retail,24,11.68,280.32,Credit card
+2022-06-04,ORD000330,Brake Fluid,Braking system,Wholesale,30,13.26,397.8,Transfer
+2022-07-29,ORD000331,Brake Fluid,Braking system,Wholesale,44,12.34,542.96,Credit card
+2022-08-10,ORD000332,Brake Fluid,Braking system,Retail,36,8.64,311.04,Credit card
+2022-09-13,ORD000333,Brake Fluid,Braking system,Wholesale,20,8.19,163.8,Cash
+2022-10-26,ORD000334,Brake Fluid,Braking system,Wholesale,49,12.1,592.9,Credit card
+2022-11-07,ORD000335,Brake Fluid,Braking system,Retail,59,11.76,693.84,Credit card
+2022-12-14,ORD000336,Brake Fluid,Braking system,Retail,61,13.66,833.26,Cash
+2023-01-31,ORD000337,Brake Fluid,Braking system,Wholesale,29,11.33,328.57,Transfer
+2023-02-19,ORD000338,Brake Fluid,Braking system,Wholesale,49,11.69,572.81,Cash
+2023-03-20,ORD000339,Brake Fluid,Braking system,Wholesale,52,12.87,669.24,Check
+2023-04-06,ORD000340,Brake Fluid,Braking system,Wholesale,44,9.39,413.16,Check
+2023-05-28,ORD000341,Brake Fluid,Braking system,Retail,52,10.39,540.28,Credit card
+2023-06-28,ORD000342,Brake Fluid,Braking system,Wholesale,45,10.6,477.0,Check
+2023-07-26,ORD000343,Brake Fluid,Braking system,Wholesale,28,14.24,398.72,Credit card
+2023-08-23,ORD000344,Brake Fluid,Braking system,Wholesale,40,12.94,517.6,Cash
+2023-09-09,ORD000345,Brake Fluid,Braking system,Retail,20,10.06,201.2,Credit card
+2023-10-12,ORD000346,Brake Fluid,Braking system,Wholesale,31,10.16,314.96,Check
+2023-11-27,ORD000347,Brake Fluid,Braking system,Retail,28,10.21,285.88,Cash
+2023-12-31,ORD000348,Brake Fluid,Braking system,Retail,38,12.19,463.22,Check
+2024-01-14,ORD000349,Brake Fluid,Braking system,Retail,44,14.17,623.48,Transfer
+2024-02-06,ORD000350,Brake Fluid,Braking system,Retail,42,14.46,607.32,Credit card
+2024-03-21,ORD000351,Brake Fluid,Braking system,Retail,43,8.48,364.64,Check
+2024-04-08,ORD000352,Brake Fluid,Braking system,Wholesale,50,14.56,728.0,Cash
+2024-05-17,ORD000353,Brake Fluid,Braking system,Retail,36,8.59,309.24,Cash
+2024-06-22,ORD000354,Brake Fluid,Braking system,Retail,25,8.22,205.5,Credit card
+2024-07-07,ORD000355,Brake Fluid,Braking system,Wholesale,56,14.19,794.64,Check
+2024-08-09,ORD000356,Brake Fluid,Braking system,Wholesale,48,11.37,545.76,Credit card
+2024-09-14,ORD000357,Brake Fluid,Braking system,Retail,27,14.12,381.24,Transfer
+2024-10-03,ORD000358,Brake Fluid,Braking system,Wholesale,38,13.1,497.8,Transfer
+2024-11-10,ORD000359,Brake Fluid,Braking system,Retail,28,11.89,332.92,Cash
+2024-12-25,ORD000360,Brake Fluid,Braking system,Wholesale,40,11.94,477.6,Credit card
+2020-01-19,ORD000361,Coolant,Engine system,Wholesale,84,12.96,1088.64,Credit card
+2020-02-07,ORD000362,Coolant,Engine system,Wholesale,76,10.75,817.0,Credit card
+2020-03-30,ORD000363,Coolant,Engine system,Retail,81,8.03,650.43,Cash
+2020-04-09,ORD000364,Coolant,Engine system,Retail,74,11.63,860.62,Credit card
+2020-05-17,ORD000365,Coolant,Engine system,Wholesale,88,12.61,1109.68,Transfer
+2020-06-02,ORD000366,Coolant,Engine system,Wholesale,78,6.99,545.22,Transfer
+2020-07-10,ORD000367,Coolant,Engine system,Retail,81,13.64,1104.84,Transfer
+2020-08-24,ORD000368,Coolant,Engine system,Retail,111,7.98,885.78,Check
+2020-09-06,ORD000369,Coolant,Engine system,Retail,109,12.61,1374.49,Check
+2020-10-11,ORD000370,Coolant,Engine system,Wholesale,88,13.19,1160.72,Check
+2020-11-11,ORD000371,Coolant,Engine system,Wholesale,84,8.23,691.32,Cash
+2020-12-18,ORD000372,Coolant,Engine system,Wholesale,94,8.72,819.68,Transfer
+2021-01-01,ORD000373,Coolant,Engine system,Retail,87,6.1,530.7,Transfer
+2021-02-06,ORD000374,Coolant,Engine system,Wholesale,97,9.74,944.78,Transfer
+2021-03-06,ORD000375,Coolant,Engine system,Retail,89,6.47,575.83,Cash
+2021-04-25,ORD000376,Coolant,Engine system,Retail,62,10.31,639.22,Credit card
+2021-05-12,ORD000377,Coolant,Engine system,Retail,101,11.09,1120.09,Check
+2021-06-29,ORD000378,Coolant,Engine system,Retail,91,12.18,1108.38,Transfer
+2021-07-05,ORD000379,Coolant,Engine system,Wholesale,92,9.11,838.12,Transfer
+2021-08-09,ORD000380,Coolant,Engine system,Retail,91,6.06,551.46,Check
+2021-09-16,ORD000381,Coolant,Engine system,Wholesale,93,7.52,699.36,Credit card
+2021-10-19,ORD000382,Coolant,Engine system,Wholesale,74,13.23,979.02,Transfer
+2021-11-29,ORD000383,Coolant,Engine system,Retail,100,10.91,1091.0,Cash
+2021-12-22,ORD000384,Coolant,Engine system,Retail,96,7.08,679.68,Transfer
+2022-01-09,ORD000385,Coolant,Engine system,Retail,88,9.85,866.8,Cash
+2022-02-07,ORD000386,Coolant,Engine system,Wholesale,94,8.53,801.82,Cash
+2022-03-16,ORD000387,Coolant,Engine system,Wholesale,83,7.03,583.49,Transfer
+2022-04-24,ORD000388,Coolant,Engine system,Retail,82,10.1,828.2,Cash
+2022-05-13,ORD000389,Coolant,Engine system,Retail,86,9.04,777.44,Credit card
+2022-06-11,ORD000390,Coolant,Engine system,Wholesale,82,9.98,818.36,Credit card
+2022-07-27,ORD000391,Coolant,Engine system,Wholesale,95,7.43,705.85,Credit card
+2022-08-10,ORD000392,Coolant,Engine system,Wholesale,90,7.42,667.8,Credit card
+2022-09-11,ORD000393,Coolant,Engine system,Wholesale,81,11.13,901.53,Credit card
+2022-10-01,ORD000394,Coolant,Engine system,Wholesale,58,7.76,450.08,Cash
+2022-11-01,ORD000395,Coolant,Engine system,Wholesale,100,13.16,1316.0,Cash
+2022-12-04,ORD000396,Coolant,Engine system,Wholesale,92,10.27,944.84,Cash
+2023-01-26,ORD000397,Coolant,Engine system,Retail,77,8.73,672.21,Transfer
+2023-02-22,ORD000398,Coolant,Engine system,Wholesale,98,9.31,912.38,Check
+2023-03-04,ORD000399,Coolant,Engine system,Retail,80,13.82,1105.6,Check
+2023-04-05,ORD000400,Coolant,Engine system,Retail,87,10.73,933.51,Transfer
+2023-05-25,ORD000401,Coolant,Engine system,Retail,67,12.78,856.26,Transfer
+2023-06-17,ORD000402,Coolant,Engine system,Wholesale,65,8.91,579.15,Check
+2023-07-07,ORD000403,Coolant,Engine system,Retail,125,12.24,1530.0,Cash
+2023-08-22,ORD000404,Coolant,Engine system,Retail,79,7.25,572.75,Credit card
+2023-09-21,ORD000405,Coolant,Engine system,Wholesale,84,6.46,542.64,Transfer
+2023-10-26,ORD000406,Coolant,Engine system,Wholesale,92,10.74,988.08,Cash
+2023-11-30,ORD000407,Coolant,Engine system,Retail,86,6.59,566.74,Check
+2023-12-19,ORD000408,Coolant,Engine system,Wholesale,93,13.83,1286.19,Cash
+2024-01-21,ORD000409,Coolant,Engine system,Retail,67,8.47,567.49,Check
+2024-02-20,ORD000410,Coolant,Engine system,Wholesale,90,10.6,954.0,Credit card
+2024-03-28,ORD000411,Coolant,Engine system,Wholesale,90,10.5,945.0,Transfer
+2024-04-03,ORD000412,Coolant,Engine system,Wholesale,79,6.11,482.69,Credit card
+2024-05-07,ORD000413,Coolant,Engine system,Retail,96,6.45,619.2,Transfer
+2024-06-08,ORD000414,Coolant,Engine system,Wholesale,104,8.2,852.8,Cash
+2024-07-26,ORD000415,Coolant,Engine system,Wholesale,86,8.16,701.76,Cash
+2024-08-23,ORD000416,Coolant,Engine system,Retail,95,10.57,1004.15,Transfer
+2024-09-15,ORD000417,Coolant,Engine system,Wholesale,88,10.83,953.04,Cash
+2024-10-17,ORD000418,Coolant,Engine system,Wholesale,100,7.96,796.0,Transfer
+2024-11-10,ORD000419,Coolant,Engine system,Wholesale,78,12.96,1010.88,Transfer
+2024-12-29,ORD000420,Coolant,Engine system,Wholesale,91,7.6,691.6,Check
+2020-01-23,ORD000421,Battery,Electrical system,Wholesale,31,68.94,2137.14,Check
+2020-02-14,ORD000422,Battery,Electrical system,Wholesale,9,89.92,809.28,Credit card
+2020-03-31,ORD000423,Battery,Electrical system,Wholesale,20,56.05,1121.0,Cash
+2020-04-26,ORD000424,Battery,Electrical system,Wholesale,42,77.0,3234.0,Credit card
+2020-05-18,ORD000425,Battery,Electrical system,Retail,8,45.08,360.64,Cash
+2020-06-01,ORD000426,Battery,Electrical system,Wholesale,0,82.58,0.0,Cash
+2020-07-01,ORD000427,Battery,Electrical system,Retail,0,47.58,0.0,Transfer
+2020-08-01,ORD000428,Battery,Electrical system,Retail,0,76.66,0.0,Credit card
+2020-09-11,ORD000429,Battery,Electrical system,Wholesale,37,40.05,1481.85,Transfer
+2020-10-17,ORD000430,Battery,Electrical system,Wholesale,20,62.34,1246.8,Credit card
+2020-11-06,ORD000431,Battery,Electrical system,Wholesale,21,41.13,863.73,Transfer
+2020-12-17,ORD000432,Battery,Electrical system,Wholesale,9,78.68,708.12,Transfer
+2021-01-25,ORD000433,Battery,Electrical system,Retail,1,51.99,51.99,Credit card
+2021-02-01,ORD000434,Battery,Electrical system,Wholesale,0,49.36,0.0,Credit card
+2021-03-01,ORD000435,Battery,Electrical system,Retail,0,46.82,0.0,Credit card
+2021-04-27,ORD000436,Battery,Electrical system,Retail,34,66.6,2264.4,Credit card
+2021-05-05,ORD000437,Battery,Electrical system,Retail,33,68.62,2264.46,Transfer
+2021-06-29,ORD000438,Battery,Electrical system,Wholesale,26,82.47,2144.22,Cash
+2021-07-28,ORD000439,Battery,Electrical system,Wholesale,2,59.18,118.36,Check
+2021-08-01,ORD000440,Battery,Electrical system,Wholesale,0,73.05,0.0,Credit card
+2021-09-14,ORD000441,Battery,Electrical system,Retail,19,59.88,1137.72,Credit card
+2021-10-16,ORD000442,Battery,Electrical system,Wholesale,1,72.07,72.07,Cash
+2021-11-01,ORD000443,Battery,Electrical system,Retail,0,85.63,0.0,Credit card
+2021-12-01,ORD000444,Battery,Electrical system,Wholesale,0,75.04,0.0,Check
+2022-01-29,ORD000445,Battery,Electrical system,Wholesale,1,59.39,59.39,Cash
+2022-02-01,ORD000446,Battery,Electrical system,Wholesale,0,67.47,0.0,Credit card
+2022-03-01,ORD000447,Battery,Electrical system,Retail,0,63.92,0.0,Check
+2022-04-01,ORD000448,Battery,Electrical system,Wholesale,0,85.26,0.0,Transfer
+2022-05-02,ORD000449,Battery,Electrical system,Retail,3,76.09,228.27,Cash
+2022-06-01,ORD000450,Battery,Electrical system,Wholesale,0,84.38,0.0,Check
+2022-07-01,ORD000451,Battery,Electrical system,Wholesale,0,81.06,0.0,Transfer
+2022-08-01,ORD000452,Battery,Electrical system,Wholesale,0,86.31,0.0,Transfer
+2022-09-27,ORD000453,Battery,Electrical system,Wholesale,24,41.09,986.16,Credit card
+2022-10-01,ORD000454,Battery,Electrical system,Retail,0,73.92,0.0,Cash
+2022-11-23,ORD000455,Battery,Electrical system,Retail,33,79.61,2627.13,Transfer
+2022-12-01,ORD000456,Battery,Electrical system,Retail,0,84.43,0.0,Cash
+2023-01-23,ORD000457,Battery,Electrical system,Retail,30,86.5,2595.0,Transfer
+2023-02-01,ORD000458,Battery,Electrical system,Wholesale,24,55.28,1326.72,Cash
+2023-03-01,ORD000459,Battery,Electrical system,Wholesale,0,89.74,0.0,Check
+2023-04-01,ORD000460,Battery,Electrical system,Retail,0,80.41,0.0,Transfer
+2023-05-01,ORD000461,Battery,Electrical system,Wholesale,0,70.92,0.0,Credit card
+2023-06-08,ORD000462,Battery,Electrical system,Wholesale,51,50.86,2593.86,Check
+2023-07-01,ORD000463,Battery,Electrical system,Retail,0,59.58,0.0,Cash
+2023-08-15,ORD000464,Battery,Electrical system,Wholesale,50,57.85,2892.5,Check
+2023-09-01,ORD000465,Battery,Electrical system,Wholesale,38,73.77,2803.26,Check
+2023-10-20,ORD000466,Battery,Electrical system,Wholesale,38,52.62,1999.56,Credit card
+2023-11-01,ORD000467,Battery,Electrical system,Wholesale,0,76.16,0.0,Check
+2023-12-01,ORD000468,Battery,Electrical system,Retail,0,59.61,0.0,Credit card
+2024-01-01,ORD000469,Battery,Electrical system,Wholesale,0,72.43,0.0,Credit card
+2024-02-01,ORD000470,Battery,Electrical system,Wholesale,0,88.91,0.0,Check
+2024-03-06,ORD000471,Battery,Electrical system,Retail,5,57.15,285.75,Check
+2024-04-25,ORD000472,Battery,Electrical system,Wholesale,1,67.2,67.2,Cash
+2024-05-01,ORD000473,Battery,Electrical system,Wholesale,0,63.75,0.0,Check
+2024-06-19,ORD000474,Battery,Electrical system,Wholesale,7,48.8,341.6,Cash
+2024-07-01,ORD000475,Battery,Electrical system,Retail,0,64.2,0.0,Credit card
+2024-08-01,ORD000476,Battery,Electrical system,Retail,18,47.64,857.52,Transfer
+2024-09-01,ORD000477,Battery,Electrical system,Retail,0,47.49,0.0,Transfer
+2024-10-01,ORD000478,Battery,Electrical system,Retail,0,71.99,0.0,Cash
+2024-11-10,ORD000479,Battery,Electrical system,Retail,1,50.47,50.47,Cash
+2024-12-03,ORD000480,Battery,Electrical system,Wholesale,28,60.02,1680.56,Transfer
+2020-01-01,ORD000481,Alternator,Electrical system,Wholesale,35,95.18,3331.3,Cash
+2020-02-01,ORD000482,Alternator,Electrical system,Retail,0,94.44,0.0,Cash
+2020-03-01,ORD000483,Alternator,Electrical system,Wholesale,0,84.77,0.0,Transfer
+2020-04-01,ORD000484,Alternator,Electrical system,Wholesale,0,117.42,0.0,Transfer
+2020-05-01,ORD000485,Alternator,Electrical system,Retail,0,109.07,0.0,Credit card
+2020-06-01,ORD000486,Alternator,Electrical system,Wholesale,0,112.31,0.0,Credit card
+2020-07-01,ORD000487,Alternator,Electrical system,Retail,0,58.17,0.0,Check
+2020-08-01,ORD000488,Alternator,Electrical system,Retail,0,87.0,0.0,Credit card
+2020-09-29,ORD000489,Alternator,Electrical system,Wholesale,22,117.04,2574.88,Cash
+2020-10-31,ORD000490,Alternator,Electrical system,Wholesale,15,106.62,1599.3,Transfer
+2020-11-01,ORD000491,Alternator,Electrical system,Retail,0,55.42,0.0,Credit card
+2020-12-01,ORD000492,Alternator,Electrical system,Retail,0,80.29,0.0,Transfer
+2021-01-01,ORD000493,Alternator,Electrical system,Wholesale,0,54.79,0.0,Credit card
+2021-02-01,ORD000494,Alternator,Electrical system,Retail,0,63.84,0.0,Credit card
+2021-03-01,ORD000495,Alternator,Electrical system,Wholesale,0,104.05,0.0,Credit card
+2021-04-02,ORD000496,Alternator,Electrical system,Retail,10,111.08,1110.8,Cash
+2021-05-01,ORD000497,Alternator,Electrical system,Wholesale,0,57.83,0.0,Cash
+2021-06-26,ORD000498,Alternator,Electrical system,Retail,14,110.24,1543.36,Check
+2021-07-06,ORD000499,Alternator,Electrical system,Retail,34,117.15,3983.1,Transfer
+2021-08-01,ORD000500,Alternator,Electrical system,Retail,0,66.14,0.0,Cash
+2021-09-01,ORD000501,Alternator,Electrical system,Retail,0,113.56,0.0,Cash
+2021-10-01,ORD000502,Alternator,Electrical system,Retail,0,91.55,0.0,Credit card
+2021-11-08,ORD000503,Alternator,Electrical system,Retail,38,94.42,3587.96,Transfer
+2021-12-24,ORD000504,Alternator,Electrical system,Retail,21,74.26,1559.46,Transfer
+2022-01-01,ORD000505,Alternator,Electrical system,Retail,0,98.94,0.0,Check
+2022-02-05,ORD000506,Alternator,Electrical system,Wholesale,25,62.11,1552.75,Check
+2022-03-01,ORD000507,Alternator,Electrical system,Wholesale,0,111.88,0.0,Check
+2022-04-01,ORD000508,Alternator,Electrical system,Wholesale,0,108.79,0.0,Cash
+2022-05-01,ORD000509,Alternator,Electrical system,Retail,0,108.51,0.0,Credit card
+2022-06-01,ORD000510,Alternator,Electrical system,Wholesale,0,75.08,0.0,Credit card
+2022-07-20,ORD000511,Alternator,Electrical system,Retail,56,81.04,4538.24,Transfer
+2022-08-01,ORD000512,Alternator,Electrical system,Wholesale,0,114.92,0.0,Credit card
+2022-09-28,ORD000513,Alternator,Electrical system,Retail,39,69.53,2711.67,Transfer
+2022-10-25,ORD000514,Alternator,Electrical system,Wholesale,14,55.24,773.36,Check
+2022-11-19,ORD000515,Alternator,Electrical system,Retail,11,51.77,569.47,Cash
+2022-12-17,ORD000516,Alternator,Electrical system,Retail,41,77.98,3197.18,Transfer
+2023-01-01,ORD000517,Alternator,Electrical system,Wholesale,0,89.97,0.0,Transfer
+2023-02-01,ORD000518,Alternator,Electrical system,Retail,0,73.77,0.0,Check
+2023-03-03,ORD000519,Alternator,Electrical system,Wholesale,6,103.62,621.72,Cash
+2023-04-24,ORD000520,Alternator,Electrical system,Wholesale,34,89.99,3059.66,Transfer
+2023-05-10,ORD000521,Alternator,Electrical system,Wholesale,33,113.03,3729.99,Check
+2023-06-17,ORD000522,Alternator,Electrical system,Wholesale,36,96.86,3486.96,Cash
+2023-07-18,ORD000523,Alternator,Electrical system,Retail,44,81.61,3590.84,Check
+2023-08-31,ORD000524,Alternator,Electrical system,Wholesale,15,107.51,1612.65,Credit card
+2023-09-21,ORD000525,Alternator,Electrical system,Retail,36,66.12,2380.32,Cash
+2023-10-01,ORD000526,Alternator,Electrical system,Retail,0,77.67,0.0,Check
+2023-11-01,ORD000527,Alternator,Electrical system,Wholesale,0,107.26,0.0,Credit card
+2023-12-27,ORD000528,Alternator,Electrical system,Wholesale,22,110.2,2424.4,Credit card
+2024-01-11,ORD000529,Alternator,Electrical system,Wholesale,19,82.88,1574.72,Check
+2024-02-01,ORD000530,Alternator,Electrical system,Retail,0,119.55,0.0,Check
+2024-03-01,ORD000531,Alternator,Electrical system,Wholesale,0,91.87,0.0,Check
+2024-04-01,ORD000532,Alternator,Electrical system,Wholesale,0,59.42,0.0,Cash
+2024-05-24,ORD000533,Alternator,Electrical system,Wholesale,1,65.38,65.38,Cash
+2024-06-01,ORD000534,Alternator,Electrical system,Retail,0,100.28,0.0,Cash
+2024-07-01,ORD000535,Alternator,Electrical system,Wholesale,15,68.5,1027.5,Check
+2024-08-05,ORD000536,Alternator,Electrical system,Wholesale,3,61.38,184.14,Transfer
+2024-09-25,ORD000537,Alternator,Electrical system,Retail,41,55.31,2267.71,Transfer
+2024-10-01,ORD000538,Alternator,Electrical system,Wholesale,0,118.4,0.0,Transfer
+2024-11-01,ORD000539,Alternator,Electrical system,Wholesale,0,53.79,0.0,Credit card
+2024-12-01,ORD000540,Alternator,Electrical system,Wholesale,0,52.37,0.0,Cash
+2020-01-05,ORD000541,Starter Motor,Electrical system,Wholesale,23,100.26,2305.98,Check
+2020-02-01,ORD000542,Starter Motor,Electrical system,Wholesale,0,110.88,0.0,Transfer
+2020-03-04,ORD000543,Starter Motor,Electrical system,Retail,6,78.25,469.5,Cash
+2020-04-06,ORD000544,Starter Motor,Electrical system,Retail,36,122.36,4404.96,Check
+2020-05-01,ORD000545,Starter Motor,Electrical system,Wholesale,0,104.97,0.0,Credit card
+2020-06-30,ORD000546,Starter Motor,Electrical system,Retail,1,81.89,81.89,Transfer
+2020-07-01,ORD000547,Starter Motor,Electrical system,Wholesale,0,132.05,0.0,Check
+2020-08-01,ORD000548,Starter Motor,Electrical system,Wholesale,0,93.9,0.0,Transfer
+2020-09-24,ORD000549,Starter Motor,Electrical system,Retail,30,81.39,2441.7,Cash
+2020-10-01,ORD000550,Starter Motor,Electrical system,Retail,0,100.49,0.0,Credit card
+2020-11-01,ORD000551,Starter Motor,Electrical system,Wholesale,0,77.52,0.0,Check
+2020-12-11,ORD000552,Starter Motor,Electrical system,Retail,21,87.43,1836.03,Credit card
+2021-01-01,ORD000553,Starter Motor,Electrical system,Wholesale,0,107.35,0.0,Check
+2021-02-01,ORD000554,Starter Motor,Electrical system,Wholesale,0,125.81,0.0,Check
+2021-03-01,ORD000555,Starter Motor,Electrical system,Wholesale,0,70.61,0.0,Check
+2021-04-01,ORD000556,Starter Motor,Electrical system,Wholesale,0,111.41,0.0,Cash
+2021-05-01,ORD000557,Starter Motor,Electrical system,Retail,0,87.5,0.0,Cash
+2021-06-01,ORD000558,Starter Motor,Electrical system,Retail,0,114.0,0.0,Check
+2021-07-01,ORD000559,Starter Motor,Electrical system,Wholesale,0,132.97,0.0,Cash
+2021-08-05,ORD000560,Starter Motor,Electrical system,Wholesale,13,142.18,1848.34,Credit card
+2021-09-07,ORD000561,Starter Motor,Electrical system,Wholesale,12,146.03,1752.36,Cash
+2021-10-28,ORD000562,Starter Motor,Electrical system,Wholesale,27,93.36,2520.72,Transfer
+2021-11-29,ORD000563,Starter Motor,Electrical system,Retail,15,79.84,1197.6,Cash
+2021-12-01,ORD000564,Starter Motor,Electrical system,Retail,0,127.8,0.0,Cash
+2022-01-19,ORD000565,Starter Motor,Electrical system,Wholesale,2,107.72,215.44,Cash
+2022-02-01,ORD000566,Starter Motor,Electrical system,Wholesale,0,116.99,0.0,Cash
+2022-03-31,ORD000567,Starter Motor,Electrical system,Wholesale,19,93.45,1775.55,Cash
+2022-04-01,ORD000568,Starter Motor,Electrical system,Retail,0,120.47,0.0,Transfer
+2022-05-01,ORD000569,Starter Motor,Electrical system,Retail,0,146.27,0.0,Cash
+2022-06-01,ORD000570,Starter Motor,Electrical system,Wholesale,0,73.4,0.0,Transfer
+2022-07-01,ORD000571,Starter Motor,Electrical system,Wholesale,0,87.81,0.0,Transfer
+2022-08-25,ORD000572,Starter Motor,Electrical system,Retail,32,124.23,3975.36,Check
+2022-09-01,ORD000573,Starter Motor,Electrical system,Wholesale,0,84.9,0.0,Check
+2022-10-12,ORD000574,Starter Motor,Electrical system,Retail,14,144.05,2016.7,Credit card
+2022-11-01,ORD000575,Starter Motor,Electrical system,Retail,0,83.07,0.0,Credit card
+2022-12-27,ORD000576,Starter Motor,Electrical system,Retail,18,81.42,1465.56,Cash
+2023-01-01,ORD000577,Starter Motor,Electrical system,Retail,0,76.89,0.0,Check
+2023-02-24,ORD000578,Starter Motor,Electrical system,Retail,12,143.59,1723.08,Cash
+2023-03-26,ORD000579,Starter Motor,Electrical system,Wholesale,31,74.66,2314.46,Cash
+2023-04-05,ORD000580,Starter Motor,Electrical system,Retail,31,78.28,2426.68,Transfer
+2023-05-01,ORD000581,Starter Motor,Electrical system,Wholesale,0,129.62,0.0,Cash
+2023-06-02,ORD000582,Starter Motor,Electrical system,Wholesale,32,144.88,4636.16,Transfer
+2023-07-01,ORD000583,Starter Motor,Electrical system,Retail,0,85.3,0.0,Check
+2023-08-09,ORD000584,Starter Motor,Electrical system,Wholesale,1,122.73,122.73,Cash
+2023-09-10,ORD000585,Starter Motor,Electrical system,Retail,10,78.98,789.8,Cash
+2023-10-01,ORD000586,Starter Motor,Electrical system,Retail,0,112.04,0.0,Cash
+2023-11-04,ORD000587,Starter Motor,Electrical system,Wholesale,22,142.59,3136.98,Transfer
+2023-12-01,ORD000588,Starter Motor,Electrical system,Wholesale,0,99.59,0.0,Transfer
+2024-01-01,ORD000589,Starter Motor,Electrical system,Retail,0,133.37,0.0,Cash
+2024-02-07,ORD000590,Starter Motor,Electrical system,Retail,13,104.06,1352.78,Check
+2024-03-01,ORD000591,Starter Motor,Electrical system,Wholesale,0,123.55,0.0,Check
+2024-04-01,ORD000592,Starter Motor,Electrical system,Retail,0,78.37,0.0,Transfer
+2024-05-01,ORD000593,Starter Motor,Electrical system,Wholesale,0,138.5,0.0,Credit card
+2024-06-01,ORD000594,Starter Motor,Electrical system,Retail,0,102.98,0.0,Cash
+2024-07-01,ORD000595,Starter Motor,Electrical system,Retail,0,77.02,0.0,Credit card
+2024-08-30,ORD000596,Starter Motor,Electrical system,Retail,26,75.55,1964.3,Transfer
+2024-09-15,ORD000597,Starter Motor,Electrical system,Wholesale,26,61.93,1610.18,Transfer
+2024-10-01,ORD000598,Starter Motor,Electrical system,Retail,0,90.83,0.0,Cash
+2024-11-01,ORD000599,Starter Motor,Electrical system,Retail,0,95.4,0.0,Credit card
+2024-12-01,ORD000600,Starter Motor,Electrical system,Wholesale,0,123.85,0.0,Cash
+2020-01-26,ORD000601,Wiper Blades,Windshield system,Wholesale,47,5.22,245.34,Cash
+2020-02-19,ORD000602,Wiper Blades,Windshield system,Retail,41,8.48,347.68,Cash
+2020-03-12,ORD000603,Wiper Blades,Windshield system,Retail,58,6.48,375.84,Credit card
+2020-04-16,ORD000604,Wiper Blades,Windshield system,Wholesale,46,11.98,551.08,Check
+2020-05-09,ORD000605,Wiper Blades,Windshield system,Wholesale,56,11.01,616.56,Cash
+2020-06-17,ORD000606,Wiper Blades,Windshield system,Wholesale,53,8.01,424.53,Cash
+2020-07-30,ORD000607,Wiper Blades,Windshield system,Retail,44,8.41,370.04,Credit card
+2020-08-16,ORD000608,Wiper Blades,Windshield system,Wholesale,48,6.18,296.64,Credit card
+2020-09-03,ORD000609,Wiper Blades,Windshield system,Wholesale,47,6.12,287.64,Check
+2020-10-27,ORD000610,Wiper Blades,Windshield system,Retail,49,7.89,386.61,Cash
+2020-11-26,ORD000611,Wiper Blades,Windshield system,Wholesale,46,6.51,299.46,Transfer
+2020-12-16,ORD000612,Wiper Blades,Windshield system,Wholesale,55,10.97,603.35,Cash
+2021-01-17,ORD000613,Wiper Blades,Windshield system,Wholesale,56,5.65,316.4,Cash
+2021-02-25,ORD000614,Wiper Blades,Windshield system,Retail,61,10.97,669.17,Credit card
+2021-03-13,ORD000615,Wiper Blades,Windshield system,Wholesale,68,8.36,568.48,Credit card
+2021-04-15,ORD000616,Wiper Blades,Windshield system,Wholesale,82,8.93,732.26,Cash
+2021-05-27,ORD000617,Wiper Blades,Windshield system,Wholesale,48,5.95,285.6,Check
+2021-06-21,ORD000618,Wiper Blades,Windshield system,Retail,57,9.72,554.04,Check
+2021-07-11,ORD000619,Wiper Blades,Windshield system,Wholesale,74,8.16,603.84,Credit card
+2021-08-08,ORD000620,Wiper Blades,Windshield system,Retail,72,11.97,861.84,Credit card
+2021-09-01,ORD000621,Wiper Blades,Windshield system,Retail,66,9.15,603.9,Transfer
+2021-10-10,ORD000622,Wiper Blades,Windshield system,Wholesale,59,7.86,463.74,Cash
+2021-11-10,ORD000623,Wiper Blades,Windshield system,Wholesale,47,8.5,399.5,Credit card
+2021-12-28,ORD000624,Wiper Blades,Windshield system,Retail,44,8.02,352.88,Cash
+2022-01-19,ORD000625,Wiper Blades,Windshield system,Wholesale,40,10.57,422.8,Check
+2022-02-21,ORD000626,Wiper Blades,Windshield system,Retail,41,10.42,427.22,Transfer
+2022-03-25,ORD000627,Wiper Blades,Windshield system,Wholesale,59,5.41,319.19,Credit card
+2022-04-27,ORD000628,Wiper Blades,Windshield system,Wholesale,44,5.78,254.32,Transfer
+2022-05-28,ORD000629,Wiper Blades,Windshield system,Retail,49,9.81,480.69,Cash
+2022-06-30,ORD000630,Wiper Blades,Windshield system,Wholesale,20,5.75,115.0,Credit card
+2022-07-09,ORD000631,Wiper Blades,Windshield system,Retail,36,5.62,202.32,Credit card
+2022-08-11,ORD000632,Wiper Blades,Windshield system,Retail,45,10.89,490.05,Cash
+2022-09-24,ORD000633,Wiper Blades,Windshield system,Wholesale,57,9.99,569.43,Check
+2022-10-15,ORD000634,Wiper Blades,Windshield system,Retail,60,10.84,650.4,Check
+2022-11-24,ORD000635,Wiper Blades,Windshield system,Wholesale,68,8.43,573.24,Check
+2022-12-27,ORD000636,Wiper Blades,Windshield system,Retail,59,8.37,493.83,Credit card
+2023-01-17,ORD000637,Wiper Blades,Windshield system,Wholesale,67,8.42,564.14,Cash
+2023-02-26,ORD000638,Wiper Blades,Windshield system,Wholesale,55,5.7,313.5,Check
+2023-03-09,ORD000639,Wiper Blades,Windshield system,Wholesale,19,6.3,119.7,Cash
+2023-04-06,ORD000640,Wiper Blades,Windshield system,Wholesale,59,11.53,680.27,Cash
+2023-05-13,ORD000641,Wiper Blades,Windshield system,Wholesale,59,11.05,651.95,Cash
+2023-06-02,ORD000642,Wiper Blades,Windshield system,Retail,75,7.84,588.0,Credit card
+2023-07-16,ORD000643,Wiper Blades,Windshield system,Retail,54,8.96,483.84,Credit card
+2023-08-27,ORD000644,Wiper Blades,Windshield system,Wholesale,55,9.46,520.3,Check
+2023-09-19,ORD000645,Wiper Blades,Windshield system,Retail,53,11.14,590.42,Transfer
+2023-10-19,ORD000646,Wiper Blades,Windshield system,Wholesale,86,6.05,520.3,Cash
+2023-11-06,ORD000647,Wiper Blades,Windshield system,Retail,67,11.95,800.65,Check
+2023-12-28,ORD000648,Wiper Blades,Windshield system,Wholesale,54,6.93,374.22,Transfer
+2024-01-28,ORD000649,Wiper Blades,Windshield system,Wholesale,60,11.94,716.4,Check
+2024-02-18,ORD000650,Wiper Blades,Windshield system,Wholesale,46,9.18,422.28,Credit card
+2024-03-07,ORD000651,Wiper Blades,Windshield system,Wholesale,58,6.46,374.68,Cash
+2024-04-18,ORD000652,Wiper Blades,Windshield system,Wholesale,60,9.04,542.4,Credit card
+2024-05-27,ORD000653,Wiper Blades,Windshield system,Wholesale,42,8.45,354.9,Credit card
+2024-06-25,ORD000654,Wiper Blades,Windshield system,Wholesale,54,11.25,607.5,Transfer
+2024-07-06,ORD000655,Wiper Blades,Windshield system,Wholesale,55,6.0,330.0,Credit card
+2024-08-01,ORD000656,Wiper Blades,Windshield system,Retail,59,5.78,341.02,Check
+2024-09-13,ORD000657,Wiper Blades,Windshield system,Retail,54,9.68,522.72,Transfer
+2024-10-31,ORD000658,Wiper Blades,Windshield system,Wholesale,50,8.59,429.5,Cash
+2024-11-20,ORD000659,Wiper Blades,Windshield system,Retail,61,11.75,716.75,Transfer
+2024-12-17,ORD000660,Wiper Blades,Windshield system,Wholesale,47,9.68,454.96,Check
+2020-01-19,ORD000661,Engine Belt,Engine system,Wholesale,16,26.57,425.12,Transfer
+2020-02-14,ORD000662,Engine Belt,Engine system,Retail,29,19.35,561.15,Cash
+2020-03-01,ORD000663,Engine Belt,Engine system,Retail,0,25.39,0.0,Credit card
+2020-04-01,ORD000664,Engine Belt,Engine system,Retail,0,15.66,0.0,Credit card
+2020-05-12,ORD000665,Engine Belt,Engine system,Wholesale,20,29.52,590.4,Cash
+2020-06-01,ORD000666,Engine Belt,Engine system,Wholesale,0,24.39,0.0,Check
+2020-07-20,ORD000667,Engine Belt,Engine system,Wholesale,56,19.55,1094.8,Cash
+2020-08-06,ORD000668,Engine Belt,Engine system,Retail,17,16.77,285.09,Transfer
+2020-09-20,ORD000669,Engine Belt,Engine system,Retail,27,29.07,784.89,Credit card
+2020-10-24,ORD000670,Engine Belt,Engine system,Wholesale,26,21.16,550.16,Cash
+2020-11-23,ORD000671,Engine Belt,Engine system,Retail,26,26.73,694.98,Cash
+2020-12-15,ORD000672,Engine Belt,Engine system,Wholesale,24,26.78,642.72,Check
+2021-01-22,ORD000673,Engine Belt,Engine system,Retail,13,23.3,302.9,Check
+2021-02-23,ORD000674,Engine Belt,Engine system,Retail,17,28.06,477.02,Transfer
+2021-03-01,ORD000675,Engine Belt,Engine system,Retail,0,27.67,0.0,Cash
+2021-04-18,ORD000676,Engine Belt,Engine system,Retail,30,19.71,591.3,Cash
+2021-05-01,ORD000677,Engine Belt,Engine system,Retail,0,29.3,0.0,Transfer
+2021-06-28,ORD000678,Engine Belt,Engine system,Wholesale,21,26.92,565.32,Transfer
+2021-07-30,ORD000679,Engine Belt,Engine system,Retail,23,25.54,587.42,Credit card
+2021-08-29,ORD000680,Engine Belt,Engine system,Retail,34,16.35,555.9,Credit card
+2021-09-01,ORD000681,Engine Belt,Engine system,Wholesale,0,29.78,0.0,Transfer
+2021-10-01,ORD000682,Engine Belt,Engine system,Retail,0,21.94,0.0,Check
+2021-11-01,ORD000683,Engine Belt,Engine system,Wholesale,0,18.74,0.0,Credit card
+2021-12-01,ORD000684,Engine Belt,Engine system,Wholesale,0,16.42,0.0,Check
+2022-01-01,ORD000685,Engine Belt,Engine system,Retail,0,26.87,0.0,Check
+2022-02-15,ORD000686,Engine Belt,Engine system,Wholesale,16,28.02,448.32,Check
+2022-03-01,ORD000687,Engine Belt,Engine system,Wholesale,0,19.93,0.0,Transfer
+2022-04-01,ORD000688,Engine Belt,Engine system,Retail,0,22.81,0.0,Credit card
+2022-05-01,ORD000689,Engine Belt,Engine system,Wholesale,0,19.19,0.0,Cash
+2022-06-01,ORD000690,Engine Belt,Engine system,Retail,0,24.84,0.0,Credit card
+2022-07-01,ORD000691,Engine Belt,Engine system,Wholesale,0,17.15,0.0,Check
+2022-08-01,ORD000692,Engine Belt,Engine system,Wholesale,0,25.56,0.0,Check
+2022-09-01,ORD000693,Engine Belt,Engine system,Wholesale,0,19.8,0.0,Check
+2022-10-01,ORD000694,Engine Belt,Engine system,Wholesale,0,16.56,0.0,Cash
+2022-11-17,ORD000695,Engine Belt,Engine system,Wholesale,35,26.72,935.2,Cash
+2022-12-26,ORD000696,Engine Belt,Engine system,Retail,25,14.66,366.5,Check
+2023-01-01,ORD000697,Engine Belt,Engine system,Retail,0,13.71,0.0,Check
+2023-02-08,ORD000698,Engine Belt,Engine system,Wholesale,26,29.33,762.58,Check
+2023-03-28,ORD000699,Engine Belt,Engine system,Retail,12,20.3,243.6,Credit card
+2023-04-12,ORD000700,Engine Belt,Engine system,Wholesale,34,22.12,752.08,Cash
+2023-05-01,ORD000701,Engine Belt,Engine system,Wholesale,0,24.15,0.0,Credit card
+2023-06-26,ORD000702,Engine Belt,Engine system,Retail,39,14.18,553.02,Check
+2023-07-01,ORD000703,Engine Belt,Engine system,Wholesale,23,24.88,572.24,Transfer
+2023-08-30,ORD000704,Engine Belt,Engine system,Wholesale,12,18.25,219.0,Cash
+2023-09-16,ORD000705,Engine Belt,Engine system,Wholesale,34,23.78,808.52,Cash
+2023-10-27,ORD000706,Engine Belt,Engine system,Wholesale,17,14.72,250.24,Transfer
+2023-11-01,ORD000707,Engine Belt,Engine system,Wholesale,0,14.71,0.0,Transfer
+2023-12-01,ORD000708,Engine Belt,Engine system,Retail,0,24.58,0.0,Credit card
+2024-01-28,ORD000709,Engine Belt,Engine system,Wholesale,14,13.24,185.36,Credit card
+2024-02-17,ORD000710,Engine Belt,Engine system,Retail,14,21.13,295.82,Credit card
+2024-03-01,ORD000711,Engine Belt,Engine system,Retail,0,29.42,0.0,Transfer
+2024-04-02,ORD000712,Engine Belt,Engine system,Retail,29,15.69,455.01,Transfer
+2024-05-01,ORD000713,Engine Belt,Engine system,Wholesale,0,15.12,0.0,Cash
+2024-06-01,ORD000714,Engine Belt,Engine system,Retail,0,12.89,0.0,Cash
+2024-07-01,ORD000715,Engine Belt,Engine system,Wholesale,0,21.15,0.0,Check
+2024-08-01,ORD000716,Engine Belt,Engine system,Wholesale,0,19.05,0.0,Check
+2024-09-01,ORD000717,Engine Belt,Engine system,Wholesale,0,14.98,0.0,Credit card
+2024-10-24,ORD000718,Engine Belt,Engine system,Retail,21,21.47,450.87,Check
+2024-11-10,ORD000719,Engine Belt,Engine system,Wholesale,38,17.33,658.54,Cash
+2024-12-04,ORD000720,Engine Belt,Engine system,Wholesale,19,25.2,478.8,Transfer
+2020-01-13,ORD000721,Fuel Pump,Fuel system,Wholesale,63,93.99,5921.37,Check
+2020-02-03,ORD000722,Fuel Pump,Fuel system,Retail,66,46.51,3069.66,Cash
+2020-03-17,ORD000723,Fuel Pump,Fuel system,Wholesale,73,78.03,5696.19,Transfer
+2020-04-20,ORD000724,Fuel Pump,Fuel system,Wholesale,45,50.39,2267.55,Transfer
+2020-05-30,ORD000725,Fuel Pump,Fuel system,Retail,50,58.54,2927.0,Credit card
+2020-06-28,ORD000726,Fuel Pump,Fuel system,Retail,90,65.48,5893.2,Check
+2020-07-05,ORD000727,Fuel Pump,Fuel system,Wholesale,47,65.75,3090.25,Cash
+2020-08-09,ORD000728,Fuel Pump,Fuel system,Retail,56,47.37,2652.72,Credit card
+2020-09-08,ORD000729,Fuel Pump,Fuel system,Wholesale,52,90.26,4693.52,Cash
+2020-10-25,ORD000730,Fuel Pump,Fuel system,Retail,50,59.42,2971.0,Check
+2020-11-16,ORD000731,Fuel Pump,Fuel system,Retail,59,45.05,2657.95,Cash
+2020-12-26,ORD000732,Fuel Pump,Fuel system,Retail,75,69.63,5222.25,Check
+2021-01-05,ORD000733,Fuel Pump,Fuel system,Retail,45,93.78,4220.1,Credit card
+2021-02-07,ORD000734,Fuel Pump,Fuel system,Wholesale,69,91.16,6290.04,Credit card
+2021-03-16,ORD000735,Fuel Pump,Fuel system,Retail,47,62.28,2927.16,Cash
+2021-04-27,ORD000736,Fuel Pump,Fuel system,Wholesale,43,75.48,3245.64,Check
+2021-05-18,ORD000737,Fuel Pump,Fuel system,Wholesale,78,58.84,4589.52,Credit card
+2021-06-04,ORD000738,Fuel Pump,Fuel system,Retail,70,93.67,6556.9,Check
+2021-07-17,ORD000739,Fuel Pump,Fuel system,Retail,54,88.57,4782.78,Check
+2021-08-29,ORD000740,Fuel Pump,Fuel system,Retail,45,82.71,3721.95,Credit card
+2021-09-05,ORD000741,Fuel Pump,Fuel system,Retail,34,52.24,1776.16,Transfer
+2021-10-08,ORD000742,Fuel Pump,Fuel system,Wholesale,37,65.69,2430.53,Credit card
+2021-11-15,ORD000743,Fuel Pump,Fuel system,Retail,47,97.97,4604.59,Credit card
+2021-12-17,ORD000744,Fuel Pump,Fuel system,Wholesale,69,97.43,6722.67,Credit card
+2022-01-12,ORD000745,Fuel Pump,Fuel system,Wholesale,96,87.03,8354.88,Transfer
+2022-02-10,ORD000746,Fuel Pump,Fuel system,Wholesale,43,45.56,1959.08,Cash
+2022-03-11,ORD000747,Fuel Pump,Fuel system,Wholesale,31,66.6,2064.6,Check
+2022-04-06,ORD000748,Fuel Pump,Fuel system,Wholesale,49,61.65,3020.85,Cash
+2022-05-03,ORD000749,Fuel Pump,Fuel system,Retail,53,59.4,3148.2,Credit card
+2022-06-29,ORD000750,Fuel Pump,Fuel system,Retail,35,93.3,3265.5,Transfer
+2022-07-16,ORD000751,Fuel Pump,Fuel system,Retail,27,52.0,1404.0,Check
+2022-08-31,ORD000752,Fuel Pump,Fuel system,Wholesale,67,97.15,6509.05,Cash
+2022-09-17,ORD000753,Fuel Pump,Fuel system,Wholesale,58,97.56,5658.48,Transfer
+2022-10-01,ORD000754,Fuel Pump,Fuel system,Retail,62,97.0,6014.0,Credit card
+2022-11-21,ORD000755,Fuel Pump,Fuel system,Retail,67,45.35,3038.45,Transfer
+2022-12-31,ORD000756,Fuel Pump,Fuel system,Retail,45,55.49,2497.05,Cash
+2023-01-07,ORD000757,Fuel Pump,Fuel system,Wholesale,37,77.2,2856.4,Check
+2023-02-22,ORD000758,Fuel Pump,Fuel system,Retail,36,94.82,3413.52,Cash
+2023-03-19,ORD000759,Fuel Pump,Fuel system,Retail,61,47.14,2875.54,Check
+2023-04-26,ORD000760,Fuel Pump,Fuel system,Wholesale,45,98.85,4448.25,Cash
+2023-05-13,ORD000761,Fuel Pump,Fuel system,Wholesale,69,78.38,5408.22,Check
+2023-06-26,ORD000762,Fuel Pump,Fuel system,Wholesale,69,87.58,6043.02,Transfer
+2023-07-09,ORD000763,Fuel Pump,Fuel system,Retail,52,58.66,3050.32,Transfer
+2023-08-12,ORD000764,Fuel Pump,Fuel system,Wholesale,59,59.94,3536.46,Transfer
+2023-09-08,ORD000765,Fuel Pump,Fuel system,Wholesale,45,65.3,2938.5,Credit card
+2023-10-08,ORD000766,Fuel Pump,Fuel system,Retail,45,92.59,4166.55,Credit card
+2023-11-06,ORD000767,Fuel Pump,Fuel system,Retail,42,93.01,3906.42,Transfer
+2023-12-09,ORD000768,Fuel Pump,Fuel system,Wholesale,58,65.65,3807.7,Transfer
+2024-01-01,ORD000769,Fuel Pump,Fuel system,Retail,63,69.65,4387.95,Cash
+2024-02-25,ORD000770,Fuel Pump,Fuel system,Retail,45,84.05,3782.25,Transfer
+2024-03-03,ORD000771,Fuel Pump,Fuel system,Wholesale,62,81.48,5051.76,Check
+2024-04-15,ORD000772,Fuel Pump,Fuel system,Wholesale,48,48.87,2345.76,Cash
+2024-05-19,ORD000773,Fuel Pump,Fuel system,Wholesale,60,98.7,5922.0,Cash
+2024-06-14,ORD000774,Fuel Pump,Fuel system,Retail,34,69.14,2350.76,Check
+2024-07-09,ORD000775,Fuel Pump,Fuel system,Retail,59,80.66,4758.94,Transfer
+2024-08-25,ORD000776,Fuel Pump,Fuel system,Wholesale,56,73.42,4111.52,Check
+2024-09-11,ORD000777,Fuel Pump,Fuel system,Wholesale,42,75.62,3176.04,Transfer
+2024-10-19,ORD000778,Fuel Pump,Fuel system,Retail,71,64.4,4572.4,Cash
+2024-11-09,ORD000779,Fuel Pump,Fuel system,Wholesale,60,87.93,5275.8,Check
+2024-12-22,ORD000780,Fuel Pump,Fuel system,Wholesale,66,56.2,3709.2,Transfer
+2020-01-23,ORD000781,Throttle Body,Fuel system,Wholesale,56,40.15,2248.4,Credit card
+2020-02-05,ORD000782,Throttle Body,Fuel system,Wholesale,28,51.91,1453.48,Credit card
+2020-03-27,ORD000783,Throttle Body,Fuel system,Retail,55,36.12,1986.6,Check
+2020-04-15,ORD000784,Throttle Body,Fuel system,Wholesale,52,76.84,3995.68,Check
+2020-05-30,ORD000785,Throttle Body,Fuel system,Retail,19,58.37,1109.03,Transfer
+2020-06-17,ORD000786,Throttle Body,Fuel system,Wholesale,35,76.96,2693.6,Credit card
+2020-07-25,ORD000787,Throttle Body,Fuel system,Wholesale,39,64.15,2501.85,Check
+2020-08-07,ORD000788,Throttle Body,Fuel system,Retail,47,42.06,1976.82,Credit card
+2020-09-28,ORD000789,Throttle Body,Fuel system,Wholesale,37,59.23,2191.51,Cash
+2020-10-04,ORD000790,Throttle Body,Fuel system,Retail,42,60.61,2545.62,Cash
+2020-11-12,ORD000791,Throttle Body,Fuel system,Retail,41,63.16,2589.56,Credit card
+2020-12-04,ORD000792,Throttle Body,Fuel system,Retail,37,78.92,2920.04,Cash
+2021-01-17,ORD000793,Throttle Body,Fuel system,Retail,37,49.29,1823.73,Transfer
+2021-02-24,ORD000794,Throttle Body,Fuel system,Retail,48,68.47,3286.56,Cash
+2021-03-20,ORD000795,Throttle Body,Fuel system,Wholesale,35,56.27,1969.45,Transfer
+2021-04-05,ORD000796,Throttle Body,Fuel system,Wholesale,57,55.67,3173.19,Cash
+2021-05-31,ORD000797,Throttle Body,Fuel system,Retail,48,51.14,2454.72,Transfer
+2021-06-24,ORD000798,Throttle Body,Fuel system,Retail,17,49.97,849.49,Transfer
+2021-07-13,ORD000799,Throttle Body,Fuel system,Wholesale,21,64.63,1357.23,Cash
+2021-08-13,ORD000800,Throttle Body,Fuel system,Wholesale,33,55.56,1833.48,Transfer
+2021-09-06,ORD000801,Throttle Body,Fuel system,Retail,24,76.23,1829.52,Cash
+2021-10-19,ORD000802,Throttle Body,Fuel system,Wholesale,54,56.52,3052.08,Check
+2021-11-30,ORD000803,Throttle Body,Fuel system,Wholesale,41,55.68,2282.88,Transfer
+2021-12-12,ORD000804,Throttle Body,Fuel system,Wholesale,38,61.01,2318.38,Credit card
+2022-01-30,ORD000805,Throttle Body,Fuel system,Retail,63,69.09,4352.67,Transfer
+2022-02-23,ORD000806,Throttle Body,Fuel system,Retail,31,68.44,2121.64,Check
+2022-03-03,ORD000807,Throttle Body,Fuel system,Retail,56,67.75,3794.0,Cash
+2022-04-14,ORD000808,Throttle Body,Fuel system,Wholesale,61,77.15,4706.15,Transfer
+2022-05-25,ORD000809,Throttle Body,Fuel system,Retail,63,79.01,4977.63,Check
+2022-06-12,ORD000810,Throttle Body,Fuel system,Wholesale,58,77.51,4495.58,Cash
+2022-07-07,ORD000811,Throttle Body,Fuel system,Wholesale,50,52.38,2619.0,Transfer
+2022-08-03,ORD000812,Throttle Body,Fuel system,Retail,49,48.63,2382.87,Check
+2022-09-27,ORD000813,Throttle Body,Fuel system,Retail,70,66.98,4688.6,Transfer
+2022-10-02,ORD000814,Throttle Body,Fuel system,Wholesale,58,46.35,2688.3,Transfer
+2022-11-19,ORD000815,Throttle Body,Fuel system,Retail,53,73.77,3909.81,Credit card
+2022-12-23,ORD000816,Throttle Body,Fuel system,Wholesale,31,54.88,1701.28,Check
+2023-01-08,ORD000817,Throttle Body,Fuel system,Retail,41,57.74,2367.34,Check
+2023-02-19,ORD000818,Throttle Body,Fuel system,Retail,33,57.26,1889.58,Check
+2023-03-29,ORD000819,Throttle Body,Fuel system,Retail,32,43.85,1403.2,Credit card
+2023-04-10,ORD000820,Throttle Body,Fuel system,Wholesale,38,78.1,2967.8,Check
+2023-05-26,ORD000821,Throttle Body,Fuel system,Wholesale,25,55.32,1383.0,Cash
+2023-06-15,ORD000822,Throttle Body,Fuel system,Wholesale,40,72.74,2909.6,Cash
+2023-07-11,ORD000823,Throttle Body,Fuel system,Retail,44,52.96,2330.24,Check
+2023-08-12,ORD000824,Throttle Body,Fuel system,Wholesale,63,61.29,3861.27,Credit card
+2023-09-19,ORD000825,Throttle Body,Fuel system,Wholesale,49,65.51,3209.99,Cash
+2023-10-07,ORD000826,Throttle Body,Fuel system,Retail,43,56.84,2444.12,Credit card
+2023-11-10,ORD000827,Throttle Body,Fuel system,Wholesale,59,69.39,4094.01,Transfer
+2023-12-04,ORD000828,Throttle Body,Fuel system,Wholesale,61,51.88,3164.68,Cash
+2024-01-23,ORD000829,Throttle Body,Fuel system,Retail,47,71.47,3359.09,Transfer
+2024-02-11,ORD000830,Throttle Body,Fuel system,Retail,75,67.28,5046.0,Credit card
+2024-03-28,ORD000831,Throttle Body,Fuel system,Wholesale,55,78.01,4290.55,Transfer
+2024-04-24,ORD000832,Throttle Body,Fuel system,Wholesale,28,58.4,1635.2,Cash
+2024-05-18,ORD000833,Throttle Body,Fuel system,Wholesale,51,67.22,3428.22,Check
+2024-06-04,ORD000834,Throttle Body,Fuel system,Retail,28,51.38,1438.64,Transfer
+2024-07-02,ORD000835,Throttle Body,Fuel system,Wholesale,44,79.23,3486.12,Transfer
+2024-08-20,ORD000836,Throttle Body,Fuel system,Wholesale,39,55.07,2147.73,Cash
+2024-09-15,ORD000837,Throttle Body,Fuel system,Wholesale,40,44.3,1772.0,Transfer
+2024-10-13,ORD000838,Throttle Body,Fuel system,Wholesale,51,62.38,3181.38,Transfer
+2024-11-01,ORD000839,Throttle Body,Fuel system,Retail,49,77.91,3817.59,Transfer
+2024-12-02,ORD000840,Throttle Body,Fuel system,Wholesale,48,55.07,2643.36,Check
+2020-01-01,ORD000841,Radiator,Cooling system,Retail,0,43.11,0.0,Check
+2020-02-01,ORD000842,Radiator,Cooling system,Retail,0,77.38,0.0,Cash
+2020-03-01,ORD000843,Radiator,Cooling system,Retail,0,54.65,0.0,Credit card
+2020-04-01,ORD000844,Radiator,Cooling system,Retail,0,40.74,0.0,Transfer
+2020-05-01,ORD000845,Radiator,Cooling system,Retail,0,63.67,0.0,Cash
+2020-06-01,ORD000846,Radiator,Cooling system,Wholesale,0,84.34,0.0,Cash
+2020-07-01,ORD000847,Radiator,Cooling system,Retail,0,82.93,0.0,Credit card
+2020-08-29,ORD000848,Radiator,Cooling system,Retail,10,74.91,749.1,Check
+2020-09-01,ORD000849,Radiator,Cooling system,Retail,0,43.9,0.0,Credit card
+2020-10-01,ORD000850,Radiator,Cooling system,Wholesale,0,46.26,0.0,Check
+2020-11-01,ORD000851,Radiator,Cooling system,Retail,0,51.3,0.0,Credit card
+2020-12-01,ORD000852,Radiator,Cooling system,Retail,0,65.17,0.0,Check
+2021-01-15,ORD000853,Radiator,Cooling system,Wholesale,25,45.75,1143.75,Check
+2021-02-20,ORD000854,Radiator,Cooling system,Wholesale,28,76.03,2128.84,Cash
+2021-03-01,ORD000855,Radiator,Cooling system,Wholesale,0,50.6,0.0,Cash
+2021-04-18,ORD000856,Radiator,Cooling system,Retail,24,44.66,1071.84,Check
+2021-05-27,ORD000857,Radiator,Cooling system,Retail,28,86.72,2428.16,Cash
+2021-06-01,ORD000858,Radiator,Cooling system,Wholesale,0,61.27,0.0,Transfer
+2021-07-29,ORD000859,Radiator,Cooling system,Retail,7,84.96,594.72,Cash
+2021-08-30,ORD000860,Radiator,Cooling system,Retail,29,60.48,1753.92,Credit card
+2021-09-15,ORD000861,Radiator,Cooling system,Wholesale,28,62.31,1744.68,Check
+2021-10-01,ORD000862,Radiator,Cooling system,Retail,0,96.75,0.0,Transfer
+2021-11-01,ORD000863,Radiator,Cooling system,Retail,20,64.29,1285.8,Check
+2021-12-01,ORD000864,Radiator,Cooling system,Retail,0,66.75,0.0,Transfer
+2022-01-03,ORD000865,Radiator,Cooling system,Retail,32,41.69,1334.08,Check
+2022-02-01,ORD000866,Radiator,Cooling system,Retail,40,46.22,1848.8,Credit card
+2022-03-01,ORD000867,Radiator,Cooling system,Wholesale,0,75.11,0.0,Check
+2022-04-27,ORD000868,Radiator,Cooling system,Wholesale,25,85.48,2137.0,Transfer
+2022-05-21,ORD000869,Radiator,Cooling system,Retail,27,70.98,1916.46,Check
+2022-06-01,ORD000870,Radiator,Cooling system,Wholesale,0,75.99,0.0,Credit card
+2022-07-01,ORD000871,Radiator,Cooling system,Wholesale,0,62.72,0.0,Transfer
+2022-08-01,ORD000872,Radiator,Cooling system,Retail,0,93.59,0.0,Credit card
+2022-09-01,ORD000873,Radiator,Cooling system,Wholesale,0,52.94,0.0,Transfer
+2022-10-01,ORD000874,Radiator,Cooling system,Retail,0,77.82,0.0,Credit card
+2022-11-01,ORD000875,Radiator,Cooling system,Retail,0,62.18,0.0,Check
+2022-12-01,ORD000876,Radiator,Cooling system,Retail,0,68.21,0.0,Credit card
+2023-01-01,ORD000877,Radiator,Cooling system,Retail,0,67.68,0.0,Transfer
+2023-02-13,ORD000878,Radiator,Cooling system,Wholesale,38,82.82,3147.16,Check
+2023-03-01,ORD000879,Radiator,Cooling system,Retail,0,97.9,0.0,Credit card
+2023-04-14,ORD000880,Radiator,Cooling system,Retail,17,81.37,1383.29,Cash
+2023-05-05,ORD000881,Radiator,Cooling system,Wholesale,43,65.98,2837.14,Cash
+2023-06-01,ORD000882,Radiator,Cooling system,Wholesale,0,57.21,0.0,Check
+2023-07-01,ORD000883,Radiator,Cooling system,Retail,0,82.16,0.0,Check
+2023-08-01,ORD000884,Radiator,Cooling system,Wholesale,0,99.48,0.0,Transfer
+2023-09-01,ORD000885,Radiator,Cooling system,Wholesale,0,86.71,0.0,Check
+2023-10-25,ORD000886,Radiator,Cooling system,Wholesale,13,78.67,1022.71,Cash
+2023-11-01,ORD000887,Radiator,Cooling system,Retail,0,72.08,0.0,Cash
+2023-12-01,ORD000888,Radiator,Cooling system,Retail,0,55.18,0.0,Check
+2024-01-01,ORD000889,Radiator,Cooling system,Wholesale,0,92.38,0.0,Credit card
+2024-02-01,ORD000890,Radiator,Cooling system,Retail,0,96.75,0.0,Check
+2024-03-24,ORD000891,Radiator,Cooling system,Wholesale,17,52.57,893.69,Credit card
+2024-04-12,ORD000892,Radiator,Cooling system,Wholesale,21,50.56,1061.76,Transfer
+2024-05-02,ORD000893,Radiator,Cooling system,Retail,25,82.63,2065.75,Credit card
+2024-06-23,ORD000894,Radiator,Cooling system,Wholesale,1,92.76,92.76,Credit card
+2024-07-01,ORD000895,Radiator,Cooling system,Wholesale,0,90.02,0.0,Cash
+2024-08-01,ORD000896,Radiator,Cooling system,Wholesale,0,84.88,0.0,Transfer
+2024-09-01,ORD000897,Radiator,Cooling system,Retail,0,73.58,0.0,Transfer
+2024-10-07,ORD000898,Radiator,Cooling system,Retail,28,44.22,1238.16,Credit card
+2024-11-29,ORD000899,Radiator,Cooling system,Retail,19,48.64,924.16,Credit card
+2024-12-10,ORD000900,Radiator,Cooling system,Retail,27,53.55,1445.85,Cash
+2020-01-06,ORD000901,Water Pump,Cooling system,Wholesale,35,55.6,1946.0,Transfer
+2020-02-06,ORD000902,Water Pump,Cooling system,Wholesale,87,58.77,5112.99,Check
+2020-03-25,ORD000903,Water Pump,Cooling system,Retail,72,65.91,4745.52,Credit card
+2020-04-16,ORD000904,Water Pump,Cooling system,Retail,65,81.79,5316.35,Cash
+2020-05-10,ORD000905,Water Pump,Cooling system,Wholesale,53,46.64,2471.92,Transfer
+2020-06-27,ORD000906,Water Pump,Cooling system,Wholesale,46,77.46,3563.16,Transfer
+2020-07-25,ORD000907,Water Pump,Cooling system,Wholesale,67,46.43,3110.81,Check
+2020-08-19,ORD000908,Water Pump,Cooling system,Retail,34,64.8,2203.2,Transfer
+2020-09-30,ORD000909,Water Pump,Cooling system,Retail,70,71.37,4995.9,Credit card
+2020-10-15,ORD000910,Water Pump,Cooling system,Wholesale,52,64.1,3333.2,Cash
+2020-11-10,ORD000911,Water Pump,Cooling system,Wholesale,77,71.75,5524.75,Transfer
+2020-12-30,ORD000912,Water Pump,Cooling system,Retail,55,58.06,3193.3,Cash
+2021-01-22,ORD000913,Water Pump,Cooling system,Wholesale,78,83.22,6491.16,Check
+2021-02-08,ORD000914,Water Pump,Cooling system,Wholesale,70,36.26,2538.2,Transfer
+2021-03-05,ORD000915,Water Pump,Cooling system,Retail,74,66.85,4946.9,Transfer
+2021-04-02,ORD000916,Water Pump,Cooling system,Retail,54,42.75,2308.5,Check
+2021-05-24,ORD000917,Water Pump,Cooling system,Wholesale,62,45.26,2806.12,Credit card
+2021-06-15,ORD000918,Water Pump,Cooling system,Wholesale,40,71.36,2854.4,Transfer
+2021-07-29,ORD000919,Water Pump,Cooling system,Retail,64,71.06,4547.84,Transfer
+2021-08-16,ORD000920,Water Pump,Cooling system,Retail,56,41.72,2336.32,Credit card
+2021-09-01,ORD000921,Water Pump,Cooling system,Retail,70,73.74,5161.8,Transfer
+2021-10-23,ORD000922,Water Pump,Cooling system,Wholesale,69,74.05,5109.45,Credit card
+2021-11-24,ORD000923,Water Pump,Cooling system,Retail,75,63.08,4731.0,Transfer
+2021-12-27,ORD000924,Water Pump,Cooling system,Wholesale,58,79.02,4583.16,Cash
+2022-01-25,ORD000925,Water Pump,Cooling system,Wholesale,60,67.14,4028.4,Check
+2022-02-22,ORD000926,Water Pump,Cooling system,Retail,73,52.86,3858.78,Transfer
+2022-03-30,ORD000927,Water Pump,Cooling system,Wholesale,54,58.75,3172.5,Credit card
+2022-04-09,ORD000928,Water Pump,Cooling system,Retail,74,69.17,5118.58,Transfer
+2022-05-12,ORD000929,Water Pump,Cooling system,Wholesale,36,71.97,2590.92,Transfer
+2022-06-07,ORD000930,Water Pump,Cooling system,Retail,57,64.96,3702.72,Check
+2022-07-06,ORD000931,Water Pump,Cooling system,Retail,63,57.29,3609.27,Cash
+2022-08-03,ORD000932,Water Pump,Cooling system,Wholesale,49,84.15,4123.35,Transfer
+2022-09-03,ORD000933,Water Pump,Cooling system,Retail,72,39.65,2854.8,Cash
+2022-10-06,ORD000934,Water Pump,Cooling system,Wholesale,70,47.6,3332.0,Credit card
+2022-11-03,ORD000935,Water Pump,Cooling system,Retail,53,66.18,3507.54,Cash
+2022-12-17,ORD000936,Water Pump,Cooling system,Wholesale,41,60.46,2478.86,Credit card
+2023-01-16,ORD000937,Water Pump,Cooling system,Wholesale,42,70.8,2973.6,Transfer
+2023-02-26,ORD000938,Water Pump,Cooling system,Wholesale,47,61.4,2885.8,Transfer
+2023-03-24,ORD000939,Water Pump,Cooling system,Retail,68,47.14,3205.52,Cash
+2023-04-29,ORD000940,Water Pump,Cooling system,Retail,63,45.06,2838.78,Check
+2023-05-05,ORD000941,Water Pump,Cooling system,Retail,48,47.3,2270.4,Check
+2023-06-28,ORD000942,Water Pump,Cooling system,Wholesale,57,70.08,3994.56,Credit card
+2023-07-07,ORD000943,Water Pump,Cooling system,Retail,51,85.0,4335.0,Transfer
+2023-08-13,ORD000944,Water Pump,Cooling system,Wholesale,73,63.16,4610.68,Transfer
+2023-09-25,ORD000945,Water Pump,Cooling system,Retail,46,41.96,1930.16,Cash
+2023-10-01,ORD000946,Water Pump,Cooling system,Wholesale,49,46.67,2286.83,Transfer
+2023-11-01,ORD000947,Water Pump,Cooling system,Retail,57,48.25,2750.25,Credit card
+2023-12-13,ORD000948,Water Pump,Cooling system,Retail,76,81.41,6187.16,Check
+2024-01-09,ORD000949,Water Pump,Cooling system,Wholesale,78,35.93,2802.54,Transfer
+2024-02-01,ORD000950,Water Pump,Cooling system,Retail,73,38.81,2833.13,Credit card
+2024-03-29,ORD000951,Water Pump,Cooling system,Retail,66,56.97,3760.02,Cash
+2024-04-10,ORD000952,Water Pump,Cooling system,Wholesale,75,66.7,5002.5,Cash
+2024-05-11,ORD000953,Water Pump,Cooling system,Wholesale,51,37.58,1916.58,Credit card
+2024-06-30,ORD000954,Water Pump,Cooling system,Wholesale,67,82.96,5558.32,Credit card
+2024-07-08,ORD000955,Water Pump,Cooling system,Wholesale,46,48.25,2219.5,Cash
+2024-08-17,ORD000956,Water Pump,Cooling system,Wholesale,45,82.21,3699.45,Transfer
+2024-09-04,ORD000957,Water Pump,Cooling system,Retail,65,74.4,4836.0,Check
+2024-10-31,ORD000958,Water Pump,Cooling system,Wholesale,49,79.56,3898.44,Check
+2024-11-01,ORD000959,Water Pump,Cooling system,Wholesale,74,62.65,4636.1,Transfer
+2024-12-28,ORD000960,Water Pump,Cooling system,Wholesale,79,55.28,4367.12,Credit card
+2020-01-08,ORD000961,Thermostat,Cooling system,Retail,63,14.14,890.82,Cash
+2020-02-07,ORD000962,Thermostat,Cooling system,Retail,43,16.71,718.53,Transfer
+2020-03-12,ORD000963,Thermostat,Cooling system,Wholesale,54,16.26,878.04,Transfer
+2020-04-05,ORD000964,Thermostat,Cooling system,Retail,50,17.06,853.0,Credit card
+2020-05-30,ORD000965,Thermostat,Cooling system,Retail,61,12.62,769.82,Credit card
+2020-06-03,ORD000966,Thermostat,Cooling system,Retail,63,16.52,1040.76,Cash
+2020-07-12,ORD000967,Thermostat,Cooling system,Retail,71,13.42,952.82,Check
+2020-08-11,ORD000968,Thermostat,Cooling system,Wholesale,49,9.26,453.74,Check
+2020-09-03,ORD000969,Thermostat,Cooling system,Retail,83,12.68,1052.44,Credit card
+2020-10-03,ORD000970,Thermostat,Cooling system,Wholesale,49,14.33,702.17,Credit card
+2020-11-22,ORD000971,Thermostat,Cooling system,Retail,46,14.67,674.82,Credit card
+2020-12-25,ORD000972,Thermostat,Cooling system,Retail,57,13.95,795.15,Check
+2021-01-12,ORD000973,Thermostat,Cooling system,Wholesale,70,11.84,828.8,Check
+2021-02-12,ORD000974,Thermostat,Cooling system,Retail,58,13.83,802.14,Cash
+2021-03-11,ORD000975,Thermostat,Cooling system,Wholesale,70,16.33,1143.1,Credit card
+2021-04-17,ORD000976,Thermostat,Cooling system,Retail,61,10.53,642.33,Check
+2021-05-31,ORD000977,Thermostat,Cooling system,Retail,51,9.75,497.25,Check
+2021-06-10,ORD000978,Thermostat,Cooling system,Wholesale,50,14.3,715.0,Cash
+2021-07-22,ORD000979,Thermostat,Cooling system,Retail,42,8.75,367.5,Credit card
+2021-08-09,ORD000980,Thermostat,Cooling system,Wholesale,59,8.11,478.49,Cash
+2021-09-13,ORD000981,Thermostat,Cooling system,Retail,56,12.49,699.44,Check
+2021-10-11,ORD000982,Thermostat,Cooling system,Retail,49,8.79,430.71,Cash
+2021-11-12,ORD000983,Thermostat,Cooling system,Retail,54,9.29,501.66,Cash
+2021-12-31,ORD000984,Thermostat,Cooling system,Retail,66,11.02,727.32,Cash
+2022-01-22,ORD000985,Thermostat,Cooling system,Retail,65,15.45,1004.25,Cash
+2022-02-22,ORD000986,Thermostat,Cooling system,Retail,57,17.98,1024.86,Check
+2022-03-16,ORD000987,Thermostat,Cooling system,Retail,70,10.78,754.6,Transfer
+2022-04-03,ORD000988,Thermostat,Cooling system,Retail,56,9.2,515.2,Transfer
+2022-05-29,ORD000989,Thermostat,Cooling system,Retail,60,11.1,666.0,Cash
+2022-06-14,ORD000990,Thermostat,Cooling system,Retail,74,12.66,936.84,Cash
+2022-07-02,ORD000991,Thermostat,Cooling system,Retail,63,10.68,672.84,Check
+2022-08-24,ORD000992,Thermostat,Cooling system,Wholesale,50,16.17,808.5,Check
+2022-09-21,ORD000993,Thermostat,Cooling system,Wholesale,71,8.27,587.17,Transfer
+2022-10-31,ORD000994,Thermostat,Cooling system,Retail,63,9.14,575.82,Credit card
+2022-11-10,ORD000995,Thermostat,Cooling system,Retail,64,13.67,874.88,Credit card
+2022-12-02,ORD000996,Thermostat,Cooling system,Wholesale,67,17.32,1160.44,Check
+2023-01-06,ORD000997,Thermostat,Cooling system,Retail,63,12.25,771.75,Check
+2023-02-22,ORD000998,Thermostat,Cooling system,Wholesale,76,16.09,1222.84,Credit card
+2023-03-06,ORD000999,Thermostat,Cooling system,Retail,73,14.85,1084.05,Cash
+2023-04-01,ORD001000,Thermostat,Cooling system,Wholesale,41,17.87,732.67,Transfer
+2023-05-10,ORD001001,Thermostat,Cooling system,Retail,64,17.06,1091.84,Transfer
+2023-06-20,ORD001002,Thermostat,Cooling system,Retail,63,16.48,1038.24,Cash
+2023-07-17,ORD001003,Thermostat,Cooling system,Wholesale,64,14.87,951.68,Cash
+2023-08-27,ORD001004,Thermostat,Cooling system,Wholesale,62,8.28,513.36,Check
+2023-09-23,ORD001005,Thermostat,Cooling system,Wholesale,60,16.5,990.0,Transfer
+2023-10-28,ORD001006,Thermostat,Cooling system,Wholesale,60,8.18,490.8,Credit card
+2023-11-15,ORD001007,Thermostat,Cooling system,Retail,81,14.65,1186.65,Transfer
+2023-12-14,ORD001008,Thermostat,Cooling system,Retail,60,14.66,879.6,Check
+2024-01-20,ORD001009,Thermostat,Cooling system,Retail,75,16.67,1250.25,Credit card
+2024-02-27,ORD001010,Thermostat,Cooling system,Retail,57,15.1,860.7,Check
+2024-03-29,ORD001011,Thermostat,Cooling system,Wholesale,62,12.35,765.7,Credit card
+2024-04-09,ORD001012,Thermostat,Cooling system,Wholesale,66,12.16,802.56,Cash
+2024-05-27,ORD001013,Thermostat,Cooling system,Wholesale,58,14.69,852.02,Cash
+2024-06-27,ORD001014,Thermostat,Cooling system,Wholesale,37,13.48,498.76,Check
+2024-07-27,ORD001015,Thermostat,Cooling system,Wholesale,43,9.62,413.66,Cash
+2024-08-22,ORD001016,Thermostat,Cooling system,Wholesale,84,11.55,970.2,Cash
+2024-09-05,ORD001017,Thermostat,Cooling system,Wholesale,82,17.92,1469.44,Check
+2024-10-01,ORD001018,Thermostat,Cooling system,Wholesale,54,10.98,592.92,Credit card
+2024-11-21,ORD001019,Thermostat,Cooling system,Retail,39,9.78,381.42,Transfer
+2024-12-22,ORD001020,Thermostat,Cooling system,Wholesale,39,8.8,343.2,Credit card
+2020-01-19,ORD001021,Door Lock,Body & hardware,Wholesale,26,28.47,740.22,Cash
+2020-02-10,ORD001022,Door Lock,Body & hardware,Wholesale,41,32.42,1329.22,Check
+2020-03-16,ORD001023,Door Lock,Body & hardware,Retail,31,15.11,468.41,Cash
+2020-04-04,ORD001024,Door Lock,Body & hardware,Retail,54,32.79,1770.66,Transfer
+2020-05-11,ORD001025,Door Lock,Body & hardware,Retail,43,24.54,1055.22,Transfer
+2020-06-19,ORD001026,Door Lock,Body & hardware,Retail,21,27.83,584.43,Check
+2020-07-29,ORD001027,Door Lock,Body & hardware,Retail,28,16.28,455.84,Transfer
+2020-08-13,ORD001028,Door Lock,Body & hardware,Wholesale,37,27.76,1027.12,Check
+2020-09-27,ORD001029,Door Lock,Body & hardware,Retail,45,16.62,747.9,Transfer
+2020-10-28,ORD001030,Door Lock,Body & hardware,Wholesale,30,27.6,828.0,Check
+2020-11-04,ORD001031,Door Lock,Body & hardware,Retail,51,39.77,2028.27,Cash
+2020-12-25,ORD001032,Door Lock,Body & hardware,Retail,38,36.28,1378.64,Credit card
+2021-01-17,ORD001033,Door Lock,Body & hardware,Wholesale,48,29.89,1434.72,Check
+2021-02-04,ORD001034,Door Lock,Body & hardware,Wholesale,27,15.68,423.36,Cash
+2021-03-10,ORD001035,Door Lock,Body & hardware,Wholesale,41,23.21,951.61,Check
+2021-04-07,ORD001036,Door Lock,Body & hardware,Retail,43,26.35,1133.05,Check
+2021-05-04,ORD001037,Door Lock,Body & hardware,Wholesale,35,30.69,1074.15,Credit card
+2021-06-13,ORD001038,Door Lock,Body & hardware,Retail,49,32.57,1595.93,Cash
+2021-07-01,ORD001039,Door Lock,Body & hardware,Wholesale,41,36.99,1516.59,Credit card
+2021-08-02,ORD001040,Door Lock,Body & hardware,Wholesale,29,34.5,1000.5,Check
+2021-09-14,ORD001041,Door Lock,Body & hardware,Retail,34,19.33,657.22,Check
+2021-10-13,ORD001042,Door Lock,Body & hardware,Retail,23,20.46,470.58,Check
+2021-11-16,ORD001043,Door Lock,Body & hardware,Retail,37,29.42,1088.54,Credit card
+2021-12-16,ORD001044,Door Lock,Body & hardware,Retail,49,15.84,776.16,Check
+2022-01-27,ORD001045,Door Lock,Body & hardware,Retail,37,22.89,846.93,Check
+2022-02-22,ORD001046,Door Lock,Body & hardware,Retail,26,34.66,901.16,Check
+2022-03-15,ORD001047,Door Lock,Body & hardware,Wholesale,30,24.34,730.2,Check
+2022-04-06,ORD001048,Door Lock,Body & hardware,Wholesale,48,39.13,1878.24,Credit card
+2022-05-20,ORD001049,Door Lock,Body & hardware,Retail,19,15.3,290.7,Check
+2022-06-04,ORD001050,Door Lock,Body & hardware,Wholesale,43,27.43,1179.49,Transfer
+2022-07-22,ORD001051,Door Lock,Body & hardware,Wholesale,37,28.28,1046.36,Credit card
+2022-08-25,ORD001052,Door Lock,Body & hardware,Wholesale,55,26.09,1434.95,Check
+2022-09-13,ORD001053,Door Lock,Body & hardware,Retail,43,22.28,958.04,Credit card
+2022-10-15,ORD001054,Door Lock,Body & hardware,Retail,29,36.82,1067.78,Transfer
+2022-11-19,ORD001055,Door Lock,Body & hardware,Wholesale,47,27.34,1284.98,Transfer
+2022-12-29,ORD001056,Door Lock,Body & hardware,Wholesale,32,28.83,922.56,Check
+2023-01-24,ORD001057,Door Lock,Body & hardware,Retail,41,25.85,1059.85,Transfer
+2023-02-13,ORD001058,Door Lock,Body & hardware,Retail,30,34.67,1040.1,Credit card
+2023-03-25,ORD001059,Door Lock,Body & hardware,Retail,25,30.35,758.75,Transfer
+2023-04-10,ORD001060,Door Lock,Body & hardware,Retail,59,35.41,2089.19,Credit card
+2023-05-22,ORD001061,Door Lock,Body & hardware,Retail,56,23.81,1333.36,Transfer
+2023-06-15,ORD001062,Door Lock,Body & hardware,Retail,52,19.73,1025.96,Check
+2023-07-05,ORD001063,Door Lock,Body & hardware,Retail,35,20.97,733.95,Credit card
+2023-08-06,ORD001064,Door Lock,Body & hardware,Wholesale,47,36.37,1709.39,Cash
+2023-09-09,ORD001065,Door Lock,Body & hardware,Retail,45,33.62,1512.9,Cash
+2023-10-15,ORD001066,Door Lock,Body & hardware,Retail,21,25.12,527.52,Transfer
+2023-11-22,ORD001067,Door Lock,Body & hardware,Retail,47,23.42,1100.74,Credit card
+2023-12-23,ORD001068,Door Lock,Body & hardware,Wholesale,49,15.03,736.47,Check
+2024-01-04,ORD001069,Door Lock,Body & hardware,Wholesale,36,24.56,884.16,Cash
+2024-02-18,ORD001070,Door Lock,Body & hardware,Wholesale,43,30.32,1303.76,Transfer
+2024-03-18,ORD001071,Door Lock,Body & hardware,Wholesale,27,38.48,1038.96,Credit card
+2024-04-21,ORD001072,Door Lock,Body & hardware,Retail,24,23.83,571.92,Cash
+2024-05-28,ORD001073,Door Lock,Body & hardware,Retail,41,36.26,1486.66,Transfer
+2024-06-27,ORD001074,Door Lock,Body & hardware,Retail,59,25.34,1495.06,Credit card
+2024-07-30,ORD001075,Door Lock,Body & hardware,Wholesale,44,20.76,913.44,Check
+2024-08-28,ORD001076,Door Lock,Body & hardware,Retail,34,32.59,1108.06,Check
+2024-09-26,ORD001077,Door Lock,Body & hardware,Retail,32,18.41,589.12,Check
+2024-10-10,ORD001078,Door Lock,Body & hardware,Wholesale,32,18.62,595.84,Credit card
+2024-11-19,ORD001079,Door Lock,Body & hardware,Retail,38,34.93,1327.34,Transfer
+2024-12-22,ORD001080,Door Lock,Body & hardware,Wholesale,47,34.52,1622.44,Cash
+2020-01-01,ORD001081,Window Regulator,Frame & body,Retail,0,26.86,0.0,Transfer
+2020-02-20,ORD001082,Window Regulator,Frame & body,Retail,2,38.09,76.18,Transfer
+2020-03-01,ORD001083,Window Regulator,Frame & body,Wholesale,0,46.21,0.0,Credit card
+2020-04-01,ORD001084,Window Regulator,Frame & body,Wholesale,0,46.32,0.0,Transfer
+2020-05-01,ORD001085,Window Regulator,Frame & body,Wholesale,0,46.26,0.0,Cash
+2020-06-01,ORD001086,Window Regulator,Frame & body,Wholesale,0,28.68,0.0,Credit card
+2020-07-01,ORD001087,Window Regulator,Frame & body,Wholesale,0,26.1,0.0,Credit card
+2020-08-01,ORD001088,Window Regulator,Frame & body,Retail,0,43.46,0.0,Check
+2020-09-01,ORD001089,Window Regulator,Frame & body,Retail,0,48.18,0.0,Cash
+2020-10-01,ORD001090,Window Regulator,Frame & body,Retail,0,33.62,0.0,Cash
+2020-11-11,ORD001091,Window Regulator,Frame & body,Retail,34,49.72,1690.48,Check
+2020-12-01,ORD001092,Window Regulator,Frame & body,Retail,0,21.76,0.0,Cash
+2021-01-26,ORD001093,Window Regulator,Frame & body,Wholesale,8,23.65,189.2,Check
+2021-02-01,ORD001094,Window Regulator,Frame & body,Retail,0,24.01,0.0,Credit card
+2021-03-01,ORD001095,Window Regulator,Frame & body,Wholesale,0,36.14,0.0,Check
+2021-04-01,ORD001096,Window Regulator,Frame & body,Retail,0,37.17,0.0,Credit card
+2021-05-01,ORD001097,Window Regulator,Frame & body,Wholesale,0,23.54,0.0,Cash
+2021-06-11,ORD001098,Window Regulator,Frame & body,Retail,12,48.92,587.04,Cash
+2021-07-24,ORD001099,Window Regulator,Frame & body,Retail,11,44.2,486.2,Cash
+2021-08-19,ORD001100,Window Regulator,Frame & body,Wholesale,33,30.59,1009.47,Transfer
+2021-09-18,ORD001101,Window Regulator,Frame & body,Retail,35,35.88,1255.8,Cash
+2021-10-01,ORD001102,Window Regulator,Frame & body,Wholesale,0,48.39,0.0,Transfer
+2021-11-01,ORD001103,Window Regulator,Frame & body,Wholesale,0,35.96,0.0,Check
+2021-12-01,ORD001104,Window Regulator,Frame & body,Wholesale,0,44.45,0.0,Check
+2022-01-19,ORD001105,Window Regulator,Frame & body,Wholesale,32,34.15,1092.8,Credit card
+2022-02-05,ORD001106,Window Regulator,Frame & body,Retail,15,24.77,371.55,Cash
+2022-03-10,ORD001107,Window Regulator,Frame & body,Retail,6,43.95,263.7,Check
+2022-04-28,ORD001108,Window Regulator,Frame & body,Retail,30,35.84,1075.2,Cash
+2022-05-01,ORD001109,Window Regulator,Frame & body,Retail,46,39.01,1794.46,Check
+2022-06-01,ORD001110,Window Regulator,Frame & body,Wholesale,0,26.21,0.0,Check
+2022-07-29,ORD001111,Window Regulator,Frame & body,Retail,30,29.3,879.0,Check
+2022-08-25,ORD001112,Window Regulator,Frame & body,Wholesale,30,45.62,1368.6,Transfer
+2022-09-06,ORD001113,Window Regulator,Frame & body,Retail,21,21.77,457.17,Cash
+2022-10-01,ORD001114,Window Regulator,Frame & body,Wholesale,0,21.32,0.0,Credit card
+2022-11-16,ORD001115,Window Regulator,Frame & body,Wholesale,8,48.76,390.08,Credit card
+2022-12-17,ORD001116,Window Regulator,Frame & body,Wholesale,36,39.57,1424.52,Cash
+2023-01-17,ORD001117,Window Regulator,Frame & body,Wholesale,29,40.27,1167.83,Check
+2023-02-01,ORD001118,Window Regulator,Frame & body,Wholesale,0,42.91,0.0,Credit card
+2023-03-01,ORD001119,Window Regulator,Frame & body,Wholesale,0,36.62,0.0,Transfer
+2023-04-01,ORD001120,Window Regulator,Frame & body,Wholesale,0,39.28,0.0,Credit card
+2023-05-01,ORD001121,Window Regulator,Frame & body,Wholesale,0,48.11,0.0,Check
+2023-06-01,ORD001122,Window Regulator,Frame & body,Wholesale,0,41.55,0.0,Check
+2023-07-01,ORD001123,Window Regulator,Frame & body,Wholesale,0,43.33,0.0,Check
+2023-08-25,ORD001124,Window Regulator,Frame & body,Wholesale,5,39.53,197.65,Transfer
+2023-09-19,ORD001125,Window Regulator,Frame & body,Wholesale,12,25.68,308.16,Check
+2023-10-01,ORD001126,Window Regulator,Frame & body,Retail,0,20.49,0.0,Cash
+2023-11-10,ORD001127,Window Regulator,Frame & body,Retail,1,22.22,22.22,Credit card
+2023-12-01,ORD001128,Window Regulator,Frame & body,Wholesale,0,30.83,0.0,Transfer
+2024-01-12,ORD001129,Window Regulator,Frame & body,Wholesale,16,27.67,442.72,Transfer
+2024-02-21,ORD001130,Window Regulator,Frame & body,Wholesale,21,27.54,578.34,Cash
+2024-03-01,ORD001131,Window Regulator,Frame & body,Wholesale,0,42.16,0.0,Check
+2024-04-01,ORD001132,Window Regulator,Frame & body,Retail,0,40.75,0.0,Cash
+2024-05-01,ORD001133,Window Regulator,Frame & body,Retail,0,43.43,0.0,Credit card
+2024-06-01,ORD001134,Window Regulator,Frame & body,Wholesale,0,29.25,0.0,Check
+2024-07-11,ORD001135,Window Regulator,Frame & body,Retail,17,31.55,536.35,Transfer
+2024-08-16,ORD001136,Window Regulator,Frame & body,Retail,28,33.08,926.24,Check
+2024-09-01,ORD001137,Window Regulator,Frame & body,Wholesale,0,28.35,0.0,Transfer
+2024-10-01,ORD001138,Window Regulator,Frame & body,Retail,0,42.33,0.0,Credit card
+2024-11-01,ORD001139,Window Regulator,Frame & body,Wholesale,0,47.33,0.0,Transfer
+2024-12-01,ORD001140,Window Regulator,Frame & body,Wholesale,0,21.73,0.0,Cash
+2020-01-21,ORD001141,Headlight,Lighting system,Wholesale,12,36.04,432.48,Check
+2020-02-01,ORD001142,Headlight,Lighting system,Retail,0,53.9,0.0,Credit card
+2020-03-01,ORD001143,Headlight,Lighting system,Wholesale,0,58.56,0.0,Check
+2020-04-02,ORD001144,Headlight,Lighting system,Wholesale,10,25.74,257.4,Credit card
+2020-05-17,ORD001145,Headlight,Lighting system,Wholesale,7,36.97,258.79,Check
+2020-06-14,ORD001146,Headlight,Lighting system,Wholesale,17,41.4,703.8,Check
+2020-07-01,ORD001147,Headlight,Lighting system,Retail,0,53.71,0.0,Cash
+2020-08-01,ORD001148,Headlight,Lighting system,Wholesale,0,34.2,0.0,Check
+2020-09-19,ORD001149,Headlight,Lighting system,Wholesale,1,48.29,48.29,Cash
+2020-10-10,ORD001150,Headlight,Lighting system,Wholesale,9,37.35,336.15,Credit card
+2020-11-01,ORD001151,Headlight,Lighting system,Retail,0,38.41,0.0,Cash
+2020-12-01,ORD001152,Headlight,Lighting system,Retail,0,53.85,0.0,Cash
+2021-01-01,ORD001153,Headlight,Lighting system,Wholesale,0,29.6,0.0,Check
+2021-02-01,ORD001154,Headlight,Lighting system,Wholesale,0,27.96,0.0,Transfer
+2021-03-13,ORD001155,Headlight,Lighting system,Wholesale,9,37.54,337.86,Cash
+2021-04-01,ORD001156,Headlight,Lighting system,Wholesale,0,50.8,0.0,Credit card
+2021-05-01,ORD001157,Headlight,Lighting system,Wholesale,0,56.72,0.0,Credit card
+2021-06-15,ORD001158,Headlight,Lighting system,Wholesale,15,34.3,514.5,Transfer
+2021-07-22,ORD001159,Headlight,Lighting system,Wholesale,14,57.37,803.18,Credit card
+2021-08-01,ORD001160,Headlight,Lighting system,Retail,0,29.94,0.0,Transfer
+2021-09-01,ORD001161,Headlight,Lighting system,Retail,0,33.62,0.0,Cash
+2021-10-19,ORD001162,Headlight,Lighting system,Retail,1,36.94,36.94,Transfer
+2021-11-27,ORD001163,Headlight,Lighting system,Wholesale,1,35.36,35.36,Cash
+2021-12-01,ORD001164,Headlight,Lighting system,Retail,0,44.35,0.0,Credit card
+2022-01-06,ORD001165,Headlight,Lighting system,Retail,1,34.34,34.34,Transfer
+2022-02-01,ORD001166,Headlight,Lighting system,Wholesale,0,36.35,0.0,Transfer
+2022-03-01,ORD001167,Headlight,Lighting system,Wholesale,0,27.11,0.0,Credit card
+2022-04-01,ORD001168,Headlight,Lighting system,Retail,0,55.23,0.0,Transfer
+2022-05-01,ORD001169,Headlight,Lighting system,Retail,0,37.27,0.0,Cash
+2022-06-01,ORD001170,Headlight,Lighting system,Wholesale,0,30.89,0.0,Credit card
+2022-07-01,ORD001171,Headlight,Lighting system,Wholesale,0,44.46,0.0,Cash
+2022-08-01,ORD001172,Headlight,Lighting system,Wholesale,11,47.88,526.68,Credit card
+2022-09-01,ORD001173,Headlight,Lighting system,Retail,0,33.18,0.0,Check
+2022-10-01,ORD001174,Headlight,Lighting system,Retail,0,32.95,0.0,Cash
+2022-11-23,ORD001175,Headlight,Lighting system,Wholesale,2,54.52,109.04,Credit card
+2022-12-01,ORD001176,Headlight,Lighting system,Wholesale,0,55.67,0.0,Cash
+2023-01-01,ORD001177,Headlight,Lighting system,Retail,0,41.6,0.0,Credit card
+2023-02-01,ORD001178,Headlight,Lighting system,Retail,0,58.08,0.0,Transfer
+2023-03-01,ORD001179,Headlight,Lighting system,Wholesale,0,49.35,0.0,Cash
+2023-04-01,ORD001180,Headlight,Lighting system,Retail,0,33.73,0.0,Cash
+2023-05-17,ORD001181,Headlight,Lighting system,Wholesale,1,38.42,38.42,Credit card
+2023-06-11,ORD001182,Headlight,Lighting system,Wholesale,14,48.77,682.78,Transfer
+2023-07-01,ORD001183,Headlight,Lighting system,Wholesale,0,34.45,0.0,Transfer
+2023-08-01,ORD001184,Headlight,Lighting system,Wholesale,0,57.35,0.0,Transfer
+2023-09-01,ORD001185,Headlight,Lighting system,Retail,0,26.55,0.0,Cash
+2023-10-01,ORD001186,Headlight,Lighting system,Retail,0,37.22,0.0,Cash
+2023-11-06,ORD001187,Headlight,Lighting system,Retail,5,57.43,287.15,Transfer
+2023-12-18,ORD001188,Headlight,Lighting system,Retail,24,42.21,1013.04,Cash
+2024-01-26,ORD001189,Headlight,Lighting system,Wholesale,4,41.18,164.72,Credit card
+2024-02-28,ORD001190,Headlight,Lighting system,Wholesale,5,45.24,226.2,Check
+2024-03-14,ORD001191,Headlight,Lighting system,Retail,5,35.35,176.75,Check
+2024-04-28,ORD001192,Headlight,Lighting system,Retail,1,45.55,45.55,Check
+2024-05-29,ORD001193,Headlight,Lighting system,Retail,10,58.18,581.8,Transfer
+2024-06-20,ORD001194,Headlight,Lighting system,Retail,13,40.25,523.25,Transfer
+2024-07-01,ORD001195,Headlight,Lighting system,Wholesale,0,56.16,0.0,Transfer
+2024-08-11,ORD001196,Headlight,Lighting system,Wholesale,7,42.91,300.37,Cash
+2024-09-01,ORD001197,Headlight,Lighting system,Retail,0,25.53,0.0,Check
+2024-10-01,ORD001198,Headlight,Lighting system,Wholesale,0,29.6,0.0,Transfer
+2024-11-01,ORD001199,Headlight,Lighting system,Wholesale,0,26.65,0.0,Transfer
+2024-12-01,ORD001200,Headlight,Lighting system,Wholesale,0,53.03,0.0,Credit card
+2020-01-08,ORD001201,Tail Light,Lighting system,Retail,73,20.95,1529.35,Cash
+2020-02-14,ORD001202,Tail Light,Lighting system,Wholesale,61,18.37,1120.57,Cash
+2020-03-16,ORD001203,Tail Light,Lighting system,Retail,53,26.85,1423.05,Check
+2020-04-15,ORD001204,Tail Light,Lighting system,Retail,51,27.88,1421.88,Credit card
+2020-05-12,ORD001205,Tail Light,Lighting system,Retail,54,21.8,1177.2,Transfer
+2020-06-29,ORD001206,Tail Light,Lighting system,Wholesale,56,26.24,1469.44,Cash
+2020-07-02,ORD001207,Tail Light,Lighting system,Retail,65,16.5,1072.5,Check
+2020-08-14,ORD001208,Tail Light,Lighting system,Wholesale,70,19.54,1367.8,Credit card
+2020-09-30,ORD001209,Tail Light,Lighting system,Wholesale,54,13.32,719.28,Cash
+2020-10-21,ORD001210,Tail Light,Lighting system,Retail,45,16.75,753.75,Check
+2020-11-17,ORD001211,Tail Light,Lighting system,Wholesale,59,16.77,989.43,Cash
+2020-12-23,ORD001212,Tail Light,Lighting system,Wholesale,50,13.4,670.0,Cash
+2021-01-22,ORD001213,Tail Light,Lighting system,Wholesale,66,21.21,1399.86,Transfer
+2021-02-08,ORD001214,Tail Light,Lighting system,Retail,70,24.11,1687.7,Check
+2021-03-22,ORD001215,Tail Light,Lighting system,Retail,47,20.44,960.68,Check
+2021-04-14,ORD001216,Tail Light,Lighting system,Retail,55,26.61,1463.55,Credit card
+2021-05-16,ORD001217,Tail Light,Lighting system,Retail,50,22.97,1148.5,Cash
+2021-06-09,ORD001218,Tail Light,Lighting system,Retail,56,15.9,890.4,Cash
+2021-07-20,ORD001219,Tail Light,Lighting system,Wholesale,69,22.67,1564.23,Transfer
+2021-08-27,ORD001220,Tail Light,Lighting system,Retail,55,16.39,901.45,Cash
+2021-09-26,ORD001221,Tail Light,Lighting system,Wholesale,66,26.65,1758.9,Check
+2021-10-24,ORD001222,Tail Light,Lighting system,Wholesale,57,12.99,740.43,Transfer
+2021-11-11,ORD001223,Tail Light,Lighting system,Wholesale,39,24.88,970.32,Check
+2021-12-05,ORD001224,Tail Light,Lighting system,Retail,51,28.06,1431.06,Check
+2022-01-23,ORD001225,Tail Light,Lighting system,Retail,73,27.88,2035.24,Transfer
+2022-02-28,ORD001226,Tail Light,Lighting system,Wholesale,45,16.49,742.05,Transfer
+2022-03-04,ORD001227,Tail Light,Lighting system,Wholesale,60,15.21,912.6,Check
+2022-04-10,ORD001228,Tail Light,Lighting system,Wholesale,39,29.32,1143.48,Check
+2022-05-20,ORD001229,Tail Light,Lighting system,Wholesale,64,25.12,1607.68,Credit card
+2022-06-28,ORD001230,Tail Light,Lighting system,Retail,53,15.76,835.28,Credit card
+2022-07-14,ORD001231,Tail Light,Lighting system,Wholesale,41,20.7,848.7,Check
+2022-08-03,ORD001232,Tail Light,Lighting system,Wholesale,60,28.69,1721.4,Check
+2022-09-20,ORD001233,Tail Light,Lighting system,Wholesale,43,18.41,791.63,Cash
+2022-10-07,ORD001234,Tail Light,Lighting system,Wholesale,47,24.84,1167.48,Cash
+2022-11-27,ORD001235,Tail Light,Lighting system,Wholesale,43,19.98,859.14,Transfer
+2022-12-31,ORD001236,Tail Light,Lighting system,Wholesale,64,27.55,1763.2,Credit card
+2023-01-17,ORD001237,Tail Light,Lighting system,Retail,62,29.8,1847.6,Credit card
+2023-02-13,ORD001238,Tail Light,Lighting system,Wholesale,73,27.62,2016.26,Transfer
+2023-03-31,ORD001239,Tail Light,Lighting system,Retail,50,28.88,1444.0,Check
+2023-04-15,ORD001240,Tail Light,Lighting system,Wholesale,46,18.48,850.08,Transfer
+2023-05-10,ORD001241,Tail Light,Lighting system,Retail,47,20.91,982.77,Transfer
+2023-06-01,ORD001242,Tail Light,Lighting system,Retail,70,20.35,1424.5,Cash
+2023-07-31,ORD001243,Tail Light,Lighting system,Wholesale,51,12.39,631.89,Transfer
+2023-08-06,ORD001244,Tail Light,Lighting system,Wholesale,42,22.18,931.56,Cash
+2023-09-03,ORD001245,Tail Light,Lighting system,Wholesale,38,29.46,1119.48,Check
+2023-10-13,ORD001246,Tail Light,Lighting system,Wholesale,57,14.81,844.17,Check
+2023-11-24,ORD001247,Tail Light,Lighting system,Wholesale,53,25.3,1340.9,Credit card
+2023-12-08,ORD001248,Tail Light,Lighting system,Wholesale,61,23.41,1428.01,Cash
+2024-01-03,ORD001249,Tail Light,Lighting system,Retail,49,29.3,1435.7,Check
+2024-02-10,ORD001250,Tail Light,Lighting system,Wholesale,56,24.42,1367.52,Check
+2024-03-31,ORD001251,Tail Light,Lighting system,Wholesale,52,22.03,1145.56,Cash
+2024-04-19,ORD001252,Tail Light,Lighting system,Wholesale,65,15.19,987.35,Check
+2024-05-15,ORD001253,Tail Light,Lighting system,Retail,39,23.57,919.23,Cash
+2024-06-27,ORD001254,Tail Light,Lighting system,Wholesale,72,20.15,1450.8,Transfer
+2024-07-08,ORD001255,Tail Light,Lighting system,Wholesale,50,14.59,729.5,Credit card
+2024-08-26,ORD001256,Tail Light,Lighting system,Retail,59,16.38,966.42,Transfer
+2024-09-27,ORD001257,Tail Light,Lighting system,Retail,84,27.1,2276.4,Transfer
+2024-10-10,ORD001258,Tail Light,Lighting system,Wholesale,48,14.07,675.36,Transfer
+2024-11-27,ORD001259,Tail Light,Lighting system,Wholesale,75,19.94,1495.5,Cash
+2024-12-01,ORD001260,Tail Light,Lighting system,Retail,57,16.67,950.19,Credit card
+2020-01-01,ORD001261,Side Mirror,Frame & body,Wholesale,0,54.9,0.0,Check
+2020-02-01,ORD001262,Side Mirror,Frame & body,Wholesale,0,56.58,0.0,Transfer
+2020-03-19,ORD001263,Side Mirror,Frame & body,Wholesale,8,47.9,383.2,Credit card
+2020-04-01,ORD001264,Side Mirror,Frame & body,Wholesale,0,42.86,0.0,Transfer
+2020-05-14,ORD001265,Side Mirror,Frame & body,Retail,20,38.29,765.8,Transfer
+2020-06-01,ORD001266,Side Mirror,Frame & body,Wholesale,0,56.91,0.0,Cash
+2020-07-01,ORD001267,Side Mirror,Frame & body,Wholesale,0,56.82,0.0,Cash
+2020-08-01,ORD001268,Side Mirror,Frame & body,Retail,0,42.56,0.0,Credit card
+2020-09-01,ORD001269,Side Mirror,Frame & body,Retail,0,50.21,0.0,Credit card
+2020-10-24,ORD001270,Side Mirror,Frame & body,Wholesale,18,40.73,733.14,Cash
+2020-11-30,ORD001271,Side Mirror,Frame & body,Retail,20,47.93,958.6,Credit card
+2020-12-01,ORD001272,Side Mirror,Frame & body,Retail,0,31.78,0.0,Credit card
+2021-01-01,ORD001273,Side Mirror,Frame & body,Retail,0,34.68,0.0,Cash
+2021-02-08,ORD001274,Side Mirror,Frame & body,Retail,13,28.56,371.28,Credit card
+2021-03-23,ORD001275,Side Mirror,Frame & body,Retail,15,47.73,715.95,Cash
+2021-04-07,ORD001276,Side Mirror,Frame & body,Wholesale,23,54.22,1247.06,Credit card
+2021-05-01,ORD001277,Side Mirror,Frame & body,Retail,0,56.28,0.0,Transfer
+2021-06-01,ORD001278,Side Mirror,Frame & body,Wholesale,0,34.21,0.0,Transfer
+2021-07-01,ORD001279,Side Mirror,Frame & body,Wholesale,0,32.04,0.0,Credit card
+2021-08-08,ORD001280,Side Mirror,Frame & body,Retail,21,59.34,1246.14,Transfer
+2021-09-10,ORD001281,Side Mirror,Frame & body,Retail,1,41.24,41.24,Check
+2021-10-12,ORD001282,Side Mirror,Frame & body,Wholesale,20,48.94,978.8,Transfer
+2021-11-29,ORD001283,Side Mirror,Frame & body,Retail,12,33.41,400.92,Credit card
+2021-12-02,ORD001284,Side Mirror,Frame & body,Retail,6,25.8,154.8,Check
+2022-01-01,ORD001285,Side Mirror,Frame & body,Wholesale,0,53.98,0.0,Check
+2022-02-04,ORD001286,Side Mirror,Frame & body,Retail,17,38.99,662.83,Credit card
+2022-03-01,ORD001287,Side Mirror,Frame & body,Retail,0,31.82,0.0,Check
+2022-04-01,ORD001288,Side Mirror,Frame & body,Wholesale,0,49.02,0.0,Cash
+2022-05-01,ORD001289,Side Mirror,Frame & body,Retail,0,56.49,0.0,Credit card
+2022-06-01,ORD001290,Side Mirror,Frame & body,Wholesale,0,55.79,0.0,Transfer
+2022-07-01,ORD001291,Side Mirror,Frame & body,Retail,0,37.45,0.0,Cash
+2022-08-01,ORD001292,Side Mirror,Frame & body,Retail,0,43.5,0.0,Transfer
+2022-09-01,ORD001293,Side Mirror,Frame & body,Wholesale,0,44.29,0.0,Cash
+2022-10-17,ORD001294,Side Mirror,Frame & body,Retail,6,58.38,350.28,Credit card
+2022-11-02,ORD001295,Side Mirror,Frame & body,Wholesale,14,29.08,407.12,Credit card
+2022-12-01,ORD001296,Side Mirror,Frame & body,Wholesale,0,57.92,0.0,Check
+2023-01-01,ORD001297,Side Mirror,Frame & body,Wholesale,0,40.36,0.0,Cash
+2023-02-01,ORD001298,Side Mirror,Frame & body,Retail,0,42.23,0.0,Transfer
+2023-03-28,ORD001299,Side Mirror,Frame & body,Retail,27,44.59,1203.93,Transfer
+2023-04-01,ORD001300,Side Mirror,Frame & body,Wholesale,0,49.91,0.0,Check
+2023-05-01,ORD001301,Side Mirror,Frame & body,Retail,0,46.1,0.0,Check
+2023-06-11,ORD001302,Side Mirror,Frame & body,Retail,13,50.94,662.22,Transfer
+2023-07-01,ORD001303,Side Mirror,Frame & body,Retail,0,50.26,0.0,Cash
+2023-08-03,ORD001304,Side Mirror,Frame & body,Retail,22,43.44,955.68,Cash
+2023-09-01,ORD001305,Side Mirror,Frame & body,Retail,0,37.17,0.0,Check
+2023-10-03,ORD001306,Side Mirror,Frame & body,Wholesale,6,52.65,315.9,Check
+2023-11-01,ORD001307,Side Mirror,Frame & body,Retail,0,47.19,0.0,Cash
+2023-12-01,ORD001308,Side Mirror,Frame & body,Wholesale,14,53.28,745.92,Transfer
+2024-01-27,ORD001309,Side Mirror,Frame & body,Wholesale,5,27.81,139.05,Check
+2024-02-01,ORD001310,Side Mirror,Frame & body,Wholesale,0,51.34,0.0,Credit card
+2024-03-01,ORD001311,Side Mirror,Frame & body,Retail,0,33.16,0.0,Credit card
+2024-04-01,ORD001312,Side Mirror,Frame & body,Wholesale,0,50.09,0.0,Check
+2024-05-25,ORD001313,Side Mirror,Frame & body,Wholesale,13,34.33,446.29,Check
+2024-06-06,ORD001314,Side Mirror,Frame & body,Wholesale,7,26.34,184.38,Check
+2024-07-01,ORD001315,Side Mirror,Frame & body,Wholesale,0,52.85,0.0,Credit card
+2024-08-15,ORD001316,Side Mirror,Frame & body,Wholesale,24,35.27,846.48,Cash
+2024-09-28,ORD001317,Side Mirror,Frame & body,Retail,11,40.63,446.93,Check
+2024-10-17,ORD001318,Side Mirror,Frame & body,Retail,14,44.76,626.64,Check
+2024-11-01,ORD001319,Side Mirror,Frame & body,Retail,0,31.09,0.0,Transfer
+2024-12-01,ORD001320,Side Mirror,Frame & body,Wholesale,0,58.45,0.0,Credit card
+2020-01-01,ORD001321,Door Handle,Body & hardware,Wholesale,0,22.29,0.0,Cash
+2020-02-01,ORD001322,Door Handle,Body & hardware,Wholesale,0,16.91,0.0,Check
+2020-03-16,ORD001323,Door Handle,Body & hardware,Wholesale,15,18.56,278.4,Transfer
+2020-04-01,ORD001324,Door Handle,Body & hardware,Retail,0,18.24,0.0,Transfer
+2020-05-01,ORD001325,Door Handle,Body & hardware,Wholesale,0,15.93,0.0,Transfer
+2020-06-26,ORD001326,Door Handle,Body & hardware,Retail,19,12.83,243.77,Cash
+2020-07-29,ORD001327,Door Handle,Body & hardware,Wholesale,10,23.62,236.2,Cash
+2020-08-01,ORD001328,Door Handle,Body & hardware,Retail,1,14.66,14.66,Transfer
+2020-09-04,ORD001329,Door Handle,Body & hardware,Wholesale,38,23.24,883.12,Cash
+2020-10-01,ORD001330,Door Handle,Body & hardware,Retail,0,23.8,0.0,Credit card
+2020-11-02,ORD001331,Door Handle,Body & hardware,Wholesale,19,21.67,411.73,Credit card
+2020-12-01,ORD001332,Door Handle,Body & hardware,Retail,0,11.35,0.0,Transfer
+2021-01-01,ORD001333,Door Handle,Body & hardware,Wholesale,0,16.46,0.0,Transfer
+2021-02-22,ORD001334,Door Handle,Body & hardware,Wholesale,22,10.89,239.58,Cash
+2021-03-01,ORD001335,Door Handle,Body & hardware,Retail,0,17.3,0.0,Transfer
+2021-04-01,ORD001336,Door Handle,Body & hardware,Wholesale,0,23.59,0.0,Credit card
+2021-05-17,ORD001337,Door Handle,Body & hardware,Retail,13,20.01,260.13,Check
+2021-06-01,ORD001338,Door Handle,Body & hardware,Retail,0,10.76,0.0,Check
+2021-07-13,ORD001339,Door Handle,Body & hardware,Retail,21,17.37,364.77,Cash
+2021-08-01,ORD001340,Door Handle,Body & hardware,Retail,0,14.09,0.0,Check
+2021-09-01,ORD001341,Door Handle,Body & hardware,Retail,0,11.9,0.0,Check
+2021-10-01,ORD001342,Door Handle,Body & hardware,Wholesale,4,15.28,61.12,Transfer
+2021-11-07,ORD001343,Door Handle,Body & hardware,Retail,8,21.47,171.76,Credit card
+2021-12-28,ORD001344,Door Handle,Body & hardware,Wholesale,16,12.45,199.2,Check
+2022-01-01,ORD001345,Door Handle,Body & hardware,Retail,0,19.39,0.0,Credit card
+2022-02-01,ORD001346,Door Handle,Body & hardware,Wholesale,0,18.06,0.0,Credit card
+2022-03-01,ORD001347,Door Handle,Body & hardware,Wholesale,0,14.43,0.0,Credit card
+2022-04-29,ORD001348,Door Handle,Body & hardware,Wholesale,19,18.73,355.87,Check
+2022-05-01,ORD001349,Door Handle,Body & hardware,Retail,0,23.98,0.0,Credit card
+2022-06-11,ORD001350,Door Handle,Body & hardware,Wholesale,15,21.65,324.75,Check
+2022-07-01,ORD001351,Door Handle,Body & hardware,Retail,0,15.18,0.0,Cash
+2022-08-31,ORD001352,Door Handle,Body & hardware,Retail,24,19.61,470.64,Check
+2022-09-01,ORD001353,Door Handle,Body & hardware,Wholesale,0,15.26,0.0,Check
+2022-10-01,ORD001354,Door Handle,Body & hardware,Wholesale,0,24.93,0.0,Cash
+2022-11-01,ORD001355,Door Handle,Body & hardware,Retail,0,19.98,0.0,Credit card
+2022-12-01,ORD001356,Door Handle,Body & hardware,Retail,0,23.6,0.0,Cash
+2023-01-05,ORD001357,Door Handle,Body & hardware,Retail,27,17.78,480.06,Check
+2023-02-09,ORD001358,Door Handle,Body & hardware,Wholesale,12,17.54,210.48,Check
+2023-03-17,ORD001359,Door Handle,Body & hardware,Retail,2,24.15,48.3,Transfer
+2023-04-17,ORD001360,Door Handle,Body & hardware,Wholesale,12,22.86,274.32,Credit card
+2023-05-01,ORD001361,Door Handle,Body & hardware,Retail,0,14.51,0.0,Transfer
+2023-06-10,ORD001362,Door Handle,Body & hardware,Wholesale,15,14.7,220.5,Credit card
+2023-07-01,ORD001363,Door Handle,Body & hardware,Wholesale,0,24.17,0.0,Transfer
+2023-08-01,ORD001364,Door Handle,Body & hardware,Retail,0,14.41,0.0,Credit card
+2023-09-01,ORD001365,Door Handle,Body & hardware,Retail,0,14.21,0.0,Credit card
+2023-10-31,ORD001366,Door Handle,Body & hardware,Wholesale,29,14.85,430.65,Credit card
+2023-11-13,ORD001367,Door Handle,Body & hardware,Wholesale,30,10.18,305.4,Check
+2023-12-11,ORD001368,Door Handle,Body & hardware,Retail,14,19.23,269.22,Cash
+2024-01-01,ORD001369,Door Handle,Body & hardware,Retail,0,17.67,0.0,Transfer
+2024-02-01,ORD001370,Door Handle,Body & hardware,Wholesale,0,13.95,0.0,Transfer
+2024-03-29,ORD001371,Door Handle,Body & hardware,Retail,4,19.86,79.44,Check
+2024-04-01,ORD001372,Door Handle,Body & hardware,Wholesale,0,12.85,0.0,Check
+2024-05-01,ORD001373,Door Handle,Body & hardware,Wholesale,0,12.88,0.0,Transfer
+2024-06-15,ORD001374,Door Handle,Body & hardware,Retail,34,20.2,686.8,Cash
+2024-07-28,ORD001375,Door Handle,Body & hardware,Wholesale,21,21.13,443.73,Transfer
+2024-08-01,ORD001376,Door Handle,Body & hardware,Retail,0,17.99,0.0,Credit card
+2024-09-01,ORD001377,Door Handle,Body & hardware,Retail,0,22.13,0.0,Transfer
+2024-10-24,ORD001378,Door Handle,Body & hardware,Retail,7,18.4,128.8,Credit card
+2024-11-01,ORD001379,Door Handle,Body & hardware,Retail,0,24.35,0.0,Cash
+2024-12-01,ORD001380,Door Handle,Body & hardware,Retail,0,22.92,0.0,Credit card
+2020-01-01,ORD001381,Seat Upholstery,Interior,Wholesale,0,60.29,0.0,Cash
+2020-02-01,ORD001382,Seat Upholstery,Interior,Wholesale,0,74.77,0.0,Cash
+2020-03-25,ORD001383,Seat Upholstery,Interior,Retail,9,47.0,423.0,Transfer
+2020-04-06,ORD001384,Seat Upholstery,Interior,Retail,2,67.94,135.88,Cash
+2020-05-01,ORD001385,Seat Upholstery,Interior,Retail,0,48.24,0.0,Cash
+2020-06-16,ORD001386,Seat Upholstery,Interior,Retail,16,58.29,932.64,Transfer
+2020-07-31,ORD001387,Seat Upholstery,Interior,Retail,2,40.18,80.36,Transfer
+2020-08-01,ORD001388,Seat Upholstery,Interior,Wholesale,0,61.49,0.0,Credit card
+2020-09-01,ORD001389,Seat Upholstery,Interior,Wholesale,0,36.74,0.0,Credit card
+2020-10-31,ORD001390,Seat Upholstery,Interior,Wholesale,16,51.39,822.24,Cash
+2020-11-01,ORD001391,Seat Upholstery,Interior,Retail,0,56.31,0.0,Transfer
+2020-12-01,ORD001392,Seat Upholstery,Interior,Wholesale,0,46.37,0.0,Credit card
+2021-01-27,ORD001393,Seat Upholstery,Interior,Wholesale,13,56.77,738.01,Check
+2021-02-01,ORD001394,Seat Upholstery,Interior,Wholesale,0,48.41,0.0,Cash
+2021-03-04,ORD001395,Seat Upholstery,Interior,Wholesale,9,68.36,615.24,Check
+2021-04-01,ORD001396,Seat Upholstery,Interior,Wholesale,0,59.59,0.0,Check
+2021-05-01,ORD001397,Seat Upholstery,Interior,Retail,0,51.34,0.0,Check
+2021-06-25,ORD001398,Seat Upholstery,Interior,Wholesale,13,56.56,735.28,Cash
+2021-07-01,ORD001399,Seat Upholstery,Interior,Wholesale,1,55.8,55.8,Transfer
+2021-08-07,ORD001400,Seat Upholstery,Interior,Retail,23,53.16,1222.68,Transfer
+2021-09-01,ORD001401,Seat Upholstery,Interior,Wholesale,0,59.57,0.0,Cash
+2021-10-01,ORD001402,Seat Upholstery,Interior,Retail,0,30.92,0.0,Transfer
+2021-11-08,ORD001403,Seat Upholstery,Interior,Retail,28,73.68,2063.04,Credit card
+2021-12-01,ORD001404,Seat Upholstery,Interior,Retail,0,32.21,0.0,Credit card
+2022-01-09,ORD001405,Seat Upholstery,Interior,Wholesale,8,51.38,411.04,Transfer
+2022-02-01,ORD001406,Seat Upholstery,Interior,Retail,0,64.82,0.0,Cash
+2022-03-05,ORD001407,Seat Upholstery,Interior,Wholesale,17,60.63,1030.71,Credit card
+2022-04-27,ORD001408,Seat Upholstery,Interior,Wholesale,15,46.11,691.65,Transfer
+2022-05-01,ORD001409,Seat Upholstery,Interior,Retail,0,39.39,0.0,Check
+2022-06-06,ORD001410,Seat Upholstery,Interior,Retail,31,35.84,1111.04,Check
+2022-07-01,ORD001411,Seat Upholstery,Interior,Wholesale,0,54.57,0.0,Credit card
+2022-08-15,ORD001412,Seat Upholstery,Interior,Retail,9,59.36,534.24,Cash
+2022-09-30,ORD001413,Seat Upholstery,Interior,Wholesale,1,32.96,32.96,Check
+2022-10-20,ORD001414,Seat Upholstery,Interior,Retail,20,44.14,882.8,Transfer
+2022-11-01,ORD001415,Seat Upholstery,Interior,Wholesale,0,37.09,0.0,Check
+2022-12-01,ORD001416,Seat Upholstery,Interior,Retail,0,58.73,0.0,Check
+2023-01-01,ORD001417,Seat Upholstery,Interior,Wholesale,0,51.14,0.0,Cash
+2023-02-01,ORD001418,Seat Upholstery,Interior,Wholesale,0,62.96,0.0,Transfer
+2023-03-01,ORD001419,Seat Upholstery,Interior,Wholesale,0,69.12,0.0,Transfer
+2023-04-09,ORD001420,Seat Upholstery,Interior,Wholesale,11,58.32,641.52,Credit card
+2023-05-06,ORD001421,Seat Upholstery,Interior,Wholesale,3,30.1,90.3,Cash
+2023-06-27,ORD001422,Seat Upholstery,Interior,Retail,5,47.27,236.35,Check
+2023-07-01,ORD001423,Seat Upholstery,Interior,Wholesale,0,59.74,0.0,Transfer
+2023-08-01,ORD001424,Seat Upholstery,Interior,Retail,0,30.89,0.0,Credit card
+2023-09-01,ORD001425,Seat Upholstery,Interior,Retail,0,71.69,0.0,Check
+2023-10-18,ORD001426,Seat Upholstery,Interior,Retail,8,68.47,547.76,Transfer
+2023-11-01,ORD001427,Seat Upholstery,Interior,Retail,0,36.99,0.0,Transfer
+2023-12-02,ORD001428,Seat Upholstery,Interior,Wholesale,17,50.49,858.33,Cash
+2024-01-01,ORD001429,Seat Upholstery,Interior,Retail,0,48.38,0.0,Cash
+2024-02-01,ORD001430,Seat Upholstery,Interior,Wholesale,0,49.2,0.0,Credit card
+2024-03-02,ORD001431,Seat Upholstery,Interior,Retail,13,53.26,692.38,Transfer
+2024-04-14,ORD001432,Seat Upholstery,Interior,Wholesale,1,53.07,53.07,Transfer
+2024-05-03,ORD001433,Seat Upholstery,Interior,Retail,13,36.47,474.11,Transfer
+2024-06-01,ORD001434,Seat Upholstery,Interior,Retail,0,68.38,0.0,Cash
+2024-07-20,ORD001435,Seat Upholstery,Interior,Retail,1,60.35,60.35,Check
+2024-08-30,ORD001436,Seat Upholstery,Interior,Retail,1,79.63,79.63,Transfer
+2024-09-01,ORD001437,Seat Upholstery,Interior,Retail,0,37.88,0.0,Transfer
+2024-10-01,ORD001438,Seat Upholstery,Interior,Wholesale,0,57.9,0.0,Transfer
+2024-11-04,ORD001439,Seat Upholstery,Interior,Wholesale,1,67.26,67.26,Transfer
+2024-12-01,ORD001440,Seat Upholstery,Interior,Wholesale,0,57.23,0.0,Check
+2020-01-03,ORD001441,Steering Tie Rod,Steering system,Retail,40,41.88,1675.2,Credit card
+2020-02-27,ORD001442,Steering Tie Rod,Steering system,Retail,45,48.92,2201.4,Cash
+2020-03-28,ORD001443,Steering Tie Rod,Steering system,Retail,38,38.1,1447.8,Check
+2020-04-12,ORD001444,Steering Tie Rod,Steering system,Wholesale,41,29.44,1207.04,Cash
+2020-05-16,ORD001445,Steering Tie Rod,Steering system,Retail,41,34.1,1398.1,Credit card
+2020-06-30,ORD001446,Steering Tie Rod,Steering system,Retail,41,36.52,1497.32,Transfer
+2020-07-05,ORD001447,Steering Tie Rod,Steering system,Wholesale,40,41.8,1672.0,Transfer
+2020-08-09,ORD001448,Steering Tie Rod,Steering system,Wholesale,31,20.85,646.35,Transfer
+2020-09-03,ORD001449,Steering Tie Rod,Steering system,Wholesale,30,24.04,721.2,Check
+2020-10-05,ORD001450,Steering Tie Rod,Steering system,Retail,39,23.43,913.77,Check
+2020-11-27,ORD001451,Steering Tie Rod,Steering system,Wholesale,37,25.86,956.82,Check
+2020-12-24,ORD001452,Steering Tie Rod,Steering system,Wholesale,38,34.19,1299.22,Credit card
+2021-01-18,ORD001453,Steering Tie Rod,Steering system,Wholesale,39,29.07,1133.73,Cash
+2021-02-26,ORD001454,Steering Tie Rod,Steering system,Wholesale,42,25.29,1062.18,Credit card
+2021-03-31,ORD001455,Steering Tie Rod,Steering system,Wholesale,46,20.44,940.24,Credit card
+2021-04-09,ORD001456,Steering Tie Rod,Steering system,Retail,40,49.23,1969.2,Credit card
+2021-05-01,ORD001457,Steering Tie Rod,Steering system,Wholesale,41,38.56,1580.96,Credit card
+2021-06-06,ORD001458,Steering Tie Rod,Steering system,Wholesale,45,26.27,1182.15,Cash
+2021-07-23,ORD001459,Steering Tie Rod,Steering system,Retail,39,47.17,1839.63,Credit card
+2021-08-10,ORD001460,Steering Tie Rod,Steering system,Retail,37,20.8,769.6,Credit card
+2021-09-21,ORD001461,Steering Tie Rod,Steering system,Wholesale,37,26.63,985.31,Check
+2021-10-31,ORD001462,Steering Tie Rod,Steering system,Retail,34,22.83,776.22,Credit card
+2021-11-06,ORD001463,Steering Tie Rod,Steering system,Wholesale,37,31.72,1173.64,Transfer
+2021-12-08,ORD001464,Steering Tie Rod,Steering system,Retail,43,36.07,1551.01,Check
+2022-01-22,ORD001465,Steering Tie Rod,Steering system,Wholesale,48,39.06,1874.88,Credit card
+2022-02-10,ORD001466,Steering Tie Rod,Steering system,Wholesale,38,47.91,1820.58,Transfer
+2022-03-18,ORD001467,Steering Tie Rod,Steering system,Wholesale,48,40.77,1956.96,Credit card
+2022-04-29,ORD001468,Steering Tie Rod,Steering system,Retail,44,43.47,1912.68,Check
+2022-05-17,ORD001469,Steering Tie Rod,Steering system,Retail,42,41.03,1723.26,Credit card
+2022-06-10,ORD001470,Steering Tie Rod,Steering system,Wholesale,45,47.65,2144.25,Transfer
+2022-07-25,ORD001471,Steering Tie Rod,Steering system,Wholesale,35,36.81,1288.35,Check
+2022-08-19,ORD001472,Steering Tie Rod,Steering system,Retail,53,31.82,1686.46,Credit card
+2022-09-09,ORD001473,Steering Tie Rod,Steering system,Wholesale,43,41.61,1789.23,Credit card
+2022-10-08,ORD001474,Steering Tie Rod,Steering system,Wholesale,45,37.18,1673.1,Credit card
+2022-11-11,ORD001475,Steering Tie Rod,Steering system,Retail,49,33.78,1655.22,Cash
+2022-12-08,ORD001476,Steering Tie Rod,Steering system,Retail,38,30.41,1155.58,Credit card
+2023-01-24,ORD001477,Steering Tie Rod,Steering system,Wholesale,41,31.21,1279.61,Transfer
+2023-02-23,ORD001478,Steering Tie Rod,Steering system,Retail,41,23.05,945.05,Credit card
+2023-03-04,ORD001479,Steering Tie Rod,Steering system,Retail,44,36.95,1625.8,Check
+2023-04-10,ORD001480,Steering Tie Rod,Steering system,Wholesale,43,28.07,1207.01,Cash
+2023-05-06,ORD001481,Steering Tie Rod,Steering system,Wholesale,32,46.31,1481.92,Credit card
+2023-06-09,ORD001482,Steering Tie Rod,Steering system,Wholesale,40,27.0,1080.0,Transfer
+2023-07-24,ORD001483,Steering Tie Rod,Steering system,Wholesale,37,26.87,994.19,Credit card
+2023-08-29,ORD001484,Steering Tie Rod,Steering system,Wholesale,42,42.5,1785.0,Check
+2023-09-08,ORD001485,Steering Tie Rod,Steering system,Retail,47,26.46,1243.62,Credit card
+2023-10-22,ORD001486,Steering Tie Rod,Steering system,Wholesale,37,37.5,1387.5,Credit card
+2023-11-15,ORD001487,Steering Tie Rod,Steering system,Wholesale,42,25.28,1061.76,Check
+2023-12-18,ORD001488,Steering Tie Rod,Steering system,Wholesale,40,29.43,1177.2,Transfer
+2024-01-27,ORD001489,Steering Tie Rod,Steering system,Retail,38,33.96,1290.48,Credit card
+2024-02-19,ORD001490,Steering Tie Rod,Steering system,Retail,46,42.84,1970.64,Cash
+2024-03-21,ORD001491,Steering Tie Rod,Steering system,Wholesale,31,48.97,1518.07,Transfer
+2024-04-30,ORD001492,Steering Tie Rod,Steering system,Retail,44,43.49,1913.56,Credit card
+2024-05-14,ORD001493,Steering Tie Rod,Steering system,Wholesale,47,37.41,1758.27,Transfer
+2024-06-15,ORD001494,Steering Tie Rod,Steering system,Retail,41,26.76,1097.16,Check
+2024-07-21,ORD001495,Steering Tie Rod,Steering system,Wholesale,33,37.33,1231.89,Transfer
+2024-08-15,ORD001496,Steering Tie Rod,Steering system,Retail,36,49.79,1792.44,Transfer
+2024-09-20,ORD001497,Steering Tie Rod,Steering system,Wholesale,41,36.05,1478.05,Credit card
+2024-10-18,ORD001498,Steering Tie Rod,Steering system,Retail,37,27.96,1034.52,Check
+2024-11-06,ORD001499,Steering Tie Rod,Steering system,Retail,38,29.83,1133.54,Transfer
+2024-12-31,ORD001500,Steering Tie Rod,Steering system,Wholesale,42,20.24,850.08,Transfer
+2020-01-09,ORD001501,Brake Rotor,Braking system,Retail,14,48.58,680.12,Credit card
+2020-02-08,ORD001502,Brake Rotor,Braking system,Retail,2,56.78,113.56,Transfer
+2020-03-21,ORD001503,Brake Rotor,Braking system,Retail,9,27.85,250.65,Cash
+2020-04-01,ORD001504,Brake Rotor,Braking system,Wholesale,0,33.04,0.0,Cash
+2020-05-18,ORD001505,Brake Rotor,Braking system,Retail,15,31.27,469.05,Credit card
+2020-06-02,ORD001506,Brake Rotor,Braking system,Wholesale,12,50.9,610.8,Cash
+2020-07-01,ORD001507,Brake Rotor,Braking system,Retail,0,46.3,0.0,Transfer
+2020-08-01,ORD001508,Brake Rotor,Braking system,Retail,0,54.46,0.0,Transfer
+2020-09-01,ORD001509,Brake Rotor,Braking system,Retail,0,30.49,0.0,Credit card
+2020-10-02,ORD001510,Brake Rotor,Braking system,Retail,1,38.43,38.43,Check
+2020-11-01,ORD001511,Brake Rotor,Braking system,Retail,0,31.47,0.0,Check
+2020-12-29,ORD001512,Brake Rotor,Braking system,Wholesale,15,54.19,812.85,Transfer
+2021-01-01,ORD001513,Brake Rotor,Braking system,Retail,0,42.39,0.0,Cash
+2021-02-11,ORD001514,Brake Rotor,Braking system,Retail,13,55.39,720.07,Credit card
+2021-03-11,ORD001515,Brake Rotor,Braking system,Retail,8,56.1,448.8,Transfer
+2021-04-05,ORD001516,Brake Rotor,Braking system,Wholesale,4,34.03,136.12,Cash
+2021-05-13,ORD001517,Brake Rotor,Braking system,Wholesale,20,56.22,1124.4,Check
+2021-06-01,ORD001518,Brake Rotor,Braking system,Retail,0,45.97,0.0,Cash
+2021-07-02,ORD001519,Brake Rotor,Braking system,Wholesale,3,51.01,153.03,Credit card
+2021-08-19,ORD001520,Brake Rotor,Braking system,Wholesale,5,48.86,244.3,Transfer
+2021-09-05,ORD001521,Brake Rotor,Braking system,Retail,1,50.39,50.39,Transfer
+2021-10-28,ORD001522,Brake Rotor,Braking system,Retail,7,33.51,234.57,Cash
+2021-11-01,ORD001523,Brake Rotor,Braking system,Retail,4,39.01,156.04,Cash
+2021-12-01,ORD001524,Brake Rotor,Braking system,Wholesale,0,41.05,0.0,Transfer
+2022-01-25,ORD001525,Brake Rotor,Braking system,Retail,7,58.95,412.65,Cash
+2022-02-01,ORD001526,Brake Rotor,Braking system,Retail,0,48.3,0.0,Credit card
+2022-03-01,ORD001527,Brake Rotor,Braking system,Wholesale,0,37.26,0.0,Credit card
+2022-04-26,ORD001528,Brake Rotor,Braking system,Wholesale,13,30.77,400.01,Check
+2022-05-17,ORD001529,Brake Rotor,Braking system,Retail,8,35.8,286.4,Credit card
+2022-06-23,ORD001530,Brake Rotor,Braking system,Retail,16,30.77,492.32,Credit card
+2022-07-26,ORD001531,Brake Rotor,Braking system,Wholesale,7,28.04,196.28,Transfer
+2022-08-01,ORD001532,Brake Rotor,Braking system,Wholesale,0,28.74,0.0,Credit card
+2022-09-04,ORD001533,Brake Rotor,Braking system,Retail,1,44.95,44.95,Cash
+2022-10-01,ORD001534,Brake Rotor,Braking system,Retail,0,35.82,0.0,Credit card
+2022-11-08,ORD001535,Brake Rotor,Braking system,Wholesale,1,27.16,27.16,Credit card
+2022-12-03,ORD001536,Brake Rotor,Braking system,Wholesale,15,25.72,385.8,Check
+2023-01-01,ORD001537,Brake Rotor,Braking system,Wholesale,0,45.81,0.0,Check
+2023-02-22,ORD001538,Brake Rotor,Braking system,Retail,12,39.31,471.72,Credit card
+2023-03-08,ORD001539,Brake Rotor,Braking system,Wholesale,22,45.29,996.38,Credit card
+2023-04-17,ORD001540,Brake Rotor,Braking system,Retail,9,46.76,420.84,Credit card
+2023-05-01,ORD001541,Brake Rotor,Braking system,Retail,0,52.74,0.0,Check
+2023-06-01,ORD001542,Brake Rotor,Braking system,Retail,0,34.92,0.0,Check
+2023-07-26,ORD001543,Brake Rotor,Braking system,Wholesale,7,27.32,191.24,Transfer
+2023-08-08,ORD001544,Brake Rotor,Braking system,Retail,5,33.43,167.15,Check
+2023-09-14,ORD001545,Brake Rotor,Braking system,Wholesale,6,45.56,273.36,Credit card
+2023-10-15,ORD001546,Brake Rotor,Braking system,Wholesale,1,25.46,25.46,Cash
+2023-11-01,ORD001547,Brake Rotor,Braking system,Wholesale,0,56.77,0.0,Credit card
+2023-12-01,ORD001548,Brake Rotor,Braking system,Retail,0,56.22,0.0,Credit card
+2024-01-01,ORD001549,Brake Rotor,Braking system,Wholesale,0,27.38,0.0,Transfer
+2024-02-02,ORD001550,Brake Rotor,Braking system,Retail,12,26.35,316.2,Transfer
+2024-03-01,ORD001551,Brake Rotor,Braking system,Wholesale,0,41.86,0.0,Credit card
+2024-04-01,ORD001552,Brake Rotor,Braking system,Wholesale,0,40.48,0.0,Transfer
+2024-05-04,ORD001553,Brake Rotor,Braking system,Retail,9,49.09,441.81,Transfer
+2024-06-09,ORD001554,Brake Rotor,Braking system,Wholesale,15,36.42,546.3,Check
+2024-07-01,ORD001555,Brake Rotor,Braking system,Wholesale,0,31.5,0.0,Credit card
+2024-08-08,ORD001556,Brake Rotor,Braking system,Retail,9,38.72,348.48,Check
+2024-09-17,ORD001557,Brake Rotor,Braking system,Wholesale,13,33.97,441.61,Check
+2024-10-01,ORD001558,Brake Rotor,Braking system,Wholesale,0,56.02,0.0,Transfer
+2024-11-01,ORD001559,Brake Rotor,Braking system,Wholesale,0,50.59,0.0,Credit card
+2024-12-01,ORD001560,Brake Rotor,Braking system,Retail,0,34.8,0.0,Check
+2020-01-02,ORD001561,Transmission Fluid,Transmission,Wholesale,1,28.83,28.83,Credit card
+2020-02-13,ORD001562,Transmission Fluid,Transmission,Retail,1,34.89,34.89,Credit card
+2020-03-01,ORD001563,Transmission Fluid,Transmission,Wholesale,0,27.08,0.0,Cash
+2020-04-21,ORD001564,Transmission Fluid,Transmission,Wholesale,5,15.47,77.35,Credit card
+2020-05-11,ORD001565,Transmission Fluid,Transmission,Retail,38,20.19,767.22,Transfer
+2020-06-16,ORD001566,Transmission Fluid,Transmission,Wholesale,25,26.19,654.75,Credit card
+2020-07-30,ORD001567,Transmission Fluid,Transmission,Wholesale,27,17.2,464.4,Transfer
+2020-08-01,ORD001568,Transmission Fluid,Transmission,Wholesale,0,15.99,0.0,Transfer
+2020-09-01,ORD001569,Transmission Fluid,Transmission,Wholesale,0,24.48,0.0,Check
+2020-10-01,ORD001570,Transmission Fluid,Transmission,Wholesale,0,20.28,0.0,Cash
+2020-11-17,ORD001571,Transmission Fluid,Transmission,Retail,23,21.32,490.36,Transfer
+2020-12-18,ORD001572,Transmission Fluid,Transmission,Wholesale,33,23.64,780.12,Check
+2021-01-24,ORD001573,Transmission Fluid,Transmission,Wholesale,36,28.23,1016.28,Credit card
+2021-02-19,ORD001574,Transmission Fluid,Transmission,Wholesale,55,32.0,1760.0,Credit card
+2021-03-25,ORD001575,Transmission Fluid,Transmission,Wholesale,20,30.92,618.4,Credit card
+2021-04-01,ORD001576,Transmission Fluid,Transmission,Wholesale,0,21.26,0.0,Transfer
+2021-05-06,ORD001577,Transmission Fluid,Transmission,Wholesale,62,18.89,1171.18,Check
+2021-06-01,ORD001578,Transmission Fluid,Transmission,Wholesale,0,21.18,0.0,Credit card
+2021-07-01,ORD001579,Transmission Fluid,Transmission,Wholesale,0,33.4,0.0,Check
+2021-08-29,ORD001580,Transmission Fluid,Transmission,Retail,12,23.32,279.84,Credit card
+2021-09-16,ORD001581,Transmission Fluid,Transmission,Retail,45,31.67,1425.15,Cash
+2021-10-01,ORD001582,Transmission Fluid,Transmission,Wholesale,0,24.81,0.0,Cash
+2021-11-01,ORD001583,Transmission Fluid,Transmission,Wholesale,0,15.15,0.0,Credit card
+2021-12-14,ORD001584,Transmission Fluid,Transmission,Wholesale,29,24.85,720.65,Transfer
+2022-01-01,ORD001585,Transmission Fluid,Transmission,Retail,0,30.6,0.0,Transfer
+2022-02-08,ORD001586,Transmission Fluid,Transmission,Wholesale,19,15.54,295.26,Check
+2022-03-19,ORD001587,Transmission Fluid,Transmission,Wholesale,38,20.02,760.76,Transfer
+2022-04-16,ORD001588,Transmission Fluid,Transmission,Retail,7,28.61,200.27,Credit card
+2022-05-06,ORD001589,Transmission Fluid,Transmission,Wholesale,2,28.1,56.2,Cash
+2022-06-24,ORD001590,Transmission Fluid,Transmission,Retail,29,31.55,914.95,Cash
+2022-07-01,ORD001591,Transmission Fluid,Transmission,Wholesale,0,24.33,0.0,Transfer
+2022-08-01,ORD001592,Transmission Fluid,Transmission,Wholesale,0,21.62,0.0,Transfer
+2022-09-13,ORD001593,Transmission Fluid,Transmission,Retail,52,34.12,1774.24,Check
+2022-10-01,ORD001594,Transmission Fluid,Transmission,Wholesale,0,16.73,0.0,Transfer
+2022-11-01,ORD001595,Transmission Fluid,Transmission,Retail,0,23.67,0.0,Cash
+2022-12-07,ORD001596,Transmission Fluid,Transmission,Wholesale,14,19.03,266.42,Cash
+2023-01-01,ORD001597,Transmission Fluid,Transmission,Wholesale,0,30.77,0.0,Credit card
+2023-02-01,ORD001598,Transmission Fluid,Transmission,Wholesale,0,23.96,0.0,Check
+2023-03-28,ORD001599,Transmission Fluid,Transmission,Retail,30,33.4,1002.0,Cash
+2023-04-25,ORD001600,Transmission Fluid,Transmission,Retail,26,18.56,482.56,Transfer
+2023-05-01,ORD001601,Transmission Fluid,Transmission,Wholesale,0,34.08,0.0,Transfer
+2023-06-01,ORD001602,Transmission Fluid,Transmission,Retail,0,18.88,0.0,Transfer
+2023-07-11,ORD001603,Transmission Fluid,Transmission,Retail,52,21.54,1120.08,Credit card
+2023-08-27,ORD001604,Transmission Fluid,Transmission,Wholesale,52,25.28,1314.56,Transfer
+2023-09-01,ORD001605,Transmission Fluid,Transmission,Retail,0,34.36,0.0,Check
+2023-10-01,ORD001606,Transmission Fluid,Transmission,Wholesale,0,28.08,0.0,Transfer
+2023-11-03,ORD001607,Transmission Fluid,Transmission,Wholesale,8,30.82,246.56,Cash
+2023-12-07,ORD001608,Transmission Fluid,Transmission,Wholesale,45,29.31,1318.95,Transfer
+2024-01-17,ORD001609,Transmission Fluid,Transmission,Wholesale,40,30.64,1225.6,Credit card
+2024-02-25,ORD001610,Transmission Fluid,Transmission,Retail,15,28.43,426.45,Check
+2024-03-09,ORD001611,Transmission Fluid,Transmission,Wholesale,39,17.62,687.18,Transfer
+2024-04-11,ORD001612,Transmission Fluid,Transmission,Retail,42,28.76,1207.92,Transfer
+2024-05-01,ORD001613,Transmission Fluid,Transmission,Wholesale,0,30.35,0.0,Cash
+2024-06-01,ORD001614,Transmission Fluid,Transmission,Wholesale,0,26.93,0.0,Check
+2024-07-01,ORD001615,Transmission Fluid,Transmission,Retail,0,25.25,0.0,Credit card
+2024-08-01,ORD001616,Transmission Fluid,Transmission,Retail,0,20.28,0.0,Credit card
+2024-09-18,ORD001617,Transmission Fluid,Transmission,Wholesale,25,28.1,702.5,Check
+2024-10-01,ORD001618,Transmission Fluid,Transmission,Wholesale,0,28.91,0.0,Cash
+2024-11-04,ORD001619,Transmission Fluid,Transmission,Wholesale,28,22.89,640.92,Cash
+2024-12-01,ORD001620,Transmission Fluid,Transmission,Wholesale,0,18.1,0.0,Transfer
+2020-01-06,ORD001621,Suspension Spring,Suspension & traction,Wholesale,29,67.01,1943.29,Transfer
+2020-02-14,ORD001622,Suspension Spring,Suspension & traction,Retail,33,49.36,1628.88,Cash
+2020-03-22,ORD001623,Suspension Spring,Suspension & traction,Retail,39,82.83,3230.37,Check
+2020-04-02,ORD001624,Suspension Spring,Suspension & traction,Retail,28,81.9,2293.2,Credit card
+2020-05-05,ORD001625,Suspension Spring,Suspension & traction,Wholesale,41,60.59,2484.19,Credit card
+2020-06-14,ORD001626,Suspension Spring,Suspension & traction,Retail,38,64.7,2458.6,Transfer
+2020-07-07,ORD001627,Suspension Spring,Suspension & traction,Retail,25,43.3,1082.5,Credit card
+2020-08-28,ORD001628,Suspension Spring,Suspension & traction,Retail,23,52.59,1209.57,Check
+2020-09-14,ORD001629,Suspension Spring,Suspension & traction,Wholesale,34,91.45,3109.3,Check
+2020-10-14,ORD001630,Suspension Spring,Suspension & traction,Wholesale,24,59.79,1434.96,Credit card
+2020-11-19,ORD001631,Suspension Spring,Suspension & traction,Retail,31,96.61,2994.91,Transfer
+2020-12-22,ORD001632,Suspension Spring,Suspension & traction,Retail,32,62.26,1992.32,Check
+2021-01-29,ORD001633,Suspension Spring,Suspension & traction,Retail,35,69.96,2448.6,Cash
+2021-02-19,ORD001634,Suspension Spring,Suspension & traction,Retail,34,43.54,1480.36,Check
+2021-03-15,ORD001635,Suspension Spring,Suspension & traction,Wholesale,31,52.13,1616.03,Cash
+2021-04-11,ORD001636,Suspension Spring,Suspension & traction,Wholesale,38,73.5,2793.0,Credit card
+2021-05-06,ORD001637,Suspension Spring,Suspension & traction,Retail,35,66.95,2343.25,Transfer
+2021-06-01,ORD001638,Suspension Spring,Suspension & traction,Wholesale,26,93.61,2433.86,Credit card
+2021-07-09,ORD001639,Suspension Spring,Suspension & traction,Wholesale,38,95.17,3616.46,Check
+2021-08-01,ORD001640,Suspension Spring,Suspension & traction,Retail,35,40.91,1431.85,Check
+2021-09-13,ORD001641,Suspension Spring,Suspension & traction,Wholesale,33,70.23,2317.59,Transfer
+2021-10-09,ORD001642,Suspension Spring,Suspension & traction,Retail,32,87.88,2812.16,Credit card
+2021-11-05,ORD001643,Suspension Spring,Suspension & traction,Wholesale,32,81.09,2594.88,Cash
+2021-12-13,ORD001644,Suspension Spring,Suspension & traction,Wholesale,27,66.37,1791.99,Transfer
+2022-01-22,ORD001645,Suspension Spring,Suspension & traction,Retail,32,82.36,2635.52,Credit card
+2022-02-13,ORD001646,Suspension Spring,Suspension & traction,Wholesale,25,80.23,2005.75,Cash
+2022-03-06,ORD001647,Suspension Spring,Suspension & traction,Retail,41,57.09,2340.69,Check
+2022-04-30,ORD001648,Suspension Spring,Suspension & traction,Wholesale,35,46.82,1638.7,Check
+2022-05-06,ORD001649,Suspension Spring,Suspension & traction,Retail,32,85.21,2726.72,Transfer
+2022-06-22,ORD001650,Suspension Spring,Suspension & traction,Wholesale,17,50.63,860.71,Credit card
+2022-07-28,ORD001651,Suspension Spring,Suspension & traction,Wholesale,20,65.37,1307.4,Cash
+2022-08-14,ORD001652,Suspension Spring,Suspension & traction,Retail,20,41.07,821.4,Credit card
+2022-09-26,ORD001653,Suspension Spring,Suspension & traction,Wholesale,32,75.88,2428.16,Cash
+2022-10-05,ORD001654,Suspension Spring,Suspension & traction,Wholesale,29,47.94,1390.26,Credit card
+2022-11-19,ORD001655,Suspension Spring,Suspension & traction,Retail,35,57.95,2028.25,Cash
+2022-12-13,ORD001656,Suspension Spring,Suspension & traction,Retail,29,72.85,2112.65,Cash
+2023-01-08,ORD001657,Suspension Spring,Suspension & traction,Retail,26,68.18,1772.68,Transfer
+2023-02-08,ORD001658,Suspension Spring,Suspension & traction,Wholesale,15,81.9,1228.5,Transfer
+2023-03-11,ORD001659,Suspension Spring,Suspension & traction,Wholesale,27,75.28,2032.56,Credit card
+2023-04-28,ORD001660,Suspension Spring,Suspension & traction,Retail,31,69.05,2140.55,Cash
+2023-05-30,ORD001661,Suspension Spring,Suspension & traction,Wholesale,21,81.07,1702.47,Check
+2023-06-14,ORD001662,Suspension Spring,Suspension & traction,Retail,26,59.55,1548.3,Check
+2023-07-20,ORD001663,Suspension Spring,Suspension & traction,Wholesale,29,98.84,2866.36,Transfer
+2023-08-29,ORD001664,Suspension Spring,Suspension & traction,Retail,29,86.77,2516.33,Check
+2023-09-30,ORD001665,Suspension Spring,Suspension & traction,Retail,31,46.21,1432.51,Check
+2023-10-06,ORD001666,Suspension Spring,Suspension & traction,Retail,24,97.76,2346.24,Transfer
+2023-11-10,ORD001667,Suspension Spring,Suspension & traction,Retail,26,82.85,2154.1,Credit card
+2023-12-19,ORD001668,Suspension Spring,Suspension & traction,Wholesale,28,50.28,1407.84,Transfer
+2024-01-29,ORD001669,Suspension Spring,Suspension & traction,Wholesale,38,41.84,1589.92,Transfer
+2024-02-06,ORD001670,Suspension Spring,Suspension & traction,Retail,22,54.7,1203.4,Cash
+2024-03-23,ORD001671,Suspension Spring,Suspension & traction,Retail,21,69.61,1461.81,Transfer
+2024-04-18,ORD001672,Suspension Spring,Suspension & traction,Retail,30,62.37,1871.1,Transfer
+2024-05-13,ORD001673,Suspension Spring,Suspension & traction,Retail,25,44.94,1123.5,Check
+2024-06-23,ORD001674,Suspension Spring,Suspension & traction,Retail,40,51.81,2072.4,Cash
+2024-07-01,ORD001675,Suspension Spring,Suspension & traction,Retail,35,66.19,2316.65,Check
+2024-08-09,ORD001676,Suspension Spring,Suspension & traction,Wholesale,37,57.32,2120.84,Credit card
+2024-09-09,ORD001677,Suspension Spring,Suspension & traction,Wholesale,25,77.24,1931.0,Cash
+2024-10-24,ORD001678,Suspension Spring,Suspension & traction,Retail,29,92.4,2679.6,Credit card
+2024-11-05,ORD001679,Suspension Spring,Suspension & traction,Retail,34,43.04,1463.36,Credit card
+2024-12-13,ORD001680,Suspension Spring,Suspension & traction,Wholesale,35,55.28,1934.8,Check
+2020-01-01,ORD001681,Ball Joint,Suspension & traction,Wholesale,0,36.99,0.0,Credit card
+2020-02-09,ORD001682,Ball Joint,Suspension & traction,Wholesale,5,39.41,197.05,Transfer
+2020-03-01,ORD001683,Ball Joint,Suspension & traction,Wholesale,0,19.9,0.0,Transfer
+2020-04-21,ORD001684,Ball Joint,Suspension & traction,Retail,18,34.02,612.36,Check
+2020-05-01,ORD001685,Ball Joint,Suspension & traction,Retail,0,22.21,0.0,Check
+2020-06-17,ORD001686,Ball Joint,Suspension & traction,Retail,11,16.2,178.2,Check
+2020-07-01,ORD001687,Ball Joint,Suspension & traction,Retail,0,16.21,0.0,Cash
+2020-08-26,ORD001688,Ball Joint,Suspension & traction,Retail,11,31.51,346.61,Cash
+2020-09-01,ORD001689,Ball Joint,Suspension & traction,Retail,0,34.24,0.0,Cash
+2020-10-01,ORD001690,Ball Joint,Suspension & traction,Retail,0,19.52,0.0,Cash
+2020-11-03,ORD001691,Ball Joint,Suspension & traction,Wholesale,14,17.17,240.38,Cash
+2020-12-01,ORD001692,Ball Joint,Suspension & traction,Wholesale,0,28.28,0.0,Transfer
+2021-01-05,ORD001693,Ball Joint,Suspension & traction,Wholesale,14,34.1,477.4,Credit card
+2021-02-16,ORD001694,Ball Joint,Suspension & traction,Wholesale,8,30.03,240.24,Transfer
+2021-03-06,ORD001695,Ball Joint,Suspension & traction,Retail,18,39.45,710.1,Transfer
+2021-04-30,ORD001696,Ball Joint,Suspension & traction,Wholesale,18,38.68,696.24,Check
+2021-05-13,ORD001697,Ball Joint,Suspension & traction,Retail,17,24.41,414.97,Cash
+2021-06-01,ORD001698,Ball Joint,Suspension & traction,Wholesale,0,35.3,0.0,Transfer
+2021-07-20,ORD001699,Ball Joint,Suspension & traction,Wholesale,12,20.51,246.12,Credit card
+2021-08-31,ORD001700,Ball Joint,Suspension & traction,Wholesale,22,15.48,340.56,Transfer
+2021-09-30,ORD001701,Ball Joint,Suspension & traction,Wholesale,12,26.71,320.52,Check
+2021-10-01,ORD001702,Ball Joint,Suspension & traction,Retail,0,18.25,0.0,Check
+2021-11-25,ORD001703,Ball Joint,Suspension & traction,Retail,25,31.34,783.5,Transfer
+2021-12-11,ORD001704,Ball Joint,Suspension & traction,Wholesale,13,33.38,433.94,Check
+2022-01-24,ORD001705,Ball Joint,Suspension & traction,Wholesale,13,39.28,510.64,Check
+2022-02-15,ORD001706,Ball Joint,Suspension & traction,Wholesale,17,39.41,669.97,Check
+2022-03-01,ORD001707,Ball Joint,Suspension & traction,Wholesale,0,21.32,0.0,Cash
+2022-04-03,ORD001708,Ball Joint,Suspension & traction,Wholesale,18,36.04,648.72,Check
+2022-05-01,ORD001709,Ball Joint,Suspension & traction,Retail,0,19.89,0.0,Transfer
+2022-06-06,ORD001710,Ball Joint,Suspension & traction,Retail,18,25.15,452.7,Credit card
+2022-07-01,ORD001711,Ball Joint,Suspension & traction,Wholesale,6,32.93,197.58,Cash
+2022-08-28,ORD001712,Ball Joint,Suspension & traction,Retail,20,22.37,447.4,Cash
+2022-09-01,ORD001713,Ball Joint,Suspension & traction,Retail,0,30.14,0.0,Credit card
+2022-10-01,ORD001714,Ball Joint,Suspension & traction,Retail,0,24.46,0.0,Check
+2022-11-01,ORD001715,Ball Joint,Suspension & traction,Wholesale,0,36.81,0.0,Credit card
+2022-12-16,ORD001716,Ball Joint,Suspension & traction,Retail,5,17.06,85.3,Check
+2023-01-19,ORD001717,Ball Joint,Suspension & traction,Retail,34,20.34,691.56,Transfer
+2023-02-01,ORD001718,Ball Joint,Suspension & traction,Wholesale,0,24.49,0.0,Check
+2023-03-06,ORD001719,Ball Joint,Suspension & traction,Retail,14,20.14,281.96,Credit card
+2023-04-01,ORD001720,Ball Joint,Suspension & traction,Retail,0,18.43,0.0,Cash
+2023-05-29,ORD001721,Ball Joint,Suspension & traction,Retail,22,24.76,544.72,Transfer
+2023-06-01,ORD001722,Ball Joint,Suspension & traction,Retail,0,24.47,0.0,Check
+2023-07-01,ORD001723,Ball Joint,Suspension & traction,Wholesale,0,18.19,0.0,Transfer
+2023-08-28,ORD001724,Ball Joint,Suspension & traction,Retail,11,20.25,222.75,Cash
+2023-09-20,ORD001725,Ball Joint,Suspension & traction,Wholesale,20,37.17,743.4,Credit card
+2023-10-01,ORD001726,Ball Joint,Suspension & traction,Retail,0,36.31,0.0,Credit card
+2023-11-01,ORD001727,Ball Joint,Suspension & traction,Wholesale,0,20.85,0.0,Credit card
+2023-12-29,ORD001728,Ball Joint,Suspension & traction,Wholesale,20,31.01,620.2,Transfer
+2024-01-21,ORD001729,Ball Joint,Suspension & traction,Retail,17,16.64,282.88,Cash
+2024-02-14,ORD001730,Ball Joint,Suspension & traction,Wholesale,20,23.53,470.6,Cash
+2024-03-01,ORD001731,Ball Joint,Suspension & traction,Retail,0,37.52,0.0,Transfer
+2024-04-28,ORD001732,Ball Joint,Suspension & traction,Wholesale,13,18.0,234.0,Check
+2024-05-01,ORD001733,Ball Joint,Suspension & traction,Wholesale,0,29.25,0.0,Transfer
+2024-06-01,ORD001734,Ball Joint,Suspension & traction,Retail,0,35.38,0.0,Transfer
+2024-07-01,ORD001735,Ball Joint,Suspension & traction,Wholesale,0,30.3,0.0,Credit card
+2024-08-29,ORD001736,Ball Joint,Suspension & traction,Retail,10,32.27,322.7,Credit card
+2024-09-24,ORD001737,Ball Joint,Suspension & traction,Wholesale,16,16.21,259.36,Credit card
+2024-10-07,ORD001738,Ball Joint,Suspension & traction,Retail,22,37.09,815.98,Check
+2024-11-01,ORD001739,Ball Joint,Suspension & traction,Wholesale,0,18.72,0.0,Cash
+2024-12-01,ORD001740,Ball Joint,Suspension & traction,Wholesale,0,18.11,0.0,Credit card
+2020-01-09,ORD001741,CV Joint,Drivetrain,Wholesale,12,56.05,672.6,Credit card
+2020-02-01,ORD001742,CV Joint,Drivetrain,Wholesale,0,50.7,0.0,Transfer
+2020-03-01,ORD001743,CV Joint,Drivetrain,Retail,0,63.62,0.0,Check
+2020-04-26,ORD001744,CV Joint,Drivetrain,Wholesale,26,63.19,1642.94,Check
+2020-05-01,ORD001745,CV Joint,Drivetrain,Wholesale,0,55.69,0.0,Credit card
+2020-06-18,ORD001746,CV Joint,Drivetrain,Retail,29,50.26,1457.54,Check
+2020-07-21,ORD001747,CV Joint,Drivetrain,Retail,14,71.64,1002.96,Transfer
+2020-08-14,ORD001748,CV Joint,Drivetrain,Retail,4,38.88,155.52,Credit card
+2020-09-24,ORD001749,CV Joint,Drivetrain,Wholesale,17,62.08,1055.36,Check
+2020-10-14,ORD001750,CV Joint,Drivetrain,Retail,26,55.68,1447.68,Credit card
+2020-11-24,ORD001751,CV Joint,Drivetrain,Wholesale,16,52.05,832.8,Credit card
+2020-12-04,ORD001752,CV Joint,Drivetrain,Retail,36,60.12,2164.32,Credit card
+2021-01-01,ORD001753,CV Joint,Drivetrain,Wholesale,0,34.15,0.0,Transfer
+2021-02-01,ORD001754,CV Joint,Drivetrain,Retail,0,41.88,0.0,Check
+2021-03-01,ORD001755,CV Joint,Drivetrain,Retail,0,37.79,0.0,Transfer
+2021-04-01,ORD001756,CV Joint,Drivetrain,Wholesale,0,60.69,0.0,Cash
+2021-05-11,ORD001757,CV Joint,Drivetrain,Retail,25,53.68,1342.0,Cash
+2021-06-01,ORD001758,CV Joint,Drivetrain,Retail,0,73.47,0.0,Cash
+2021-07-01,ORD001759,CV Joint,Drivetrain,Wholesale,0,62.02,0.0,Transfer
+2021-08-04,ORD001760,CV Joint,Drivetrain,Retail,1,54.19,54.19,Credit card
+2021-09-09,ORD001761,CV Joint,Drivetrain,Retail,6,57.03,342.18,Transfer
+2021-10-01,ORD001762,CV Joint,Drivetrain,Wholesale,0,36.63,0.0,Cash
+2021-11-14,ORD001763,CV Joint,Drivetrain,Wholesale,29,47.87,1388.23,Cash
+2021-12-28,ORD001764,CV Joint,Drivetrain,Wholesale,1,57.02,57.02,Transfer
+2022-01-01,ORD001765,CV Joint,Drivetrain,Wholesale,0,32.19,0.0,Cash
+2022-02-27,ORD001766,CV Joint,Drivetrain,Retail,19,46.39,881.41,Transfer
+2022-03-01,ORD001767,CV Joint,Drivetrain,Wholesale,0,36.9,0.0,Cash
+2022-04-01,ORD001768,CV Joint,Drivetrain,Wholesale,0,42.63,0.0,Transfer
+2022-05-13,ORD001769,CV Joint,Drivetrain,Wholesale,31,60.4,1872.4,Transfer
+2022-06-06,ORD001770,CV Joint,Drivetrain,Retail,30,55.14,1654.2,Check
+2022-07-01,ORD001771,CV Joint,Drivetrain,Wholesale,0,72.8,0.0,Credit card
+2022-08-01,ORD001772,CV Joint,Drivetrain,Wholesale,0,49.75,0.0,Cash
+2022-09-01,ORD001773,CV Joint,Drivetrain,Wholesale,0,43.38,0.0,Credit card
+2022-10-01,ORD001774,CV Joint,Drivetrain,Retail,0,41.41,0.0,Credit card
+2022-11-01,ORD001775,CV Joint,Drivetrain,Wholesale,0,30.04,0.0,Credit card
+2022-12-01,ORD001776,CV Joint,Drivetrain,Wholesale,0,46.38,0.0,Transfer
+2023-01-01,ORD001777,CV Joint,Drivetrain,Wholesale,0,73.92,0.0,Transfer
+2023-02-01,ORD001778,CV Joint,Drivetrain,Retail,0,39.3,0.0,Check
+2023-03-01,ORD001779,CV Joint,Drivetrain,Wholesale,0,72.08,0.0,Cash
+2023-04-01,ORD001780,CV Joint,Drivetrain,Wholesale,0,71.02,0.0,Credit card
+2023-05-09,ORD001781,CV Joint,Drivetrain,Wholesale,13,59.71,776.23,Credit card
+2023-06-01,ORD001782,CV Joint,Drivetrain,Wholesale,0,50.96,0.0,Check
+2023-07-01,ORD001783,CV Joint,Drivetrain,Retail,0,36.53,0.0,Check
+2023-08-01,ORD001784,CV Joint,Drivetrain,Retail,0,51.74,0.0,Credit card
+2023-09-01,ORD001785,CV Joint,Drivetrain,Retail,0,71.85,0.0,Transfer
+2023-10-01,ORD001786,CV Joint,Drivetrain,Retail,0,46.47,0.0,Credit card
+2023-11-01,ORD001787,CV Joint,Drivetrain,Wholesale,0,43.4,0.0,Transfer
+2023-12-01,ORD001788,CV Joint,Drivetrain,Retail,0,41.35,0.0,Transfer
+2024-01-08,ORD001789,CV Joint,Drivetrain,Retail,25,57.0,1425.0,Cash
+2024-02-16,ORD001790,CV Joint,Drivetrain,Retail,31,63.67,1973.77,Cash
+2024-03-01,ORD001791,CV Joint,Drivetrain,Retail,0,36.5,0.0,Transfer
+2024-04-11,ORD001792,CV Joint,Drivetrain,Retail,21,53.68,1127.28,Transfer
+2024-05-01,ORD001793,CV Joint,Drivetrain,Wholesale,0,58.07,0.0,Check
+2024-06-06,ORD001794,CV Joint,Drivetrain,Wholesale,10,41.5,415.0,Cash
+2024-07-01,ORD001795,CV Joint,Drivetrain,Wholesale,0,52.51,0.0,Check
+2024-08-01,ORD001796,CV Joint,Drivetrain,Retail,0,39.09,0.0,Credit card
+2024-09-01,ORD001797,CV Joint,Drivetrain,Retail,0,67.41,0.0,Cash
+2024-10-01,ORD001798,CV Joint,Drivetrain,Wholesale,0,53.66,0.0,Check
+2024-11-09,ORD001799,CV Joint,Drivetrain,Wholesale,1,38.13,38.13,Check
+2024-12-01,ORD001800,CV Joint,Drivetrain,Wholesale,0,71.68,0.0,Check

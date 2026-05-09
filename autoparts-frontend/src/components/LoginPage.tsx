@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Settings, Gauge, BarChart3, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "./ui/button";
@@ -20,24 +20,94 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const [businessAddress, setBusinessAddress] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+  const [businessExists, setBusinessExists] = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  useEffect(() => {
+    if (!isSignUp) {
+      setEmailExists(false);
+      setBusinessExists(false);
+      setAvailabilityLoading(false);
+      setFormError("");
+      return;
+    }
+
+    const trimmedEmail = email.trim();
+    const trimmedBusinessName = businessName.trim();
+    if (!trimmedEmail && !trimmedBusinessName) {
+      setEmailExists(false);
+      setBusinessExists(false);
+      setAvailabilityLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(async () => {
+      try {
+        setAvailabilityLoading(true);
+        const params = new URLSearchParams();
+        if (trimmedEmail) params.set("email", trimmedEmail);
+        if (trimmedBusinessName) params.set("businessName", trimmedBusinessName);
+
+        const response = await fetch(
+          apiUrl(`/api/register/availability?${params.toString()}`),
+          { signal: controller.signal }
+        );
+        if (!response.ok) {
+          throw new Error("Availability check failed");
+        }
+
+        const data = await response.json();
+        setEmailExists(Boolean(data.emailExists));
+        setBusinessExists(Boolean(data.businessExists));
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setEmailExists(false);
+          setBusinessExists(false);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setAvailabilityLoading(false);
+        }
+      }
+    }, 350);
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timeoutId);
+    };
+  }, [isSignUp, email, businessName]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
 
     if (isSignUp && password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setFormError("Passwords do not match.");
+      return;
+    }
+
+    if (isSignUp && businessExists) {
+      setFormError("A business account with this business name already exists.");
+      return;
+    }
+
+    if (isSignUp && emailExists) {
+      setFormError("This email is already registered in the system.");
       return;
     }
 
     setIsLoading(true);
 
     const url = isSignUp
-      ? "http://localhost:5000/api/register"
-      : "http://localhost:5000/api/login";
+      ? apiUrl("/api/register")
+      : apiUrl("/api/login");
 
     const body = isSignUp
-      ? { email, password, businessName, businessAddress }
-      : { email, password };
+      ? { email: email.trim(), password, businessName: businessName.trim(), businessAddress: businessAddress.trim() }
+      : { email: email.trim(), password };
 
     try {
       const response = await fetch(url, {
@@ -51,11 +121,11 @@ export function LoginPage({ onLogin }: LoginPageProps) {
         onLogin(userData);
       } else {
         const error = await response.json();
-        alert(error.message || "Registration/Login failed");
+        setFormError(error.message || "Registration/Login failed");
       }
     } catch (error) {
       console.error("Connection error:", error);
-      alert("Could not connect to the server. Ensure the backend is running.");
+      setFormError("Could not connect to the server. Ensure the backend is running.");
     } finally {
       setIsLoading(false);
     }
@@ -166,6 +236,9 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                             required
                             className="h-11 sm:h-auto"
                           />
+                          {isSignUp && businessExists && (
+                            <p className="text-sm text-red-500">A business account with this name already exists.</p>
+                          )}
                         </div>
 
                         <div className="space-y-2">
@@ -192,6 +265,12 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                       required
                       className="h-11 sm:h-auto"
                     />
+                    {isSignUp && emailExists && (
+                      <p className="text-sm text-red-500">This email is already registered in the system.</p>
+                    )}
+                    {isSignUp && availabilityLoading && !emailExists && !businessExists && (
+                      <p className="text-sm text-gray-500">Checking account availability...</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -232,7 +311,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                   <Button
                     type="submit"
                     className="w-full bg-[#FF6B00] hover:bg-[#FF8A50] text-white py-4 sm:py-6 text-base sm:text-lg shadow-lg"
-                    disabled={isLoading}
+                    disabled={isLoading || (isSignUp && (emailExists || businessExists))}
                   >
                     {isLoading
                       ? "Processing..."
@@ -240,6 +319,10 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                       ? "Create Business Account"
                       : "Sign In"}
                   </Button>
+
+                  {formError && (
+                    <p className="text-sm text-red-500 text-center">{formError}</p>
+                  )}
 
                   <p className="text-center text-xs sm:text-sm text-gray-500">
                     {isSignUp
