@@ -7,7 +7,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { Package, AlertTriangle, TrendingDown, Search, Plus, DollarSign, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown, ShoppingCart, Upload, Download, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, PhilippinePeso } from "lucide-react";
+import { Package, AlertTriangle, TrendingDown, Search, Plus, DollarSign, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown, ShoppingCart, Upload, Download, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, PhilippinePeso, Wand2 } from "lucide-react";
 import { GlobalFilters } from "../../App";
 import { motion } from "motion/react";
 import { toast } from "sonner";
@@ -183,6 +183,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
     supplier: "",
     location: ""
   });
+  const [skuMode, setSkuMode] = useState<"auto" | "manual">("auto");
 
   const resetForm = () => {
     setProductForm({
@@ -223,10 +224,11 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
       supplier: productForm.supplier,
       location: productForm.location
     });
-
+    
     toast.success(`Product "${productForm.name}" added successfully!`);
     setAddProductOpen(false);
     resetForm();
+    setSkuMode("auto");
   };
 
   const handleEditClick = (product: InventoryItem) => {
@@ -1320,7 +1322,9 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                   setProductForm(prev => ({
                     ...prev,
                     name: newName,
-                    sku: newName && prev.category ? generateSKU(newName, prev.category) : prev.sku
+                    sku: skuMode === "auto" && prev.category
+                      ? generateSKU(newName, prev.category)
+                      : prev.sku
                   }));
                 }}
                 placeholder="e.g., Ceramic Brake Pads"
@@ -1335,7 +1339,9 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
                   onValueChange={(value: string) => setProductForm(prev => ({
                     ...prev,
                     category: value,
-                    sku: prev.name && value ? generateSKU(prev.name, value) : prev.sku
+                    sku: skuMode === "auto" && prev.name
+                      ? generateSKU(prev.name, value)
+                      : prev.sku
                   }))}
                 >
                   <SelectTrigger>
@@ -1374,10 +1380,55 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </div>
 
             <div className="space-y-2">
-              <Label>SKU <span className="text-xs text-muted-foreground font-normal">(auto-generated)</span></Label>
-              <div className="flex items-center h-9 w-full rounded-md border border-input bg-muted px-3 py-1 text-sm text-muted-foreground font-mono select-none">
-                {productForm.sku || <span className="italic opacity-50">Fill in name & category first</span>}
+              <div className="flex items-center justify-between">
+                <Label>SKU</Label>
+                <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-1">
+                  <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-1 border border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSkuMode("auto");
+                        if (productForm.name && productForm.category) {
+                          setProductForm(prev => ({ ...prev, sku: generateSKU(prev.name, prev.category) }));
+                        }
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 ${
+                        skuMode === "auto"
+                          ? "bg-white text-[#FF6B00] shadow-sm border border-orange-100"
+                          : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                      }`}
+                    >
+                      <Wand2 className="w-3 h-3" />
+                      Auto-generate
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSkuMode("manual")}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 ${
+                        skuMode === "manual"
+                          ? "bg-white text-[#FF6B00] shadow-sm border border-orange-100"
+                          : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                      }`}
+                    >
+                      <Pencil className="w-3 h-3" />
+                      Manual
+                    </button>
+                  </div>
+                </div>
               </div>
+
+              {skuMode === "auto" ? (
+                <div className="flex items-center h-9 w-full rounded-md border border-input bg-muted px-3 py-1 text-sm text-muted-foreground font-mono select-none">
+                  {productForm.sku || <span className="italic opacity-50">Fill in name & category first</span>}
+                </div>
+              ) : (
+                <Input
+                  placeholder="e.g., BRK-CBP-001"
+                  value={productForm.sku}
+                  onChange={(e) => setProductForm(prev => ({ ...prev, sku: e.target.value.toUpperCase() }))}
+                  className="font-mono"
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -1401,7 +1452,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => {setAddProductOpen(false); resetForm();}}>Cancel</Button>
+            <Button variant="outline" onClick={() => {setAddProductOpen(false); resetForm(); setSkuMode("auto");}}>Cancel</Button>
             <Button onClick={handleAddProduct} className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]">Add Product</Button>
           </DialogFooter>
         </DialogContent>
