@@ -297,6 +297,25 @@ app.delete('/api/inventory/:id', async (req, res) => {
     }
 });
 
+app.post('/api/verify-password', async (req: any, res: any) => {
+  const { business_id, password, role, user_id } = req.body;
+  try {
+    if (role === 'staff') {
+      const user = await prisma.users.findFirst({
+        where: { user_id: Number(user_id), password_hash: password }
+      });
+      return res.json({ valid: !!user });
+    } else {
+      const business = await prisma.businesses.findFirst({
+        where: { business_id: Number(business_id), password_hash: password }
+      });
+      return res.json({ valid: !!business });
+    }
+  } catch (err: any) {
+    return res.status(500).json({ valid: false, error: err.message });
+  }
+});
+
 // Create Staff Member
 app.post('/api/team', async (req, res) => {
     const { fullName, email, password, business_id } = req.body;

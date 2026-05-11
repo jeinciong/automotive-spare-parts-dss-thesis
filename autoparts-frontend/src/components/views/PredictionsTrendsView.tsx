@@ -1,11 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Input } from "../ui/input";
 import {
   TrendingUp, TrendingDown, Calendar, Target,
-  LineChart, BarChart3, Activity, AlertTriangle, Brain, Info,
+  LineChart, BarChart3, Activity, AlertTriangle, Brain, Info, ShieldCheck, Lock,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 import {
   Line, AreaChart, Area,
@@ -14,12 +17,21 @@ import {
 } from "recharts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 import { motion } from "motion/react";
 import { useForecast, MODEL_DESCRIPTIONS } from "../../contexts/ForecastContext";
 import { useSalesReports } from "../../contexts/SalesReportsContext";
 import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
 
-// ── Shared tooltip style ──────────────────────────────────────
 const TT_STYLE = {
   contentStyle: {
     backgroundColor: "hsl(var(--background))",
@@ -36,7 +48,191 @@ const currencyAxisFormatter = (value: number) => {
 const currencyValueFormatter = (value: number) =>
   formatCurrency(value);
 
-// ── Per-product forecast chart ────────────────────────────────
+// Password confirmation dialog for re-run
+interface PasswordConfirmDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+  targetName: string;
+  accuracy: number | null;
+}
+
+// Password confirmation dialog for re-run
+function PasswordConfirmDialog({ open, onOpenChange, onConfirm, targetName, accuracy }: PasswordConfirmDialogProps) {
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      setPassword("");
+      setError("");
+      setVerifying(false);
+      setShowPassword(false)
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [open]);
+
+  const handleConfirm = async () => {
+    if (!password) {
+      setError("Please enter your password.");
+      return;
+    }
+
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setVerifying(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/verify-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          business_id: storedUser.business_id,
+          user_id: storedUser.user_id,
+          role: storedUser.role,
+          password,
+        }),
+      });
+      const data = await res.json();
+
+      if (!data.valid) {
+        setError("Incorrect password. Please try again.");
+        setVerifying(false);
+        return;
+      }
+
+      setError("");
+      onConfirm();
+      onOpenChange(false);
+    } catch {
+      setError("Could not verify password. Please try again.");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const isGoodAccuracy = accuracy != null && accuracy >= 75;
+
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <Lock className="h-4 w-4 text-orange-500" />
+            Confirm Re-run Forecast
+          </AlertDialogTitle>
+          <AlertDialogDescription asChild>
+            <div className="space-y-3">
+              <p>
+                The forecast for <strong>{targetName}</strong> has{" "}
+                <span className={`font-semibold ${isGoodAccuracy ? "text-green-600" : "text-orange-500"}`}>
+                  {accuracy != null ? `${accuracy.toFixed(1)}% accuracy` : "an existing trained model"}
+                </span>
+                . Re-running will retrain from scratch.
+              </p>
+              <div className={`flex items-start gap-2 rounded-md border px-3 py-2 text-xs ${
+                isGoodAccuracy
+                  ? "border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800 text-green-700 dark:text-green-400"
+                  : "border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-800 text-orange-700 dark:text-orange-400"
+              }`}>
+                {isGoodAccuracy
+                  ? <ShieldCheck className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                  : <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                }
+                <span>
+                  {isGoodAccuracy
+                    ? "Accuracy is already good — re-running may not improve it and could reduce it."
+                    : "Accuracy is low — re-running may help if more sales data is available."}
+                  {" "}Enter your password to confirm.
+                </span>
+              </div>
+              <div className="space-y-1.5 pt-1">
+                <label className="text-xs font-medium text-foreground">Password</label>
+                <div className="relative flex items-center">
+                  <Input
+                    ref={inputRef}
+                    type="text"
+                    inputMode="text"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                    onKeyDown={(e) => { if (e.key === "Enter" && password && !verifying) handleConfirm(); }}
+                    className={`pr-9 ${error ? "border-red-400 focus-visible:ring-red-400" : ""}`}
+                    style={!showPassword ? { WebkitTextSecurity: "disc", letterSpacing: "0.1em" } as any : {}}
+                    disabled={verifying}
+                    autoComplete="off"
+                    data-lpignore="true"
+                    data-form-type="other"
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword(v => !v)}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-0.5"
+                  >
+                    {showPassword
+                      ? <EyeOff className="h-3.5 w-3.5" />
+                      : <Eye className="h-3.5 w-3.5" />
+                    }
+                  </button>
+                </div>
+                {error && (
+                  <p className="text-xs text-red-500 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    {error}
+                  </p>
+                )}
+              </div>
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => onOpenChange(false)} disabled={verifying}>
+            Cancel
+          </AlertDialogCancel>
+          <Button
+            onClick={handleConfirm}
+            disabled={!password || verifying}
+          >
+            {verifying ? (
+              <><div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />Verifying…</>
+            ) : "Re-run Forecast"}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+
+// Good/low accuracy reminder badge
+function GoodAccuracyBadge({ accuracy }: { accuracy: number | null }) {
+  if (accuracy == null) return null;
+  const isGood = accuracy >= 75;
+  return (
+    <div className={`flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs ${
+      isGood
+        ? "border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800 text-green-700 dark:text-green-400"
+        : "border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-800 text-orange-700 dark:text-orange-400"
+    }`}>
+      {isGood
+        ? <ShieldCheck className="h-3.5 w-3.5 flex-shrink-0" />
+        : <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0" />
+      }
+      <span>
+        {isGood
+          ? <>Accuracy is good at <strong>{accuracy.toFixed(1)}%</strong> — re-running retrains from scratch.</>
+          : <>Accuracy is low at <strong>{accuracy.toFixed(1)}%</strong> — re-running may help.</>
+        }
+      </span>
+    </div>
+  );
+}
+
+// Per-product forecast chart
 function ProductForecastChart({ productName }: { productName: string }) {
   const { productForecasts, runForecast } = useForecast();
   const fc = productForecasts[productName];
@@ -70,7 +266,8 @@ function ProductForecastChart({ productName }: { productName: string }) {
     }));
   }, [fc]);
 
-  const lastActual = fc?.history.at(-1)?.period ?? "";
+  // Fix: use bracket notation instead of .at() to avoid TS lib target error
+  const lastActual = fc?.history.length ? fc.history[fc.history.length - 1].period : "";
   const algorithm  = fc?.algorithm;
 
   if (fc?.loading) return (
@@ -241,6 +438,9 @@ function BusinessRevenueForecastChart() {
   const { businessRevenueForecast, runBusinessRevenueForecast } = useForecast();
   const fc = businessRevenueForecast;
 
+  // Password dialog state for business revenue re-run
+  const [pwDialogOpen, setPwDialogOpen] = useState(false);
+
   useEffect(() => {
     if (!fc || (!fc.loading && !fc.forecasts.length && !fc.error)) {
       runBusinessRevenueForecast(6);
@@ -270,7 +470,19 @@ function BusinessRevenueForecastChart() {
     }));
   }, [fc]);
 
-  const lastActual = fc?.history.at(-1)?.period ?? "";
+  // Fix: use bracket notation instead of .at() to avoid TS lib target error
+  const lastActual = fc?.history.length ? fc.history[fc.history.length - 1].period : "";
+
+  const accuracy = fc?.model_info?.accuracy ?? null;
+ const needsPasswordConfirm = accuracy != null;
+
+  const handleRerunClick = () => {
+    if (needsPasswordConfirm) {
+      setPwDialogOpen(true);
+    } else {
+      runBusinessRevenueForecast(6, true);
+    }
+  };
 
   if (fc?.loading) return (
     <div className="flex items-center justify-center h-48 gap-2 text-sm text-muted-foreground">
@@ -340,11 +552,19 @@ function BusinessRevenueForecastChart() {
           size="sm"
           className="h-7 text-xs"
           disabled={fc.loading}
-          onClick={() => runBusinessRevenueForecast(6, true)}
+          onClick={handleRerunClick}
         >
+          {needsPasswordConfirm && <Lock className="h-3 w-3 mr-1" />}
           Re-run
         </Button>
       </div>
+
+      {/* Good accuracy reminder */}
+      {needsPasswordConfirm && (
+        <div className="mb-3">
+          <GoodAccuracyBadge accuracy={accuracy} />
+        </div>
+      )}
 
       <ResponsiveContainer width="100%" height={220}>
         <ComposedChart data={chartData} margin={{ top:6, right:16, bottom:0, left:0 }}>
@@ -421,6 +641,14 @@ function BusinessRevenueForecastChart() {
             dot={{ r:3, fill:"#10b981", strokeWidth:0 }} connectNulls={false}/>
         </ComposedChart>
       </ResponsiveContainer>
+
+      <PasswordConfirmDialog
+        open={pwDialogOpen}
+        onOpenChange={setPwDialogOpen}
+        onConfirm={() => runBusinessRevenueForecast(6, true)}
+        targetName="Business Sales Revenue"
+        accuracy={accuracy}
+      />
     </>
   );
 }
@@ -430,6 +658,10 @@ export function PredictionsTrendsView() {
   const { salesReports }                        = useSalesReports();
   const { productForecasts, runForecast, overallAccuracy } = useForecast();
   const [selectedProduct, setSelectedProduct]   = useState<string>("");
+
+  // Password dialog state for product re-run
+  const [pwDialogOpen, setPwDialogOpen]         = useState(false);
+  const pendingRerunProduct                      = useRef<string>("");
 
   // Derive unique product list from sales reports
   const productList = useMemo(() =>
@@ -443,6 +675,23 @@ export function PredictionsTrendsView() {
     }
   }, [productList, selectedProduct]);
 
+  // Accuracy of the currently selected product
+  const selectedAccuracy = selectedProduct
+    ? (productForecasts[selectedProduct]?.model_info?.accuracy ?? null)
+    : null;
+  const selectedNeedsPasswordConfirm = selectedAccuracy != null;
+
+  const handleProductRerunClick = () => {
+    if (!selectedProduct) return;
+    // ✅ Always require password when re-running an existing forecast
+    if (selectedNeedsPasswordConfirm) {
+      pendingRerunProduct.current = selectedProduct;
+      setPwDialogOpen(true);
+    } else {
+      // Only hits this if forecast has never run (no accuracy yet)
+      runForecast(selectedProduct, 6, true);
+    }
+  };
   // Category quarterly breakdown
   const categoryTrends = useMemo(() => {
     const map: Record<string, {q1:number;q2:number;q3:number;q4:number}> = {};
@@ -656,11 +905,18 @@ export function PredictionsTrendsView() {
                   </Select>
                   <Button variant="default" size="sm" className="h-8 text-xs"
                     disabled={!selectedProduct || productForecasts[selectedProduct]?.loading}
-                    onClick={() => selectedProduct && runForecast(selectedProduct, 6, true)}>
+                    onClick={handleProductRerunClick}>
+                    {selectedNeedsPasswordConfirm && <Lock className="h-3 w-3 mr-1" />}
                     Re-run
                   </Button>
                 </div>
               </div>
+              {/* Good accuracy reminder under the header */}
+              {selectedNeedsPasswordConfirm && (
+                <div className="mt-2">
+                  <GoodAccuracyBadge accuracy={selectedAccuracy} />
+                </div>
+              )}
             </CardHeader>
             <CardContent>
               {!selectedProduct ? (
@@ -727,6 +983,9 @@ export function PredictionsTrendsView() {
                                 }`}>
                                   {fc.model_info.accuracy.toFixed(1)}%
                                 </span>
+                              )}
+                              {fc.model_info?.accuracy != null && fc.model_info.accuracy >= 75 && (
+                                <span title="Good accuracy"><ShieldCheck className="w-3 h-3 text-green-500" /></span>
                               )}
                               {fc.model_info?.retrained && (
                                 <span className={`text-xs ${
@@ -908,7 +1167,7 @@ export function PredictionsTrendsView() {
             {[
               { title:"Week-over-Week Growth",
                 value: weeklyTrends.length >= 2
-                  ? `${(((weeklyTrends.at(-1)!.sales - weeklyTrends[0].sales) / weeklyTrends[0].sales)*100).toFixed(1)}%`
+                  ? `${(((weeklyTrends[weeklyTrends.length - 1].sales - weeklyTrends[0].sales) / weeklyTrends[0].sales)*100).toFixed(1)}%`
                   : "—",
                 sub:"Based on actual sales data", color:"text-green-600" },
               { title:"Avg Order Value",
@@ -932,6 +1191,18 @@ export function PredictionsTrendsView() {
         </TabsContent>
 
       </Tabs>
+
+      {/* Password dialog for product re-run */}
+      <PasswordConfirmDialog
+        open={pwDialogOpen}
+        onOpenChange={setPwDialogOpen}
+        onConfirm={() => {
+          const name = pendingRerunProduct.current;
+          if (name) runForecast(name, 6, true);
+        }}
+        targetName={selectedProduct}
+        accuracy={selectedAccuracy}
+      />
     </motion.div>
   );
 }

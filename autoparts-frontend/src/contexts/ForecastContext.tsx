@@ -94,29 +94,29 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
   const [businessRevenueForecast, setBusinessRevenueForecast] = useState<BusinessRevenueForecast | null>(null);
   const [overallAccuracy,  setOverallAccuracy]  = useState<ForecastAccuracy | null>(null);
   const [accuracyLoading,  setAccuracyLoading]  = useState(false);
-  const [rerunConfirmOpen, setRerunConfirmOpen] = useState(false);
-  const [rerunProductName, setRerunProductName] = useState("");
+  // const [rerunConfirmOpen, setRerunConfirmOpen] = useState(false);
+  // const [rerunProductName, setRerunProductName] = useState("");
   const { salesReports } = useSalesReports();
   const preloadedProductsRef = useRef<Set<string>>(new Set());
   const preloadedRevenueBusinessRef = useRef<number | null>(null);
   const activeBusinessIdRef = useRef<number | null>(null);
-  const rerunConfirmResolverRef = useRef<((confirmed: boolean) => void) | null>(null);
+  // const rerunConfirmResolverRef = useRef<((confirmed: boolean) => void) | null>(null);
 
-  const requestRerunConfirmation = useCallback((productName: string) => {
-    setRerunProductName(productName);
-    setRerunConfirmOpen(true);
+  // const requestRerunConfirmation = useCallback((productName: string) => {
+  //   setRerunProductName(productName);
+  //   setRerunConfirmOpen(true);
 
-    return new Promise<boolean>((resolve) => {
-      rerunConfirmResolverRef.current = resolve;
-    });
-  }, []);
+  //   return new Promise<boolean>((resolve) => {
+  //     rerunConfirmResolverRef.current = resolve;
+  //   });
+  // }, []);
 
-  const resolveRerunConfirmation = useCallback((confirmed: boolean) => {
-    rerunConfirmResolverRef.current?.(confirmed);
-    rerunConfirmResolverRef.current = null;
-    setRerunConfirmOpen(false);
-    setRerunProductName("");
-  }, []);
+  // const resolveRerunConfirmation = useCallback((confirmed: boolean) => {
+  //   rerunConfirmResolverRef.current?.(confirmed);
+  //   rerunConfirmResolverRef.current = null;
+  //   setRerunConfirmOpen(false);
+  //   setRerunProductName("");
+  // }, []);
 
   const runForecast = useCallback(async (
     productName: string,
@@ -128,12 +128,12 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     if (!businessId) return;
     const notify = options?.notify ?? true;
 
-    if (forceRetrain) {
-      const confirmed = await requestRerunConfirmation(productName);
-      if (!confirmed) {
-        return;
-      }
-    }
+    // if (forceRetrain) {
+    //   const confirmed = await requestRerunConfirmation(productName);
+    //   if (!confirmed) {
+    //     return;
+    //   }
+    // }
 
     setProductForecasts(prev => ({
       ...prev,
@@ -236,7 +236,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         ...prev, [productName]: { ...prev[productName], loading:false, error:String(err) }
       }));
     }
-  }, [requestRerunConfirmation]);
+  }, []); //requestRerunConfirmation
 
   const runBusinessRevenueForecast = useCallback(async (
     horizon = 6,
@@ -375,7 +375,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         {children}
       </ForecastContext.Provider>
 
-      <AlertDialog
+      {/* <AlertDialog
         open={rerunConfirmOpen}
         onOpenChange={(open) => {
           if (!open) {
@@ -399,7 +399,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> */}
     </>
   );
 }

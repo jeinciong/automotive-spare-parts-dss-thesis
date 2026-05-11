@@ -1864,10 +1864,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
 
                 // Password verified — proceed with deletion
                 setIsDeletingAll(true);
-                const ids = salesReports.map((r) => r.id);
-                for (const id of ids) {
-                  await deleteSalesReport(id);
-                }
+                await deleteAllSalesReports();
                 setIsDeletingAll(false);
                 setDeleteAllDialogOpen(false);
                 setDeleteAllPassword("");
