@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import { useInventory } from "../../contexts/InventoryContext";
 import { formatCurrency, PESO_SYMBOL } from "../../lib/currency";
+import { createPortal } from "react-dom";
 
 interface SalesReportsViewProps {
   globalFilters?: GlobalFilters;
@@ -195,6 +196,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
   const [isDeletingAll, setIsDeletingAll] = useState(false);
+  const [deleteAllPassword, setDeleteAllPassword] = useState("");
+  const [deleteAllPasswordError, setDeleteAllPasswordError] = useState("");
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [editingReport, setEditingReport] = useState<SalesReport | null>(null);
   const [reportToDelete, setReportToDelete] = useState<string | null>(null);
@@ -204,6 +207,13 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
   const [selectedProduct, setSelectedProduct] = useState<{productName: string; category: string} | null>(null);
   const [productDetailModalOpen, setProductDetailModalOpen] = useState(false);
   const [timePeriod, setTimePeriod] = useState<"weekly" | "monthly" | "yearly">("monthly");
+
+  useEffect(() => {
+    if (!deleteAllDialogOpen) {
+      setDeleteAllPassword("");
+      setDeleteAllPasswordError("");
+    }
+  }, [deleteAllDialogOpen]);
 
   // Auto-run forecast when product detail modal opens
   useEffect(() => {
@@ -644,30 +654,25 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
 
     try {
       const reader = new FileReader();
-      
-      reader.onload = (event) => {
+
+      reader.onload = async (event) => {
         try {
           const data = event.target?.result;
-          
-          // Check if it's Excel or CSV
+
+          setImportModalOpen(false);
+
           if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-            // Handle Excel file
             const workbook = XLSX.read(data, { type: 'binary' });
             const firstSheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[firstSheetName];
             const csvData = XLSX.utils.sheet_to_csv(worksheet);
-            
-            importFromCSV(csvData);
+            await importFromCSV(csvData);   // ← context handles progress internally
           } else if (file.name.endsWith('.csv')) {
-            // Handle CSV file
-            importFromCSV(data as string);
-          } else {
-            toast.error("Please upload a valid Excel (.xlsx, .xls) or CSV file");
+            await importFromCSV(data as string);   // ← context handles progress internally
           }
-          
-          setImportModalOpen(false);
+
           setIsLoading(false);
-          
+
           // Reset file input
           if (fileInputRef.current) {
             fileInputRef.current.value = '';
@@ -1712,6 +1717,9 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               >
                 {isLoading ? "Processing..." : "Choose File"}
               </Button>
+
+              
+              
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -1761,27 +1769,109 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       </AlertDialog>
       
       {/* Delete All Confirmation Dialog */}
-      <AlertDialog open={deleteAllDialogOpen} onOpenChange={(open) => { if (!isDeletingAll) setDeleteAllDialogOpen(open); }}>
+      <AlertDialog open={deleteAllDialogOpen} onOpenChange={(open) => {
+        if (!isDeletingAll) setDeleteAllDialogOpen(open);
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete All Sales Reports?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. All {salesReports.length} sales reports will be permanently deleted from the system.
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>
+                  This action cannot be undone. All{" "}
+                  <span className="font-semibold text-foreground">{salesReports.length}</span>{" "}
+                  sales reports will be permanently deleted from the system.
+                </p>
+                <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-800">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                  <span>
+                    All existing <span className="font-semibold">sales forecasts and predictions</span> will
+                    also be lost. Forecast models are built from historical sales data — deleting all
+                    records means predictions cannot be regenerated until new sales data is added.
+                  </span>
+                </div>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeletingAll}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
+
+          {/* Password confirmation */}
+          <div className="mt-2 space-y-1.5">
+            <Label htmlFor="delete-all-password" className="text-sm font-medium">
+              Enter your password to confirm
+            </Label>
+            <Input
+              id="delete-all-password"
+              type="text"
+              placeholder="Your account password"
+              value={deleteAllPassword}
               disabled={isDeletingAll}
+              autoComplete="off"
+              data-form-type="other"
+              data-lpignore="true"
+              data-1p-ignore="true"
+              onChange={(e) => {
+                setDeleteAllPassword(e.target.value);
+                setDeleteAllPasswordError("");
+              }}
+              className={`masked-input ${deleteAllPasswordError ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+            />
+            {deleteAllPasswordError && (
+              <p className="text-xs text-red-500 flex items-center gap-1">
+                <AlertTriangle className="w-3 h-3" />
+                {deleteAllPasswordError}
+              </p>
+            )}
+          </div>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              disabled={isDeletingAll}
+              onClick={() => { setDeleteAllPassword(""); setDeleteAllPasswordError(""); }}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isDeletingAll || deleteAllPassword.trim().length === 0}
               onClick={async (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+
+                if (!deleteAllPassword.trim()) {
+                  setDeleteAllPasswordError("Please enter your password.");
+                  return;
+                }
+
+                // Verify password via /api/login using the stored email
+                const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
+                try {
+                  const verifyRes = await fetch("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      email: savedUser.email,
+                      password: deleteAllPassword,
+                    }),
+                  });
+
+                  if (!verifyRes.ok) {
+                    setDeleteAllPasswordError("Incorrect password. Please try again.");
+                    return;
+                  }
+                } catch {
+                  setDeleteAllPasswordError("Could not verify password. Check your connection.");
+                  return;
+                }
+
+                // Password verified — proceed with deletion
                 setIsDeletingAll(true);
-                const ids = salesReports.map(r => r.id);
+                const ids = salesReports.map((r) => r.id);
                 for (const id of ids) {
                   await deleteSalesReport(id);
                 }
                 setIsDeletingAll(false);
                 setDeleteAllDialogOpen(false);
+                setDeleteAllPassword("");
+                setDeleteAllPasswordError("");
               }}
               className="bg-red-600 hover:bg-red-700 min-w-[100px]"
             >

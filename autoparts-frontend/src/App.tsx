@@ -9,6 +9,9 @@ import { InventoryProvider, useInventory } from "./contexts/InventoryContext";
 import { SuppliersProvider } from "./contexts/SuppliersContext";
 import { SalesReportsProvider } from "./contexts/SalesReportsContext";
 import { ForecastProvider } from "./contexts/ForecastContext";
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSalesReports } from "./contexts/SalesReportsContext";
 
 // Import all view components
 import { DashboardView } from "./components/views/DashboardView";
@@ -29,6 +32,118 @@ export interface GlobalFilters {
   categories: string[];
   status: string[];
   priceRange: { min: number; max: number };
+}
+function ImportProgressOverlay() {
+  const { importProgress, importBatch } = useSalesReports();
+  const [displayProgress, setDisplayProgress] = useState(0);
+  const animFrameRef = useRef<number | null>(null);
+  const displayProgressRef = useRef(0);  // ← tracks current value without stale closure
+
+  // In App.tsx - ImportProgressOverlay
+
+  useEffect(() => {
+    if (importProgress === null) {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      displayProgressRef.current = 0;
+      setDisplayProgress(0);
+      return;
+    }
+
+    const target = importProgress;
+    const start = displayProgressRef.current;
+    const diff = target - start;
+    if (diff <= 0) return;
+
+    // Much faster animation — 15ms per percent step max
+    const duration = Math.min(diff * 15, 400);
+    const startTime = performance.now();
+
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = Math.round(start + diff * eased);
+
+      displayProgressRef.current = current;
+      setDisplayProgress(current);
+
+      if (t < 1) {
+        animFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    setTimeout(() => {
+      animFrameRef.current = requestAnimationFrame(animate);
+    }, 50);
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [importProgress]);
+
+  return createPortal(
+    <AnimatePresence>
+      {importProgress !== null && (
+        <motion.div
+          key="import-overlay"
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          style={{ position: "fixed", top: 24, right: 24, zIndex: 9999, width: 300 }}
+          className="bg-white rounded-xl shadow-2xl border border-gray-100 p-4 space-y-3"
+        >
+          {/* Header row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <svg
+                className="flex-shrink-0"
+                width="16" height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ animation: "spin 0.75s linear infinite" }}
+              >
+                <circle cx="8" cy="8" r="6" stroke="#e5e7eb" strokeWidth="2.5" />
+                <path d="M8 2 A6 6 0 0 1 14 8" stroke="#FF6B00" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
+              <span className="text-sm font-semibold text-gray-800">Importing records…</span>
+            </div>
+            <span className="text-sm font-bold text-[#FF6B00]">
+              {displayProgress}%
+            </span>
+          </div>
+
+          {/* Progress bar */}
+          <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+            <motion.div
+              className="h-2.5 rounded-full relative overflow-hidden bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]"
+              initial={{ width: "0%" }}
+              animate={{ width: `${displayProgress}%` }}
+              transition={{ ease: "linear", duration: 0.05 }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                animate={{ x: ["-100%", "200%"] }}
+                transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+              />
+            </motion.div>
+          </div>
+
+          {/* Batch info row */}
+          {importBatch && (
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Please don't close the page</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-orange-50 border border-orange-200 text-[#FF6B00] font-semibold">
+                Batch {importBatch.current}/{importBatch.total}
+              </span>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  );
 }
 
 function AppContent() {
@@ -241,6 +356,7 @@ export default function App() {
       <SuppliersProvider>
         <SalesReportsProvider>
           <ForecastProvider>
+            <ImportProgressOverlay />
             <AppContent />
           </ForecastProvider>
         </SalesReportsProvider>

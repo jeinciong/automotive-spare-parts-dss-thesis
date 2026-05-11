@@ -24,15 +24,19 @@ interface SalesReportsContextType {
   addSalesReport: (report: any) => Promise<void>;
   updateSalesReport: (id: string, report: any) => Promise<void>;
   deleteSalesReport: (id: string) => Promise<void>;
-  importFromCSV: (csvData: string) => Promise<void>;
+  importFromCSV: (csvData: string, onProgress?: (percent: number) => void) => Promise<void>;
   deleteAllSalesReports: () => Promise<boolean>;
   fetchSales: () => Promise<void>;
+  importProgress: number | null;
+  importBatch: { current: number; total: number } | null;
 }
 
 const SalesReportsContext = createContext<SalesReportsContextType | undefined>(undefined);
 
 export function SalesReportsProvider({ children }: { children: ReactNode }) {
   const [salesReports, setSalesReports] = useState<SalesReport[]>([]);
+  const [importProgress, setImportProgress] = useState<number | null>(null);
+  const [importBatch, setImportBatch] = useState<{ current: number; total: number } | null>(null);
   const { fetchInventory } = useInventory();
   const deleteAllSalesReports = async () => {
     console.log("RAW localStorage user:", localStorage.getItem("user"));
@@ -148,7 +152,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   };
 
   // IMPORT CSV 
-  const importFromCSV = async (csvData: string) => {
+  const importFromCSV = async (csvData: string, onProgress?: (percent: number) => void) => {
     const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
     if (!savedUser.business_id) return;
 
@@ -209,44 +213,82 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Send in chunks of 1000 rows so the browser and server stay responsive
+    const combinedProgress = (percent: number) => {
+      setImportProgress(percent);
+      onProgress?.(percent);
+    };
+
+
     const CHUNK = 1000;
     const totalChunks = Math.ceil(reportsToImport.length / CHUNK);
     let totalImported = 0;
+    setImportProgress(0);
+    setImportBatch({ current: 0, total: totalChunks });
 
     try {
       for (let i = 0; i < reportsToImport.length; i += CHUNK) {
-        const chunk     = reportsToImport.slice(i, i + CHUNK);
-        const chunkNum  = Math.floor(i / CHUNK) + 1;
+        const chunk = reportsToImport.slice(i, i + CHUNK);
+        const chunkNum = Math.floor(i / CHUNK) + 1;
 
-        // Show progress toast on chunks after the first
-        if (totalChunks > 1) {
-          toast.loading(`Importing… ${chunkNum}/${totalChunks} batches`, { id: "import-progress" });
-        }
+        // Calculate the percent range this batch covers
+        const batchStartPercent = Math.round((i / reportsToImport.length) * 100);
+        const batchEndPercent = Math.round((Math.min(i + CHUNK, reportsToImport.length) / reportsToImport.length) * 100);
+
+        // Simulate ascending progress DURING the fetch using an interval
+        let currentSimulated = batchStartPercent;
+        setImportProgress(batchStartPercent);
+        setImportBatch({ current: chunkNum, total: totalChunks });
+
+        const simulationInterval = setInterval(() => {
+          // Creep up to 95% of this batch's range — leave the last 5% for when fetch actually completes
+          const ceiling = batchStartPercent + Math.round((batchEndPercent - batchStartPercent) * 0.95);
+          if (currentSimulated < ceiling) {
+            currentSimulated += 1;
+            setImportProgress(currentSimulated);
+          }
+        }, 80); // tick every 80ms → smooth ascending count
 
         const response = await fetch(apiUrl("/api/sales"), {
-          method:  'POST',
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ business_id: savedUser.business_id, reports: chunk }),
+          body: JSON.stringify({ business_id: savedUser.business_id, reports: chunk }),
         });
+
+        clearInterval(simulationInterval);
 
         if (!response.ok) {
           const err = await response.json().catch(() => ({ error: "Unknown error" }));
-          toast.dismiss("import-progress");
           toast.error(`Import failed at batch ${chunkNum}: ${err.error}`);
+          setImportProgress(null);
+          setImportBatch(null);
           return;
         }
 
         const data = await response.json();
         totalImported += data.count ?? chunk.length;
+
+        // Snap to the real end percent for this batch
+        setImportProgress(batchEndPercent);
+        setImportBatch({ current: chunkNum, total: totalChunks });
+
+        await new Promise(resolve => setTimeout(resolve, 50));
       }
 
-      toast.dismiss("import-progress");
-      toast.success(`Imported ${totalImported.toLocaleString()} records!`);
+      setImportProgress(100);
       await fetchSales();
+      setTimeout(() => {
+        setImportProgress(null);
+        setImportBatch(null);
+        toast.success(`Imported ${totalImported.toLocaleString()} records!`);
+        <p className="text-xs text-green-600 font-medium">
+              All {importBatch?.total ?? ""} batch{(importBatch?.total ?? 0) > 1 ? "es" : ""} processed successfully!
+        </p>
+      }, 300);
+
     } catch (err) {
-      toast.dismiss("import-progress");
       toast.error("Import failed — check your connection and try again");
+      setImportProgress(null);
+      setImportBatch(null);
     }
   };
 
@@ -309,7 +351,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <SalesReportsContext.Provider value={{ salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV, deleteAllSalesReports,fetchSales }}>
+    <SalesReportsContext.Provider value={{ salesReports, addSalesReport, updateSalesReport, deleteSalesReport, importFromCSV, deleteAllSalesReports,fetchSales,importProgress,importBatch, }}>
       {children}
     </SalesReportsContext.Provider>
   );
