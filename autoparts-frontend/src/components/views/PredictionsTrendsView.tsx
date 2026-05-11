@@ -1081,64 +1081,30 @@ export function PredictionsTrendsView() {
             </Card>
           )}
 
-          {/* Accuracy summary */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <CardHeader><CardTitle className="text-base">Forecast Accuracy</CardTitle></CardHeader>
-              <CardContent>
-                {overallAccuracy?.accuracy != null ? (
-                  <div className="space-y-3">
-                    {[
-                      { label:"Overall Accuracy", value:overallAccuracy.accuracy, color:"from-green-500 to-emerald-500", text:"text-green-600" },
-                      { label:"MAPE",             value:overallAccuracy.mape ? 100-overallAccuracy.mape : null, color:"from-blue-500 to-indigo-500", text:"text-blue-600" },
-                    ].map(({ label, value, color, text }) => (
-                      <div key={label}>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span>{label}</span>
-                          <span className={text}>{value != null ? `${value.toFixed(1)}%` : "—"}</span>
-                        </div>
-                        <div className="h-2 bg-muted rounded-full overflow-hidden">
-                          <div className={`h-full bg-gradient-to-r ${color}`}
-                            style={{ width:`${Math.min(100,Math.max(0,value??0))}%` }}/>
-                        </div>
-                      </div>
-                    ))}
-                    <p className="text-xs text-muted-foreground pt-1">
-                      Based on {overallAccuracy.pairs} verified forecast period{overallAccuracy.pairs !== 1 ? "s" : ""}
-                    </p>
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Run a forecast on any product to see accuracy metrics here.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader><CardTitle className="text-base">Key Insights</CardTitle></CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm">
-                  {fastestGrowing && fastestGrowing.growth > 0 && (
-                    <div className="flex items-start gap-2">
-                      <TrendingUp className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0"/>
-                      <p><strong>{fastestGrowing.category}</strong> is growing at +{fastestGrowing.growth}% Q1→Q4.</p>
-                    </div>
-                  )}
-                  {fastestDeclining && fastestDeclining.growth < 0 && (
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0"/>
-                      <p><strong>{fastestDeclining.category}</strong> shows a declining trend — consider action.</p>
-                    </div>
-                  )}
+          {/* Key Insights summary */}
+          <Card>
+            <CardHeader><CardTitle className="text-base">Key Insights</CardTitle></CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                {fastestGrowing && fastestGrowing.growth > 0 && (
                   <div className="flex items-start gap-2">
-                    <Brain className="h-4 w-4 text-purple-500 mt-0.5 flex-shrink-0"/>
-                    <p>ARIMA+XGB for regular demand · TSB+XGB for intermittent/lumpy demand. Model is auto-selected.</p>
+                    <TrendingUp className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0"/>
+                    <p><strong>{fastestGrowing.category}</strong> is growing at +{fastestGrowing.growth}% Q1→Q4.</p>
                   </div>
+                )}
+                {fastestDeclining && fastestDeclining.growth < 0 && (
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0"/>
+                    <p><strong>{fastestDeclining.category}</strong> shows a declining trend — consider action.</p>
+                  </div>
+                )}
+                <div className="flex items-start gap-2">
+                  <Brain className="h-4 w-4 text-purple-500 mt-0.5 flex-shrink-0"/>
+                  <p>ARIMA+XGB for regular demand · TSB+XGB for intermittent/lumpy demand. Model is auto-selected.</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         {/* ── Category Trends Tab ── */}
