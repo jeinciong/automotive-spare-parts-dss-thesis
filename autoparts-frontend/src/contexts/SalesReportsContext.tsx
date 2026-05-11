@@ -160,17 +160,19 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
 
     const normalizeHeader = (header: string) =>
       header
+        .replace(/^\uFEFF/, '')
         .trim()
         .replace(/["\r]/g, '')
         .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
         .toLowerCase();
 
-    const readNumber = (value: unknown, fallback: number) => {
+    const readNumber = (value: any, fallback: number) => {
       if (value === undefined || value === null || String(value).trim() === "") {
         return fallback;
       }
 
-      const parsed = Number(value);
+      const cleanValue = String(value).replace(/,/g, '');
+      const parsed = Number(cleanValue);
       return Number.isFinite(parsed) ? parsed : fallback;
     };
 
@@ -184,7 +186,7 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
       const row: any = {};
       headers.forEach((header, index) => { row[header] = values[index]; });
 
-      const quantity = readNumber(row.quantity, 0);
+      const quantity = readNumber(row.quantity, 1);
       const unitPrice = readNumber(row.unit_price, 0);
       const totalAmount = row.total_amount !== undefined && String(row.total_amount).trim() !== ""
         ? readNumber(row.total_amount, 0)
@@ -193,14 +195,14 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
           : quantity * unitPrice;
 
       return {
-        date:           row.date           || new Date().toISOString().split('T')[0],
+        date:           row.date           || row.report_date || new Date().toISOString().split('T')[0],
         product_name:   row.product_name   || row.product_line  || "Unknown",
         category:       row.category       || row.product_line  || "General",
-        quantity:       Number(row.quantity)    || 1,
-        unit_price:     Number(row.unit_price)  || 0,
-        other_expenses: Number(row.other_expenses) || 0,
-        total_amount:   Number(row.total_amount) || Number(row.total) || 0,
-        customer_type:  row.customer_type  || row.client_type   || "Retail",
+        quantity:       quantity,
+        unit_price:     unitPrice,
+        other_expenses: readNumber(row.other_expenses, 0),
+        total_amount:   totalAmount,
+        customer_name:  row.customer_name  || row.customer_type || row.client_type || "Retail",
         payment_method: row.payment_method || row.payment       || "Cash",
         order_number:   row.order_number   || `IMP-${Date.now()}`,
         status:         row.status         || "Completed",

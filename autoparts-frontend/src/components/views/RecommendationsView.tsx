@@ -149,11 +149,18 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       const productRecs: Recommendation[] = [];
 
       if (isCritical || (trend.direction === "increasing" && stockNeededNextPeriod > 0)) {
+        let trendMessage = `Sales are expected to go up by ${trendLabel}.`;
+        if (trend.direction === "declining") {
+          trendMessage = `Sales are expected to go down by ${Math.abs(trend.trendPercent).toFixed(1)}%, but stock is critically low.`;
+        } else if (trend.direction === "stable") {
+          trendMessage = `Sales are expected to remain steady, but stock is critically low.`;
+        }
+
         productRecs.push({
           id: `restock-${forecast.product_name}`,
           priority: isCritical || trend.trendPercent >= 25 ? "High" : "Medium",
           title: `Order more ${forecast.product_name}`,
-          description: `Sales are expected to go up by ${trendLabel}. You only have ${formatUnits(currentStock)} on hand. To avoid running out, prepare an order for about ${formatUnits(Math.max(stockNeededNextPeriod, minimumStock))}.`,
+          description: `${trendMessage} You only have ${formatUnits(currentStock)} on hand. To avoid running out, prepare an order for about ${formatUnits(Math.max(stockNeededNextPeriod, minimumStock))}.`,
           impact: valueAtRisk > 0 ? `${formatCurrencyCompact(valueAtRisk)} worth of stock may be needed` : `${formatUnits(stockNeededNextPeriod)} possible shortage`,
           impactValue: valueAtRisk,
           action: "Create Reorder Plan",

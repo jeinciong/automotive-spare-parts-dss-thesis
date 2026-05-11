@@ -27,7 +27,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useForecast, MODEL_DESCRIPTIONS } from "../../contexts/ForecastContext";
 import { useSalesReports } from "../../contexts/SalesReportsContext";
 import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
@@ -656,7 +656,7 @@ function BusinessRevenueForecastChart() {
 // ── Main view ─────────────────────────────────────────────────
 export function PredictionsTrendsView() {
   const { salesReports }                        = useSalesReports();
-  const { productForecasts, runForecast, overallAccuracy } = useForecast();
+  const { productForecasts, runForecast, overallAccuracy, businessRevenueForecast } = useForecast();
   const [selectedProduct, setSelectedProduct]   = useState<string>("");
 
   // Password dialog state for product re-run
@@ -692,6 +692,58 @@ export function PredictionsTrendsView() {
       runForecast(selectedProduct, 6, true);
     }
   };
+
+  // ── Accuracy cycling ──────────────────────────────────────────
+  const accuraciesList = useMemo(() => {
+    const items: Array<{ label: string; value: number | string; desc: string }> = [];
+    if (overallAccuracy?.accuracy != null) {
+      items.push({
+        label: "Overall",
+        value: overallAccuracy.accuracy,
+        desc: overallAccuracy.pairs ? `${overallAccuracy.pairs} verified periods` : ""
+      });
+    }
+
+    if (businessRevenueForecast?.model_info?.accuracy != null) {
+      items.push({
+        label: "Monthly Revenue",
+        value: businessRevenueForecast.model_info.accuracy,
+        desc: "Business Revenue"
+      });
+    }
+
+    Object.values(productForecasts).forEach(fc => {
+      if (fc.model_info?.accuracy != null) {
+        items.push({
+          label: fc.product_name,
+          value: fc.model_info.accuracy,
+          desc: "Spare Part"
+        });
+      }
+    });
+
+    if (items.length === 0) {
+      items.push({
+        label: "Overall",
+        value: "—",
+        desc: "Run a forecast to compute"
+      });
+    }
+    return items;
+  }, [overallAccuracy, businessRevenueForecast, productForecasts]);
+
+  const [accIndex, setAccIndex] = useState(0);
+
+  useEffect(() => {
+    if (accuraciesList.length <= 1) return;
+    const interval = setInterval(() => {
+      setAccIndex(prev => (prev + 1) % accuraciesList.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [accuraciesList.length]);
+
+  const currentAcc = accuraciesList[accIndex % accuraciesList.length] || accuraciesList[0];
+
   // Category quarterly breakdown
   const categoryTrends = useMemo(() => {
     const map: Record<string, {q1:number;q2:number;q3:number;q4:number}> = {};
@@ -791,12 +843,23 @@ export function PredictionsTrendsView() {
               <TrendingUp className="h-5 w-5 text-green-600"/>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl">
-                {overallAccuracy?.accuracy != null ? `${overallAccuracy.accuracy}%` : "—"}
-              </div>
-              <p className="text-xs text-green-600 mt-1">
-                {overallAccuracy?.pairs ? `${overallAccuracy.pairs} verified periods` : "Run a forecast to compute"}
-              </p>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentAcc.label}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="text-2xl">
+                    {typeof currentAcc.value === 'number' ? `${currentAcc.value.toFixed(1)}%` : currentAcc.value}
+                  </div>
+                  <p className="text-xs text-green-600 mt-1 truncate" title={`${currentAcc.label} - ${currentAcc.desc}`}>
+                    <span className="font-semibold">{currentAcc.label}</span>
+                    {currentAcc.desc ? ` • ${currentAcc.desc}` : ""}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
             </CardContent>
           </Card>
         </motion.div>

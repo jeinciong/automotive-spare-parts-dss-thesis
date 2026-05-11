@@ -55,6 +55,11 @@ export function SettingsView() {
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [passwords, setPasswords] = useState({ old: "", new: "", confirm: "" });
 
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
+  const [deleteAccountName, setDeleteAccountName] = useState("");
+  const [deleteAccountPassword, setDeleteAccountPassword] = useState("");
+  const [deleteAccountError, setDeleteAccountError] = useState("");
+
   const handleUpdateBusiness = async () => {
   const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), {
     method: 'PUT',
@@ -111,12 +116,31 @@ export function SettingsView() {
   };
 
   const handleDeleteAccount = async () => {
-      if (window.confirm("WARNING: This will permanently delete your business and all data. Proceed?")) {
-          const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), { method: 'DELETE' });
+      if (deleteAccountName !== businessInfo.name) {
+          setDeleteAccountError("Business name does not match.");
+          return;
+      }
+      if (!deleteAccountPassword) {
+          setDeleteAccountError("Password is required.");
+          return;
+      }
+      setDeleteAccountError("");
+
+      try {
+          const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), { 
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password: deleteAccountPassword })
+          });
           if (response.ok) {
               localStorage.clear();
               window.location.href = "/login";
+          } else {
+              const data = await response.json();
+              setDeleteAccountError(data.error || "Failed to delete account");
           }
+      } catch (err) {
+          setDeleteAccountError("Network error. Try again.");
       }
   };
 
@@ -459,7 +483,7 @@ export function SettingsView() {
                 <Button 
                   variant="destructive" 
                   className="mt-4 w-full" 
-                  onClick={handleDeleteAccount}
+                  onClick={() => setIsDeleteAccountOpen(true)}
                 >
                   Delete Business Account
                 </Button>
@@ -516,6 +540,55 @@ export function SettingsView() {
             <Button variant="outline" onClick={() => setIsEditMemberOpen(false)}>Cancel</Button>
             <Button onClick={handleUpdateStaff} className="bg-blue-600 hover:bg-blue-700 text-white">
               Update Account
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Account Dialog */}
+      <Dialog open={isDeleteAccountOpen} onOpenChange={setIsDeleteAccountOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-red-600 flex items-center gap-2">
+              <AlertCircle className="w-5 h-5" />
+              Delete Business Account
+            </DialogTitle>
+            <DialogDescription className="text-red-500 font-medium">
+              WARNING: This will permanently delete your business, sales data, prediction artifacts, and all associated data. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm">Please type <strong>{businessInfo.name}</strong> to confirm.</p>
+            <Input 
+              placeholder="Business Name" 
+              value={deleteAccountName} 
+              onChange={(e) => setDeleteAccountName(e.target.value)} 
+            />
+            <p className="text-sm mt-4">Please enter your password.</p>
+            <Input 
+              type="password" 
+              placeholder="Password" 
+              value={deleteAccountPassword} 
+              onChange={(e) => setDeleteAccountPassword(e.target.value)} 
+            />
+            {deleteAccountError && <p className="text-red-500 text-sm font-medium">{deleteAccountError}</p>}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setIsDeleteAccountOpen(false);
+              setDeleteAccountError("");
+              setDeleteAccountName("");
+              setDeleteAccountPassword("");
+            }}>
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDeleteAccount}
+              disabled={!deleteAccountName || !deleteAccountPassword}
+              className="transition-opacity duration-300 disabled:opacity-50"
+            >
+              Permanently Delete
             </Button>
           </DialogFooter>
         </DialogContent>

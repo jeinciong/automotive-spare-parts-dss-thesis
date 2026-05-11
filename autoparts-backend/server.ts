@@ -482,33 +482,18 @@ app.post('/api/sales', async (req: any, res: any) => {
             });
         }
 
-        const modelTrainingResults: Array<{
-            product_name: string;
-            status: 'trained' | 'cached' | 'skipped';
-            algorithm?: ForecastAlgorithm;
-            saved_model_path?: string;
-            reason?: string;
-        }> = [];
-
-        for (const productName of Object.keys(soldMap)) {
-            try {
-                const forecastResult = await getOrTrainForecastArtifact(businessId, productName, 6, false);
-                modelTrainingResults.push({
-                    product_name: productName,
-                    status: forecastResult.loadedFromCache ? 'cached' : 'trained',
-                    algorithm: forecastResult.algorithm,
-                    saved_model_path: forecastResult.savedModelPath,
-                });
-            } catch (err: any) {
-                modelTrainingResults.push({
-                    product_name: productName,
-                    status: 'skipped',
-                    reason: err.message,
-                });
+        // Run model training asynchronously in the background so it doesn't block the response
+        setTimeout(async () => {
+            for (const productName of Object.keys(soldMap)) {
+                try {
+                    await getOrTrainForecastArtifact(businessId, productName, 6, false);
+                } catch (err: any) {
+                    console.error(`Background training failed for ${productName}:`, err.message);
+                }
             }
-        }
+        }, 0);
 
-        return res.status(200).json({ count: totalInserted, model_training: modelTrainingResults });
+        return res.status(200).json({ count: totalInserted, message: 'Import successful. Models are training in the background.' });
 
     } catch (err: any) {
         console.error('Import Error:', err);
@@ -846,7 +831,31 @@ app.put('/api/change-password/:id', async (req, res) => {
 app.delete('/api/business/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
-        
+        const { password } = req.body;
+
+        const business = await prisma.businesses.findUnique({
+            where: { business_id: id }
+        });
+
+        if (!business) {
+            return res.status(404).json({ error: "Business account not found" });
+        }
+
+        if (business.password_hash !== password) {
+            return res.status(401).json({ error: "Incorrect password" });
+        }
+
+        // Delete prediction artifacts linked to the account
+        const arimaDir = path.join(process.cwd(), 'python/trained_models/arima_xgb', `business_${id}`);
+        const tsbDir = path.join(process.cwd(), 'python/trained_models/tsb_xgb', `business_${id}`);
+
+        try {
+            await fs.rm(arimaDir, { recursive: true, force: true });
+            await fs.rm(tsbDir, { recursive: true, force: true });
+        } catch (fsErr) {
+            console.warn(`Could not delete artifacts for business_${id}:`, fsErr);
+        }
+
         await prisma.$transaction([
             //Delete all leaf-level records first
             prisma.activity_logs.deleteMany({ where: { business_id: id } }),
@@ -866,7 +875,7 @@ app.delete('/api/business/:id', async (req, res) => {
         res.json({ message: "Account and all associated data deleted" });
     } catch (err) { 
         console.error("Delete Business Error:", err);
-        res.status(500).send("Failed to delete account. Ensure all dependencies are cleared."); 
+        res.status(500).json({ error: "Failed to delete account. Ensure all dependencies are cleared." }); 
     }
 });
 
