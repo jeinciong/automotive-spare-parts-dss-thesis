@@ -10,10 +10,11 @@ import { GlobalFilters } from "../../App";
 import { motion, AnimatePresence } from "motion/react";
 import { useInventory } from "../../contexts/InventoryContext";
 import { useForecast } from "../../contexts/ForecastContext";
+import { useSalesReports } from "../../contexts/SalesReportsContext";
 import { format, isWithinInterval, subMonths, startOfMonth, endOfMonth } from "date-fns";
 import { formatCurrency } from "../../lib/currency";
 import { apiUrl } from "../../lib/api";
-import { 
+import {
   ShoppingCart,
   ArrowUpRight,
   ArrowDownRight,
@@ -24,9 +25,11 @@ import {
   AlertTriangle,
   Target,
   Package,
-  TrendingUp
+  TrendingUp,
+  TrendingDown,
+  DollarSign
 } from "lucide-react";
-import { 
+import {
   Area,
   AreaChart,
   CartesianGrid,
@@ -43,14 +46,195 @@ interface DashboardViewProps {
   globalFilters?: GlobalFilters;
 }
 
+type FilterType = "all" | "today" | "weekly" | "monthly" | "yearly" | "quarterly" | "custom";
+
+interface DateFilter {
+  type: FilterType;
+  quarter?: 1 | 2 | 3 | 4;
+  quarterYear?: number;
+  customStart?: string;
+  customEnd?: string;
+}
+
+function filterByDate<T extends { reportDate?: string; date?: string }>(
+  rows: T[],
+  filter: DateFilter
+): T[] {
+  if (filter.type === "all") return rows;
+  const now = new Date();
+  return rows.filter((r) => {
+    const dateStr = r.reportDate || r.date;
+    if (!dateStr) return false;
+    const d = new Date(dateStr);
+    if (filter.type === "today") {
+      return (
+        d.getFullYear() === now.getFullYear() &&
+        d.getMonth() === now.getMonth() &&
+        d.getDate() === now.getDate()
+      );
+    }
+    if (filter.type === "weekly") {
+      const weekAgo = new Date(now);
+      weekAgo.setDate(now.getDate() - 7);
+      return d >= weekAgo && d <= now;
+    }
+    if (filter.type === "monthly") {
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    }
+    if (filter.type === "yearly") {
+      return d.getFullYear() === now.getFullYear();
+    }
+    if (filter.type === "quarterly") {
+      const q = filter.quarter ?? 1;
+      const y = filter.quarterYear ?? now.getFullYear();
+      const startMonth = (q - 1) * 3;
+      const endMonth = startMonth + 2;
+      return (
+        d.getFullYear() === y &&
+        d.getMonth() >= startMonth &&
+        d.getMonth() <= endMonth
+      );
+    }
+    if (filter.type === "custom") {
+      const start = filter.customStart ? new Date(filter.customStart) : null;
+      const end = filter.customEnd ? new Date(filter.customEnd + "T23:59:59") : null;
+      if (start && d < start) return false;
+      if (end && d > end) return false;
+      return true;
+    }
+    return true;
+  });
+}
+
+function DateFilterBar({
+  filter,
+  onChange,
+}: {
+  filter: DateFilter;
+  onChange: (f: DateFilter) => void;
+}) {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+
+  const baseBtn =
+    "px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 border";
+  const active =
+    "bg-[#FF6B00] text-white border-[#FF6B00] shadow-sm";
+  const inactive =
+    "bg-white text-gray-600 border-gray-200 hover:border-[#FF6B00] hover:text-[#FF6B00]";
+
+  const types: { label: string; value: FilterType }[] = [
+    { label: "All", value: "all" },
+    { label: "Today", value: "today" },
+    { label: "This Week", value: "weekly" },
+    { label: "This Month", value: "monthly" },
+    { label: "This Year", value: "yearly" },
+    { label: "Quarterly", value: "quarterly" },
+    { label: "Custom", value: "custom" },
+  ];
+
+  return (
+    <div className="flex flex-col gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 mb-4">
+      {/* Filter Type Buttons */}
+      <div className="flex items-center flex-wrap gap-2">
+        <span className="text-sm font-medium text-gray-600 mr-1">Filter Financial Statistics by:</span>
+        {types.map((t) => (
+          <button
+            key={t.value}
+            className={`${baseBtn} ${filter.type === t.value ? active : inactive}`}
+            onClick={() => onChange({ type: t.value })}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Quarterly Sub-controls */}
+      {filter.type === "quarterly" && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-gray-500 font-medium">Quarter:</span>
+            {([1, 2, 3, 4] as const).map((q) => (
+              <button
+                key={q}
+                className={`${baseBtn} ${filter.quarter === q ? active : inactive}`}
+                onClick={() =>
+                  onChange({ ...filter, quarter: q, quarterYear: filter.quarterYear ?? currentYear })
+                }
+              >
+                Q{q}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-gray-500 font-medium">Year:</span>
+            <select
+              aria-label="Select year for quarterly filter"
+              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              value={filter.quarterYear ?? currentYear}
+              onChange={(e) =>
+                onChange({ ...filter, quarterYear: Number(e.target.value) })
+              }
+            >
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Range Sub-controls */}
+      {filter.type === "custom" && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5 text-gray-400" />
+            <span className="text-xs text-gray-500 font-medium">From:</span>
+            <input
+              type="date"
+              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              value={filter.customStart ?? ""}
+              onChange={(e) => onChange({ ...filter, customStart: e.target.value })}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500 font-medium">To:</span>
+            <input
+              type="date"
+              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              value={filter.customEnd ?? ""}
+              onChange={(e) => onChange({ ...filter, customEnd: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function DashboardView({ globalFilters }: DashboardViewProps) {
   const { inventory } = useInventory();
   const { overallAccuracy, productForecasts, fetchAccuracy } = useForecast();
+  const { salesReports } = useSalesReports();
   const [salesData, setSalesData] = useState<any[]>([]);
   const [selectedMetric, setSelectedMetric] = useState("revenue");
+  const [financialFilter, setFinancialFilter] = useState<DateFilter>({ type: "all" });
+
+  const costMap = useMemo(() => {
+    const map = new Map<string, number>();
+    inventory.forEach((item) => {
+      map.set(item.name.trim().toLowerCase(), Number(item.unitCost) || 0);
+    });
+    return map;
+  }, [inventory]);
+
+  const getCost = (productName: string) =>
+    costMap.get(productName.trim().toLowerCase()) ?? 0;
   const [modalOpen, setModalOpen] = useState<string | null>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -82,7 +266,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
     if (productListFromSales.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % productListFromSales.length);
-    }, 3500); 
+    }, 3500);
     return () => clearInterval(timer);
   }, [productListFromSales.length]);
 
@@ -168,9 +352,9 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
         <Button variant="outline" size="icon" className="w-9 h-9 rounded-xl border-gray-200" onClick={() => onChange(current - 1)} disabled={current === 1}>‹</Button>
         {pages.map((p, i) => (
           typeof p === 'number' ? (
-            <Button 
-              key={i} 
-              variant={current === p ? "default" : "outline"} 
+            <Button
+              key={i}
+              variant={current === p ? "default" : "outline"}
               className={`w-9 h-9 rounded-xl font-medium ${current === p ? "bg-[#FF6B00] hover:bg-[#FF6B00] text-white border-0 shadow-sm" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}
               onClick={() => onChange(p)}
             >
@@ -191,9 +375,37 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
   const accuracyVal = currentFC?.model_info?.accuracy ?? 0;
   const hasAccuracy = currentFC?.model_info?.accuracy != null;
 
+  const financialMetrics = useMemo(() => {
+    if (!currentProd) return { totalGrossProfit: 0, totalNetIncome: 0, grossMargin: "0", netMargin: "0", isGrossLoss: false, isNetLoss: false };
+
+    // 1. Filter sales reports by current product
+    const productSales = salesReports.filter(r => r.productName === currentProd);
+    // 2. Filter by date using financialFilter
+    const filteredSales = filterByDate(productSales, financialFilter);
+
+    const totalRevenue = filteredSales.reduce((sum, r) => sum + r.totalAmount, 0);
+    const totalOtherExpenses = filteredSales.reduce((sum, r) => sum + (r.otherExpenses ?? 0), 0);
+    const totalCOGS = filteredSales.reduce((sum, r) => sum + getCost(r.productName) * r.quantity, 0);
+    
+    const totalGrossProfit = totalRevenue - totalCOGS;
+    const totalNetIncome = totalGrossProfit - totalOtherExpenses;
+    
+    const grossMargin = totalRevenue > 0 ? ((totalGrossProfit / totalRevenue) * 100).toFixed(1) : "0";
+    const netMargin = totalRevenue > 0 ? ((totalNetIncome / totalRevenue) * 100).toFixed(1) : "0";
+
+    return {
+      totalGrossProfit,
+      totalNetIncome,
+      grossMargin,
+      netMargin,
+      isGrossLoss: totalGrossProfit < 0,
+      isNetLoss: totalNetIncome < 0
+    };
+  }, [currentProd, salesReports, financialFilter, costMap]);
+
   return (
     <motion.div className="space-y-6" initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.05 } } }}>
-      
+
       {/* Header */}
       <motion.div variants={itemVariants} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#212121] via-[#607D8B] to-[#FF6B00] p-8 text-white shadow-xl">
         <div className="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-3xl"></div>
@@ -209,19 +421,60 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
 
       {/* Accuracy Slideshow UI */}
       <motion.div variants={itemVariants}>
+        <DateFilterBar filter={financialFilter} onChange={setFinancialFilter} />
+
         <div className="p-4 rounded-lg border shadow-sm bg-white border-gray-100 min-h-[95px] flex items-center">
-          <div className="flex items-center space-x-4 w-full">
-            <Target className="w-6 h-6 text-[#FF6B00] flex-shrink-0" />
+          <div className="flex w-full">
             <div className="flex-1 overflow-hidden">
               <AnimatePresence mode="wait">
-                <motion.div key={currentProd || 'empty'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} className="flex items-center justify-between">
-                  <div className="flex-1 mr-6">
-                    <p className="text-sm font-medium">Forecast Accuracy: <span className="text-muted-foreground ml-1">{currentProd || "Calculating..."}</span></p>
-                    <div className={`text-xl font-medium mt-0.5 ${accuracyVal >= 75 ? "text-green-600" : "text-red-600"}`}>
-                      {hasAccuracy ? `${accuracyVal.toFixed(1)}%` : "0.0%"}
+                <motion.div key={currentProd || 'empty'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} className="flex flex-col md:flex-row items-center gap-6 w-full">
+                  
+                  {/* Left Side: Forecast Accuracy */}
+                  <div className="flex items-center space-x-4 flex-1 border-b md:border-b-0 md:border-r border-gray-100 pb-4 md:pb-0 md:pr-6 w-full">
+                    <Target className="w-6 h-6 text-[#FF6B00] flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Forecast Accuracy: <span className="text-muted-foreground ml-1">{currentProd || "Calculating..."}</span></p>
+                      <div className={`text-xl font-medium mt-0.5 ${hasAccuracy ? (accuracyVal >= 75 ? "text-green-600" : "text-red-600") : "text-gray-400 text-sm italic"}`}>
+                        {hasAccuracy ? `${accuracyVal.toFixed(1)}%` : "Not yet available"}
+                      </div>
+                      <div className="h-1 bg-muted rounded-full overflow-hidden mt-2 w-full max-w-lg">
+                        <motion.div className="h-full bg-[#FF6B00]" initial={{ width: 0 }} animate={{ width: `${accuracyVal}%` }} transition={{ duration: 1 }} />
+                      </div>
                     </div>
-                    <div className="h-1 bg-muted rounded-full overflow-hidden mt-2 w-full max-w-lg">
-                      <motion.div className="h-full bg-[#FF6B00]" initial={{ width: 0 }} animate={{ width: `${accuracyVal}%` }} transition={{ duration: 1 }} />
+                  </div>
+
+                  {/* Right Side: Gross Profit and Net Income */}
+                  <div className="flex-1 grid grid-cols-2 gap-4 w-full">
+                    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 flex flex-col justify-center">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-semibold text-gray-600">Gross Profit</span>
+                        <div className={`p-1.5 rounded-lg shadow-sm ${financialMetrics.isGrossLoss ? "bg-gradient-to-br from-red-500 to-red-700" : "bg-gradient-to-br from-[#FF6B00] to-[#FF8A50]"}`}>
+                          <Activity className="w-3 h-3 text-white" />
+                        </div>
+                      </div>
+                      <div className={`text-lg font-bold ${financialMetrics.isGrossLoss ? "text-red-600" : "text-green-600"}`}>
+                        {formatCurrency(financialMetrics.totalGrossProfit)}
+                      </div>
+                      <p className={`text-[10px] mt-0.5 ${!financialMetrics.isGrossLoss ? 'text-green-600' : 'text-red-600'} flex items-center`}>
+                        {!financialMetrics.isGrossLoss ? <TrendingUp className="w-2.5 h-2.5 mr-1" /> : <TrendingDown className="w-2.5 h-2.5 mr-1" />}
+                        {financialMetrics.isGrossLoss ? `⚠ LOSS — ${financialMetrics.grossMargin}%` : `${financialMetrics.grossMargin}% gross margin`}
+                      </p>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 flex flex-col justify-center">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-semibold text-gray-600">Net Income</span>
+                        <div className={`p-1.5 rounded-lg shadow-sm ${financialMetrics.isNetLoss ? "bg-gradient-to-br from-red-500 to-red-700" : "bg-gradient-to-br from-[#FF6B00] to-[#FF8A50]"}`}>
+                          <DollarSign className="w-3 h-3 text-white" />
+                        </div>
+                      </div>
+                      <div className={`text-lg font-bold ${financialMetrics.isNetLoss ? "text-red-600" : "text-green-600"}`}>
+                        {formatCurrency(financialMetrics.totalNetIncome)}
+                      </div>
+                      <p className={`text-[10px] mt-0.5 ${!financialMetrics.isNetLoss ? 'text-green-600' : 'text-red-600'} flex items-center`}>
+                        {!financialMetrics.isNetLoss ? <TrendingUp className="w-2.5 h-2.5 mr-1" /> : <TrendingDown className="w-2.5 h-2.5 mr-1" />}
+                        {financialMetrics.isNetLoss ? `⚠ LOSS — ${financialMetrics.netMargin}%` : `${financialMetrics.netMargin}% net margin`}
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -279,7 +532,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
               <CardContent>
                 <ResponsiveContainer width="100%" height={350}>
                   <AreaChart data={chartData}>
-                    <defs><linearGradient id="colorMain" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#FF6B00" stopOpacity={0.3}/><stop offset="95%" stopColor="#FF6B00" stopOpacity={0}/></linearGradient></defs>
+                    <defs><linearGradient id="colorMain" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#FF6B00" stopOpacity={0.3} /><stop offset="95%" stopColor="#FF6B00" stopOpacity={0} /></linearGradient></defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                     <XAxis dataKey="label" stroke="#888" fontSize={12} axisLine={false} tickLine={false} />
                     <YAxis stroke="#888" fontSize={12} axisLine={false} tickLine={false} />
@@ -302,7 +555,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   {topProductsList.slice(0, 5).map((p, i) => (
                     <div key={i} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#FF6B00] to-[#FF8A50] text-white flex items-center justify-center font-bold">#{i+1}</div>
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#FF6B00] to-[#FF8A50] text-white flex items-center justify-center font-bold">#{i + 1}</div>
                         <div><p className="font-medium text-sm">{p.name}</p><p className="text-xs text-muted-foreground">{p.sales} units sold</p></div>
                       </div>
                       <div className="flex items-center space-x-8">
@@ -324,7 +577,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
                   <Pie data={categoryPerformance} innerRadius={50} outerRadius={70} dataKey="revenue" paddingAngle={5}>{categoryPerformance.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
-                  <Tooltip />   
+                  <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
               <div className="mt-4 space-y-2">
@@ -430,12 +683,12 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                             {item.category || "General"}
                           </Badge>
                         </TableCell>
-                        
+
                         {modalOpen !== "orders" && modalOpen !== "customers" && (
                           <TableCell className="text-right font-bold text-xs truncate">
-                            {modalOpen === "revenue" ? formatCurrency(item.total_amount) : 
-                             modalOpen === "units" ? `${item.quantity} units` : 
-                             "Processed"}
+                            {modalOpen === "revenue" ? formatCurrency(item.total_amount) :
+                              modalOpen === "units" ? `${item.quantity} units` :
+                                "Processed"}
                           </TableCell>
                         )}
                       </TableRow>
@@ -445,7 +698,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
               </Table>
             </div>
           </div>
-          
+
           <div className="p-6 pt-2">
             {(() => {
               const dataCount = modalOpen === "customers" ? new Set(salesData.map(s => s.customer_type)).size : salesData.length;

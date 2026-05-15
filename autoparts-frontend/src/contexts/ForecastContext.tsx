@@ -299,6 +299,10 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // ── Reset forecast state when the logged-in business changes ──
+  // NOTE: Models are NO LONGER preloaded here to prevent excessive RAM usage.
+  // Forecasts are loaded on-demand when the user selects a spare part
+  // or views the business revenue forecast in PredictionsTrendsView.
   useEffect(() => {
     const businessId = JSON.parse(localStorage.getItem("user") || "{}").business_id ?? null;
 
@@ -310,51 +314,7 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       setBusinessRevenueForecast(null);
       setOverallAccuracy(null);
     }
-
-    if (!businessId || salesReports.length === 0) {
-      return;
-    }
-
-    const uniqueProducts = Array.from(new Set(
-      salesReports
-        .map(report => report.productName)
-        .filter(Boolean)
-    ));
-
-    const productsToLoad = uniqueProducts.filter(productName => {
-      if (preloadedProductsRef.current.has(productName)) {
-        return false;
-      }
-
-      const existingForecast = productForecasts[productName];
-      return !existingForecast?.loading && !existingForecast?.forecasts?.length;
-    });
-
-    if (productsToLoad.length === 0) {
-      return;
-    }
-
-    productsToLoad.forEach(productName => preloadedProductsRef.current.add(productName));
-    void Promise.all(
-      productsToLoad.map(productName =>
-        runForecast(productName, 6, false, { notify: false })
-      )
-    );
-  }, [productForecasts, runForecast, salesReports]);
-
-  useEffect(() => {
-    const businessId = JSON.parse(localStorage.getItem("user") || "{}").business_id ?? null;
-    if (!businessId) {
-      return;
-    }
-
-    if (preloadedRevenueBusinessRef.current === businessId) {
-      return;
-    }
-
-    preloadedRevenueBusinessRef.current = businessId;
-    void runBusinessRevenueForecast(6, false);
-  }, [runBusinessRevenueForecast, salesReports]);
+  }, [salesReports]);
 
   const fetchAccuracy = useCallback(async () => {
     const businessId = JSON.parse(localStorage.getItem("user")||"{}").business_id;
