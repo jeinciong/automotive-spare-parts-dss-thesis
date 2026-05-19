@@ -27,8 +27,9 @@ BETA_GRID_EXTENDED  = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.
 POOR_MAPE_THRESHOLD = 25.0   # % — retrain if first-pass MAPE is above this
 
 XGB_PARAMS_INITIAL = {
-    "n_estimators": 200, "max_depth": 4, "learning_rate": 0.05,
+    "n_estimators": 200, "max_depth": 3, "learning_rate": 0.05,
     "subsample": 0.8, "colsample_bytree": 0.8,
+    "min_child_weight": 2, "gamma": 0.05, "reg_alpha": 0.05, "reg_lambda": 1.2,
     "random_state": 42, "verbosity": 0,
 }
 XGB_PARAMS_RETRAIN = {
