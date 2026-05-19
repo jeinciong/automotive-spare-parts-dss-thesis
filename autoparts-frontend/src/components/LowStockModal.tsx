@@ -102,7 +102,7 @@ export function LowStockModal({ isOpen, onClose, onViewInventory }: LowStockModa
                         </div>
                       </div>
 
-                      <div className="mt-3 flex items-center justify-between">
+                      <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
                         <div className="text-sm">
                           <span className="text-muted-foreground">Reorder: </span>
                           <span className="font-medium">
@@ -129,7 +129,7 @@ export function LowStockModal({ isOpen, onClose, onViewInventory }: LowStockModa
           </div>
         </div>
 
-        <div className="flex-shrink-0 flex items-center justify-between pt-4 border-t">
+        <div className="flex-shrink-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t">
           <div className="text-sm text-muted-foreground">
             Total estimated reorder cost: 
             <span className="font-medium ml-1">

@@ -743,14 +743,14 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
       initial="hidden"
       animate="visible"
     >
-      <motion.div className="flex items-center justify-between" variants={itemVariants}>
+      <motion.div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" variants={itemVariants}>
         <div>
           <h1>Sales Reports</h1>
           <p className="text-muted-foreground">
             Comprehensive sales analysis and reporting for automotive parts
           </p>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2">
           {/* HIDE FOR STAFF */}
           {!isStaff && (
             <>
@@ -1041,7 +1041,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
           </Card>
         </motion.div>
         {!isStaff && (
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
             <TabsTrigger value="reports">Sales Reports</TabsTrigger>
             <TabsTrigger value="revenue">Revenue Analysis</TabsTrigger>
             <TabsTrigger value="products">Product Performance</TabsTrigger>
@@ -1498,7 +1498,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             </DialogDescription>
           </DialogHeader>
           
-          <div className="grid grid-cols-2 gap-4 py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="reportDate">Report Date *</Label>
               <Input
@@ -1912,7 +1912,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </CardContent>
             </Card>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm">Average Transaction</CardTitle>
@@ -2011,7 +2011,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <Card className="border-0 bg-gradient-to-br from-green-50 to-green-100">
                 <CardContent className="pt-6">
                   <div className="text-2xl font-bold text-green-700">{completedOrders}</div>
@@ -2090,7 +2090,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm">Highest Order</CardTitle>
@@ -2176,7 +2176,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm">Monthly Growth</CardTitle>

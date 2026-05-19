@@ -187,3 +187,27 @@
 html {
   font-size: var(--font-size);
 }
+
+/* ─── Responsive Utilities ─── */
+
+/* Ensure dialogs/modals never exceed viewport on mobile */
+@media (max-width: 640px) {
+  [data-slot="dialog-content"],
+  [role="dialog"] > div {
+    max-width: calc(100vw - 1.5rem) !important;
+    max-height: calc(100dvh - 2rem) !important;
+  }
+}
+
+/* Ensure tables inside cards scroll horizontally on small screens */
+@media (max-width: 768px) {
+  [data-slot="card"] table,
+  .border-0 table {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Prevent horizontal page-level scroll */
+html, body {
+  overflow-x: hidden;
+}

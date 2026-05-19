@@ -90,8 +90,9 @@ function ImportProgressOverlay() {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
-          style={{ position: "fixed", top: 24, right: 24, zIndex: 9999, width: 300 }}
-          className="bg-white rounded-xl shadow-2xl border border-gray-100 p-4 space-y-3"
+          style={{ position: "fixed", top: 16, right: 16, zIndex: 9999 }}
+          className="bg-white rounded-xl shadow-2xl border border-gray-100 p-4 space-y-3 w-[calc(100vw-2rem)] max-w-[300px] sm:right-6 sm:top-6"
+
         >
           {/* Header row */}
           <div className="flex items-center justify-between">
@@ -330,7 +331,7 @@ function AppContent() {
               />
             </header>
 
-            <main className="flex-1 w-full overflow-y-auto p-4 md:p-6 scroll-smooth">
+            <main className="flex-1 w-full overflow-y-auto p-3 sm:p-4 md:p-6 scroll-smooth">
               <div className="mx-auto w-full min-h-full">
                 {renderView()}
               </div>

@@ -306,12 +306,12 @@ export function SettingsView() {
       </header>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 mb-8">
-          <TabsTrigger value="general"><User className="w-4 h-4 mr-2" />General</TabsTrigger>
-          <TabsTrigger value="team"><Users className="w-4 h-4 mr-2" />Team</TabsTrigger>
-          <TabsTrigger value="notifications"><Bell className="w-4 h-4 mr-2" />Notifications</TabsTrigger>
-          <TabsTrigger value="appearance"><Palette className="w-4 h-4 mr-2" />Appearance</TabsTrigger>
-          <TabsTrigger value="security"><Shield className="w-4 h-4 mr-2" />Security</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto mb-8">
+          <TabsTrigger value="general"><User className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">General</span></TabsTrigger>
+          <TabsTrigger value="team"><Users className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Team</span></TabsTrigger>
+          <TabsTrigger value="notifications"><Bell className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Notifications</span></TabsTrigger>
+          <TabsTrigger value="appearance"><Palette className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Appearance</span></TabsTrigger>
+          <TabsTrigger value="security"><Shield className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Security</span></TabsTrigger>
         </TabsList>
 
         {/* General Tab */}
@@ -319,7 +319,7 @@ export function SettingsView() {
           <Card>
             <CardHeader><CardTitle>Business Information</CardTitle></CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Business Name</Label>
                   <Input 

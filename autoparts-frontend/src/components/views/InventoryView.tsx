@@ -544,14 +544,14 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
       initial="hidden"
       animate="visible"
     >
-      <motion.div className="flex justify-between items-start" variants={itemVariants}>
+      <motion.div className="flex flex-col sm:flex-row justify-between items-start gap-3" variants={itemVariants}>
         <div>
           <h1>Inventory Management</h1>
           <p className="text-muted-foreground">
             Monitor stock levels and manage automotive parts inventory
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button variant="outline" onClick={() => setImportModalOpen(true)}>
             <Upload className="w-4 h-4 mr-2" />
             Import
@@ -897,7 +897,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </Table>
 
             {/* Pagination Footer */}
-            <div className="flex items-center justify-between px-4 py-3 border-t">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-3 border-t">
               <p className="text-sm text-muted-foreground">
                 Showing {filteredInventory.length === 0 ? 0 : (safePage - 1) * rowsPerPage + 1}–{Math.min(safePage * rowsPerPage, filteredInventory.length)} of {filteredInventory.length} item{filteredInventory.length !== 1 ? "s" : ""}
               </p>
@@ -1331,7 +1331,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="category">Category *</Label>
                 <Select
@@ -1431,7 +1431,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               )}
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="currentStock">Current Stock *</Label>
                 <Input id="currentStock" type="number" value={productForm.currentStock} onChange={(e) => setProductForm({...productForm, currentStock: e.target.value})} placeholder="0" />
@@ -1466,7 +1466,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             <DialogDescription>Update the product details for your inventory</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-name">Product Name *</Label>
                 <Input id="edit-name" value={productForm.name} onChange={(e) => setProductForm({ ...productForm, name: e.target.value })} placeholder="e.g., Ceramic Brake Pads" />
@@ -1489,7 +1489,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-sku">SKU *</Label>
                 <Input id="edit-sku" value={productForm.sku} onChange={(e) => setProductForm({ ...productForm, sku: e.target.value })} placeholder="e.g., BP-CER-001" />
@@ -1513,7 +1513,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-currentStock">Current Stock</Label>
                 <Input id="edit-currentStock" type="number" value={productForm.currentStock} onChange={(e) => setProductForm({ ...productForm, currentStock: e.target.value })} placeholder="0" />

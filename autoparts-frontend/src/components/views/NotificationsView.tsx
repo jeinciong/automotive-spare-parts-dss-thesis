@@ -199,14 +199,14 @@ export function NotificationsView() {
       animate="visible"
     >
       {/* Header */}
-      <motion.div className="flex items-center justify-between" variants={itemVariants}>
+      <motion.div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" variants={itemVariants}>
         <div>
           <h1>Notifications</h1>
           <p className="text-muted-foreground">
             Stay updated with alerts, reports, and system notifications
           </p>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2">
           <Button 
             variant="outline" 
             onClick={markAllAsRead}
@@ -313,7 +313,7 @@ export function NotificationsView() {
                               {getNotificationIcon(notification.type)}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center space-x-2 mb-1">
+                              <div className="flex items-center gap-2 flex-wrap mb-1">
                                 <h4 className={`font-medium ${!notification.read ? "font-semibold" : ""}`}>
                                   {notification.title}
                                 </h4>

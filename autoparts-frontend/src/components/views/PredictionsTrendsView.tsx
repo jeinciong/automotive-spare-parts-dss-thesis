@@ -916,13 +916,13 @@ export function PredictionsTrendsView() {
       <Tabs defaultValue="forecast" className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="forecast"  className="flex items-center gap-2">
-            <Activity  className="h-4 w-4"/> Sales Forecast
+            <Activity  className="h-4 w-4"/><span className="hidden sm:inline"> Sales Forecast</span>
           </TabsTrigger>
           <TabsTrigger value="category" className="flex items-center gap-2">
-            <BarChart3 className="h-4 w-4"/> Category Trends
+            <BarChart3 className="h-4 w-4"/><span className="hidden sm:inline"> Category Trends</span>
           </TabsTrigger>
           <TabsTrigger value="weekly"   className="flex items-center gap-2">
-            <LineChart className="h-4 w-4"/> Weekly Analysis
+            <LineChart className="h-4 w-4"/><span className="hidden sm:inline"> Weekly Analysis</span>
           </TabsTrigger>
         </TabsList>
 

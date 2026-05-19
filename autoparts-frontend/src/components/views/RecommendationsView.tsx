@@ -419,7 +419,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       {highPriorityCount > 0 && (
         <motion.div variants={itemVariants}>
           <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/20">
-            <CardContent className="flex items-center justify-between p-4">
+            <CardContent className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4">
               <div className="flex items-center space-x-3">
                 <AlertTriangle className="w-5 h-5 text-red-600" />
                 <div>
@@ -499,7 +499,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       <div className="space-y-4">
         <Collapsible open={needsActionOpen} onOpenChange={setNeedsActionOpen}>
           <CollapsibleTrigger asChild>
-            <motion.div className="flex items-center justify-between gap-3 cursor-pointer group" variants={itemVariants}>
+            <motion.div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 cursor-pointer group" variants={itemVariants}>
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-semibold">Needs Action</h2>
                 <ChevronDown className="w-5 h-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -527,14 +527,14 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
                           <rec.icon className="w-5 h-5 text-[#FF6B00]" />
                         </div>
                         <div className="flex-1 space-y-3">
-                          <div className="flex items-start justify-between gap-3">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                             <div>
                               <h3 className="font-medium">{rec.title}</h3>
                               <p className="text-sm text-muted-foreground">
                                 {rec.category} - {rec.relatedProduct}
                               </p>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               {getStatusBadge(savedActionsByKey.get(rec.id)?.status)}
                               {getPriorityBadge(rec.priority)}
                             </div>
@@ -585,7 +585,7 @@ export function RecommendationsView(_props: RecommendationsViewProps) {
       <div className="space-y-4">
         <Collapsible open={doneRecommendationsOpen} onOpenChange={setDoneRecommendationsOpen}>
           <CollapsibleTrigger asChild>
-            <motion.div className="flex items-center justify-between gap-3 cursor-pointer group" variants={itemVariants}>
+            <motion.div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 cursor-pointer group" variants={itemVariants}>
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-semibold">Done Recommendations</h2>
                 <ChevronDown className="w-5 h-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />

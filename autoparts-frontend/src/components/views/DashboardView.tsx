@@ -407,13 +407,13 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
     <motion.div className="space-y-6" initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.05 } } }}>
 
       {/* Header */}
-      <motion.div variants={itemVariants} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#212121] via-[#607D8B] to-[#FF6B00] p-8 text-white shadow-xl">
+      <motion.div variants={itemVariants} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#212121] via-[#607D8B] to-[#FF6B00] p-4 sm:p-6 md:p-8 text-white shadow-xl">
         <div className="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-3xl"></div>
-        <div className="relative flex items-center justify-between">
+        <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center space-x-2 mb-2"><Calendar className="w-5 h-5" /> <span>{format(new Date(), "EEEE, MMMM dd, yyyy")}</span></div>
-            <h1 className="text-white mb-2 text-3xl">Dashboard Overview</h1>
-            <p className="text-[#B0BEC5] text-lg">Automotive parts business analytics and performance insights.</p>
+            <h1 className="text-white mb-2 text-xl sm:text-2xl md:text-3xl">Dashboard Overview</h1>
+            <p className="text-[#B0BEC5] text-sm sm:text-base md:text-lg">Automotive parts business analytics and performance insights.</p>
           </div>
           {/* <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0" onClick={() => window.dispatchEvent(new CustomEvent('updateFilters', { detail: { dateRange: 'thisWeek' }}))}><Calendar className="w-4 h-4 mr-2" /> This Week</Button> */}
         </div>
@@ -610,12 +610,12 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
       {/* AI Recommendations Footer */}
       <motion.div variants={itemVariants}>
         <Card className="border-0 shadow-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] p-6 flex justify-between items-center text-white">
+          <div className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-white">
             <div className="flex items-center gap-3">
               <Lightbulb className="w-6 h-6" />
               <div><CardTitle className="text-white">AI Recommendations</CardTitle><p className="text-xs opacity-90">Decision support driven by current data</p></div>
             </div>
-            <Button variant="outline" className="bg-white text-[#FF6B00] border-0" onClick={() => window.dispatchEvent(new CustomEvent('changeView', { detail: 'recommendations' }))}>View Recommendation <ArrowUpRight className="w-4 h-4 ml-1" /></Button>
+            <Button variant="outline" className="bg-white text-[#FF6B00] border-0 w-full sm:w-auto" onClick={() => window.dispatchEvent(new CustomEvent('changeView', { detail: 'recommendations' }))}>View Recommendation <ArrowUpRight className="w-4 h-4 ml-1" /></Button>
           </div>
           <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg bg-red-50 border border-red-100 flex gap-3">
@@ -634,7 +634,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
 
       {/* Primary KPI Modal */}
       <Dialog open={!!modalOpen} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-4xl max-h-[85vh] rounded-3xl overflow-hidden p-0 flex flex-col">
+        <DialogContent className="max-w-4xl max-h-[85vh] w-[95vw] sm:w-auto rounded-3xl overflow-hidden p-0 flex flex-col">
           <div className="p-6 pb-2">
             <DialogHeader>
               <DialogTitle className="capitalize text-2xl flex items-center gap-2">
@@ -711,7 +711,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
 
       {/* Top Products Modal */}
       <Dialog open={showAllProducts} onOpenChange={setShowAllProducts}>
-        <DialogContent className="max-w-5xl max-h-[85vh] rounded-3xl">
+        <DialogContent className="max-w-5xl max-h-[85vh] w-[95vw] sm:w-auto rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold flex items-center gap-2">
               <Package className="w-6 h-6 text-[#FF6B00]" /> Inventory Performance

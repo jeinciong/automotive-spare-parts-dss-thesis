@@ -190,14 +190,14 @@ export function SuppliersView({ user }: SuppliersViewProps) {
       initial="hidden"
       animate="visible"
     >
-      <motion.div className="flex justify-between items-start" variants={itemVariants}>
+      <motion.div className="flex flex-col sm:flex-row justify-between items-start gap-3" variants={itemVariants}>
         <div>
           <h1>Supplier Management</h1>
           <p className="text-muted-foreground">
             Manage relationships with automotive parts suppliers
           </p>
         </div>
-        <Button onClick={() => setAddSupplierOpen(true)} className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]">
+        <Button onClick={() => setAddSupplierOpen(true)} className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Add Supplier
         </Button>
@@ -499,7 +499,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="supplierName">Supplier Name *</Label>
                 <Input
@@ -526,7 +526,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="supplierContact">Contact Email *</Label>
                 <Input
@@ -548,7 +548,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="supplierLocation">Location</Label>
                 <Input
@@ -611,7 +611,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             {/* Insert this inside the <div className="grid gap-4 py-4"> of your Edit Supplier Dialog */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierStatus">Account Status</Label>
                 <Select 
@@ -629,7 +629,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierName">Supplier Name *</Label>
                 <Input
@@ -655,7 +655,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierContact">Contact Email *</Label>
                 <Input
@@ -675,7 +675,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierLocation">Location</Label>
                 <Input
@@ -699,7 +699,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierRating">Rating</Label>
                 <Select 
@@ -719,7 +719,7 @@ export function SuppliersView({ user }: SuppliersViewProps) {
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="editSupplierOrders">Total Units Orders</Label>
                 <Input
