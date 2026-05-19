@@ -146,13 +146,14 @@ export function NotificationBell({ onNavigate }: NotificationBellProps) {
               return (
                 <div
                   key={n.id}
-                  className={`group flex items-start gap-2.5 px-4 py-2.5 border-b border-gray-100 cursor-pointer transition-colors ${!n.read
+                  className={`group flex items-start gap-2.5 px-4 py-2.5 rounded-md cursor-pointer transition-colors ${!n.read
                       ? "hover:bg-gray-200/50"
                       : "hover:bg-gray-50"
                     }`}
                   style={{
                     borderLeft: `3px solid ${style.borderColor}`,
                     backgroundColor: !n.read ? "#f3f4f6" : "transparent",
+                    marginBottom: "7px",
                   }}
                   onClick={() => handleNotificationClick(n)}
                 >

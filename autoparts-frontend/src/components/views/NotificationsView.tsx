@@ -13,7 +13,8 @@ import {
   Check,
   Clock,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  MailOpen
 } from "lucide-react";
 import { useNotifications, AppNotification, NotificationCategory } from "../../contexts/NotificationContext";
 
@@ -70,7 +71,7 @@ const formatReadAt = (d: Date): string => {
 };
 
 export function NotificationsView({ onNavigate }: NotificationsViewProps) {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAsUnread, markAllAsRead } = useNotifications();
   const [activeTab, setActiveTab] = useState("all");
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
@@ -207,7 +208,7 @@ export function NotificationsView({ onNavigate }: NotificationsViewProps) {
                           </div>
 
                           {/* Notification Items */}
-                          <div className="space-y-1.5">
+                          <div className="flex flex-col" style={{ gap: "7px" }}>
                             {visibleItems.map((n, i) => {
                               const config = typeConfig(n.type);
                               return (
@@ -274,17 +275,25 @@ export function NotificationsView({ onNavigate }: NotificationsViewProps) {
                                     </div>
                                   </div>
 
-                                  {/* Mark as read button */}
-                                  {!n.read && (
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
+                                  {/* Mark as Read / Unread button */}
+                                  {!n.read ? (
+                                    <button
                                       onClick={(e) => { e.stopPropagation(); markAsRead(n.id); }}
-                                      className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                      title="Mark as Read"
+                                      className="flex-shrink-0 px-3 py-1 text-[11px] font-semibold rounded flex items-center gap-1 hover:opacity-80 transition-opacity"
+                                      style={{ color: "#16a34a", backgroundColor: "#f0fdf4" }}
                                     >
-                                      <CheckCircle className="w-4 h-4 text-gray-400" />
-                                    </Button>
+                                      <CheckCircle className="w-3 h-3" />
+                                      Read
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); markAsUnread(n.id); }}
+                                      className="flex-shrink-0 px-3 py-1 text-[11px] font-semibold rounded flex items-center gap-1 hover:opacity-80 transition-opacity"
+                                      style={{ color: "#ea580c", backgroundColor: "#fff7ed" }}
+                                    >
+                                      <MailOpen className="w-3 h-3" />
+                                      Unread
+                                    </button>
                                   )}
                                 </motion.div>
                               );

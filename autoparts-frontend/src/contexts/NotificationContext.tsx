@@ -21,6 +21,7 @@ interface NotificationContextType {
   notifications: AppNotification[];
   unreadCount: number;
   markAsRead: (id: string) => void;
+  markAsUnread: (id: string) => void;
   markAllAsRead: () => void;
   categoryFilter: "all" | NotificationCategory;
   setCategoryFilter: (filter: "all" | NotificationCategory) => void;
@@ -339,6 +340,16 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const markAsUnread = useCallback((id: string) => {
+    setReadMap(prev => {
+      const next = new Map(prev);
+      next.delete(id);
+      const bid = getBusinessId();
+      if (bid) saveReadMap(bid, next);
+      return next;
+    });
+  }, []);
+
   const markAllAsRead = useCallback(() => {
     setReadMap(prev => {
       const next = new Map(prev);
@@ -356,6 +367,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         notifications,
         unreadCount,
         markAsRead,
+        markAsUnread,
         markAllAsRead,
         categoryFilter,
         setCategoryFilter,
