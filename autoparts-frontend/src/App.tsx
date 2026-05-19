@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarInset } from "./components/ui/sidebar";
 import { LowStockModal } from "./components/LowStockModal";
 import { Toaster } from "./components/ui/sonner";
 import { InventoryProvider, useInventory } from "./contexts/InventoryContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import { SuppliersProvider } from "./contexts/SuppliersContext";
 import { SalesReportsProvider } from "./contexts/SalesReportsContext";
 import { ForecastProvider } from "./contexts/ForecastContext";
@@ -37,9 +38,7 @@ function ImportProgressOverlay() {
   const { importProgress, importBatch } = useSalesReports();
   const [displayProgress, setDisplayProgress] = useState(0);
   const animFrameRef = useRef<number | null>(null);
-  const displayProgressRef = useRef(0);  // ← tracks current value without stale closure
-
-  // In App.tsx - ImportProgressOverlay
+  const displayProgressRef = useRef(0);
 
   useEffect(() => {
     if (importProgress === null) {
@@ -289,7 +288,7 @@ function AppContent() {
         }
         return <DashboardView globalFilters={globalFilters} />;
       case "notifications":
-        return <NotificationsView />;
+        return <NotificationsView onNavigate={changeView} />;
       default:
         return <DashboardView globalFilters={globalFilters} />;
     }
@@ -326,8 +325,9 @@ function AppContent() {
                 onLogout={handleLogout}
                 globalFilters={globalFilters}
                 onUpdateFilters={updateFilters}
-                onClearFilters={() => {}}
+                onClearFilters={() => { }}
                 activeView={activeView}
+                onViewChange={changeView}
               />
             </header>
 
@@ -357,8 +357,10 @@ export default function App() {
       <SuppliersProvider>
         <SalesReportsProvider>
           <ForecastProvider>
-            <ImportProgressOverlay />
-            <AppContent />
+            <NotificationProvider>
+              <ImportProgressOverlay />
+              <AppContent />
+            </NotificationProvider>
           </ForecastProvider>
         </SalesReportsProvider>
       </SuppliersProvider>
