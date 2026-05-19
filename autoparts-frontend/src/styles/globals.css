@@ -194,8 +194,11 @@ html {
 @media (max-width: 640px) {
   [data-slot="dialog-content"],
   [role="dialog"] > div {
-    max-width: calc(100vw - 1.5rem) !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: calc(100vw - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
+    margin: 0.5rem;
+    padding: 1rem;
+    overflow-y: auto;
   }
 }
 
@@ -203,11 +206,31 @@ html {
 @media (max-width: 768px) {
   [data-slot="card"] table,
   .border-0 table {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
   }
+  
+  /* Text scaling for smaller screens */
+  h1 { font-size: var(--text-xl); }
+  h2 { font-size: var(--text-lg); }
+}
+
+/* Table Responsive Wrapper */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Prevent horizontal page-level scroll */
 html, body {
   overflow-x: hidden;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

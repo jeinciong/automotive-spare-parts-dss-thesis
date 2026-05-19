@@ -750,15 +750,15 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             Comprehensive sales analysis and reporting for automotive parts
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-4 sm:mt-0">
           {/* HIDE FOR STAFF */}
           {!isStaff && (
             <>
-              <Button variant="outline" onClick={() => setImportModalOpen(true)}>
+              <Button variant="outline" className="w-full sm:w-auto" onClick={() => setImportModalOpen(true)}>
                 <Upload className="w-4 h-4 mr-2" />
                 Import
               </Button>
-              <Button variant="outline" onClick={handleExport}>
+              <Button variant="outline" className="w-full sm:w-auto" onClick={handleExport}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
@@ -766,7 +766,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
           )}
           <Button
             variant="outline"
-            className="border-red-500 text-red-600 hover:bg-red-50"
+            className="border-red-500 text-red-600 hover:bg-red-50 w-full sm:w-auto"
             onClick={() => setDeleteAllDialogOpen(true)}
             disabled={salesReports.length === 0}
           >
@@ -774,7 +774,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             Delete All
           </Button>
           <Button 
-            className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]" 
+            className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50] w-full sm:w-auto" 
             onClick={handleAddReport}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -916,9 +916,9 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
         <motion.div variants={itemVariants}>
           <Card className="border-0 shadow-sm">
             <CardContent className="py-3">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-sm font-medium text-muted-foreground shrink-0">Filter by:</span>
-                <div className="flex gap-2 flex-wrap">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+                <span className="text-sm font-medium text-muted-foreground shrink-0 mb-2 sm:mb-0">Filter by:</span>
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full sm:w-auto">
                   <Button
                     size="sm"
                     variant={localDateFilter.range === "all" ? "default" : "outline"}
@@ -976,13 +976,13 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <motion.div
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2"
+                    className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0 w-full sm:w-auto"
                   >
                     <Select
                       value={localDateFilter.quarterQ}
                       onValueChange={(v) => setLocalDateFilter(f => ({ ...f, quarterQ: v as "1" | "2" | "3" | "4" }))}
                     >
-                      <SelectTrigger className="h-8 text-xs w-36">
+                      <SelectTrigger className="h-8 text-xs w-full sm:w-36">
                         <SelectValue placeholder="Quarter" />
                       </SelectTrigger>
                       <SelectContent>
@@ -997,7 +997,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                       value={localDateFilter.quarterYear}
                       onValueChange={(v) => setLocalDateFilter(f => ({ ...f, quarterYear: v }))}
                     >
-                      <SelectTrigger className="h-8 text-xs w-24">
+                      <SelectTrigger className="h-8 text-xs w-full sm:w-24">
                         <SelectValue placeholder="Year" />
                       </SelectTrigger>
                       <SelectContent>
@@ -1014,18 +1014,18 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                   <motion.div
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2"
+                    className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0 w-full sm:w-auto"
                   >
                     <Input
                       type="date"
-                      className="h-8 text-xs w-36"
+                      className="h-8 text-xs w-full sm:w-36"
                       value={localDateFilter.customFrom}
                       onChange={(e) => setLocalDateFilter(f => ({ ...f, customFrom: e.target.value }))}
                     />
-                    <span className="text-xs text-muted-foreground">to</span>
+                    <span className="text-xs text-muted-foreground hidden sm:inline">to</span>
                     <Input
                       type="date"
-                      className="h-8 text-xs w-36"
+                      className="h-8 text-xs w-full sm:w-36"
                       value={localDateFilter.customTo}
                       onChange={(e) => setLocalDateFilter(f => ({ ...f, customTo: e.target.value }))}
                     />
@@ -1033,8 +1033,10 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 )}
 
                 {/* Record count */}
-                <div className="ml-auto text-xs text-muted-foreground">
-                  {localFilteredReports.length.toLocaleString()} record{localFilteredReports.length !== 1 ? "s" : ""} shown
+                <div className="flex-1 w-full sm:w-auto flex justify-end items-center mt-2 sm:mt-0">
+                  <div className="text-xs text-muted-foreground text-right">
+                    {localFilteredReports.length.toLocaleString()} record{localFilteredReports.length !== 1 ? "s" : ""} shown
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -1052,12 +1054,12 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
         <TabsContent value="reports" className="space-y-6">
           <Card className="border-0 shadow-lg">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="mb-2 sm:mb-0">
                   <CardTitle>All Sales Reports</CardTitle>
                   <CardDescription>Manage and view all sales transactions</CardDescription>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
                   {/* Rows per page selector */}
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <span>Show</span>
@@ -1084,7 +1086,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                     <span>rows</span>
                   </div>
                   {/* Search */}
-                  <div className="relative w-72">
+                  <div className="relative w-full sm:w-72">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
                       placeholder="Search reports..."
@@ -1110,8 +1112,8 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
               </div>
             </CardHeader>
             <CardContent>
-              <div className="rounded-lg border overflow-hidden">
-                <Table>
+              <div className="table-responsive-wrapper rounded-lg border">
+                <Table className="min-w-[900px]">
                   <TableHeader>
                     <TableRow className="bg-gray-50">
                       <TableHead 

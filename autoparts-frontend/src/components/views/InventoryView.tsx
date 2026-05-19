@@ -544,31 +544,31 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
       initial="hidden"
       animate="visible"
     >
-      <motion.div className="flex flex-col sm:flex-row justify-between items-start gap-3" variants={itemVariants}>
+      <motion.div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 w-full" variants={itemVariants}>
         <div>
           <h1>Inventory Management</h1>
           <p className="text-muted-foreground">
             Monitor stock levels and manage automotive parts inventory
           </p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <Button variant="outline" onClick={() => setImportModalOpen(true)}>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto mt-4 sm:mt-0 sm:ml-auto">
+          <Button variant="outline" className="w-full sm:w-auto" onClick={() => setImportModalOpen(true)}>
             <Upload className="w-4 h-4 mr-2" />
             Import
           </Button>
-          <Button variant="outline" onClick={handleExport}>
+          <Button variant="outline" className="w-full sm:w-auto" onClick={handleExport}>
             <Download className="w-4 h-4 mr-2" />
             Export
           </Button>
           <Button
             variant="outline"
-            className="text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700"
+            className="w-full sm:w-auto text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700"
             onClick={() => setDeleteAllModalOpen(true)}
           >
             <Trash2 className="w-4 h-4 mr-2" />
             Delete All
           </Button>
-          <Button onClick={() => setAddProductOpen(true)} className="bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]">
+          <Button onClick={() => setAddProductOpen(true)} className="w-full sm:w-auto bg-gradient-to-r from-[#FF6B00] to-[#FF8A50]">
             <Plus className="w-4 h-4 mr-2" />
             Add Product
           </Button>
@@ -818,8 +818,8 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
               All automotive parts with current stock levels
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0">
-            <Table>
+          <CardContent className="p-0 table-responsive-wrapper">
+            <Table className="min-w-[900px]">
               <TableHeader>
                 <TableRow>
                   <TableHead className="cursor-pointer hover:bg-gray-100 transition-colors select-none" onClick={() => handleSort("product")}>
@@ -1050,7 +1050,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </DialogTitle>
           </DialogHeader>
 
-          <div className="overflow-auto border rounded-lg mt-4" style={{ maxHeight: '420px' }}>
+          <div className="overflow-auto border rounded-lg mt-4 table-responsive-wrapper" style={{ maxHeight: '420px' }}>
             <Table className="w-full table-fixed min-w-[800px]">
               <TableHeader className="bg-slate-50 sticky top-0 z-10">
                 <TableRow>
@@ -1116,7 +1116,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-4 overflow-auto border rounded-lg" style={{ maxHeight: '420px' }}>
+          <div className="mt-4 overflow-auto border rounded-lg table-responsive-wrapper" style={{ maxHeight: '420px' }}>
             <Table className="w-full table-fixed min-w-[900px]">
               <TableHeader className="bg-red-50 sticky top-0 z-10">
                 <TableRow>
@@ -1185,7 +1185,7 @@ export function InventoryView({ globalFilters }: InventoryViewProps) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-4 overflow-auto border rounded-lg" style={{ maxHeight: '420px' }}>
+          <div className="mt-4 overflow-auto border rounded-lg table-responsive-wrapper" style={{ maxHeight: '420px' }}>
             <Table className="w-full table-fixed min-w-[1000px]">
               <TableHeader className="bg-slate-50 sticky top-0 z-10">
                 <TableRow>

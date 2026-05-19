@@ -86,18 +86,11 @@ function FilterPill({
   return (
     <button
       onClick={onClick}
-      style={{
-        padding: "6px 16px",
-        borderRadius: "20px",
-        border: active ? "none" : "1px solid #d1d5db",
-        background: active ? "#FF6B00" : "#fff",
-        color: active ? "#fff" : "#374151",
-        fontSize: "13px",
-        fontWeight: active ? 600 : 400,
-        cursor: "pointer",
-        transition: "all 0.15s ease",
-        whiteSpace: "nowrap" as const,
-      }}
+      className={`px-4 py-2 rounded-xl text-xs transition-all cursor-pointer whitespace-nowrap text-center w-full sm:w-auto border ${
+        active 
+          ? "bg-[#FF6B00] text-white font-medium border-[#FF6B00] shadow-sm" 
+          : "bg-white text-gray-700 font-normal border-gray-200 hover:border-gray-300"
+      }`}
     >
       {label}
     </button>
@@ -135,41 +128,28 @@ function QuarterPicker({
   const selectedLabel = quarters.find(q => q.q === value.quarter)?.label ?? "Q1 (Jan – Mar)";
 
   return (
-    <div style={{ display: "flex", gap: "6px", alignItems: "center", position: "relative" }} ref={ref}>
+    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto relative" ref={ref}>
       {/* Quarter selector */}
-      <div style={{ position: "relative" }}>
+      <div className="relative w-full sm:w-auto">
         <button
           onClick={() => setQOpen(o => !o)}
-          style={{
-            display: "flex", alignItems: "center", gap: "6px",
-            padding: "6px 12px", borderRadius: "8px",
-            border: "1px solid #d1d5db", background: "#fff",
-            fontSize: "13px", cursor: "pointer", color: "#374151",
-          }}
+          className="flex items-center justify-between gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 bg-white text-xs cursor-pointer text-gray-700 w-full sm:w-auto"
         >
           {selectedLabel}
-          <span style={{ fontSize: "10px" }}>▼</span>
+          <span className="text-[10px]">▼</span>
         </button>
         {qOpen && (
-          <div style={{
-            position: "absolute", top: "calc(100% + 4px)", left: 0, zIndex: 50,
-            background: "#fff", border: "1px solid #e5e7eb", borderRadius: "10px",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.12)", minWidth: "170px", overflow: "hidden",
-          }}>
+          <div className="absolute top-calc(100% + 4px) left-0 z-50 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[170px] overflow-hidden">
             {quarters.map(q => (
               <button
                 key={q.q}
                 onClick={() => { onChange({ ...value, quarter: q.q }); setQOpen(false); }}
-                style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  width: "100%", padding: "10px 16px", background: "none", border: "none",
-                  fontSize: "13px", cursor: "pointer", textAlign: "left",
-                  color: value.quarter === q.q ? "#FF6B00" : "#374151",
-                  fontWeight: value.quarter === q.q ? 600 : 400,
-                }}
+                className={`flex items-center justify-between w-full px-4 py-2.5 bg-none border-none text-xs cursor-pointer text-left ${
+                  value.quarter === q.q ? "text-[#FF6B00] font-semibold" : "text-gray-700 font-normal"
+                }`}
               >
                 {q.label}
-                {value.quarter === q.q && <span style={{ color: "#FF6B00" }}>✓</span>}
+                {value.quarter === q.q && <span className="text-[#FF6B00]">✓</span>}
               </button>
             ))}
           </div>
@@ -181,11 +161,7 @@ function QuarterPicker({
         aria-label="Select year"
         value={value.year}
         onChange={e => onChange({ ...value, year: Number(e.target.value) })}
-        style={{
-          padding: "6px 10px", borderRadius: "8px",
-          border: "1px solid #d1d5db", background: "#fff",
-          fontSize: "13px", cursor: "pointer", color: "#374151",
-        }}
+        className="px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white text-xs cursor-pointer text-gray-700 w-full sm:w-auto"
       >
         {years.map(y => <option key={y} value={y}>{y}</option>)}
       </select>
@@ -202,29 +178,21 @@ function CustomRangePicker({
   onChange: (v: CustomFilter) => void;
 }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
       <input
         type="date"
         value={value.from}
         onChange={e => onChange({ ...value, from: e.target.value })}
         placeholder="mm/dd/yyyy"
-        style={{
-          padding: "6px 10px", borderRadius: "8px",
-          border: "1px solid #d1d5db", background: "#fff",
-          fontSize: "13px", color: "#374151", cursor: "pointer",
-        }}
+        className="px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white text-xs text-gray-700 cursor-pointer w-full sm:w-auto"
       />
-      <span style={{ fontSize: "13px", color: "#9ca3af" }}>to</span>
+      <span className="text-xs text-gray-400 text-center">to</span>
       <input
         type="date"
         value={value.to}
         onChange={e => onChange({ ...value, to: e.target.value })}
         placeholder="mm/dd/yyyy"
-        style={{
-          padding: "6px 10px", borderRadius: "8px",
-          border: "1px solid #d1d5db", background: "#fff",
-          fontSize: "13px", color: "#374151", cursor: "pointer",
-        }}
+        className="px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white text-xs text-gray-700 cursor-pointer w-full sm:w-auto"
       />
     </div>
   );
@@ -304,42 +272,38 @@ export function SalesCharts({ globalFilters }: { globalFilters?: any }) {
   return (
     <div>
       {/* ── Filter Bar ── */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap" as const,
-          alignItems: "center",
-          gap: "8px",
-          padding: "12px 24px",
-          background: "#fff",
-          borderBottom: "1px solid #f3f4f6",
-        }}
-      >
-        <span style={{ fontSize: "13px", color: "#6b7280", marginRight: "4px" }}>
+      <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 p-3 sm:px-6 sm:py-3 bg-white border-b border-gray-100">
+        <span className="text-xs text-muted-foreground mr-1 font-medium">
           Filter by:
         </span>
 
-        {pills.map(p => (
-          <FilterPill
-            key={p.value}
-            label={p.label}
-            active={mode === p.value}
-            onClick={() => setMode(p.value)}
-          />
-        ))}
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full sm:w-auto">
+          {pills.map(p => (
+            <FilterPill
+              key={p.value}
+              label={p.label}
+              active={mode === p.value}
+              onClick={() => setMode(p.value)}
+            />
+          ))}
+        </div>
 
         {/* Conditional extras */}
-        {mode === "quarter" && (
-          <QuarterPicker value={quarterFilter} onChange={setQuarterFilter} />
-        )}
-        {mode === "custom" && (
-          <CustomRangePicker value={customFilter} onChange={setCustomFilter} />
-        )}
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+          {mode === "quarter" && (
+            <QuarterPicker value={quarterFilter} onChange={setQuarterFilter} />
+          )}
+          {mode === "custom" && (
+            <CustomRangePicker value={customFilter} onChange={setCustomFilter} />
+          )}
+        </div>
 
         {/* Record count */}
-        <span style={{ marginLeft: "auto", fontSize: "13px", color: "#6b7280", whiteSpace: "nowrap" }}>
-          {recordCount.toLocaleString()} records shown
-        </span>
+        <div className="flex-1 w-full sm:w-auto flex justify-end items-center mt-2 sm:mt-0">
+          <span className="text-xs text-muted-foreground whitespace-nowrap text-right">
+            {recordCount.toLocaleString()} records shown
+          </span>
+        </div>
       </div>
 
       {/* Charts Grid */}

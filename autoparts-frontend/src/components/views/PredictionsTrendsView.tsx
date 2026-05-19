@@ -946,17 +946,17 @@ export function PredictionsTrendsView() {
           {/* Product selector */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <CardTitle>Product Sales Forecast</CardTitle>
                   <CardDescription>
                     Select a product to view its ARIMA+XGB or TSB+XGB forecast with 95% confidence intervals
                   </CardDescription>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
                   <Select value={selectedProduct} onValueChange={setSelectedProduct}>
                     <SelectTrigger 
-                      className="w-56 h-8 text-sm border-orange-200 bg-orange-50/30 text-orange-950 focus:ring-orange-500 focus:border-orange-500 hover:border-orange-400 transition-colors"
+                      className="w-full sm:w-48 h-8 text-sm border-orange-200 bg-orange-50/30 text-orange-950 focus:ring-orange-500 focus:border-orange-500 hover:border-orange-400 transition-colors"
                     >
                       <SelectValue placeholder="Select a product"/>
                     </SelectTrigger>
@@ -966,7 +966,7 @@ export function PredictionsTrendsView() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <Button variant="default" size="sm" className="h-8 text-xs"
+                  <Button variant="default" size="sm" className="h-8 text-xs w-full sm:w-auto"
                     disabled={!selectedProduct || productForecasts[selectedProduct]?.loading}
                     onClick={handleProductRerunClick}>
                     {selectedNeedsPasswordConfirm && <Lock className="h-3 w-3 mr-1" />}

@@ -136,28 +136,30 @@ function DateFilterBar({
   return (
     <div className="flex flex-col gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 mb-4">
       {/* Filter Type Buttons */}
-      <div className="flex items-center flex-wrap gap-2">
-        <span className="text-sm font-medium text-gray-600 mr-1">Filter Financial Statistics by:</span>
-        {types.map((t) => (
-          <button
-            key={t.value}
-            className={`${baseBtn} ${filter.type === t.value ? active : inactive}`}
-            onClick={() => onChange({ type: t.value })}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+        <span className="text-sm font-medium text-gray-600 shrink-0">Filter Financial Statistics by:</span>
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full sm:w-auto">
+          {types.map((t) => (
+            <button
+              key={t.value}
+              className={`${baseBtn} w-full sm:w-auto ${filter.type === t.value ? active : inactive}`}
+              onClick={() => onChange({ type: t.value })}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Quarterly Sub-controls */}
       {filter.type === "quarterly" && (
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 font-medium">Quarter:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-1">
+          <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+            <span className="text-xs text-gray-500 font-medium shrink-0">Quarter:</span>
             {([1, 2, 3, 4] as const).map((q) => (
               <button
                 key={q}
-                className={`${baseBtn} ${filter.quarter === q ? active : inactive}`}
+                className={`${baseBtn} shrink-0 ${filter.quarter === q ? active : inactive}`}
                 onClick={() =>
                   onChange({ ...filter, quarter: q, quarterYear: filter.quarterYear ?? currentYear })
                 }
@@ -166,11 +168,11 @@ function DateFilterBar({
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 font-medium">Year:</span>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <span className="text-xs text-gray-500 font-medium shrink-0">Year:</span>
             <select
               aria-label="Select year for quarterly filter"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.quarterYear ?? currentYear}
               onChange={(e) =>
                 onChange({ ...filter, quarterYear: Number(e.target.value) })
@@ -188,22 +190,22 @@ function DateFilterBar({
 
       {/* Custom Range Sub-controls */}
       {filter.type === "custom" && (
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-gray-400" />
-            <span className="text-xs text-gray-500 font-medium">From:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-1">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Calendar className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            <span className="text-xs text-gray-500 font-medium shrink-0">From:</span>
             <input
               type="date"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.customStart ?? ""}
               onChange={(e) => onChange({ ...filter, customStart: e.target.value })}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500 font-medium">To:</span>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <span className="text-xs text-gray-500 font-medium shrink-0">To:</span>
             <input
               type="date"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.customEnd ?? ""}
               onChange={(e) => onChange({ ...filter, customEnd: e.target.value })}
             />
@@ -444,7 +446,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
                   </div>
 
                   {/* Right Side: Gross Profit and Net Income */}
-                  <div className="flex-1 grid grid-cols-2 gap-4 w-full">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                     <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 flex flex-col justify-center">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-semibold text-gray-600">Gross Profit</span>
@@ -634,7 +636,7 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
 
       {/* Primary KPI Modal */}
       <Dialog open={!!modalOpen} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-4xl max-h-[85vh] w-[95vw] sm:w-auto rounded-3xl overflow-hidden p-0 flex flex-col">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-4xl max-h-[85vh] rounded-3xl overflow-hidden p-0 flex flex-col">
           <div className="p-6 pb-2">
             <DialogHeader>
               <DialogTitle className="capitalize text-2xl flex items-center gap-2">
@@ -645,9 +647,9 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
             </DialogHeader>
           </div>
 
-          <div className="px-6 flex-1 overflow-hidden">
-            <div className="border border-gray-100 rounded-2xl overflow-hidden">
-              <Table className="table-fixed w-full border-collapse">
+          <div className="px-6 flex-1 overflow-y-auto">
+            <div className="border border-gray-100 rounded-2xl table-responsive-wrapper w-full max-w-full overflow-x-auto">
+              <Table className="min-w-[700px] w-full border-collapse">
                 <TableHeader className="bg-gray-50/50">
                   <TableRow>
                     <TableHead className="w-[100px] font-bold text-xs">Date</TableHead>
@@ -711,34 +713,34 @@ export function DashboardView({ globalFilters }: DashboardViewProps) {
 
       {/* Top Products Modal */}
       <Dialog open={showAllProducts} onOpenChange={setShowAllProducts}>
-        <DialogContent className="max-w-5xl max-h-[85vh] w-[95vw] sm:w-auto rounded-3xl">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[85vh] rounded-3xl flex flex-col p-4 sm:p-6 overflow-hidden">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold flex items-center gap-2">
               <Package className="w-6 h-6 text-[#FF6B00]" /> Inventory Performance
             </DialogTitle>
           </DialogHeader>
-          <div className="overflow-hidden border border-gray-100 rounded-2xl">
-            <Table className="table-fixed w-full">
+          <div className="table-responsive-wrapper border border-gray-100 rounded-2xl w-full max-w-full overflow-auto flex-1">
+            <Table className="min-w-[480px] sm:min-w-[700px] w-full">
               <TableHeader className="bg-gray-50/50">
                 <TableRow>
-                  <TableHead className="w-20 font-bold">Rank</TableHead>
-                  <TableHead className="font-bold">Product</TableHead>
-                  <TableHead className="w-[120px] font-bold">Units Sold</TableHead>
-                  <TableHead className="w-[140px] font-bold">Revenue</TableHead>
-                  <TableHead className="w-[180px] font-bold">Stock Status</TableHead>
+                  <TableHead className="w-12 sm:w-20 font-bold text-xs sm:text-sm">Rank</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm">Product</TableHead>
+                  <TableHead className="w-[90px] sm:w-[120px] font-bold text-xs sm:text-sm">Units Sold</TableHead>
+                  <TableHead className="w-[110px] sm:w-[140px] font-bold text-xs sm:text-sm">Revenue</TableHead>
+                  <TableHead className="w-[130px] sm:w-[180px] font-bold text-xs sm:text-sm">Stock Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {paginateData(topProductsList).paginatedItems.map((p, i) => (
                   <TableRow key={i} className="hover:bg-orange-50/30">
-                    <TableCell className="font-extrabold text-[#FF6B00]">#{(currentPage - 1) * itemsPerPage + i + 1}</TableCell>
-                    <TableCell className="font-semibold truncate">{p.name}</TableCell>
-                    <TableCell className="truncate">{p.sales} units</TableCell>
-                    <TableCell className="font-bold text-green-600 truncate">{formatCurrency(p.revenue)}</TableCell>
+                    <TableCell className="font-extrabold text-[#FF6B00] text-xs sm:text-sm">#{(currentPage - 1) * itemsPerPage + i + 1}</TableCell>
+                    <TableCell className="font-semibold truncate max-w-[120px] sm:max-w-none text-xs sm:text-sm">{p.name}</TableCell>
+                    <TableCell className="truncate text-xs sm:text-sm">{p.sales} units</TableCell>
+                    <TableCell className="font-bold text-green-600 truncate text-xs sm:text-sm">{formatCurrency(p.revenue)}</TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-bold text-gray-400 truncate"><span>{p.stock} stock</span></div>
-                        <Progress value={Math.min((p.stock / 100) * 100, 100)} className="h-1.5" />
+                        <div className="flex justify-between text-[9px] sm:text-[10px] font-bold text-gray-400 truncate"><span>{p.stock} stock</span></div>
+                        <Progress value={Math.min((p.stock / 100) * 100, 100)} className="h-1 sm:h-1.5" />
                       </div>
                     </TableCell>
                   </TableRow>

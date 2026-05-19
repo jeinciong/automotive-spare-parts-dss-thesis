@@ -41,6 +41,7 @@ export function NotificationBell({ onNavigate }: NotificationBellProps) {
   const {
     unreadCount,
     markAsRead,
+    markAsUnread,
     markAllAsRead,
     categoryFilter,
     setCategoryFilter,
@@ -132,7 +133,7 @@ export function NotificationBell({ onNavigate }: NotificationBellProps) {
         {/* Notification List  */}
         <div
           ref={scrollRef}
-          className="overflow-y-auto"
+          className="overflow-y-auto p-2"
           style={{ maxHeight: "340px" }}
         >
           {visibleNotifications.length === 0 ? (
@@ -175,7 +176,7 @@ export function NotificationBell({ onNavigate }: NotificationBellProps) {
                       )}
                       <span className={`text-xs leading-tight truncate ${!n.read ? "font-bold text-gray-900" : "font-medium text-gray-500"
                         }`}>
-                        {n.title}
+                      {n.title}
                       </span>
                     </div>
                     <p className={`text-[11px] leading-snug mt-0.5 line-clamp-2 ${!n.read ? "text-gray-700" : "text-gray-400"
@@ -190,16 +191,24 @@ export function NotificationBell({ onNavigate }: NotificationBellProps) {
                     )}
                   </div>
 
-                  {/* Mark as Read button */}
-                  {!n.read && (
-                    <button
-                      className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-300"
-                      onClick={(e) => { e.stopPropagation(); markAsRead(n.id); }}
-                      title="Mark as Read"
-                    >
-                      <Check className="w-3 h-3 text-gray-600" />
-                    </button>
-                  )}
+                  {/* Mark status toggle button */}
+                  <button
+                    className="mt-0.5 flex-shrink-0 px-2 py-0.5 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity border border-transparent hover:border-gray-100"
+                    style={{
+                      color: n.read ? "#FF6B00" : "#16a34a",
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (n.read) {
+                        markAsUnread(n.id);
+                      } else {
+                        markAsRead(n.id);
+                      }
+                    }}
+                    title={n.read ? "Mark as Unread" : "Mark as Read"}
+                  >
+                    {n.read ? "Unread" : "Read"}
+                  </button>
                 </div>
               );
             })

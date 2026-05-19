@@ -56,11 +56,11 @@ function DateFilterBar({
   return (
     <div className="flex flex-col gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 mb-4">
       {/* Filter Type Buttons */}
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full">
         {types.map((t) => (
           <button
             key={t.value}
-            className={`${baseBtn} ${filter.type === t.value ? active : inactive}`}
+            className={`${baseBtn} w-full sm:w-auto ${filter.type === t.value ? active : inactive}`}
             onClick={() => onChange({ type: t.value })}
           >
             {t.label}
@@ -70,13 +70,13 @@ function DateFilterBar({
 
       {/* Quarterly Sub-controls */}
       {filter.type === "quarterly" && (
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 font-medium">Quarter:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex items-center gap-1 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+            <span className="text-xs text-gray-500 font-medium shrink-0">Quarter:</span>
             {([1, 2, 3, 4] as const).map((q) => (
               <button
                 key={q}
-                className={`${baseBtn} ${filter.quarter === q ? active : inactive}`}
+                className={`${baseBtn} shrink-0 ${filter.quarter === q ? active : inactive}`}
                 onClick={() =>
                   onChange({ ...filter, quarter: q, quarterYear: filter.quarterYear ?? currentYear })
                 }
@@ -85,11 +85,11 @@ function DateFilterBar({
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 font-medium">Year:</span>
+          <div className="flex items-center gap-1 w-full sm:w-auto">
+            <span className="text-xs text-gray-500 font-medium shrink-0">Year:</span>
             <select
               aria-label="Select year for quarterly filter"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.quarterYear ?? currentYear}
               onChange={(e) =>
                 onChange({ ...filter, quarterYear: Number(e.target.value) })
@@ -107,22 +107,22 @@ function DateFilterBar({
 
       {/* Custom Range Sub-controls */}
       {filter.type === "custom" && (
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-gray-400" />
-            <span className="text-xs text-gray-500 font-medium">From:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Calendar className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            <span className="text-xs text-gray-500 font-medium shrink-0">From:</span>
             <input
               type="date"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.customStart ?? ""}
               onChange={(e) => onChange({ ...filter, customStart: e.target.value })}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500 font-medium">To:</span>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <span className="text-xs text-gray-500 font-medium shrink-0">To:</span>
             <input
               type="date"
-              className="text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
+              className="w-full sm:w-auto text-xs border border-gray-200 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:outline-none focus:border-[#FF6B00]"
               value={filter.customEnd ?? ""}
               onChange={(e) => onChange({ ...filter, customEnd: e.target.value })}
             />
@@ -419,7 +419,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Revenue Modal */}
       <Dialog open={modalOpen === "revenue"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[80vh] overflow-x-hidden overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50 text-orange-600">
@@ -438,7 +438,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           <DateFilterBar filter={revenueFilter} onChange={setRevenueFilter} />
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-3 gap-4 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-2">
             <div className="bg-gray-50 rounded-lg p-3 text-center">
               <p className="text-xs text-muted-foreground mb-1">Total Revenue</p>
               <p className="text-lg font-bold">{formatPeso(filteredRevenueTotals.totalRevenue)}</p>
@@ -460,13 +460,13 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           </div>
 
           {/* Monthly Table */}
-          <div className="mt-4">
+          <div className="mt-4 table-responsive-wrapper">
             {filteredRevenueData.length === 0 ? (
               <div className="text-center py-10 text-gray-400 text-sm">
                 No data found for the selected period.
               </div>
             ) : (
-              <Table>
+              <Table className="min-w-[600px]">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Month</TableHead>
@@ -493,7 +493,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Units Sold Modal */}
       <Dialog open={modalOpen === "units"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[80vh] overflow-x-hidden overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <Package className="w-5 h-5 mr-2" />
@@ -501,8 +501,8 @@ export function KPICards({ globalFilters }: KPICardsProps) {
             </DialogTitle>
             <DialogDescription>Top products by units sold</DialogDescription>
           </DialogHeader>
-          <div className="mt-4">
-            <Table>
+          <div className="mt-4 table-responsive-wrapper">
+            <Table className="min-w-[600px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Product</TableHead>
@@ -528,7 +528,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Top Product Modal */}
       <Dialog open={modalOpen === "topproduct"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-3xl overflow-hidden p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <TrendingUp className="w-5 h-5 mr-2" />
@@ -536,8 +536,8 @@ export function KPICards({ globalFilters }: KPICardsProps) {
             </DialogTitle>
             <DialogDescription>Detailed performance metrics for {topProduct.product}</DialogDescription>
           </DialogHeader>
-          <div className="mt-4">
-            <Table>
+          <div className="mt-4 table-responsive-wrapper">
+            <Table className="min-w-[400px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Metric</TableHead>
@@ -559,7 +559,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Sales Status Analysis Modal */}
       <Dialog open={modalOpen === "returns"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-3xl overflow-hidden p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center">
               <TrendingDown className="w-5 h-5 mr-2" />
@@ -567,8 +567,8 @@ export function KPICards({ globalFilters }: KPICardsProps) {
             </DialogTitle>
             <DialogDescription>Breakdown of product status across all reports</DialogDescription>
           </DialogHeader>
-          <div className="mt-4">
-            <Table>
+          <div className="mt-4 table-responsive-wrapper">
+            <Table className="min-w-[400px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Status</TableHead>
@@ -601,7 +601,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Net Income Modal */}
       <Dialog open={modalOpen === "netincome"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[80vh] overflow-x-hidden overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50 text-orange-600">
@@ -625,7 +625,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           <DateFilterBar filter={netFilter} onChange={setNetFilter} />
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-4 gap-4 mb-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-2">
             <div className="bg-gray-50 rounded-lg p-3 text-center">
               <p className="text-xs text-muted-foreground mb-1">Total Revenue</p>
               <p className="text-lg font-bold">{formatPeso(netProfitData.totalRevenue)}</p>
@@ -647,13 +647,13 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           </div>
 
           {/* Monthly Table */}
-          <div className="mt-4">
+          <div className="mt-4 table-responsive-wrapper">
             {netProfitData.monthly.length === 0 ? (
               <div className="text-center py-10 text-gray-400 text-sm">
                 No data found for the selected period.
               </div>
             ) : (
-              <Table>
+              <Table className="min-w-[600px]">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Month</TableHead>
@@ -689,7 +689,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
 
       {/* Gross Profit Modal */}
       <Dialog open={modalOpen === "grossprofit"} onOpenChange={() => setModalOpen(null)}>
-        <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[80vh] overflow-x-hidden overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Activity className="w-5 h-5 mr-2" />
@@ -711,7 +711,7 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           <DateFilterBar filter={grossFilter} onChange={setGrossFilter} />
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-3 gap-4 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-2">
             <div className="bg-gray-50 rounded-lg p-3 text-center">
               <p className="text-xs text-muted-foreground mb-1">Total Revenue</p>
               <p className="text-lg font-bold">{formatPeso(grossProfitData.totalRevenue)}</p>
@@ -729,13 +729,13 @@ export function KPICards({ globalFilters }: KPICardsProps) {
           </div>
 
           {/* Monthly Table */}
-          <div className="mt-4">
+          <div className="mt-4 table-responsive-wrapper">
             {grossProfitData.monthly.length === 0 ? (
               <div className="text-center py-10 text-gray-400 text-sm">
                 No data found for the selected period.
               </div>
             ) : (
-              <Table>
+              <Table className="min-w-[600px]">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Month</TableHead>
