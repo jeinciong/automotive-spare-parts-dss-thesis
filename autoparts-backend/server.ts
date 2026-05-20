@@ -1142,6 +1142,56 @@ function slugifyProductName(productName: string): string {
   return productName.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'forecast_model';
 }
 
+const FORECAST_CACHE_DIR = path.join(TRAINED_MODELS_DIR, 'forecast_cache');
+
+function getForecastCachePath(businessId: number, productName: string) {
+  return path.join(FORECAST_CACHE_DIR, `business_${businessId}`, `${slugifyProductName(productName)}.json`);
+}
+
+function getRevenueForecastCachePath(businessId: number) {
+  return path.join(FORECAST_CACHE_DIR, `business_${businessId}`, 'business_revenue_forecast.json');
+}
+
+function classifyDemand(quantities: number[]) {
+  const arr = quantities.map(Number);
+  const n = arr.length;
+  const nz = arr.filter(q => q > 0);
+  if (nz.length === 0) {
+    return {
+      success: true,
+      adi: Infinity,
+      cv2: 0.0,
+      demandType: 'INTERMITTENT',
+      algorithm: 'TSB_XGB' as const,
+    };
+  }
+  const adi = n / nz.length;
+  const mean_nz = nz.reduce((a, b) => a + b, 0) / nz.length;
+  const std_nz = nz.length > 1
+    ? Math.sqrt(nz.reduce((a, b) => a + Math.pow(b - mean_nz, 2), 0) / (nz.length - 1))
+    : 0.0;
+  const cv2 = mean_nz > 0 ? Math.pow(std_nz / mean_nz, 2) : 0.0;
+  const high_adi = adi >= 1.32;
+  const high_cv2 = cv2 >= 0.49;
+  let dt: string, algo: 'ARIMA_XGB' | 'TSB_XGB';
+  if (!high_adi && !high_cv2) {
+    dt = 'SMOOTH'; algo = 'ARIMA_XGB';
+  } else if (!high_adi && high_cv2) {
+    dt = 'ERRATIC'; algo = 'ARIMA_XGB';
+  } else if (high_adi && !high_cv2) {
+    dt = 'INTERMITTENT'; algo = 'TSB_XGB';
+  } else {
+    dt = 'LUMPY'; algo = 'TSB_XGB';
+  }
+  return {
+    success: true,
+    adi: Number(adi.toFixed(4)),
+    cv2: Number(cv2.toFixed(4)),
+    demandType: dt,
+    algorithm: algo,
+  };
+}
+
 function getBusinessModelDir(baseDir: string, businessId: number) {
   return path.join(baseDir, `business_${businessId}`);
 }
@@ -1283,7 +1333,7 @@ function keepFutureForecasts<T extends { period?: string | null }>(
   });
 }
 
-function buildMonthlySeries(rawSales: Array<{ date: Date; quantity: number | bigint | null }>) {
+function buildMonthlySeries(rawSales: Array<{ date: Date; quantity: number | bigint | null }>, customEndDate?: Date) {
   const monthMap: Record<string, number> = {};
 
   rawSales.forEach((sale) => {
@@ -1297,7 +1347,8 @@ function buildMonthlySeries(rawSales: Array<{ date: Date; quantity: number | big
   }
 
   const firstDate = new Date(rawSales[0].date);
-  const lastDate = new Date(rawSales[rawSales.length - 1].date);
+  const dbLastDate = new Date(rawSales[rawSales.length - 1].date);
+  const lastDate = (customEndDate && customEndDate > dbLastDate) ? customEndDate : dbLastDate;
   const cursor = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
   const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
 
@@ -1314,7 +1365,7 @@ function buildMonthlySeries(rawSales: Array<{ date: Date; quantity: number | big
   return { dates, quantities };
 }
 
-function buildMonthlyRevenueSeries(rawSales: Array<{ date: Date; total_amount: Prisma.Decimal | number | null }>) {
+function buildMonthlyRevenueSeries(rawSales: Array<{ date: Date; total_amount: Prisma.Decimal | number | null }>, customEndDate?: Date) {
   const monthMap: Record<string, number> = {};
 
   rawSales.forEach((sale) => {
@@ -1328,7 +1379,8 @@ function buildMonthlyRevenueSeries(rawSales: Array<{ date: Date; total_amount: P
   }
 
   const firstDate = new Date(rawSales[0].date);
-  const lastDate = new Date(rawSales[rawSales.length - 1].date);
+  const dbLastDate = new Date(rawSales[rawSales.length - 1].date);
+  const lastDate = (customEndDate && customEndDate > dbLastDate) ? customEndDate : dbLastDate;
   const cursor = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
   const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
 
@@ -1402,18 +1454,19 @@ async function prepareForecastContext(businessId: number, productName: string): 
     throw new Error('No sales history found for this product');
   }
 
-  const { dates, quantities } = buildMonthlySeries(rawSales);
+  const latestBusinessSale = await prisma.sales_reports.findFirst({
+    where: { business_id: businessId },
+    orderBy: { date: 'desc' },
+    select: { date: true }
+  });
+  const customEndDate = latestBusinessSale ? new Date(latestBusinessSale.date) : undefined;
+
+  const { dates, quantities } = buildMonthlySeries(rawSales, customEndDate);
   if (dates.length < FORECAST_MIN_OBS) {
     throw new Error(`Need >= ${FORECAST_MIN_OBS} monthly observations, got ${dates.length}`);
   }
 
-  const classResult = await runPython(
-    path.join(PYTHON_DIR, 'utils/demand_classifier.py'),
-    { quantities }
-  );
-  if (!classResult.success) {
-    throw new Error(`Classification failed: ${classResult.error}`);
-  }
+  const classResult = classifyDemand(quantities);
 
   const algorithm = classResult.algorithm as ForecastAlgorithm;
   const scriptConfig = MODEL_SCRIPT_PATHS[algorithm];
@@ -1439,6 +1492,34 @@ async function getOrTrainForecastArtifact(
 ) {
   const prepared = await prepareForecastContext(businessId, productName);
   const { dates, quantities, sortedKeys, classResult, algorithm, scriptConfig, modelDir, modelPath } = prepared;
+
+  const signature = `${dates.length}_${dates[dates.length - 1] || ''}_${quantities.join(',')}_${horizon}`;
+  const cachePath = getForecastCachePath(businessId, productName);
+
+  if (!forceRetrain) {
+    try {
+      if (await fileExists(cachePath)) {
+        const cacheContent = await fs.readFile(cachePath, 'utf8');
+        const cached = JSON.parse(cacheContent);
+        if (cached.signature === signature) {
+          console.log(`[Forecast Cache Hit] business=${businessId} | ${productName}`);
+          return {
+            ...prepared,
+            savedModelPath: cached.model_info.saved_model_path,
+            loadedFromCache: true,
+            mergedModelInfo: {
+              ...cached.model_info,
+              from_cache: true,
+            },
+            filteredForecasts: cached.forecasts,
+            fromJSONCache: true,
+          };
+        }
+      }
+    } catch (e: any) {
+      console.warn(`[Forecast Cache Read Error] business=${businessId} | ${productName}:`, e.message);
+    }
+  }
 
   let modelResult: any = null;
   let savedModelPath = modelPath;
@@ -1522,10 +1603,6 @@ async function getOrTrainForecastArtifact(
     }
   }
 
-
-
-
-
   if (!modelResult) {
     const outputModelPath =
       forceRetrain && hasCanonicalArtifact
@@ -1553,23 +1630,7 @@ async function getOrTrainForecastArtifact(
     );
 
     savedModelPath = String(trainResult.saved_model_path);
-
-    const predictedResult = await runPython(scriptConfig.predict, {
-      model_path: savedModelPath,
-      horizon,
-    });
-    if (!predictedResult.success) {
-      throw new Error(`Saved model forecast failed: ${predictedResult.error}`);
-    }
-
-    assertModelSelectionConsistency(
-      algorithm,
-      modelDir,
-      String(predictedResult.model_info?.saved_model_path ?? savedModelPath),
-      predictedResult.model_info?.algorithm ?? null,
-    );
-
-    modelResult = predictedResult;
+    modelResult = trainResult;
   } else {
     savedModelPath = String(modelResult.model_info?.saved_model_path ?? modelPath);
   }
@@ -1590,6 +1651,7 @@ async function getOrTrainForecastArtifact(
     loadedFromCache,
     mergedModelInfo,
     filteredForecasts,
+    fromJSONCache: false,
   };
 }
 
@@ -1607,6 +1669,39 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   const { dates, revenues } = rawSales.length > 0
     ? buildMonthlyRevenueSeries(rawSales)
     : { dates: [] as string[], revenues: [] as number[] };
+
+  const signature = `${dates.length}_${dates[dates.length - 1] || ''}_${revenues.join(',')}_${horizon}`;
+  const cachePath = getRevenueForecastCachePath(businessId);
+
+  if (!forceRetrain) {
+    try {
+      if (await fileExists(cachePath)) {
+        const cacheContent = await fs.readFile(cachePath, 'utf8');
+        const cached = JSON.parse(cacheContent);
+        if (cached.signature === signature) {
+          console.log(`[Revenue Forecast Cache Hit] business=${businessId}`);
+          return {
+            dates,
+            revenues,
+            classResult: cached.model_info ?? null,
+            algorithm: cached.algorithm,
+            modelDir: '',
+            modelPath: '',
+            savedModelPath: cached.model_info.saved_model_path,
+            loadedFromCache: true,
+            mergedModelInfo: {
+              ...cached.model_info,
+              from_cache: true,
+            },
+            filteredForecasts: cached.forecasts,
+            fromJSONCache: true,
+          };
+        }
+      }
+    } catch (e: any) {
+      console.warn(`[Revenue Forecast Cache Read Error] business=${businessId}:`, e.message);
+    }
+  }
 
   if (dates.length < FORECAST_MIN_OBS) {
     const sharedArtifact = await resolveSharedRevenueArtifactPath();
@@ -1648,16 +1743,11 @@ async function getOrTrainBusinessRevenueForecastArtifact(
       loadedFromCache: true,
       mergedModelInfo,
       filteredForecasts: Array.isArray(cachedResult.forecasts) ? cachedResult.forecasts : [],
+      fromJSONCache: false,
     };
   }
 
-  const classResult = await runPython(
-    path.join(PYTHON_DIR, 'utils/demand_classifier.py'),
-    { quantities: revenues }
-  );
-  if (!classResult.success) {
-    throw new Error(`Classification failed: ${classResult.error}`);
-  }
+  const classResult = classifyDemand(revenues);
 
   const algorithm = classResult.algorithm as ForecastAlgorithm;
   const { modelDir, modelPath } = await resolveBusinessRevenueArtifactPath(algorithm, businessId);
@@ -1767,20 +1857,7 @@ async function getOrTrainBusinessRevenueForecastArtifact(
       throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${savedModelPath}`);
     }
 
-    const predictedResult = await runPython(REVENUE_MODEL_SCRIPT_PATHS.predict, {
-      model_path: savedModelPath,
-      horizon,
-    });
-    if (!predictedResult.success) {
-      throw new Error(`Saved model forecast failed: ${predictedResult.error}`);
-    }
-
-    const predictedPath = String(predictedResult.model_info?.saved_model_path ?? savedModelPath);
-    if (!isPathInsideDir(predictedPath, modelDir)) {
-      throw new Error(`Saved revenue model path mismatch: expected artifact under ${modelDir}, got ${predictedPath}`);
-    }
-
-    modelResult = predictedResult;
+    modelResult = trainResult;
   } else {
     savedModelPath = String(modelResult.model_info?.saved_model_path ?? modelPath);
   }
@@ -1806,6 +1883,7 @@ async function getOrTrainBusinessRevenueForecastArtifact(
     loadedFromCache,
     mergedModelInfo,
     filteredForecasts,
+    fromJSONCache: false,
   };
 }
 
@@ -1849,6 +1927,56 @@ function runPython(scriptPath: string, payload: object): Promise<any> {
   });
 }
 
+async function saveForecastToJSONCache(
+  businessId: number,
+  productName: string,
+  horizon: number,
+  forecastResult: any
+) {
+  try {
+    const cachePath = getForecastCachePath(businessId, productName);
+    const signature = `${forecastResult.dates.length}_${forecastResult.dates[forecastResult.dates.length - 1] || ''}_${forecastResult.quantities.join(',')}_${horizon}`;
+    const cacheData = {
+      product_name: productName,
+      algorithm: forecastResult.algorithm,
+      demand_type: forecastResult.classResult.demandType,
+      adi: forecastResult.classResult.adi,
+      cv2: forecastResult.classResult.cv2,
+      forecasts: forecastResult.filteredForecasts,
+      model_info: forecastResult.mergedModelInfo,
+      signature,
+    };
+    await ensureDir(path.dirname(cachePath));
+    await fs.writeFile(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+  } catch (cacheErr: any) {
+    console.warn(`[Forecast Cache Write Error] business=${businessId} | ${productName}:`, cacheErr.message);
+  }
+}
+
+async function saveRevenueForecastToJSONCache(
+  businessId: number,
+  horizon: number,
+  forecastResult: any
+) {
+  try {
+    const cachePath = getRevenueForecastCachePath(businessId);
+    const signature = `${forecastResult.dates.length}_${forecastResult.dates[forecastResult.dates.length - 1] || ''}_${forecastResult.revenues.join(',')}_${horizon}`;
+    const cacheData = {
+      algorithm: forecastResult.mergedModelInfo.algorithm,
+      demand_type: forecastResult.mergedModelInfo.demand_type,
+      adi: forecastResult.mergedModelInfo.adi,
+      cv2: forecastResult.mergedModelInfo.cv2,
+      forecasts: forecastResult.filteredForecasts,
+      model_info: forecastResult.mergedModelInfo,
+      signature,
+    };
+    await ensureDir(path.dirname(cachePath));
+    await fs.writeFile(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+  } catch (cacheErr: any) {
+    console.warn(`[Revenue Forecast Cache Write Error] business=${businessId}:`, cacheErr.message);
+  }
+}
+
 // POST /api/forecast/train
 // Body: { business_id, product_name, horizon? }
 // Trains the appropriate forecasting model and saves a .pkl artifact.
@@ -1865,6 +1993,9 @@ app.post('/api/forecast/train', async (req: any, res: any) => {
       Number(horizon),
       true,
     );
+
+    // Save to cache after training
+    await saveForecastToJSONCache(Number(business_id), String(product_name), Number(horizon), forecastResult);
 
     return res.json({
       product_name,
@@ -1922,32 +2053,46 @@ app.post('/api/forecast', async (req: any, res: any) => {
       select: { product_id: true }
     });
 
-    // Delete old predictions for this product+business before re-inserting
-    if (inventoryItem) {
+    let needsDbWrite = true;
+    if (forecastResult.fromJSONCache && inventoryItem) {
+      const existingCount = await prisma.predictions.count({
+        where: { business_id: Number(business_id), product_id: inventoryItem.product_id }
+      });
+      if (existingCount > 0) {
+        needsDbWrite = false;
+      }
+    }
+
+    if (needsDbWrite && inventoryItem) {
+      // Delete old predictions for this product+business before re-inserting
       await prisma.predictions.deleteMany({
         where: { business_id: Number(business_id), product_id: inventoryItem.product_id }
       });
+
+      for (const fc of forecastResult.filteredForecasts as ForecastItem[]) {
+        const priority =
+          (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
+            : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
+              : 'High';
+
+        await prisma.predictions.create({
+          data: {
+            business_id: Number(business_id),
+            product_id: inventoryItem.product_id,
+            forecast_date: new Date(fc.period + '-01'),
+            predicted_quantity: fc.predicted,
+            confidence_interval: fc.predicted > 0 && fc.upper !== null && fc.lower !== null
+              ? Math.min(999.99, Math.max(-999.99, Number(((fc.upper - fc.predicted) / fc.predicted * 100).toFixed(2))))
+              : null,
+            recommendation_priority: priority as any,
+          }
+        });
+      }
     }
 
-    for (const fc of forecastResult.filteredForecasts as ForecastItem[]) {
-      const priority =
-        (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
-          : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
-            : 'High';
-
-      await prisma.predictions.create({
-        data: {
-          business_id: Number(business_id),
-          product_id: inventoryItem?.product_id ?? null,
-          forecast_date: new Date(fc.period + '-01'),
-          predicted_quantity: fc.predicted,
-          confidence_interval: fc.predicted > 0 && fc.upper !== null && fc.lower !== null
-            ? Math.min(999.99, Math.max(-999.99, Number(((fc.upper - fc.predicted) / fc.predicted * 100).toFixed(2))))
-            // ? Number(((fc.upper - fc.predicted) / fc.predicted * 100).toFixed(2))
-            : null,
-          recommendation_priority: priority as any,
-        }
-      });
+    // Write to JSON cache if not already loaded from it
+    if (!forecastResult.fromJSONCache) {
+      await saveForecastToJSONCache(Number(business_id), String(product_name), Number(horizon), forecastResult);
     }
 
     // 6. Respond with everything the frontend needs
@@ -1998,7 +2143,13 @@ app.get('/api/forecast', async (req: any, res: any) => {
       orderBy: { date: 'asc' },
       select: { date: true, quantity: true }
     });
-    const { dates, quantities } = buildMonthlySeries(rawSales);
+    const latestBusinessSale = await prisma.sales_reports.findFirst({
+      where: { business_id },
+      orderBy: { date: 'desc' },
+      select: { date: true }
+    });
+    const customEndDate = latestBusinessSale ? new Date(latestBusinessSale.date) : undefined;
+    const { dates, quantities } = buildMonthlySeries(rawSales, customEndDate);
     const history = dates.map((period, index) => ({ period, actual: quantities[index] }));
 
     return res.json({ forecasts: preds, history });
@@ -2092,6 +2243,10 @@ app.post('/api/forecast/revenue', async (req: any, res: any) => {
       Number(horizon),
       Boolean(force_retrain),
     );
+
+    if (!forecastResult.fromJSONCache) {
+      await saveRevenueForecastToJSONCache(Number(business_id), Number(horizon), forecastResult);
+    }
 
     return res.json({
       series_name: 'Business Sales Revenue',

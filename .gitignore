@@ -16,3 +16,10 @@ autoparts-backend/certs/*.pem
 # OS files
 .DS_Store
 Thumbs.db
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
