@@ -27,16 +27,16 @@ BETA_GRID_EXTENDED  = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.
 POOR_MAPE_THRESHOLD = 25.0   # % — retrain if first-pass MAPE is above this
 
 XGB_PARAMS_INITIAL = {
-    "n_estimators": 200, "max_depth": 3, "learning_rate": 0.05,
+    "n_estimators": 80, "max_depth": 3, "learning_rate": 0.05,
     "subsample": 0.8, "colsample_bytree": 0.8,
-    "min_child_weight": 2, "gamma": 0.05, "reg_alpha": 0.05, "reg_lambda": 1.2,
+    "min_child_weight": 4, "gamma": 0.2, "reg_lambda": 2.5, "tree_method": "hist",
     "random_state": 42, "verbosity": 0,
 }
 XGB_PARAMS_RETRAIN = {
-    "n_estimators": 400, "max_depth": 3, "learning_rate": 0.02,
-    "subsample": 0.7, "colsample_bytree": 0.7,
-    "min_child_weight": 3, "gamma": 0.1, "reg_alpha": 0.1, "reg_lambda": 1.5,
-    "random_state": 42, "verbosity": 0,
+    "n_estimators": 150, "max_depth": 3, "learning_rate": 0.025,
+    "subsample": 0.75, "colsample_bytree": 0.75,
+    "min_child_weight": 5, "gamma": 0.5, "reg_alpha": 0.3, "reg_lambda": 4.5,
+    "tree_method": "hist", "random_state": 42, "verbosity": 0,
 }
 
 LAG_FEATURES    = [1, 2, 3, 6, 12]

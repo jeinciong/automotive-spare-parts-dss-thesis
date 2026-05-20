@@ -30,15 +30,16 @@ ARIMA_ORDERS_EXTENDED = [(3,1,1),(3,1,2),(2,1,3),(1,2,1),(2,2,1),(0,2,1),(3,0,1)
 POOR_MAPE_THRESHOLD = 25.0   # % — retrain if first-pass MAPE is above this
 
 XGB_PARAMS_INITIAL = {
-    "n_estimators": 200, "max_depth": 4, "learning_rate": 0.05,
-    "subsample": 0.8, "colsample_bytree": 0.8,
-    "random_state": 42, "verbosity": 0,
+    "n_estimators": 70, "max_depth": 3, "learning_rate": 0.05,
+    "subsample": 0.8, "colsample_bytree": 0.8, 
+    "min_child_weight": 2,"reg_lambda": 2.5, 
+    "tree_method": "hist","random_state": 42, "verbosity": 0,
 }
 XGB_PARAMS_RETRAIN = {
-    "n_estimators": 400, "max_depth": 3, "learning_rate": 0.02,
-    "subsample": 0.7, "colsample_bytree": 0.7,
-    "min_child_weight": 3, "gamma": 0.1, "reg_alpha": 0.1, "reg_lambda": 1.5,
-    "random_state": 42, "verbosity": 0,
+    "n_estimators": 150, "max_depth": 3, "learning_rate": 0.025,
+    "subsample": 0.75, "colsample_bytree": 0.75,
+    "min_child_weight": 3, "gamma": 0.3, "reg_alpha": 0.2, "reg_lambda": 3.5,
+    "tree_method": "hist", "random_state": 42, "verbosity": 0,
 }
 
 LAG_FEATURES    = [1, 2, 3, 6, 12]
