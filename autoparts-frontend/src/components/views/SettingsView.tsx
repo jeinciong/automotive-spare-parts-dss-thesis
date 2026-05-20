@@ -263,6 +263,34 @@ export function SettingsView() {
     fetchTeam();
   }, [savedUser.business_id]);
 
+  useEffect(() => {
+    const fetchBusiness = async () => {
+      if (!savedUser.business_id) return;
+      try {
+        const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`));
+        if (response.ok) {
+          const data = await response.json();
+          setBusinessInfo({
+            name: data.business_name || "",
+            email: data.email || "",
+            address: data.business_address || ""
+          });
+          // Sync with localStorage
+          const updatedUser = {
+            ...savedUser,
+            user_name: data.business_name || "",
+            email: data.email || "",
+            business_address: data.business_address || ""
+          };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
+      } catch (error) {
+        console.error("Error fetching business info:", error);
+      }
+    };
+    fetchBusiness();
+  }, [savedUser.business_id]);
+
 
   const handleAddTeamMember = async () => {
     if (!newMemberEmail || !newMemberFullName || !newMemberPassword) {

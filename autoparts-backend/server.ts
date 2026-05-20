@@ -158,7 +158,13 @@ app.post('/api/register', async (req, res) => {
         password_hash: password
       }
     });
-    res.status(200).json({ role: 'admin', business_id: business.business_id, email: normalizedEmail });
+    res.status(200).json({
+      role: 'admin',
+      business_id: business.business_id,
+      email: normalizedEmail,
+      user_name: business.business_name,
+      business_address: business.business_address
+    });
   } catch (err: any) {
     res.status(500).json({ message: "Registration failed: " + err.message });
   }
@@ -794,6 +800,18 @@ app.get('/api/purchase-orders', async (req, res) => {
 });
 
 // settings
+// GET Business Info
+app.get('/api/business/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const business = await prisma.businesses.findUnique({
+      where: { business_id: Number(id) }
+    });
+    if (!business) return res.status(404).json({ error: "Business not found" });
+    res.json(business);
+  } catch (err) { res.status(500).send(err); }
+});
+
 // Update Business Info
 app.put('/api/business/:id', async (req, res) => {
   const { id } = req.params;
