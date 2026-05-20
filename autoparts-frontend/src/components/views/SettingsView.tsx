@@ -129,7 +129,10 @@ export function SettingsView() {
       try {
           const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), { 
               method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'x-password': encodeURIComponent(deleteAccountPassword)
+              },
               body: JSON.stringify({ password: deleteAccountPassword })
           });
           if (response.ok) {

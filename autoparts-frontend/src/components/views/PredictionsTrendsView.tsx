@@ -31,6 +31,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useForecast, MODEL_DESCRIPTIONS } from "../../contexts/ForecastContext";
 import { useSalesReports } from "../../contexts/SalesReportsContext";
 import { formatCurrency, formatCurrencyCompact, PESO_SYMBOL } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 
 const TT_STYLE = {
   contentStyle: {
@@ -86,7 +87,7 @@ function PasswordConfirmDialog({ open, onOpenChange, onConfirm, targetName, accu
     setError("");
 
     try {
-      const res = await fetch("/api/verify-password", {
+      const res = await fetch(apiUrl("/api/verify-password"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

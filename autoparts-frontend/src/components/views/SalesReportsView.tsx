@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import { useInventory } from "../../contexts/InventoryContext";
 import { formatCurrency, PESO_SYMBOL } from "../../lib/currency";
+import { apiUrl } from "../../lib/api";
 import { createPortal } from "react-dom";
 
 interface SalesReportsViewProps {
@@ -1846,7 +1847,7 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
                 // Verify password via /api/login using the stored email
                 const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
                 try {
-                  const verifyRes = await fetch("/api/login", {
+                  const verifyRes = await fetch(apiUrl("/api/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({

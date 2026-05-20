@@ -831,7 +831,9 @@ app.put('/api/change-password/:id', async (req, res) => {
 app.delete('/api/business/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { password } = req.body;
+    const bodyPassword = req.body?.password;
+    const headerPassword = req.headers['x-password'] ? decodeURIComponent(req.headers['x-password'] as string) : undefined;
+    const password = bodyPassword || headerPassword;
 
     const business = await prisma.businesses.findUnique({
       where: { business_id: id }
