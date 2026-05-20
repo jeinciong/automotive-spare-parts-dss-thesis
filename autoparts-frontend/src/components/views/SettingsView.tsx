@@ -44,6 +44,7 @@ export function SettingsView() {
   const [newMemberEmail, setNewMemberEmail] = useState("");
   const [newMemberFullName, setNewMemberFullName] = useState("");
   const [newMemberPassword, setNewMemberPassword] = useState("");
+  const [newMemberConfirmPassword, setNewMemberConfirmPassword] = useState("");
 
   const [businessInfo, setBusinessInfo] = useState({
     name: savedUser.user_name || "",
@@ -59,6 +60,22 @@ export function SettingsView() {
   const [deleteAccountName, setDeleteAccountName] = useState("");
   const [deleteAccountPassword, setDeleteAccountPassword] = useState("");
   const [deleteAccountError, setDeleteAccountError] = useState("");
+
+  const [isDeleteStaffOpen, setIsDeleteStaffOpen] = useState(false);
+  const [deletingStaffMember, setDeletingStaffMember] = useState<TeamMember | null>(null);
+  const [deleteStaffConfirmBusinessName, setDeleteStaffConfirmBusinessName] = useState("");
+  const [deleteStaffPassword, setDeleteStaffPassword] = useState("");
+  const [deleteStaffError, setDeleteStaffError] = useState("");
+
+  // Live validation states
+  const [emailCheckResult, setEmailCheckResult] = useState<{ loading: boolean; exists: boolean | null }>({ loading: false, exists: null });
+  const [nameCheckResult, setNameCheckResult] = useState<{ loading: boolean; exists: boolean | null }>({ loading: false, exists: null });
+  const [editEmailCheckResult, setEditEmailCheckResult] = useState<{ loading: boolean; exists: boolean | null }>({ loading: false, exists: null });
+  const [editNameCheckResult, setEditNameCheckResult] = useState<{ loading: boolean; exists: boolean | null }>({ loading: false, exists: null });
+
+  // Dialog-level submit errors
+  const [addStaffError, setAddStaffError] = useState("");
+  const [editStaffError, setEditStaffError] = useState("");
 
   const handleUpdateBusiness = async () => {
   const response = await fetch(apiUrl(`/api/business/${savedUser.business_id}`), {
@@ -187,13 +204,48 @@ export function SettingsView() {
     toast.info(`Theme set to ${mode} mode`);
   };
 
-  const deleteStaff = async (userId: string) => {
-    if (!window.confirm("Delete this staff account?")) return;
-    const response = await fetch(apiUrl(`/api/team/${userId}`), { method: 'DELETE' });
+  const handleDeleteStaffClick = (m: TeamMember) => {
+    setDeletingStaffMember(m);
+    setDeleteStaffConfirmBusinessName("");
+    setDeleteStaffPassword("");
+    setDeleteStaffError("");
+    setIsDeleteStaffOpen(true);
+  };
+
+  const handleConfirmDeleteStaff = async () => {
+    if (!deletingStaffMember) return;
+    if (deleteStaffConfirmBusinessName !== businessInfo.name) {
+      setDeleteStaffError("Business name does not match.");
+      return;
+    }
+    if (!deleteStaffPassword) {
+      setDeleteStaffError("Business account password is required.");
+      return;
+    }
+    setDeleteStaffError("");
+
+    try {
+      const response = await fetch(apiUrl(`/api/team/${deletingStaffMember.id}`), {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-password': encodeURIComponent(deleteStaffPassword)
+        },
+        body: JSON.stringify({ password: deleteStaffPassword })
+      });
+
       if (response.ok) {
-          setTeamMembers(prev => prev.filter(m => m.id !== userId));
-          toast.success("Staff member removed");
+        setTeamMembers(prev => prev.filter(m => m.id !== deletingStaffMember.id));
+        setIsDeleteStaffOpen(false);
+        setDeletingStaffMember(null);
+        toast.success("Staff member removed successfully!");
+      } else {
+        const errorData = await response.json();
+        setDeleteStaffError(errorData.error || errorData.message || "Failed to delete staff member");
       }
+    } catch (err) {
+      setDeleteStaffError("Network error. Try again.");
+    }
   };
 
   const handleEditClick = (m: TeamMember) => {
@@ -202,8 +254,30 @@ export function SettingsView() {
   };
 
   const handleUpdateStaff = async () => {
+    setEditStaffError("");
     if (!editingMember || !editingMember.id) {
-      toast.error("No member selected");
+      setEditStaffError("No member selected");
+      return;
+    }
+
+    if (editEmailCheckResult.exists) {
+      setEditStaffError("This email is already registered in the system.");
+      return;
+    }
+    if (editNameCheckResult.exists) {
+      setEditStaffError("A staff member with this name already exists in the system.");
+      return;
+    }
+
+    const emailExistsLocally = teamMembers.some(m => m.id !== editingMember.id && m.email.toLowerCase() === editingMember.email.trim().toLowerCase());
+    const nameExistsLocally = teamMembers.some(m => m.id !== editingMember.id && m.fullName.toLowerCase() === editingMember.fullName.trim().toLowerCase());
+    
+    if (emailExistsLocally) {
+      setEditStaffError("This email is already registered for another staff member.");
+      return;
+    }
+    if (nameExistsLocally) {
+      setEditStaffError("Another staff member with this name already exists.");
       return;
     }
 
@@ -212,8 +286,8 @@ export function SettingsView() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fullName: editingMember.fullName,
-          email: editingMember.email,
+          fullName: editingMember.fullName.trim(),
+          email: editingMember.email.trim(),
           role: editingMember.role === "Business Owner" ? "Admin" : "Business" 
         }),
       });
@@ -222,14 +296,18 @@ export function SettingsView() {
         setTeamMembers(prev => prev.map(member => 
           member.id === editingMember.id ? editingMember : member
         ));
+        setEditEmailCheckResult({ loading: false, exists: null });
+        setEditNameCheckResult({ loading: false, exists: null });
+        setEditStaffError("");
         setIsEditMemberOpen(false);
         toast.success("Staff updated successfully");
       } else {
-        toast.error("Update failed on server");
+        const errorData = await response.json();
+        setEditStaffError(errorData.message || "Update failed on server");
       }
     } catch (error) {
       console.error("Update error:", error);
-      toast.error("Connection failed");
+      setEditStaffError("Connection failed");
     }
   };
 
@@ -291,19 +369,147 @@ export function SettingsView() {
     fetchBusiness();
   }, [savedUser.business_id]);
 
-
-  const handleAddTeamMember = async () => {
-    if (!newMemberEmail || !newMemberFullName || !newMemberPassword) {
-      toast.error("Please fill in all required fields");
+  // Debounce check for new member email
+  useEffect(() => {
+    if (!newMemberEmail.trim()) {
+      setEmailCheckResult({ loading: false, exists: null });
       return;
     }
+
+    setEmailCheckResult({ loading: true, exists: null });
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(apiUrl(`/api/team/availability?email=${encodeURIComponent(newMemberEmail.trim())}`));
+        if (response.ok) {
+          const data = await response.json();
+          setEmailCheckResult({ loading: false, exists: data.emailExists });
+        } else {
+          setEmailCheckResult({ loading: false, exists: null });
+        }
+      } catch (err) {
+        setEmailCheckResult({ loading: false, exists: null });
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [newMemberEmail]);
+
+  // Debounce check for new member name
+  useEffect(() => {
+    if (!newMemberFullName.trim()) {
+      setNameCheckResult({ loading: false, exists: null });
+      return;
+    }
+
+    setNameCheckResult({ loading: true, exists: null });
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(apiUrl(`/api/team/availability?fullName=${encodeURIComponent(newMemberFullName.trim())}`));
+        if (response.ok) {
+          const data = await response.json();
+          setNameCheckResult({ loading: false, exists: data.nameExists });
+        } else {
+          setNameCheckResult({ loading: false, exists: null });
+        }
+      } catch (err) {
+        setNameCheckResult({ loading: false, exists: null });
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [newMemberFullName]);
+
+  // Debounce check for editing member email
+  useEffect(() => {
+    if (!editingMember || !editingMember.email.trim()) {
+      setEditEmailCheckResult({ loading: false, exists: null });
+      return;
+    }
+
+    setEditEmailCheckResult({ loading: true, exists: null });
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(apiUrl(`/api/team/availability?email=${encodeURIComponent(editingMember.email.trim())}&excludeUserId=${editingMember.id}`));
+        if (response.ok) {
+          const data = await response.json();
+          setEditEmailCheckResult({ loading: false, exists: data.emailExists });
+        } else {
+          setEditEmailCheckResult({ loading: false, exists: null });
+        }
+      } catch (err) {
+        setEditEmailCheckResult({ loading: false, exists: null });
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [editingMember?.email, editingMember?.id]);
+
+  // Debounce check for editing member name
+  useEffect(() => {
+    if (!editingMember || !editingMember.fullName.trim()) {
+      setEditNameCheckResult({ loading: false, exists: null });
+      return;
+    }
+
+    setEditNameCheckResult({ loading: true, exists: null });
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(apiUrl(`/api/team/availability?fullName=${encodeURIComponent(editingMember.fullName.trim())}&excludeUserId=${editingMember.id}`));
+        if (response.ok) {
+          const data = await response.json();
+          setEditNameCheckResult({ loading: false, exists: data.nameExists });
+        } else {
+          setEditNameCheckResult({ loading: false, exists: null });
+        }
+      } catch (err) {
+        setEditNameCheckResult({ loading: false, exists: null });
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [editingMember?.fullName, editingMember?.id]);
+
+
+  const handleAddTeamMember = async () => {
+    setAddStaffError("");
+    if (!newMemberEmail || !newMemberFullName || !newMemberPassword || !newMemberConfirmPassword) {
+      setAddStaffError("Please fill in all required fields");
+      return;
+    }
+
+    if (newMemberPassword !== newMemberConfirmPassword) {
+      setAddStaffError("Passwords do not match");
+      return;
+    }
+
+    if (emailCheckResult.exists) {
+      setAddStaffError("This email is already registered in the system.");
+      return;
+    }
+    if (nameCheckResult.exists) {
+      setAddStaffError("A staff member with this name already exists in the system.");
+      return;
+    }
+
+    const emailExistsLocally = teamMembers.some(m => m.email.toLowerCase() === newMemberEmail.trim().toLowerCase());
+    const nameExistsLocally = teamMembers.some(m => m.fullName.toLowerCase() === newMemberFullName.trim().toLowerCase());
+    
+    if (emailExistsLocally) {
+      setAddStaffError("This email is already registered for a staff member.");
+      return;
+    }
+    if (nameExistsLocally) {
+      setAddStaffError("A staff member with this name already exists.");
+      return;
+    }
+
     try {
       const response = await fetch(apiUrl("/api/team"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fullName: newMemberFullName,
-          email: newMemberEmail,
+          fullName: newMemberFullName.trim(),
+          email: newMemberEmail.trim(),
           password: newMemberPassword,
           business_id: savedUser.business_id
         }),
@@ -320,12 +526,18 @@ export function SettingsView() {
           createdAt: new Date().toISOString().split('T')[0]
         };
         setTeamMembers(prev => [...prev, memberForUI]);
-        setNewMemberEmail(""); setNewMemberFullName(""); setNewMemberPassword("");
+        setNewMemberEmail(""); setNewMemberFullName(""); setNewMemberPassword(""); setNewMemberConfirmPassword("");
+        setEmailCheckResult({ loading: false, exists: null });
+        setNameCheckResult({ loading: false, exists: null });
+        setAddStaffError("");
         setIsAddMemberOpen(false);
         toast.success("Staff account created successfully!");
+      } else {
+        const errorData = await response.json();
+        setAddStaffError(errorData.message || "Failed to create staff account");
       }
     } catch (error) {
-      toast.error("Connection failed");
+      setAddStaffError("Connection failed");
     }
   };
 
@@ -422,7 +634,7 @@ export function SettingsView() {
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            onClick={() => deleteStaff(m.id)}
+                            onClick={() => handleDeleteStaffClick(m)}
                           >
                             <Trash2 className="w-4 h-4 text-red-500" />
                           </Button>
@@ -525,20 +737,89 @@ export function SettingsView() {
       </Tabs>
 
       {/* Staff Dialog */}
-      <Dialog open={isAddMemberOpen} onOpenChange={setIsAddMemberOpen}>
+      <Dialog open={isAddMemberOpen} onOpenChange={(open) => {
+        setIsAddMemberOpen(open);
+        if (!open) {
+          setNewMemberConfirmPassword("");
+          setEmailCheckResult({ loading: false, exists: null });
+          setNameCheckResult({ loading: false, exists: null });
+          setAddStaffError("");
+        }
+      }}>
         <DialogContent>
           <DialogHeader><DialogTitle>Add Team Member</DialogTitle></DialogHeader>
           <div className="space-y-4">
-            <Input placeholder="Full Name" value={newMemberFullName} onChange={(e) => setNewMemberFullName(e.target.value)} />
-            <Input placeholder="Email" value={newMemberEmail} onChange={(e) => setNewMemberEmail(e.target.value)} />
-            <Input type="password" placeholder="Password" value={newMemberPassword} onChange={(e) => setNewMemberPassword(e.target.value)} />
+            <div className="space-y-1">
+              <Label>Full Name</Label>
+              <Input placeholder="Full Name" value={newMemberFullName} onChange={(e) => setNewMemberFullName(e.target.value)} />
+              {newMemberFullName.trim() && (
+                nameCheckResult.loading ? (
+                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                ) : nameCheckResult.exists ? (
+                  <p className="text-xs text-red-500 font-medium">A staff member with this name already exists in the system.</p>
+                ) : (
+                  <p className="text-xs text-green-600 font-medium">Name is available.</p>
+                )
+              )}
+            </div>
+            
+            <div className="space-y-1">
+              <Label>Email Address</Label>
+              <Input placeholder="Email" value={newMemberEmail} onChange={(e) => setNewMemberEmail(e.target.value)} />
+              {newMemberEmail.trim() && (
+                emailCheckResult.loading ? (
+                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                ) : emailCheckResult.exists ? (
+                  <p className="text-xs text-red-500 font-medium">This email is already registered in the system.</p>
+                ) : (
+                  <p className="text-xs text-green-600 font-medium">Email is available.</p>
+                )
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <Label>Password</Label>
+              <Input type="password" placeholder="Password" value={newMemberPassword} onChange={(e) => setNewMemberPassword(e.target.value)} />
+            </div>
+
+            <div className="space-y-1">
+              <Label>Confirm Password</Label>
+              <Input type="password" placeholder="Confirm Password" value={newMemberConfirmPassword} onChange={(e) => setNewMemberConfirmPassword(e.target.value)} />
+              {newMemberConfirmPassword && newMemberPassword !== newMemberConfirmPassword && (
+                <p className="text-xs text-red-500 font-medium">Passwords do not match.</p>
+              )}
+            </div>
+
+            {addStaffError && (
+              <p className="text-sm text-red-500 text-center font-medium mt-2">{addStaffError}</p>
+            )}
           </div>
-          <DialogFooter><Button onClick={handleAddTeamMember} className="bg-[#FF6B00]">Create Account</Button></DialogFooter>
+          <DialogFooter>
+            <Button 
+              onClick={handleAddTeamMember} 
+              className="bg-[#FF6B00]"
+              disabled={
+                nameCheckResult.loading || 
+                nameCheckResult.exists === true || 
+                emailCheckResult.loading || 
+                emailCheckResult.exists === true
+              }
+            >
+              Create Account
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Edit Staff Dialog */}
-      <Dialog open={isEditMemberOpen} onOpenChange={setIsEditMemberOpen}>
+      <Dialog open={isEditMemberOpen} onOpenChange={(open) => {
+        setIsEditMemberOpen(open);
+        if (!open) {
+          setEditEmailCheckResult({ loading: false, exists: null });
+          setEditNameCheckResult({ loading: false, exists: null });
+          setEditStaffError("");
+        }
+      }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -557,6 +838,15 @@ export function SettingsView() {
                 value={editingMember?.fullName || ""} 
                 onChange={(e) => setEditingMember(prev => prev ? {...prev, fullName: e.target.value} : null)} 
               />
+              {editingMember?.fullName.trim() && (
+                editNameCheckResult.loading ? (
+                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                ) : editNameCheckResult.exists ? (
+                  <p className="text-xs text-red-500 font-medium">A staff member with this name already exists in the system.</p>
+                ) : (
+                  <p className="text-xs text-green-600 font-medium">Name is available.</p>
+                )
+              )}
             </div>
             <div className="space-y-2">
               <Label>Email Address</Label>
@@ -564,12 +854,34 @@ export function SettingsView() {
                 value={editingMember?.email || ""} 
                 onChange={(e) => setEditingMember(prev => prev ? {...prev, email: e.target.value} : null)} 
               />
+              {editingMember?.email.trim() && (
+                editEmailCheckResult.loading ? (
+                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                ) : editEmailCheckResult.exists ? (
+                  <p className="text-xs text-red-500 font-medium">This email is already registered in the system.</p>
+                ) : (
+                  <p className="text-xs text-green-600 font-medium">Email is available.</p>
+                )
+              )}
             </div>
+
+            {editStaffError && (
+              <p className="text-sm text-red-500 text-center font-medium mt-2">{editStaffError}</p>
+            )}
           </div>
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditMemberOpen(false)}>Cancel</Button>
-            <Button onClick={handleUpdateStaff} className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button 
+              onClick={handleUpdateStaff} 
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={
+                editNameCheckResult.loading || 
+                editNameCheckResult.exists === true || 
+                editEmailCheckResult.loading || 
+                editEmailCheckResult.exists === true
+              }
+            >
               Update Account
             </Button>
           </DialogFooter>
@@ -617,6 +929,56 @@ export function SettingsView() {
               variant="destructive" 
               onClick={handleDeleteAccount}
               disabled={!deleteAccountName || !deleteAccountPassword}
+              className="transition-opacity duration-300 disabled:opacity-50"
+            >
+              Permanently Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Staff Dialog */}
+      <Dialog open={isDeleteStaffOpen} onOpenChange={setIsDeleteStaffOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-red-600 flex items-center gap-2">
+              <AlertCircle className="w-5 h-5" />
+              Delete Staff Account
+            </DialogTitle>
+            <DialogDescription className="text-red-500 font-medium">
+              WARNING: This will permanently delete the staff account for {deletingStaffMember?.fullName}. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm">Please type <strong>{businessInfo.name}</strong> to confirm.</p>
+            <Input 
+              placeholder="Business Name" 
+              value={deleteStaffConfirmBusinessName} 
+              onChange={(e) => setDeleteStaffConfirmBusinessName(e.target.value)} 
+            />
+            <p className="text-sm mt-4">Please enter your business account password.</p>
+            <Input 
+              type="password" 
+              placeholder="Business Password" 
+              value={deleteStaffPassword} 
+              onChange={(e) => setDeleteStaffPassword(e.target.value)} 
+            />
+            {deleteStaffError && <p className="text-red-500 text-sm font-medium">{deleteStaffError}</p>}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setIsDeleteStaffOpen(false);
+              setDeleteStaffError("");
+              setDeleteStaffConfirmBusinessName("");
+              setDeleteStaffPassword("");
+              setDeletingStaffMember(null);
+            }}>
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleConfirmDeleteStaff}
+              disabled={!deleteStaffConfirmBusinessName || !deleteStaffPassword}
               className="transition-opacity duration-300 disabled:opacity-50"
             >
               Permanently Delete

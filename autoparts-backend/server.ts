@@ -325,11 +325,26 @@ app.post('/api/verify-password', async (req: any, res: any) => {
 // Create Staff Member
 app.post('/api/team', async (req, res) => {
   const { fullName, email, password, business_id } = req.body;
+  const normalizedEmail = String(email ?? '').trim().toLowerCase();
+  const normalizedFullName = String(fullName ?? '').trim();
   try {
+    const [existingUserByEmail, existingBusinessByEmail, existingUserByName] = await Promise.all([
+      prisma.users.findUnique({ where: { email: normalizedEmail } }),
+      prisma.businesses.findFirst({ where: { email: normalizedEmail } }),
+      prisma.users.findFirst({ where: { full_name: normalizedFullName } })
+    ]);
+
+    if (existingUserByEmail || existingBusinessByEmail) {
+      return res.status(409).json({ message: "This email is already registered in the system." });
+    }
+    if (existingUserByName) {
+      return res.status(409).json({ message: "A staff member with this name already exists in the system." });
+    }
+
     const newUser = await prisma.users.create({
       data: {
-        full_name: fullName,
-        email: email,
+        full_name: normalizedFullName,
+        email: normalizedEmail,
         password_hash: password,
         business_id: Number(business_id),
         role: 'Business'
@@ -338,6 +353,46 @@ app.post('/api/team', async (req, res) => {
     res.status(200).json(newUser);
   } catch (err: any) {
     res.status(500).json({ message: "Failed to create staff: " + err.message });
+  }
+});
+
+// Check Team Member Availability
+app.get('/api/team/availability', async (req, res) => {
+  const email = String(req.query.email ?? '').trim().toLowerCase();
+  const fullName = String(req.query.fullName ?? '').trim();
+  const userId = req.query.excludeUserId ? Number(req.query.excludeUserId) : undefined;
+
+  try {
+    const [existingUserByEmail, existingBusinessByEmail, existingUserByName] = await Promise.all([
+      email
+        ? prisma.users.findFirst({
+            where: {
+              email,
+              ...(userId ? { NOT: { user_id: userId } } : {})
+            },
+            select: { user_id: true }
+          })
+        : Promise.resolve(null),
+      email
+        ? prisma.businesses.findFirst({ where: { email }, select: { business_id: true } })
+        : Promise.resolve(null),
+      fullName
+        ? prisma.users.findFirst({
+            where: {
+              full_name: fullName,
+              ...(userId ? { NOT: { user_id: userId } } : {})
+            },
+            select: { user_id: true }
+          })
+        : Promise.resolve(null)
+    ]);
+
+    res.json({
+      emailExists: Boolean(existingUserByEmail || existingBusinessByEmail),
+      nameExists: Boolean(existingUserByName)
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: 'Failed to check team availability', error: err.message });
   }
 });
 
@@ -358,33 +413,72 @@ app.get('/api/team', async (req, res) => {
 app.put('/api/team/:id', async (req, res) => {
   const id = Number(req.params.id);
   const { fullName, email, role } = req.body;
+  const normalizedEmail = String(email ?? '').trim().toLowerCase();
+  const normalizedFullName = String(fullName ?? '').trim();
   try {
+    const [existingUserByEmail, existingBusinessByEmail, existingUserByName] = await Promise.all([
+      prisma.users.findFirst({ where: { email: normalizedEmail, NOT: { user_id: id } } }),
+      prisma.businesses.findFirst({ where: { email: normalizedEmail } }),
+      prisma.users.findFirst({ where: { full_name: normalizedFullName, NOT: { user_id: id } } })
+    ]);
+
+    if (existingUserByEmail || existingBusinessByEmail) {
+      return res.status(409).json({ message: "This email is already registered in the system." });
+    }
+    if (existingUserByName) {
+      return res.status(409).json({ message: "A staff member with this name already exists in the system." });
+    }
+
     const updatedStaff = await prisma.users.update({
       where: { user_id: id },
       data: {
-        full_name: fullName,
-        email: email,
+        full_name: normalizedFullName,
+        email: normalizedEmail,
         role: role
       }
     });
     res.json(updatedStaff);
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.status(500).send(err);
+    res.status(500).json({ message: "Failed to update staff: " + err.message });
   }
 });
 
 // delete staff member
 app.delete('/api/team/:id', async (req, res) => {
   const id = Number(req.params.id);
+  const bodyPassword = req.body?.password;
+  const headerPassword = req.headers['x-password'] ? decodeURIComponent(req.headers['x-password'] as string) : undefined;
+  const password = bodyPassword || headerPassword;
+
   try {
+    const staff = await prisma.users.findUnique({
+      where: { user_id: id }
+    });
+
+    if (!staff) {
+      return res.status(404).json({ error: "Staff member not found" });
+    }
+
+    const business = await prisma.businesses.findUnique({
+      where: { business_id: staff.business_id }
+    });
+
+    if (!business) {
+      return res.status(404).json({ error: "Associated business not found" });
+    }
+
+    if (business.password_hash !== password) {
+      return res.status(401).json({ error: "Incorrect business account password" });
+    }
+
     await prisma.users.delete({
       where: { user_id: id }
     });
     res.json({ message: "Staff member deleted" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.status(500).send(err);
+    res.status(500).json({ error: "Failed to delete staff member: " + err.message });
   }
 });
 

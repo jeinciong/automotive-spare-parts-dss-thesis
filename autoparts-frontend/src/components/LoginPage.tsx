@@ -236,8 +236,14 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                             required
                             className="h-11 sm:h-auto"
                           />
-                          {isSignUp && businessExists && (
-                            <p className="text-sm text-red-500">A business account with this name already exists.</p>
+                          {isSignUp && businessName.trim() && (
+                            availabilityLoading ? (
+                              <p className="text-xs text-muted-foreground">Checking availability...</p>
+                            ) : businessExists ? (
+                              <p className="text-xs text-red-500 font-medium">A business account with this name already exists.</p>
+                            ) : (
+                              <p className="text-xs text-green-600 font-medium">Business name is available.</p>
+                            )
                           )}
                         </div>
 
@@ -265,11 +271,14 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                       required
                       className="h-11 sm:h-auto"
                     />
-                    {isSignUp && emailExists && (
-                      <p className="text-sm text-red-500">This email is already registered in the system.</p>
-                    )}
-                    {isSignUp && availabilityLoading && !emailExists && !businessExists && (
-                      <p className="text-sm text-gray-500">Checking account availability...</p>
+                     {isSignUp && email.trim() && (
+                      availabilityLoading ? (
+                        <p className="text-xs text-muted-foreground">Checking availability...</p>
+                      ) : emailExists ? (
+                        <p className="text-xs text-red-500 font-medium">This email is already registered in the system.</p>
+                      ) : (
+                        <p className="text-xs text-green-600 font-medium">Email is available.</p>
+                      )
                     )}
                   </div>
 
@@ -305,13 +314,16 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                         required
                         className="h-11 sm:h-auto"
                       />
+                      {confirmPassword && password !== confirmPassword && (
+                        <p className="text-xs text-red-500 font-medium">Passwords do not match.</p>
+                      )}
                     </div>
                   )}
 
                   <Button
                     type="submit"
                     className="w-full bg-[#FF6B00] hover:bg-[#FF8A50] text-white py-4 sm:py-6 text-base sm:text-lg shadow-lg"
-                    disabled={isLoading || (isSignUp && (emailExists || businessExists))}
+                    disabled={isLoading || (isSignUp && (emailExists || businessExists || availabilityLoading))}
                   >
                     {isLoading
                       ? "Processing..."
