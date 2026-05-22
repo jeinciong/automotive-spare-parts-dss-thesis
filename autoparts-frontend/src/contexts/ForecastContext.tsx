@@ -316,6 +316,37 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
     }
   }, [salesReports]);
 
+  // ── Auto-run all forecasts on page load/refresh if enabled in Settings > Data ──
+  const autoRunOnLoadDoneRef = useRef(false);
+  useEffect(() => {
+    if (autoRunOnLoadDoneRef.current) return;
+    if (localStorage.getItem("autoRunForecast") !== "true") return;
+    if (salesReports.length === 0) return;
+
+    autoRunOnLoadDoneRef.current = true;
+
+    const allProducts = Array.from(
+      new Set(salesReports.map((r: any) => r.productName))
+    ).sort();
+    if (allProducts.length === 0) return;
+
+    toast.info(
+      `Auto-running forecasts for ${allProducts.length} product${allProducts.length > 1 ? "s" : ""}...`,
+      { duration: 5000 }
+    );
+
+    (async () => {
+      for (const productName of allProducts) {
+        try {
+          await runForecast(productName as string, 6, false, { notify: false });
+        } catch (err) {
+          console.error(`Auto-forecast failed for ${productName}:`, err);
+        }
+      }
+      toast.success("All product forecasts completed!", { duration: 4000 });
+    })();
+  }, [salesReports, runForecast]);
+
   const fetchAccuracy = useCallback(async () => {
     const businessId = JSON.parse(localStorage.getItem("user")||"{}").business_id;
     if (!businessId) return;

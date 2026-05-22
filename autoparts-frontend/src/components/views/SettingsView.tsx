@@ -12,7 +12,8 @@ import {
   User, Bell, Shield, Palette, Save,
   AlertCircle, Users, UserPlus, Building2,
   Trash2,
-  Pencil
+  Pencil,
+  Database
 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "../ui/dialog";
@@ -39,6 +40,17 @@ export function SettingsView() {
   // Notification States
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [lowStockAlerts, setLowStockAlerts] = useState(true);
+
+  // Data Settings States
+  const [autoRunForecast, setAutoRunForecast] = useState(() => {
+    return localStorage.getItem("autoRunForecast") === "true";
+  });
+
+  const handleAutoRunForecastChange = (checked: boolean) => {
+    setAutoRunForecast(checked);
+    localStorage.setItem("autoRunForecast", String(checked));
+    toast.success(checked ? "Auto-run forecasts enabled" : "Auto-run forecasts disabled");
+  };
   
   // New Member Form State
   const [newMemberEmail, setNewMemberEmail] = useState("");
@@ -549,12 +561,13 @@ export function SettingsView() {
       </header>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto mb-8">
-          <TabsTrigger value="general"><User className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">General</span></TabsTrigger>
-          <TabsTrigger value="team"><Users className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Team</span></TabsTrigger>
-          <TabsTrigger value="notifications"><Bell className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Notifications</span></TabsTrigger>
-          <TabsTrigger value="appearance"><Palette className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Appearance</span></TabsTrigger>
-          <TabsTrigger value="security"><Shield className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Security</span></TabsTrigger>
+        <TabsList className="grid w-full grid-cols-6 h-auto mb-8">
+          <TabsTrigger value="general" className="text-[11px] sm:text-sm px-1 sm:px-3"><User className="w-4 h-4 mr-2 hidden sm:inline" />General</TabsTrigger>
+          <TabsTrigger value="team" className="text-[11px] sm:text-sm px-1 sm:px-3"><Users className="w-4 h-4 mr-2 hidden sm:inline" />Team</TabsTrigger>
+          <TabsTrigger value="data" className="text-[11px] sm:text-sm px-1 sm:px-3"><Database className="w-4 h-4 mr-2 hidden sm:inline" />Data</TabsTrigger>
+          <TabsTrigger value="notifications" className="text-[11px] sm:text-sm px-1 sm:px-3"><Bell className="w-4 h-4 mr-2 hidden sm:inline" />Alerts</TabsTrigger>
+          <TabsTrigger value="appearance" className="text-[11px] sm:text-sm px-1 sm:px-3"><Palette className="w-4 h-4 mr-2 hidden sm:inline" />Theme</TabsTrigger>
+          <TabsTrigger value="security" className="text-[11px] sm:text-sm px-1 sm:px-3"><Shield className="w-4 h-4 mr-2 hidden sm:inline" />Security</TabsTrigger>
         </TabsList>
 
         {/* General Tab */}
@@ -644,6 +657,45 @@ export function SettingsView() {
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Data Tab */}
+        <TabsContent value="data" className="space-y-6">
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="w-5 h-5 text-[#FF6B00]" />
+                  Forecast Configuration
+                </CardTitle>
+                <CardDescription>
+                  Control how forecasts are generated when new sales data is imported.
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 p-4 rounded-lg border bg-muted/30">
+                <div className="space-y-1">
+                  <Label className="text-sm font-semibold">Auto-Run All Forecasts on Import</Label>
+                  <p className="text-xs text-muted-foreground">
+                    When enabled, importing a sales report will automatically run forecasts for all products.
+                    When disabled, you must manually run each product forecast in the Predictions & Trends module.
+                  </p>
+                </div>
+                <Switch
+                  checked={autoRunForecast}
+                  onCheckedChange={handleAutoRunForecastChange}
+                />
+              </div>
+              <div className="flex items-start gap-2 text-xs text-muted-foreground p-3 rounded-md bg-amber-50 border border-amber-200">
+                <AlertCircle className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                <span>
+                  Auto-running forecasts for all products may take some time depending on the number of products.
+                  Each product requires a minimum of 12 months of sales data for accurate forecasting.
+                </span>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

@@ -672,6 +672,45 @@ export function SalesReportsView({ globalFilters, user }: SalesReportsViewProps)
             await importFromCSV(data as string);   // ← context handles progress internally
           }
 
+          // Auto-run forecasts if enabled in Settings > Data
+          const autoRunEnabled = localStorage.getItem("autoRunForecast") === "true";
+          if (autoRunEnabled) {
+            // Delay to let the import and backend sales refresh fully settle
+            setTimeout(async () => {
+              try {
+                const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
+                if (!savedUser.business_id) return;
+
+                // Fetch fresh sales data from API to get updated product list
+                // (can't use salesReports from hook — stale closure captures pre-import data)
+                const res = await fetch(apiUrl(`/api/sales?business_id=${savedUser.business_id}`));
+                if (!res.ok) return;
+                const freshSales = await res.json();
+
+                const allProducts = Array.from(
+                  new Set(freshSales.map((s: any) => s.product_name || "Unknown"))
+                ).sort() as string[];
+
+                if (allProducts.length > 0) {
+                  toast.info(
+                    `Auto-running forecasts for ${allProducts.length} product${allProducts.length > 1 ? "s" : ""}...`,
+                    { duration: 5000 }
+                  );
+                  for (const productName of allProducts) {
+                    try {
+                      await runForecast(productName, 6, false, { notify: false });
+                    } catch (err) {
+                      console.error(`Auto-forecast failed for ${productName}:`, err);
+                    }
+                  }
+                  toast.success("All product forecasts completed!", { duration: 4000 });
+                }
+              } catch (err) {
+                console.error("Auto-forecast failed:", err);
+              }
+            }, 2000);
+          }
+
           setIsLoading(false);
 
           // Reset file input

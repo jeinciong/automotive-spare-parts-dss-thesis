@@ -179,6 +179,31 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
     // Strip quotes/\r from headers and accept both snake_case and camelCase CSVs.
     const headers = lines[0].split(',').map(normalizeHeader);
 
+    // ── Required header validation ──────────────────────────────
+    // Each entry: [display name, ...accepted aliases after normalization]
+    const requiredHeaders: [string, string[]][] = [
+      ["Date",         ["date", "report_date"]],
+      ["Product Name", ["product_name", "product_line"]],
+      ["Quantity",     ["quantity"]],
+      ["Unit Price",   ["unit_price"]],
+    ];
+
+    const missingHeaders: string[] = [];
+    for (const [displayName, aliases] of requiredHeaders) {
+      if (!aliases.some(alias => headers.includes(alias))) {
+        missingHeaders.push(displayName);
+      }
+    }
+
+    if (missingHeaders.length > 0) {
+      toast.error(
+        `Missing required column${missingHeaders.length > 1 ? "s" : ""}: ${missingHeaders.join(", ")}. Please check your file headers.`,
+        { duration: 8000 }
+      );
+      return;
+    }
+    // ────────────────────────────────────────────────────────────
+
     const reportsToImport = lines.slice(1).map(line => {
       if (!line.trim()) return null;
 
@@ -215,6 +240,58 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // ── Duplicate detection ──────────────────────────────────────
+    // Fetch fresh sales data from API to compare against import rows.
+    // Fingerprint uses: date | product | quantity | unit_price | order_number
+    // (customer_name excluded — backend maps it to customer_type inconsistently)
+    const fingerprint = (date: string, product: string, qty: number, price: number, order: string) =>
+      `${date}|${product}|${qty}|${Number(price).toFixed(2)}|${order}`.toLowerCase().trim();
+
+    let existingFingerprints = new Set<string>();
+    try {
+      const freshRes = await fetch(apiUrl(`/api/sales?business_id=${savedUser.business_id}`));
+      if (freshRes.ok) {
+        const freshSales = await freshRes.json();
+        existingFingerprints = new Set(
+          freshSales.map((s: any) =>
+            fingerprint(
+              s.date ? new Date(s.date).toISOString().split('T')[0] : "",
+              s.product_name || "",
+              Number(s.quantity) || 0,
+              Number(s.unit_price) || 0,
+              s.order_number || ""
+            )
+          )
+        );
+      }
+    } catch {
+      // If fetch fails, skip duplicate check and proceed with import
+    }
+
+    const uniqueReports = reportsToImport.filter(r => {
+      const fp = fingerprint(
+        r.date, r.product_name, r.quantity, r.unit_price, r.order_number
+      );
+      return !existingFingerprints.has(fp);
+    });
+
+    const duplicateCount = reportsToImport.length - uniqueReports.length;
+
+    if (uniqueReports.length === 0 && existingFingerprints.size > 0) {
+      toast.error(
+        `All ${reportsToImport.length} record${reportsToImport.length > 1 ? "s are" : " is"} duplicate${reportsToImport.length > 1 ? "s" : ""}. Import cancelled.`
+      );
+      return;
+    }
+
+    if (duplicateCount > 0) {
+      toast.warning(
+        `Skipped ${duplicateCount} duplicate record${duplicateCount > 1 ? "s" : ""}. Importing ${uniqueReports.length} new record${uniqueReports.length > 1 ? "s" : ""}.`,
+        { duration: 5000 }
+      );
+    }
+    // ─────────────────────────────────────────────────────────────
+
     const combinedProgress = (percent: number) => {
       setImportProgress(percent);
       onProgress?.(percent);
@@ -222,19 +299,19 @@ export function SalesReportsProvider({ children }: { children: ReactNode }) {
 
 
     const CHUNK = 1000;
-    const totalChunks = Math.ceil(reportsToImport.length / CHUNK);
+    const totalChunks = Math.ceil(uniqueReports.length / CHUNK);
     let totalImported = 0;
     setImportProgress(0);
     setImportBatch({ current: 0, total: totalChunks });
 
     try {
-      for (let i = 0; i < reportsToImport.length; i += CHUNK) {
-        const chunk = reportsToImport.slice(i, i + CHUNK);
+      for (let i = 0; i < uniqueReports.length; i += CHUNK) {
+        const chunk = uniqueReports.slice(i, i + CHUNK);
         const chunkNum = Math.floor(i / CHUNK) + 1;
 
         // Calculate the percent range this batch covers
-        const batchStartPercent = Math.round((i / reportsToImport.length) * 100);
-        const batchEndPercent = Math.round((Math.min(i + CHUNK, reportsToImport.length) / reportsToImport.length) * 100);
+        const batchStartPercent = Math.round((i / uniqueReports.length) * 100);
+        const batchEndPercent = Math.round((Math.min(i + CHUNK, uniqueReports.length) / uniqueReports.length) * 100);
 
         // Simulate ascending progress DURING the fetch using an interval
         let currentSimulated = batchStartPercent;
