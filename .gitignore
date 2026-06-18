@@ -10,8 +10,8 @@ build/
 .env
 .env.local
 venv/
-autoparts-backend/certs/*.pem
-!autoparts-backend/certs/.gitkeep
+backend/certs/*.pem
+!backend/certs/.gitkeep
 
 # OS files
 .DS_Store
@@ -23,3 +23,23 @@ __pycache__/
 *.pyo
 *.pyd
 
+# Python datasets
+backend/python/data/
+
+# Keep shared trained models, ignore generated per-business artifacts
+backend/python/trained_models/**/business_*/
+backend/python/trained_models/**/company_*/
+
+# Markdown documentations and graph results
+pr_curve.png
+pr_curve_results.md
+
+# Other folders excluded in GitHub repository
+backend/python/notebooks
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
