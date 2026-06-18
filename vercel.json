@@ -1,6 +1,6 @@
 {
-  "installCommand": "npm --prefix autoparts-frontend install",
-  "buildCommand": "npm --prefix autoparts-frontend run build",
+  "installCommand": "npm --prefix frontend install",
+  "buildCommand": "npm --prefix frontend run build",
   "outputDirectory": "autoparts-frontend/build",
   "rewrites": [
     {
