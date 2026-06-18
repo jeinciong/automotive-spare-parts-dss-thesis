@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix autoparts-frontend run build",
-    "install:frontend": "npm --prefix autoparts-frontend install"
+    "build": "npm --prefix frontend run build",
+    "install:frontend": "npm --prefix frontend install"
   }
 }
