@@ -36,6 +36,7 @@ pr_curve_results.md
 
 # Other folders excluded in GitHub repository
 backend/python/notebooks/
+backend/python/scripts/
 
 # Logs
 *.log
