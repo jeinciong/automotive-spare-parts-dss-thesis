@@ -9,6 +9,7 @@ build/
 # Environment variables
 .env
 .env.local
+frontend/.env.example
 venv/
 backend/certs/*.pem
 !backend/certs/.gitkeep
