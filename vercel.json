@@ -1,7 +1,7 @@
 {
   "installCommand": "npm --prefix frontend install",
   "buildCommand": "npm --prefix frontend run build",
-  "outputDirectory": "autoparts-frontend/build",
+  "outputDirectory": "frontend/build",
   "rewrites": [
     {
       "source": "/((?!api/.*).*)",
