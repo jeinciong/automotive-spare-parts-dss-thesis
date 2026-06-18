@@ -1,0 +1,71 @@
+{
+  "algorithm": "ARIMA_XGB",
+  "demand_type": "SMOOTH",
+  "adi": 1,
+  "cv2": 0.3547,
+  "forecasts": [
+    {
+      "period": "2026-01",
+      "predicted": 2114060.13,
+      "lower": 182311.6,
+      "upper": 4045808.66
+    },
+    {
+      "period": "2026-02",
+      "predicted": 547428.67,
+      "lower": 0,
+      "upper": 2479177.2
+    },
+    {
+      "period": "2026-03",
+      "predicted": 1827842.14,
+      "lower": 0,
+      "upper": 3759590.66
+    },
+    {
+      "period": "2026-04",
+      "predicted": 1938285.55,
+      "lower": 6537.03,
+      "upper": 3870034.08
+    },
+    {
+      "period": "2026-05",
+      "predicted": 1190893.05,
+      "lower": 0,
+      "upper": 3122641.58
+    },
+    {
+      "period": "2026-06",
+      "predicted": 1191689.96,
+      "lower": 0,
+      "upper": 3123438.49
+    }
+  ],
+  "model_info": {
+    "algorithm": "ARIMA_XGB",
+    "arima_order": [
+      2,
+      1,
+      2
+    ],
+    "arima_aic": 1073.4833,
+    "n_train": 36,
+    "horizon": 6,
+    "mape": 25.34,
+    "accuracy": 74.66,
+    "xgb_enabled": true,
+    "retrained": true,
+    "retrain_improved": false,
+    "initial_mape": 25.34,
+    "low_accuracy": true,
+    "saved_model_path": "C:\\Users\\Joem Inciong\\automotive-spare-parts-dss-thesis\\autoparts-backend\\python\\trained_models\\arima_xgb\\business_13\\reruns\\monthly_total_revenue__rerun_2026-05-20T13-21-20-376Z.pkl",
+    "pipeline_algorithm": "ARIMA_XGB",
+    "series_kind": "BUSINESS_SALES_REVENUE",
+    "series_name": "Business Sales Revenue",
+    "demand_type": "SMOOTH",
+    "adi": 1,
+    "cv2": 0.3547,
+    "from_cache": false
+  },
+  "signature": "36_2025-12_1373241.4199999997,2221498.1500000013,1099708.6499999997,3862503.19,562239.9400000003,1465018.8100000003,2821960.6899999995,953673.0100000001,3517547.8199999994,967120.5199999997,1246144.94,3566024.2899999977,1088038.7299999997,2795029.589999998,1200136.8400000005,1592683.62,564525.3199999997,1250875.530000001,3280204.5599999987,1107009.3099999998,1374610.5700000008,1033401.93,989321.59,4543605.559999996,1335104.49,1193576.0899999999,2981203.020000001,1295370.329999999,610740.0099999998,1428371.4799999995,1463389.5999999996,2754941.6600000015,1006145.3600000006,1010161.7500000006,1053593.3599999996,1891867.620000001_6"
+}

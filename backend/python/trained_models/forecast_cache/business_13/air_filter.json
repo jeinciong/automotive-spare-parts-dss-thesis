@@ -1,0 +1,63 @@
+{
+  "product_name": "Air Filter",
+  "algorithm": "ARIMA_XGB",
+  "demand_type": "SMOOTH",
+  "adi": 1,
+  "cv2": 0.0213,
+  "forecasts": [
+    {
+      "period": "2026-01",
+      "predicted": 94.55,
+      "lower": 58.38,
+      "upper": 130.73
+    },
+    {
+      "period": "2026-02",
+      "predicted": 94.96,
+      "lower": 58.78,
+      "upper": 131.13
+    },
+    {
+      "period": "2026-03",
+      "predicted": 95.2,
+      "lower": 59.03,
+      "upper": 131.38
+    },
+    {
+      "period": "2026-04",
+      "predicted": 98.46,
+      "lower": 62.28,
+      "upper": 134.63
+    },
+    {
+      "period": "2026-05",
+      "predicted": 91.84,
+      "lower": 55.66,
+      "upper": 128.01
+    },
+    {
+      "period": "2026-06",
+      "predicted": 97.73,
+      "lower": 61.55,
+      "upper": 133.9
+    }
+  ],
+  "model_info": {
+    "algorithm": "ARIMA_XGB",
+    "arima_order": [
+      0,
+      1,
+      1
+    ],
+    "arima_aic": 476.9896,
+    "n_train": 60,
+    "horizon": 6,
+    "mape": 5.05,
+    "accuracy": 94.95,
+    "xgb_enabled": true,
+    "saved_model_path": "C:\\Users\\Joem Inciong\\automotive-spare-parts-dss-thesis\\autoparts-backend\\python\\trained_models\\arima_xgb\\business_13\\air_filter.pkl",
+    "last_period": "2025-12",
+    "from_cache": true
+  },
+  "signature": "36_2025-12_80,65,70,75,62,74,86,66,67,71,76,98,92,71,70,77,76,88,82,63,73,83,77,97,91,63,76,75,72,82,99,68,87,96,92,105_6"
+}
