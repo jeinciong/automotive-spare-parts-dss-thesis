@@ -38,6 +38,9 @@ backend/python/trained_models/**/company_*/
 # Markdown documentations and graph results
 pr_curve.png
 pr_curve_results.md
+DEPLOYMENT.md
+TIDB_CLOUD_SETUP.md
+LOCAL_SETUP.md
 
 # Other folders excluded in GitHub repository
 backend/python/notebooks/
