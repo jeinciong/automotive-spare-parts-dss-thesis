@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { LoginPage } from "./components/LoginPage";
 import { SalesHeader } from "./components/SalesHeader";
 import { AppSidebar } from "./components/AppSidebar";
@@ -14,16 +14,28 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSalesReports } from "./contexts/SalesReportsContext";
 
-// Import all view components
-import { DashboardView } from "./components/views/DashboardView";
-import { SalesReportsView } from "./components/views/SalesReportsView";
-import { PredictionsTrendsView } from "./components/views/PredictionsTrendsView";
-import { RecommendationsView } from "./components/views/RecommendationsView";
-import { InventoryView } from "./components/views/InventoryView";
-import { AnalyticsView } from "./components/views/AnalyticsView";
-import { SuppliersView } from "./components/views/SuppliersView";
-import { SettingsView } from "./components/views/SettingsView";
-import { NotificationsView } from "./components/views/NotificationsView";
+// Keep dashboard-only code out of the login bundle. Each view is downloaded
+// only when it is first opened after authentication.
+const DashboardView = lazy(() => import('./components/views/DashboardView').then(module => ({ default: module.DashboardView })));
+const SalesReportsView = lazy(() => import('./components/views/SalesReportsView').then(module => ({ default: module.SalesReportsView })));
+const PredictionsTrendsView = lazy(() => import('./components/views/PredictionsTrendsView').then(module => ({ default: module.PredictionsTrendsView })));
+const RecommendationsView = lazy(() => import('./components/views/RecommendationsView').then(module => ({ default: module.RecommendationsView })));
+const InventoryView = lazy(() => import('./components/views/InventoryView').then(module => ({ default: module.InventoryView })));
+const AnalyticsView = lazy(() => import('./components/views/AnalyticsView').then(module => ({ default: module.AnalyticsView })));
+const SuppliersView = lazy(() => import('./components/views/SuppliersView').then(module => ({ default: module.SuppliersView })));
+const SettingsView = lazy(() => import('./components/views/SettingsView').then(module => ({ default: module.SettingsView })));
+const NotificationsView = lazy(() => import('./components/views/NotificationsView').then(module => ({ default: module.NotificationsView })));
+
+function ViewLoadingFallback() {
+  return (
+    <div className="flex min-h-[45vh] items-center justify-center" role="status" aria-live="polite">
+      <div className="flex items-center gap-3 text-sm text-slate-500">
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-slate-200 border-t-[#FF6B00]" aria-hidden="true" />
+        Loading workspace…
+      </div>
+    </div>
+  );
+}
 
 export interface GlobalFilters {
   searchTerm: string;
@@ -333,7 +345,9 @@ function AppContent() {
 
             <main className="flex-1 w-full overflow-y-auto p-3 sm:p-4 md:p-6 scroll-smooth">
               <div className="mx-auto w-full min-h-full">
-                {renderView()}
+                <Suspense fallback={<ViewLoadingFallback />}>
+                  {renderView()}
+                </Suspense>
               </div>
             </main>
 

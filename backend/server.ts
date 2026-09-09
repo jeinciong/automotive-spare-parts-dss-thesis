@@ -14,6 +14,18 @@ app.use(cors());
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
+// Reaches both the Render service and the database so the login screen can
+// warm a sleeping backend while the user enters their credentials.
+app.get('/api/health', async (_req, res) => {
+  res.set('Cache-Control', 'no-store');
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({ status: 'ok' });
+  } catch {
+    res.status(503).json({ status: 'database_unavailable' });
+  }
+});
+
 interface ForecastItem {
   period: string;
   predicted: number;
@@ -173,10 +185,35 @@ app.post('/api/register', async (req, res) => {
 // Login: Checking both tables using Prisma's findFirst
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
+  const normalizedEmail = String(email ?? '').trim().toLowerCase();
+
+  if (!normalizedEmail || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+
   try {
-    const owner = await prisma.businesses.findFirst({
-      where: { email, password_hash: password }
-    });
+    // Check both account types concurrently. Staff login previously waited for
+    // the owner query to finish before its own database request even started.
+    const [owner, staff] = await Promise.all([
+      prisma.businesses.findFirst({
+        where: { email: normalizedEmail, password_hash: password },
+        select: {
+          business_id: true,
+          email: true,
+          business_name: true,
+          business_address: true,
+        },
+      }),
+      prisma.users.findFirst({
+        where: { email: normalizedEmail, password_hash: password },
+        select: {
+          user_id: true,
+          business_id: true,
+          email: true,
+          full_name: true,
+        },
+      }),
+    ]);
 
     if (owner) {
       return res.json({
@@ -188,10 +225,6 @@ app.post('/api/login', async (req, res) => {
       });
     }
 
-    const staff = await prisma.users.findFirst({
-      where: { email, password_hash: password }
-    });
-
     if (staff) {
       return res.json({
         role: 'staff', business_id: staff.business_id, email: staff.email, user_id: staff.user_id, user_name: staff.full_name
@@ -200,7 +233,8 @@ app.post('/api/login', async (req, res) => {
 
     res.status(401).json({ message: "Invalid email or password" });
   } catch (err) {
-    res.status(500).send(err);
+    console.error('Login failed:', err);
+    res.status(500).json({ message: 'Login service is temporarily unavailable' });
   }
 });
 

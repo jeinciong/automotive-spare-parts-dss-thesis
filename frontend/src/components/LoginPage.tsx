@@ -26,6 +26,18 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const [formError, setFormError] = useState("");
 
   useEffect(() => {
+    const controller = new AbortController();
+    fetch(apiUrl('/api/health'), {
+      signal: controller.signal,
+      cache: 'no-store',
+    }).catch(() => {
+      // A failed warm-up is non-blocking; submit still reports the real error.
+    });
+
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     if (!isSignUp) {
       setEmailExists(false);
       setBusinessExists(false);
@@ -109,13 +121,16 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       ? { email: email.trim(), password, businessName: businessName.trim(), businessAddress: businessAddress.trim() }
       : { email: email.trim(), password };
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 30000);
+
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+        signal: controller.signal,
       });
-
       if (response.ok) {
         const userData = await response.json();
         onLogin(userData);
@@ -125,8 +140,13 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       }
     } catch (error) {
       console.error("Connection error:", error);
-      setFormError("Could not connect to the server. Ensure the backend is running.");
+      setFormError(
+        error instanceof DOMException && error.name === 'AbortError'
+          ? 'The server took too long to respond. Please try again.'
+          : 'Could not connect to the server. Please try again shortly.'
+      );
     } finally {
+      window.clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
