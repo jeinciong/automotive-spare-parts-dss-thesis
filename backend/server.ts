@@ -1253,6 +1253,8 @@ const FORECAST_MIN_OBS = 12;
 const BUSINESS_REVENUE_FORECAST_NAME = 'monthly_total_revenue';
 const REVENUE_SHARED_PRELOAD_LOOKAHEAD_MONTHS = 120;
 const PRODUCT_SHARED_PRELOAD_LOOKAHEAD_MONTHS = 120;
+const inFlightProductForecasts = new Map<string, Promise<any>>();
+const inFlightRevenueForecasts = new Map<string, Promise<any>>();
 
 const MODEL_SCRIPT_PATHS = {
   ARIMA_XGB: {
@@ -1285,6 +1287,45 @@ type PreparedForecastContext = {
   modelDir: string;
   modelPath: string;
 };
+
+function getProductForecastArtifact(
+  businessId: number,
+  productName: string,
+  horizon: number,
+  forceRetrain: boolean,
+) {
+  const key = `${businessId}:${productName.trim().toLowerCase()}:${horizon}:${forceRetrain ? 'force' : 'normal'}`;
+  const existing = inFlightProductForecasts.get(key);
+  if (existing) return existing;
+
+  const request = getOrTrainForecastArtifact(businessId, productName, horizon, forceRetrain)
+    .finally(() => {
+      if (inFlightProductForecasts.get(key) === request) {
+        inFlightProductForecasts.delete(key);
+      }
+    });
+  inFlightProductForecasts.set(key, request);
+  return request;
+}
+
+function getBusinessRevenueForecastArtifact(
+  businessId: number,
+  horizon: number,
+  forceRetrain: boolean,
+) {
+  const key = `${businessId}:${horizon}:${forceRetrain ? 'force' : 'normal'}`;
+  const existing = inFlightRevenueForecasts.get(key);
+  if (existing) return existing;
+
+  const request = getOrTrainBusinessRevenueForecastArtifact(businessId, horizon, forceRetrain)
+    .finally(() => {
+      if (inFlightRevenueForecasts.get(key) === request) {
+        inFlightRevenueForecasts.delete(key);
+      }
+    });
+  inFlightRevenueForecasts.set(key, request);
+  return request;
+}
 
 function slugifyProductName(productName: string): string {
   return productName.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'forecast_model';
@@ -2175,11 +2216,13 @@ app.post('/api/forecast', async (req: any, res: any) => {
     return res.status(400).json({ error: 'business_id and product_name required' });
   }
 
+  const normalizedHorizon = Math.min(12, Math.max(1, Number(horizon) || 6));
+
   try {
-    const forecastResult = await getOrTrainForecastArtifact(
+    const forecastResult = await getProductForecastArtifact(
       Number(business_id),
       String(product_name),
-      Number(horizon),
+      normalizedHorizon,
       Boolean(force_retrain),
     );
 
@@ -2212,19 +2255,11 @@ app.post('/api/forecast', async (req: any, res: any) => {
     }
 
     if (needsDbWrite && inventoryItem) {
-      // Delete old predictions for this product+business before re-inserting
-      await prisma.predictions.deleteMany({
-        where: { business_id: Number(business_id), product_id: inventoryItem.product_id }
-      });
-
-      for (const fc of forecastResult.filteredForecasts as ForecastItem[]) {
-        const priority =
-          (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
-            : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
-              : 'High';
-
-        await prisma.predictions.create({
-          data: {
+      const priority =
+        (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
+          : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
+            : 'High';
+      const rows = (forecastResult.filteredForecasts as ForecastItem[]).map((fc) => ({
             business_id: Number(business_id),
             product_id: inventoryItem.product_id,
             forecast_date: new Date(fc.period + '-01'),
@@ -2233,14 +2268,21 @@ app.post('/api/forecast', async (req: any, res: any) => {
               ? Math.min(999.99, Math.max(-999.99, Number(((fc.upper - fc.predicted) / fc.predicted * 100).toFixed(2))))
               : null,
             recommendation_priority: priority as any,
-          }
-        });
-      }
+      }));
+
+      // Replace the complete forecast atomically so interrupted or concurrent
+      // requests cannot leave a partially-written prediction set behind.
+      await prisma.$transaction([
+        prisma.predictions.deleteMany({
+          where: { business_id: Number(business_id), product_id: inventoryItem.product_id }
+        }),
+        ...(rows.length > 0 ? [prisma.predictions.createMany({ data: rows })] : []),
+      ]);
     }
 
     // Write to JSON cache if not already loaded from it
     if (!forecastResult.fromJSONCache) {
-      await saveForecastToJSONCache(Number(business_id), String(product_name), Number(horizon), forecastResult);
+      await saveForecastToJSONCache(Number(business_id), String(product_name), normalizedHorizon, forecastResult);
     }
 
     // 6. Respond with everything the frontend needs
@@ -2252,7 +2294,7 @@ app.post('/api/forecast', async (req: any, res: any) => {
       cv2: forecastResult.classResult.cv2,
       forecasts: forecastResult.filteredForecasts,
       model_info: forecastResult.mergedModelInfo,
-      history: forecastResult.sortedKeys.map((k, i) => ({ period: k, actual: forecastResult.quantities[i] }))
+      history: forecastResult.sortedKeys.map((k: string, i: number) => ({ period: k, actual: forecastResult.quantities[i] }))
     });
 
   } catch (err: any) {
@@ -2266,41 +2308,92 @@ app.post('/api/forecast', async (req: any, res: any) => {
 app.get('/api/forecast', async (req: any, res: any) => {
   const business_id = parseInt(req.query.business_id as string);
   const product_name = req.query.product_name as string;
+  const horizon = Math.min(12, Math.max(1, Number(req.query.horizon) || 6));
 
   if (!business_id || !product_name) {
     return res.status(400).json({ error: 'business_id and product_name required' });
   }
 
   try {
-    const inventoryItem = await prisma.inventory.findFirst({
-      where: { business_id, product_name },
-      select: { product_id: true }
-    });
+    const [inventoryItem, rawSales, latestBusinessSale] = await Promise.all([
+      prisma.inventory.findFirst({
+        where: { business_id, product_name },
+        select: { product_id: true }
+      }),
+      prisma.sales_reports.findMany({
+        where: { business_id, product_name },
+        orderBy: { date: 'asc' },
+        select: { date: true, quantity: true }
+      }),
+      prisma.sales_reports.findFirst({
+        where: { business_id },
+        orderBy: { date: 'desc' },
+        select: { date: true }
+      }),
+    ]);
 
-    const preds = await prisma.predictions.findMany({
-      where: {
-        business_id,
-        ...(inventoryItem ? { product_id: inventoryItem.product_id } : {})
-      },
-      orderBy: { forecast_date: 'asc' }
-    });
-
-    // Also pull history for the chart
-    const rawSales = await prisma.sales_reports.findMany({
-      where: { business_id, product_name },
-      orderBy: { date: 'asc' },
-      select: { date: true, quantity: true }
-    });
-    const latestBusinessSale = await prisma.sales_reports.findFirst({
-      where: { business_id },
-      orderBy: { date: 'desc' },
-      select: { date: true }
-    });
     const customEndDate = latestBusinessSale ? new Date(latestBusinessSale.date) : undefined;
     const { dates, quantities } = buildMonthlySeries(rawSales, customEndDate);
     const history = dates.map((period, index) => ({ period, actual: quantities[index] }));
+    const lastHistoryPeriod = dates[dates.length - 1] ?? '';
 
-    return res.json({ forecasts: preds, history });
+    // Predictions are persisted in TiDB, while Render's filesystem cache is
+    // ephemeral. Prefer these rows after a restart so an existing forecast
+    // appears immediately instead of launching Python again.
+    const storedPredictions = inventoryItem
+      ? await prisma.predictions.findMany({
+          where: { business_id, product_id: inventoryItem.product_id },
+          orderBy: { forecast_date: 'asc' }
+        })
+      : [];
+
+    const forecasts = storedPredictions
+      .map((prediction) => {
+        if (!prediction.forecast_date) return null;
+        const date = new Date(prediction.forecast_date);
+        const period = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
+        if (lastHistoryPeriod && period <= lastHistoryPeriod) return null;
+
+        const predicted = Number(prediction.predicted_quantity ?? 0);
+        const intervalPercent = prediction.confidence_interval == null
+          ? null
+          : Math.abs(Number(prediction.confidence_interval));
+        const interval = intervalPercent == null ? null : predicted * intervalPercent / 100;
+        return {
+          period,
+          predicted,
+          lower: interval == null ? null : Math.max(0, Number((predicted - interval).toFixed(2))),
+          upper: interval == null ? null : Number((predicted + interval).toFixed(2)),
+        };
+      })
+      .filter((forecast): forecast is ForecastItem => forecast !== null)
+      .slice(0, horizon);
+
+    const demand = quantities.length > 0 ? classifyDemand(quantities) : null;
+
+    res.set('Cache-Control', 'no-store');
+    return res.json({
+      product_name,
+      algorithm: demand?.algorithm ?? 'ARIMA_XGB',
+      demand_type: demand?.demandType ?? '',
+      adi: demand?.adi ?? 0,
+      cv2: demand?.cv2 ?? 0,
+      forecasts,
+      history,
+      model_info: {
+        algorithm: demand?.algorithm ?? 'ARIMA_XGB',
+        n_train: dates.length,
+        horizon,
+        mape: null,
+        accuracy: null,
+        retrained: false,
+        retrain_improved: false,
+        initial_mape: null,
+        low_accuracy: false,
+        from_cache: forecasts.length > 0,
+        cache_source: forecasts.length > 0 ? 'database' : null,
+      },
+    });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
@@ -2385,16 +2478,107 @@ app.post('/api/forecast/revenue', async (req: any, res: any) => {
     return res.status(400).json({ error: 'business_id required' });
   }
 
+  const businessId = Number(business_id);
+  const normalizedHorizon = Math.min(12, Math.max(1, Number(horizon) || 6));
+
   try {
-    const forecastResult = await getOrTrainBusinessRevenueForecastArtifact(
-      Number(business_id),
-      Number(horizon),
+    if (!force_retrain) {
+      const [rawSales, storedPredictions] = await Promise.all([
+        prisma.sales_reports.findMany({
+          where: { business_id: businessId },
+          orderBy: { date: 'asc' },
+          select: { date: true, total_amount: true },
+        }),
+        prisma.predictions.findMany({
+          where: { business_id: businessId, product_id: null },
+          orderBy: { forecast_date: 'asc' },
+        }),
+      ]);
+      const { dates, revenues } = rawSales.length > 0
+        ? buildMonthlyRevenueSeries(rawSales)
+        : { dates: [] as string[], revenues: [] as number[] };
+      const lastHistoryPeriod = dates[dates.length - 1] ?? '';
+      const forecasts = storedPredictions
+        .map((prediction) => {
+          if (!prediction.forecast_date) return null;
+          const date = new Date(prediction.forecast_date);
+          const period = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
+          if (lastHistoryPeriod && period <= lastHistoryPeriod) return null;
+
+          const predicted = Number(prediction.predicted_quantity ?? 0);
+          const intervalPercent = prediction.confidence_interval == null
+            ? null
+            : Math.abs(Number(prediction.confidence_interval));
+          const interval = intervalPercent == null ? null : predicted * intervalPercent / 100;
+          return {
+            period,
+            predicted,
+            lower: interval == null ? null : Math.max(0, Number((predicted - interval).toFixed(2))),
+            upper: interval == null ? null : Number((predicted + interval).toFixed(2)),
+          };
+        })
+        .filter((forecast): forecast is ForecastItem => forecast !== null)
+        .slice(0, normalizedHorizon);
+
+      if (forecasts.length >= normalizedHorizon) {
+        const demand = revenues.length > 0 ? classifyDemand(revenues) : null;
+        res.set('Cache-Control', 'no-store');
+        return res.json({
+          series_name: 'Business Sales Revenue',
+          algorithm: demand?.algorithm ?? 'ARIMA_XGB',
+          demand_type: demand?.demandType ?? '',
+          adi: demand?.adi ?? 0,
+          cv2: demand?.cv2 ?? 0,
+          forecasts,
+          model_info: {
+            algorithm: demand?.algorithm ?? 'ARIMA_XGB',
+            n_train: dates.length,
+            horizon: normalizedHorizon,
+            mape: null,
+            accuracy: null,
+            retrained: false,
+            retrain_improved: false,
+            initial_mape: null,
+            low_accuracy: false,
+            from_cache: true,
+            cache_source: 'database',
+          },
+          history: dates.map((period, index) => ({ period, actual: revenues[index] })),
+        });
+      }
+    }
+
+    const forecastResult = await getBusinessRevenueForecastArtifact(
+      businessId,
+      normalizedHorizon,
       Boolean(force_retrain),
     );
 
     if (!forecastResult.fromJSONCache) {
-      await saveRevenueForecastToJSONCache(Number(business_id), Number(horizon), forecastResult);
+      await saveRevenueForecastToJSONCache(businessId, normalizedHorizon, forecastResult);
     }
+
+    const priority =
+      (forecastResult.mergedModelInfo.mape ?? 0) <= 10 ? 'Low'
+        : (forecastResult.mergedModelInfo.mape ?? 0) <= 20 ? 'Medium'
+          : 'High';
+    const rows = (forecastResult.filteredForecasts as ForecastItem[]).map((forecast) => ({
+      business_id: businessId,
+      product_id: null,
+      forecast_date: new Date(forecast.period + '-01'),
+      predicted_quantity: forecast.predicted,
+      confidence_interval: forecast.predicted > 0 && forecast.upper !== null && forecast.lower !== null
+        ? Math.min(999.99, Math.max(-999.99, Number(((forecast.upper - forecast.predicted) / forecast.predicted * 100).toFixed(2))))
+        : null,
+      recommendation_priority: priority as any,
+    }));
+
+    await prisma.$transaction([
+      prisma.predictions.deleteMany({
+        where: { business_id: businessId, product_id: null },
+      }),
+      ...(rows.length > 0 ? [prisma.predictions.createMany({ data: rows })] : []),
+    ]);
 
     return res.json({
       series_name: 'Business Sales Revenue',
@@ -2404,7 +2588,7 @@ app.post('/api/forecast/revenue', async (req: any, res: any) => {
       cv2: forecastResult.mergedModelInfo.cv2,
       forecasts: forecastResult.filteredForecasts,
       model_info: forecastResult.mergedModelInfo,
-      history: forecastResult.dates.map((period, index) => ({ period, actual: forecastResult.revenues[index] })),
+      history: forecastResult.dates.map((period: string, index: number) => ({ period, actual: forecastResult.revenues[index] })),
     });
   } catch (err: any) {
     console.error('[Revenue Forecast Error]', err);

@@ -16,6 +16,37 @@ import {
 } from "../components/ui/alert-dialog";
 import { apiUrl } from "../lib/api";
 
+const FORECAST_REQUEST_TIMEOUT_MS = 120_000;
+
+async function fetchForecastJson(url: string, init?: RequestInit) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), FORECAST_REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, { ...init, signal: controller.signal });
+    const text = await response.text();
+    let data: any = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      throw new Error("The forecast service returned an invalid response.");
+    }
+    if (!response.ok) throw new Error(data.error ?? "Forecast failed");
+    return data;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("The forecast took too long. Please try again in a moment.");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function readableForecastError(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
+
 export interface ForecastPoint {
   period:    string;
   predicted: number;
@@ -42,6 +73,7 @@ export interface ForecastModelInfo {
   low_accuracy:     boolean;
   saved_model_path?: string;
   from_cache?:      boolean;
+  cache_source?:    "database" | "filesystem" | null;
 }
 export interface ProductForecast {
   product_name: string;
@@ -148,8 +180,71 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         model_info:prev[productName]?.model_info ?? {} as ForecastModelInfo,
       }
     }));
+    let slowToastTimer: number | undefined;
+    let slowToastId: string | number | undefined;
     try {
-      const res  = await fetch(apiUrl("/api/forecast"), {
+      slowToastTimer = window.setTimeout(() => {
+        if (notify) {
+          slowToastId = toast.loading(`Preparing ${productName} forecast…`, {
+            description: "A first-time model run can take up to a minute. You can keep this page open.",
+          });
+        }
+      }, 8_000);
+
+      // TiDB predictions survive Render restarts. Load them first so returning
+      // users do not pay the Python startup/training cost again.
+      if (!forceRetrain) {
+        try {
+          const cachedData = await fetchForecastJson(apiUrl(
+            `/api/forecast?business_id=${businessId}&product_name=${encodeURIComponent(productName)}&horizon=${horizon}`
+          ));
+          const hasNormalizedForecasts = Array.isArray(cachedData.forecasts)
+            && cachedData.forecasts.length >= horizon
+            && cachedData.forecasts.every((point: any) => (
+              typeof point?.period === "string" && Number.isFinite(Number(point?.predicted))
+            ));
+          if (hasNormalizedForecasts) {
+            setProductForecasts(prev => ({
+              ...prev,
+              [productName]: {
+                product_name: productName,
+                algorithm: cachedData.algorithm,
+                demand_type: cachedData.demand_type,
+                adi: cachedData.adi,
+                cv2: cachedData.cv2,
+                forecasts: cachedData.forecasts,
+                history: cachedData.history ?? [],
+                model_info: cachedData.model_info,
+                loading: false,
+                error: null,
+              },
+            }));
+            return;
+          }
+
+          const availableMonths = Array.isArray(cachedData.history) ? cachedData.history.length : null;
+          if (availableMonths !== null && availableMonths < 12) {
+            setProductForecasts(prev => ({
+              ...prev,
+              [productName]: {
+                ...prev[productName],
+                product_name: productName,
+                history: cachedData.history,
+                loading: false,
+                error: availableMonths === 0
+                  ? "No sales history is available for this product yet."
+                  : `Not enough monthly sales history (${availableMonths}/12 months).`,
+              },
+            }));
+            return;
+          }
+        } catch {
+          // A cache lookup is an optimization only. The live model request below
+          // remains the source of truth when stored predictions are unavailable.
+        }
+      }
+
+      const data = await fetchForecastJson(apiUrl("/api/forecast"), {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
           business_id:businessId,
@@ -158,8 +253,6 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
           force_retrain: forceRetrain,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Forecast failed");
 
       const info: ForecastModelInfo = data.model_info;
 
@@ -233,8 +326,11 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
 
     } catch(err) {
       setProductForecasts(prev => ({
-        ...prev, [productName]: { ...prev[productName], loading:false, error:String(err) }
+        ...prev, [productName]: { ...prev[productName], loading:false, error:readableForecastError(err) }
       }));
+    } finally {
+      if (slowToastTimer !== undefined) window.clearTimeout(slowToastTimer);
+      if (slowToastId !== undefined) toast.dismiss(slowToastId);
     }
   }, []); //requestRerunConfirmation
 
@@ -258,8 +354,16 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
       error: null,
     }));
 
+    let slowToastTimer: number | undefined;
+    let slowToastId: string | number | undefined;
     try {
-      const res = await fetch(apiUrl("/api/forecast/revenue"), {
+      slowToastTimer = window.setTimeout(() => {
+        slowToastId = toast.loading("Preparing the revenue forecast…", {
+          description: "The first model run after a server restart can take up to a minute.",
+        });
+      }, 8_000);
+
+      const data = await fetchForecastJson(apiUrl("/api/forecast/revenue"), {
         method: "POST",
         headers: { "Content-Type":"application/json" },
         body: JSON.stringify({
@@ -268,8 +372,6 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
           force_retrain: forceRetrain,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Revenue forecast failed");
 
       setBusinessRevenueForecast({
         series_name: data.series_name ?? "Business Sales Revenue",
@@ -294,8 +396,11 @@ export function ForecastProvider({ children }: { children: ReactNode }) {
         history: prev?.history ?? [],
         model_info: prev?.model_info ?? {} as ForecastModelInfo,
         loading: false,
-        error: String(err),
+        error: readableForecastError(err),
       }));
+    } finally {
+      if (slowToastTimer !== undefined) window.clearTimeout(slowToastTimer);
+      if (slowToastId !== undefined) toast.dismiss(slowToastId);
     }
   }, []);
 
