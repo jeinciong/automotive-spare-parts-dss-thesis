@@ -2076,10 +2076,22 @@ async function getOrTrainBusinessRevenueForecastArtifact(
   };
 }
 
-// Helper: run a Python script, pass JSON via stdin, get JSON from stdout
-function runPython(scriptPath: string, payload: object): Promise<any> {
+// Render's smaller instances cannot safely hold multiple statsmodels/XGBoost
+// processes at once. Queue every Python job globally so product and revenue
+// forecasts never overlap and trigger an out-of-memory restart.
+let pythonJobQueue: Promise<void> = Promise.resolve();
+
+function executePython(scriptPath: string, payload: object): Promise<any> {
   return new Promise((resolve) => {
-    const proc = spawn(PYTHON_BIN, [scriptPath]);
+    const proc = spawn(PYTHON_BIN, [scriptPath], {
+      env: {
+        ...process.env,
+        OMP_NUM_THREADS: '1',
+        OPENBLAS_NUM_THREADS: '1',
+        MKL_NUM_THREADS: '1',
+        NUMEXPR_NUM_THREADS: '1',
+      },
+    });
     let settled = false;
     let stdout = '', stderr = '';
     const finish = (result: any) => {
@@ -2114,6 +2126,15 @@ function runPython(scriptPath: string, payload: object): Promise<any> {
       }
     });
   });
+}
+
+function runPython(scriptPath: string, payload: object): Promise<any> {
+  const job = pythonJobQueue.then(
+    () => executePython(scriptPath, payload),
+    () => executePython(scriptPath, payload),
+  );
+  pythonJobQueue = job.then(() => undefined, () => undefined);
+  return job;
 }
 
 async function saveForecastToJSONCache(
