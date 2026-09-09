@@ -2093,6 +2093,8 @@ function executePython(scriptPath: string, payload: object): Promise<any> {
       },
     });
     let settled = false;
+    let timedOut = false;
+    let forceKillTimer: ReturnType<typeof setTimeout> | undefined;
     let stdout = '', stderr = '';
     const finish = (result: any) => {
       if (!settled) {
@@ -2103,18 +2105,28 @@ function executePython(scriptPath: string, payload: object): Promise<any> {
     proc.stdout.on('data', (d: Buffer) => { stdout += d.toString(); });
     proc.stderr.on('data', (d: Buffer) => { stderr += d.toString(); });
     proc.on('error', (err) => {
+      clearTimeout(timer);
+      if (forceKillTimer) clearTimeout(forceKillTimer);
       finish({ success: false, error: `Failed to start Python: ${err.message}` });
     });
     proc.stdin.write(JSON.stringify(payload));
     proc.stdin.end();
 
     const timer = setTimeout(() => {
+      timedOut = true;
       proc.kill('SIGTERM');
-      finish({ success: false, error: 'Python script timed out' });
+      forceKillTimer = setTimeout(() => {
+        if (!settled) proc.kill('SIGKILL');
+      }, 5_000);
     }, PYTHON_TIMEOUT_MS);
 
     proc.on('close', (code) => {
       clearTimeout(timer);
+      if (forceKillTimer) clearTimeout(forceKillTimer);
+      if (timedOut) {
+        finish({ success: false, error: 'Python script timed out' });
+        return;
+      }
       if (!stdout.trim()) {
         finish({ success: false, error: stderr || `Exit code ${code}` });
         return;
