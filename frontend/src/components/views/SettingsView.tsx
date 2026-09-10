@@ -179,7 +179,7 @@ export function SettingsView() {
   // Data Export Function
   const exportData = async () => {
     try {
-        const response = await fetch(`http://localhost:5000/api/export-all?business_id=${savedUser.business_id}`);
+        const response = await fetch(apiUrl(`/api/export-all?business_id=${savedUser.business_id}`));
         
         if (!response.ok) throw new Error("Server export failed");
 
