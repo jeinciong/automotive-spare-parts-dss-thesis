@@ -14,8 +14,8 @@ app.use(cors());
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
-// Reaches both the Render service and the database so the login screen can
-// warm a sleeping backend while the user enters their credentials.
+// Reaches both the API service and the database so deployment health checks
+// only pass when the application is genuinely ready to handle requests.
 app.get('/api/health', async (_req, res) => {
   res.set('Cache-Control', 'no-store');
   try {
