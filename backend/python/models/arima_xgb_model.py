@@ -33,13 +33,13 @@ XGB_PARAMS_INITIAL = {
     "n_estimators": 70, "max_depth": 3, "learning_rate": 0.05,
     "subsample": 0.8, "colsample_bytree": 0.8, 
     "min_child_weight": 2,"reg_lambda": 2.5, 
-    "tree_method": "hist","random_state": 42, "verbosity": 0,
+    "tree_method": "hist", "n_jobs": 1, "random_state": 42, "verbosity": 0,
 }
 XGB_PARAMS_RETRAIN = {
     "n_estimators": 150, "max_depth": 3, "learning_rate": 0.025,
     "subsample": 0.75, "colsample_bytree": 0.75,
     "min_child_weight": 3, "gamma": 0.3, "reg_alpha": 0.2, "reg_lambda": 3.5,
-    "tree_method": "hist", "random_state": 42, "verbosity": 0,
+    "tree_method": "hist", "n_jobs": 1, "random_state": 42, "verbosity": 0,
 }
 
 LAG_FEATURES    = [1, 2, 3, 6, 12]
