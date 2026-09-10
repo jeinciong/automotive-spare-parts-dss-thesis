@@ -13,7 +13,9 @@ import {
   AlertCircle, Users, UserPlus, Building2,
   Trash2,
   Pencil,
-  Database
+  Database,
+  Lock,
+  Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "../ui/dialog";
@@ -45,12 +47,11 @@ export function SettingsView() {
   const [autoRunForecast, setAutoRunForecast] = useState(() => {
     return localStorage.getItem("autoRunForecast") === "true";
   });
-
-  const handleAutoRunForecastChange = (checked: boolean) => {
-    setAutoRunForecast(checked);
-    localStorage.setItem("autoRunForecast", String(checked));
-    toast.success(checked ? "Auto-run forecasts enabled" : "Auto-run forecasts disabled");
-  };
+  const [isAutoRunConfirmOpen, setIsAutoRunConfirmOpen] = useState(false);
+  const [autoRunAccountName, setAutoRunAccountName] = useState("");
+  const [autoRunPassword, setAutoRunPassword] = useState("");
+  const [autoRunConfirmError, setAutoRunConfirmError] = useState("");
+  const [isVerifyingAutoRun, setIsVerifyingAutoRun] = useState(false);
   
   // New Member Form State
   const [newMemberEmail, setNewMemberEmail] = useState("");
@@ -63,6 +64,85 @@ export function SettingsView() {
     email: savedUser.email || "",
     address: savedUser.business_address ||"" 
   });
+
+  const resetAutoRunConfirmation = () => {
+    setAutoRunAccountName("");
+    setAutoRunPassword("");
+    setAutoRunConfirmError("");
+  };
+
+  const handleAutoRunDialogChange = (open: boolean) => {
+    if (isVerifyingAutoRun && !open) return;
+    setIsAutoRunConfirmOpen(open);
+    if (!open) resetAutoRunConfirmation();
+  };
+
+  const handleAutoRunForecastChange = (checked: boolean) => {
+    if (!checked) {
+      setAutoRunForecast(false);
+      localStorage.setItem("autoRunForecast", "false");
+      toast.success("Auto-run forecasts disabled");
+      return;
+    }
+
+    resetAutoRunConfirmation();
+    setIsAutoRunConfirmOpen(true);
+  };
+
+  const handleConfirmAutoRun = async () => {
+    const expectedAccountName = businessInfo.name.trim();
+    const enteredAccountName = autoRunAccountName.trim();
+
+    if (!expectedAccountName || enteredAccountName !== expectedAccountName) {
+      setAutoRunConfirmError("Business name does not match the current account.");
+      return;
+    }
+    if (!autoRunPassword) {
+      setAutoRunConfirmError("Password is required.");
+      return;
+    }
+    if (!savedUser.business_id && !savedUser.user_id) {
+      setAutoRunConfirmError("Your session details are missing. Please sign in again.");
+      return;
+    }
+
+    setIsVerifyingAutoRun(true);
+    setAutoRunConfirmError("");
+
+    try {
+      const response = await fetch(apiUrl("/api/verify-password"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          business_id: savedUser.business_id,
+          user_id: savedUser.user_id,
+          role: savedUser.role,
+          account_name: enteredAccountName,
+          password: autoRunPassword,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        setAutoRunConfirmError("Could not verify your account. Please try again.");
+        return;
+      }
+      if (!data.valid) {
+        setAutoRunConfirmError("Incorrect account name or password.");
+        return;
+      }
+
+      setAutoRunForecast(true);
+      localStorage.setItem("autoRunForecast", "true");
+      setIsAutoRunConfirmOpen(false);
+      resetAutoRunConfirmation();
+      toast.success("Auto-run forecasts enabled");
+    } catch {
+      setAutoRunConfirmError("Could not verify your account. Please check your connection and try again.");
+    } finally {
+      setIsVerifyingAutoRun(false);
+    }
+  };
 
   const [isEditMemberOpen, setIsEditMemberOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
@@ -787,6 +867,104 @@ export function SettingsView() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Auto-run forecast confirmation dialog */}
+      <Dialog open={isAutoRunConfirmOpen} onOpenChange={handleAutoRunDialogChange}>
+        <DialogContent
+          onInteractOutside={(event) => {
+            if (isVerifyingAutoRun) event.preventDefault();
+          }}
+          onEscapeKeyDown={(event) => {
+            if (isVerifyingAutoRun) event.preventDefault();
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Lock className="h-5 w-5 text-[#FF6B00]" />
+              Enable Automatic Forecasting
+            </DialogTitle>
+            <DialogDescription>
+              This will automatically run forecasts for every eligible product after a sales report is imported.
+              It may take time and use additional server resources. Confirm the current business account to continue.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-300">
+              Auto-Run is currently OFF. It will only be enabled after successful verification.
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="auto-run-account-name">
+                Type <strong>{businessInfo.name || "the current business name"}</strong> to confirm
+              </Label>
+              <Input
+                id="auto-run-account-name"
+                placeholder="Business Name"
+                value={autoRunAccountName}
+                onChange={(event) => {
+                  setAutoRunAccountName(event.target.value);
+                  setAutoRunConfirmError("");
+                }}
+                disabled={isVerifyingAutoRun}
+                autoComplete="organization"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="auto-run-password">Current account password</Label>
+              <Input
+                id="auto-run-password"
+                type="password"
+                placeholder="Password"
+                value={autoRunPassword}
+                onChange={(event) => {
+                  setAutoRunPassword(event.target.value);
+                  setAutoRunConfirmError("");
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && autoRunAccountName && autoRunPassword && !isVerifyingAutoRun) {
+                    void handleConfirmAutoRun();
+                  }
+                }}
+                disabled={isVerifyingAutoRun}
+                autoComplete="current-password"
+              />
+            </div>
+
+            {autoRunConfirmError && (
+              <p role="alert" className="flex items-start gap-2 text-sm font-medium text-red-500">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                {autoRunConfirmError}
+              </p>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => handleAutoRunDialogChange(false)}
+              disabled={isVerifyingAutoRun}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => void handleConfirmAutoRun()}
+              disabled={!autoRunAccountName.trim() || !autoRunPassword || isVerifyingAutoRun}
+              className="bg-[#FF6B00] text-white hover:bg-[#E55F00]"
+            >
+              {isVerifyingAutoRun ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                "Enable Auto-Run"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Staff Dialog */}
       <Dialog open={isAddMemberOpen} onOpenChange={(open) => {

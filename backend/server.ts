@@ -338,21 +338,36 @@ app.delete('/api/inventory/:id', async (req, res) => {
 });
 
 app.post('/api/verify-password', async (req: any, res: any) => {
-  const { business_id, password, role, user_id } = req.body;
+  const { business_id, password, role, user_id, account_name } = req.body;
+  const normalizedAccountName = typeof account_name === 'string' ? account_name.trim() : '';
+
+  if (!password || (!business_id && !user_id)) {
+    return res.status(400).json({ valid: false, error: 'Account and password are required.' });
+  }
+
   try {
     if (role === 'staff') {
       const user = await prisma.users.findFirst({
-        where: { user_id: Number(user_id), password_hash: password }
+        where: {
+          user_id: Number(user_id),
+          password_hash: password,
+          ...(normalizedAccountName ? { full_name: normalizedAccountName } : {})
+        }
       });
       return res.json({ valid: !!user });
     } else {
       const business = await prisma.businesses.findFirst({
-        where: { business_id: Number(business_id), password_hash: password }
+        where: {
+          business_id: Number(business_id),
+          password_hash: password,
+          ...(normalizedAccountName ? { business_name: normalizedAccountName } : {})
+        }
       });
       return res.json({ valid: !!business });
     }
   } catch (err: any) {
-    return res.status(500).json({ valid: false, error: err.message });
+    console.error('Password verification failed:', err);
+    return res.status(500).json({ valid: false, error: 'Unable to verify credentials.' });
   }
 });
 
